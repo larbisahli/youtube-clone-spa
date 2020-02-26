@@ -1,0 +1,109 @@
+@import '../../index.scss';
+
+// =================
+//   COLORS CONFIG
+// =================
+
+.theme {
+
+    &-dark_nav {}
+
+    &-dark_body {}
+
+    &-light_nav {}
+
+    &-light_body {}
+}
+
+
+// =================
+
+.NavContainer {
+    display: flex;
+    background: colors(Nav-background-Dark);
+    height: 56px;
+    padding: 0 16px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+
+    // =================
+    //   LeftContainer
+    // =================
+
+    .LeftContainer {
+        width: 200px;
+        display: flex;
+        align-items: center;
+
+        .menuIcon {
+            padding: 8px;
+        }
+
+        .LogoContainer {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 16px;
+            width: auto;
+            height: 24px;
+            cursor: auto;
+
+
+            a {
+                display: flex;
+                text-decoration: none;
+            }
+
+            .applogo {
+                height: auto;
+                width: 26px;
+
+
+
+            }
+
+            .LogoText {
+                padding: 3px;
+                font-family: 'Oswald';
+                font-size: 17px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1px;
+                color: #fff;
+            }
+
+            .pointer {
+                color: #aaa;
+                font-size: 10px;
+                font-family: 'Oswald';
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+                height: 100%;
+            }
+        }
+
+    }
+
+    // =================
+    //  searchContainer
+    // =================
+
+    .searchContainer {
+        background-color: #636363;
+    }
+
+
+    // =================
+    //  RightContainer
+    // =================
+
+    .RightContainer {
+        background-color: #636363;
+        width: 200px;
+        display: flex;
+    }
+
+}
