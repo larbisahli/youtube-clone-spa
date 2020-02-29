@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./app-icon.scss";
+import "./app_icon.scss";
 
 // SVG COPIED FROM YOUTUBE
 
-const App_icon = () => {
+const AppIcon = React.memo(() => {
   const [fade, setFade] = useState(false);
 
   const HundleClick = e => {
@@ -15,13 +15,9 @@ const App_icon = () => {
     }, 300);
   };
 
-  const createRipple = e => {
-    let circle = "ripple";
-  };
-
   return (
-    <button className="app_btn" onClick={HundleClick}>
-      <svg className="app-icon" viewBox="0 0 24 24" focusable={false}>
+    <button className="icon_container" onClick={HundleClick}>
+      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill="#fff"
@@ -32,6 +28,6 @@ const App_icon = () => {
       <div className={"effect" + (fade ? " action" : "")}></div>
     </button>
   );
-};
+});
 
-export default App_icon;
+export default AppIcon;

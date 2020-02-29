@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./bell-icon.scss";
+import "./app_icon.scss";
 
 // SVG COPIED FROM YOUTUBE
 
-const Bell = () => {
+const Bell = React.memo(() => {
   const [fade, setFade] = useState(false);
 
   const HundleClick = e => {
@@ -15,13 +15,9 @@ const Bell = () => {
     }, 300);
   };
 
-  const createRipple = e => {
-    let circle = "ripple";
-  };
-
   return (
-    <button className="bell_btn" onClick={HundleClick}>
-      <svg className="bell-icon" viewBox="0 0 24 24" focusable={false}>
+    <button className="icon_container" onClick={HundleClick}>
+      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill="#fff"
@@ -32,6 +28,6 @@ const Bell = () => {
       <div className={"effect" + (fade ? " action" : "")}></div>
     </button>
   );
-};
+});
 
 export default Bell;

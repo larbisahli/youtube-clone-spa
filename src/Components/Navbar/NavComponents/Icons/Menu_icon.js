@@ -1,27 +1,22 @@
 import React, { useState } from "react";
-import "./menu_icon.scss";
+import "./app_icon.scss";
 
 // SVG COPIED FROM YOUTUBE
 
-const Menu_icon = () => {
+const MenuIcon = React.memo(() => {
   const [fade, setFade] = useState(false);
 
   const HundleClick = e => {
     e.preventDefault();
-
     setFade(true);
     setTimeout(() => {
       setFade(false);
     }, 300);
   };
 
-  const createRipple = e => {
-    let circle = "ripple";
-  };
-
   return (
-    <button className="menu_btn" onClick={HundleClick}>
-      <svg className="menu-icon" viewBox="0 0 24 24" focusable={false}>
+    <button className="icon_container" onClick={HundleClick}>
+      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill="#fff"
@@ -32,6 +27,6 @@ const Menu_icon = () => {
       <div className={"effect" + (fade ? " action" : "")}></div>
     </button>
   );
-};
+});
 
-export default Menu_icon;
+export default MenuIcon;

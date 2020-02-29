@@ -1,0 +1,13 @@
+export { default as CamIcon } from "./Cam_icon";
+export { default as Bell } from "./Bell_icon";
+export { default as AppIcon } from "./App_icon";
+export { default as MenuIcon } from "./Menu_icon";
+export { default as SearchIcon } from "./Search_icon";
+export { default as ReSearchIcon } from "./ReSearch_icon";
+export { default as BackArrow } from "./BackArrow_icon";
+export { default as UploadIcon } from "./Upload_icon";
+export { default as GoLiveIcon } from "./GoLive_icon";
+export { default as YouTubeTvIcon } from "./Youtube_tv_icon";
+export { default as YouTubeMusicIcon } from "./Youtube_Music_icon";
+export { default as YouTubeKidsIcon } from "./Youtube_kids_icon";
+export { default as YouTubeNormalIcon } from "./Youtube_normal_icon";

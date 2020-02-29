@@ -1,0 +1,54 @@
+@import "../../../../config.scss";
+
+.app_container {
+    @include display-flex();
+    position: absolute;
+    color: #fff;
+    border-bottom: 1px solid colors(border-color);
+    border-left: 1px solid colors(border-color);
+    border-right: 1px solid colors(border-color);
+    background-color: colors(Nav-background-Dark);
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 55px;
+
+
+    .app_text {
+        @include display-flex();
+        @include alignItems-center();
+        justify-content: flex-start;
+        padding: 10px 20px 10px 13px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+
+        &:hover {
+            background-color: colors(hover-Dark);
+        }
+
+        .icon_ {
+            margin-right: 14px
+        }
+
+        .text_ {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    }
+
+    .line_ {
+        background-color: colors(border-color);
+        height: 2px;
+        margin: 5px 0;
+
+    }
+}
+
+
+.cam-position {
+    right: 50px;
+}
+
+.app-position {
+    right: 130px;
+}

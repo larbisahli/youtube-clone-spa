@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@import '../../config.scss';
 
 // =================
 //   COLORS CONFIG
@@ -19,12 +19,12 @@
 // =================
 
 .NavContainer {
-    display: flex;
+    @include display-flex(); // see config.scss for mixin
+    @include alignItems-center();
     background: colors(Nav-background-Dark);
     height: 56px;
     padding: 0 16px;
     justify-content: space-between;
-    align-items: center;
     z-index: 100;
 
     // =================
@@ -33,16 +33,16 @@
 
     .LeftContainer {
         width: 200px;
-        display: flex;
-        align-items: center;
+        @include display-flex();
+        @include alignItems-center();
 
         .menuIcon {
             padding: 8px;
         }
 
         .LogoContainer {
-            display: flex;
-            align-items: center;
+            @include display-flex();
+            @include alignItems-center();
             margin: 0;
             padding: 16px;
             width: auto;
@@ -51,7 +51,8 @@
 
 
             a {
-                display: flex;
+                @include display-flex();
+
                 text-decoration: none;
             }
 
@@ -67,9 +68,9 @@
                 padding: 3px;
                 font-family: 'Oswald';
                 font-size: 17px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                @include display-flex();
+                @include alignItems-center();
+                @include justifyContent-center();
                 margin-bottom: 1px;
                 color: #fff;
             }
@@ -78,7 +79,7 @@
                 color: #aaa;
                 font-size: 10px;
                 font-family: 'Oswald';
-                display: flex;
+                @include display-flex();
                 justify-content: flex-start;
                 align-items: flex-start;
                 height: 100%;
@@ -92,7 +93,95 @@
     // =================
 
     .searchContainer {
-        background-color: #636363;
+        width: 100%;
+        margin: 0 40px;
+        @include display-flex();
+        @include alignItems-center();
+        @include justifyContent-center();
+
+
+
+        .form_container {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+
+            .form_wrapper {
+
+                @include display-flex();
+                @include justifyContent-center();
+                align-items: stretch;
+
+                .input_wrapper {
+                    position: relative;
+                    @include alignItems-center();
+                    background-color: #121212;
+                    border: 1px solid colors(border-color);
+                    border-right: none;
+                    border-radius: 2px 0 0 2px;
+                    color: #fff;
+                    padding: 2px 6px;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+
+                    .input_ {
+                        background-color: transparent;
+                        border: none;
+                        box-shadow: none;
+                        color: inherit;
+                        font-family: 'Roboto', sans-serif;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 24px;
+                        margin-left: 4px;
+                        max-width: 100%;
+                        outline: none;
+                        text-align: inherit;
+                        width: 100%;
+                        flex: 1;
+
+                    }
+                }
+
+                .focus {
+                    border: 1px solid #2650c5 !important;
+
+                }
+
+                .btn_container {
+                    cursor: pointer;
+                    width: 65px;
+                    border: 1px solid colors(border-color);
+                    background-color: rgba(255, 255, 255, 0.08);
+                    border-radius: 0 2px 2px 0;
+                    margin: 0;
+                    @include display-flex();
+                    @include alignItems-center();
+                    @include justifyContent-center();
+                    height: inherit;
+
+                    // fill is a class name in Search_icon.js
+                    &:hover .fill {
+                        fill: rgba(255, 255, 255, 0.8);
+                    }
+
+
+
+                }
+            }
+        }
+
+
+    }
+
+    .responsive_search_icon {
+
+        @include display-flex();
+        justify-content: flex-end;
+        width: 100%;
+        margin-right: 8px;
+
     }
 
 
@@ -101,9 +190,42 @@
     // =================
 
     .RightContainer {
-        background-color: #636363;
+
         width: 200px;
-        display: flex;
+        @include display-flex();
+        @include alignItems-center();
+        @include justifyContent-center();
+
+        .merg_container {
+            width: 40px;
+            height: 40px;
+            @include display-flex();
+            @include alignItems-center();
+            @include justifyContent-center();
+            margin-right: 8px;
+        }
+
+        .profile_container {
+            .prof_btn {
+
+                @include display-flex();
+                @include alignItems-center();
+                @include justifyContent-center();
+                width: 60px;
+                height: 40px;
+
+                &:active .profile_img {
+                    border: 2px solid #2650c5;
+                }
+
+
+                .profile_img {
+                    border: 2px solid transparent;
+                    border-radius: 50%;
+                }
+
+            }
+        }
     }
 
 }

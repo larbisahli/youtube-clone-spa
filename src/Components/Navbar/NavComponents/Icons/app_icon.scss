@@ -1,0 +1,41 @@
+@import '../../../../config.scss';
+
+.icon_container {
+    @include display-flex();
+    @include alignItems-center();
+    @include justifyContent-center();
+
+    .icon_ {
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+    }
+
+    .effect {
+        @include display-flex();
+        position: fixed;
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+        z-index: 0;
+    }
+
+    .action {
+        background-color: colors(hover-Dark);
+        transform: scale(.3);
+        animation: color_effect 0.2s linear;
+
+        @keyframes color_effect {
+            from {
+                background-color: colors(hover-Dark);
+                transform: scale(.6);
+            }
+
+            to {
+                background-color: #7e7e7e;
+                transform: scale(.9);
+            }
+        }
+
+    }
+}
