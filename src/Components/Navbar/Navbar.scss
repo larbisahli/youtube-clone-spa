@@ -1,40 +1,33 @@
 @import '../../config.scss';
 
-// =================
-//   COLORS CONFIG
-// =================
-
-.theme {
-
-    &-dark_nav {}
-
-    &-dark_body {}
-
-    &-light_nav {}
-
-    &-light_body {}
-}
-
-
-// =================
 
 .NavContainer {
-    @include display-flex(); // see config.scss for mixin
+    // see config.scss for mixin
+    @include display-flex();
     @include alignItems-center();
-    background: colors(Nav-background-Dark);
     height: 56px;
     padding: 0 16px;
     justify-content: space-between;
-    z-index: 100;
+    z-index: 1;
+
+    &-dark {
+        // Dark Theme
+        background: colors(Nav-background-Dark);
+    }
+
+    &-light {
+        // Light Theme
+        background: colors(Nav-background-Light);
+    }
 
     // =================
     //   LeftContainer
     // =================
 
     .LeftContainer {
-        width: 200px;
         @include display-flex();
         @include alignItems-center();
+        width: 200px;
 
         .menuIcon {
             padding: 8px;
@@ -52,36 +45,41 @@
 
             a {
                 @include display-flex();
-
                 text-decoration: none;
             }
 
             .applogo {
                 height: auto;
                 width: 26px;
-
-
-
             }
 
             .LogoText {
-                padding: 3px;
-                font-family: 'Oswald';
-                font-size: 17px;
                 @include display-flex();
                 @include alignItems-center();
                 @include justifyContent-center();
+                padding: 3px;
+                font-family: 'Oswald';
+                font-size: 17px;
                 margin-bottom: 1px;
-                color: #fff;
+
+                &-dark {
+                    // Dark Theme
+                    color: #fff;
+                }
+
+                &-light {
+                    // Light Theme
+                    color: #000;
+                }
             }
 
             .pointer {
-                color: #aaa;
-                font-size: 10px;
-                font-family: 'Oswald';
                 @include display-flex();
                 justify-content: flex-start;
                 align-items: flex-start;
+                color: #aaa;
+                font-size: 10px;
+                font-family: 'Oswald';
                 height: 100%;
             }
         }
@@ -93,13 +91,11 @@
     // =================
 
     .searchContainer {
-        width: 100%;
-        margin: 0 40px;
         @include display-flex();
         @include alignItems-center();
         @include justifyContent-center();
-
-
+        width: 100%;
+        margin: 0 40px;
 
         .form_container {
             width: 100%;
@@ -107,23 +103,35 @@
             margin: 0 auto;
 
             .form_wrapper {
-
                 @include display-flex();
                 @include justifyContent-center();
                 align-items: stretch;
 
                 .input_wrapper {
-                    position: relative;
+                    @include display-flex();
                     @include alignItems-center();
-                    background-color: #121212;
-                    border: 1px solid colors(border-color);
-                    border-right: none;
+                    flex-direction: column;
+                    position: relative;
                     border-radius: 2px 0 0 2px;
-                    color: #fff;
                     padding: 2px 6px;
                     flex: 1;
-                    display: flex;
-                    flex-direction: column;
+
+                    &-dark {
+                        // Dark Theme
+                        background-color: #121212;
+                        border: 1px solid colors(border-color);
+                        border-right: none;
+                        color: #fff;
+                    }
+
+
+                    &-light {
+                        // Light Theme
+                        background-color: transparent;
+                        border: 1px solid colors(border-color-Light);
+                        border-right: none;
+                        color: #000;
+                    }
 
                     .input_ {
                         background-color: transparent;
@@ -146,42 +154,53 @@
 
                 .focus {
                     border: 1px solid #2650c5 !important;
-
                 }
 
                 .btn_container {
-                    cursor: pointer;
-                    width: 65px;
-                    border: 1px solid colors(border-color);
-                    background-color: rgba(255, 255, 255, 0.08);
-                    border-radius: 0 2px 2px 0;
-                    margin: 0;
                     @include display-flex();
                     @include alignItems-center();
                     @include justifyContent-center();
+                    cursor: pointer;
+                    width: 65px;
+                    border-radius: 0 2px 2px 0;
+                    margin: 0;
                     height: inherit;
+
+                    &-dark {
+                        // Dark Theme
+                        border: 1px solid colors(border-color);
+                        background-color: #ffffff14;
+                    }
+
+                    &-light {
+                        // Light Theme
+                        border: 1px solid colors(border-color-Light);
+                        background-color: #f8f8f8;
+                    }
 
                     // fill is a class name in Search_icon.js
                     &:hover .fill {
-                        fill: rgba(255, 255, 255, 0.8);
+
+                        &-dark {
+                            // Dark Threme
+                            fill: #ffffffcc;
+                        }
+
+                        &-light {
+                            // Light Theme
+                            fill: #000;
+                        }
                     }
-
-
-
                 }
             }
         }
-
-
     }
 
     .responsive_search_icon {
-
         @include display-flex();
         justify-content: flex-end;
         width: 100%;
         margin-right: 8px;
-
     }
 
 
@@ -190,18 +209,17 @@
     // =================
 
     .RightContainer {
-
-        width: 200px;
         @include display-flex();
         @include alignItems-center();
         @include justifyContent-center();
+        width: 200px;
 
         .merg_container {
-            width: 40px;
-            height: 40px;
             @include display-flex();
             @include alignItems-center();
             @include justifyContent-center();
+            width: 40px;
+            height: 40px;
             margin-right: 8px;
         }
 
@@ -215,7 +233,7 @@
                 height: 40px;
 
                 &:active .profile_img {
-                    border: 2px solid #2650c5;
+                    border: 2px solid #3ea6ff;
                 }
 
 
@@ -223,9 +241,7 @@
                     border: 2px solid transparent;
                     border-radius: 50%;
                 }
-
             }
         }
     }
-
 }

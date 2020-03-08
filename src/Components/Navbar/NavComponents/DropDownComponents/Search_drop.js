@@ -5,8 +5,9 @@ import "./search_drop.scss";
 // FAKE SUGGESTIONS
 // =================
 
-// Useing Memo to prevent event handler of resizing to re-render this component
-// with the help of useCallback of course to prevent functions [RemoveHandleClick,HandleSelect] re-creation
+// Using Memo to prevent event handler of resizing to re-render this component
+// with the help of useCallback to prevent functions
+// [RemoveHandleClick,HandleSelect] from re-creation.
 
 const SearchDropSuggestion = React.memo(
   ({

@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./drop.scss";
 import { UploadIcon, GoLiveIcon } from "../Icons";
+import { ThemeContext } from "../../../../Context/ThemeContext";
 
-// Useing Memo to prevent unnecessary re-render
+// Using Memo to prevent unnecessary re-renders
 
 const CamDrop = React.memo(() => {
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
+  const app_text = "app_text" + (Theme ? " app_text-dark" : " app_text-light");
+
   return (
-    <div className="app_container cam-position">
+    <div
+      className={
+        "app_container cam-position" +
+        (Theme ? " app_container-dark" : " app_container-light")
+      }
+    >
       <a
         href="https://studio.youtube.com/channel/"
         target="_blank"
         rel="noopener noreferrer"
-        className="app_text"
+        className={app_text}
       >
         <div className="icon_">
           <UploadIcon />
@@ -22,7 +34,7 @@ const CamDrop = React.memo(() => {
         href="https://studio.youtube.com/channel/"
         target="_blank"
         rel="noopener noreferrer"
-        className="app_text"
+        className={app_text}
       >
         <div className="icon_">
           <GoLiveIcon />

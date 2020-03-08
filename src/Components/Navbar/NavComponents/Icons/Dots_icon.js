@@ -1,30 +1,33 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import "./app_icon.scss";
 import { ThemeContext } from "../../../../Context/ThemeContext";
 
 // SVG COPIED FROM YOUTUBE
 
-const MenuIcon = React.memo(() => {
+const Dots = React.memo(() => {
   const [fade, setFade] = useState(false);
 
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
-  const HundleClick = e => {
-    e.preventDefault();
-    setFade(true);
-    setTimeout(() => {
-      setFade(false);
-    }, 300);
-  };
+  const HundleClick = useCallback(
+    e => {
+      e.preventDefault();
+      setFade(true);
+      setTimeout(() => {
+        setFade(false);
+      }, 300);
+    },
+    [setFade]
+  );
 
   return (
     <button className="icon_container" onClick={HundleClick}>
       <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
-            fill={Theme ? "#fff" : "#606060"}
-            d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+            fill={Theme ? "#ffffff80" : "#606060"}
+            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
           ></path>
         </g>
       </svg>
@@ -37,4 +40,4 @@ const MenuIcon = React.memo(() => {
   );
 });
 
-export default MenuIcon;
+export default Dots;

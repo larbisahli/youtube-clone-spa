@@ -9,6 +9,7 @@
         height: 24px;
         width: 24px;
         z-index: 1;
+        cursor: pointer;
     }
 
     .effect {
@@ -21,21 +22,121 @@
     }
 
     .action {
-        background-color: colors(hover-Dark);
-        transform: scale(.3);
-        animation: color_effect 0.2s linear;
 
-        @keyframes color_effect {
-            from {
-                background-color: colors(hover-Dark);
-                transform: scale(.6);
+        &-dark {
+            background-color: #484848;
+            @include transform(scale(.6));
+            animation: color_effect-dark 0.2s linear;
+
+            @keyframes color_effect-dark {
+                from {
+                    background-color: #484848;
+                    @include transform(scale(.6));
+                }
+
+                to {
+                    background-color: #7e7e7e;
+                    @include transform(scale(.9));
+                }
             }
 
-            to {
-                background-color: #7e7e7e;
-                transform: scale(.9);
+        }
+
+        &-light {
+            background-color: #ccc;
+            @include transform(scale(.6));
+            animation: color_effect-light 0.2s linear;
+
+            @keyframes color_effect-light {
+                from {
+                    background-color: #e9e9e9;
+                    @include transform(scale(.6));
+                }
+
+                to {
+                    background-color: #ccc;
+                    @include transform(scale(.9));
+                }
             }
         }
 
+
+
+    }
+}
+
+%before {
+    position: absolute;
+    z-index: 2;
+    display: none;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 2px;
+    background-color: colors(hover-Dark);
+    @include transform(translateX(-50%));
+    color: #e0e0e0;
+    top: calc(100% + 25px);
+    left: 50%;
+    opacity: 0.8;
+}
+
+._A {
+
+    position: relative;
+
+    &::before {
+        @extend %before;
+        width: 95px;
+        content: "YouTube apps";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+
+._B {
+
+    position: relative;
+
+    &::before {
+        @extend %before;
+        width: 75px;
+        content: "Notifications";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+
+._C {
+
+    position: relative;
+
+    &::before {
+        @extend %before;
+        width: 140px;
+        content: "Create a video or post";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+._S {
+
+    position: relative;
+
+    &::before {
+        @extend %before;
+        content: "Search";
+    }
+
+    &:hover::before {
+        display: inline-block;
     }
 }

@@ -1,5 +1,16 @@
 @import '../config.scss';
 
-.App_container {
+.rootContainer {
     margin: 0;
+
+
+    &-dark {
+        // Dark Theme
+        background-color: colors(general-background-Dark) !important;
+    }
+
+    &-light {
+        // Light Theme
+        background-color: colors(general-background-Light) !important;
+    }
 }

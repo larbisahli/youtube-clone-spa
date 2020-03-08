@@ -3,7 +3,7 @@
 .search_drop {
     color: #000;
     position: absolute;
-    transform: translateY(40px);
+    @include transform(translateY(40px));
     background-color: #fff;
     width: 100%;
     box-sizing: border-box;
@@ -11,6 +11,8 @@
     color: #222;
     line-height: 22px;
     overflow: hidden;
+
+    box-shadow: 1px 2px 5px rgba(85, 85, 85, 0.12);
 
     div:nth-child(1) {
         margin-top: 10px;
@@ -25,8 +27,8 @@
         @include alignItems-center();
         @include justifyContent-center();
         list-style: none;
-        padding: 2px 24px 2px 10px;
-        margin-bottom: 5px;
+        padding: 0 24px 0 10px;
+        margin-bottom: 1px;
         box-sizing: border-box;
 
         &:hover {
@@ -41,7 +43,7 @@
             line-height: 100%;
 
             .Suggestion_text {
-                padding-right: 8px;
+
                 color: #222;
                 cursor: default;
             }
@@ -51,6 +53,7 @@
             }
 
             .placeHolder {
+                pointer-events: none;
                 color: #666;
             }
         }
