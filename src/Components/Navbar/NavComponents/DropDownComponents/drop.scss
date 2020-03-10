@@ -10,9 +10,9 @@
 
     &-dark {
         // Dark Theme
-        border-bottom: 1px solid colors(border-color);
-        border-left: 1px solid colors(border-color);
-        border-right: 1px solid colors(border-color);
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
         background-color: colors(Nav-background-Dark);
     }
 
@@ -39,7 +39,7 @@
 
             &:hover {
                 // Dark Theme
-                background-color: colors(hover-Dark);
+                background-color: colors(Theme-hover-Dark);
             }
         }
 
@@ -55,11 +55,11 @@
 
 
 
-        .icon_ {
+        .icondr {
             margin-right: 7px
         }
 
-        .text_ {
+        .textdr {
             font-size: 0.95rem;
             font-weight: 400;
         }
@@ -70,7 +70,7 @@
 
         &-dark {
             // Dark Theme
-            background-color: colors(border-color);
+            background-color: colors(border-color-Dark);
             height: 2px;
         }
 

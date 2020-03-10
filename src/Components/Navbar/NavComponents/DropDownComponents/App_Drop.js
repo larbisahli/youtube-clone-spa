@@ -32,10 +32,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <YouTubeTvIcon />
         </div>
-        <div className="text_">YouTube TV</div>
+        <div className="textdr">YouTube TV</div>
       </a>
       <div className={line_}></div>
       <a
@@ -44,10 +44,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <YouTubeMusicIcon />
         </div>
-        <div className="text_">YouTube Music</div>
+        <div className="textdr">YouTube Music</div>
       </a>
       <a
         href="https://www.youtube.com/kids/"
@@ -55,10 +55,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <YouTubeKidsIcon />
         </div>
-        <div className="text_">YouTube Kids</div>
+        <div className="textdr">YouTube Kids</div>
       </a>
       <div className={line_}></div>
       <a
@@ -67,10 +67,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <YouTubeNormalIcon />
         </div>
-        <div className="text_">Creator Academy</div>
+        <div className="textdr">Creator Academy</div>
       </a>
       <a
         href="https://artists.youtube.com/"
@@ -78,10 +78,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <YouTubeNormalIcon />
         </div>
-        <div className="text_">YouTube for Artists</div>
+        <div className="textdr">YouTube for Artists</div>
       </a>
     </div>
   );

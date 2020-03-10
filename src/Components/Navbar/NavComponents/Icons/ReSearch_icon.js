@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import "./app_icon.scss";
 import { ThemeContext } from "../../../../Context/ThemeContext";
 
-// SVG COPIED FROM YOUTUBE
+// SVG path COPIED FROM YOUTUBE
 
 const ReSearchIcon = React.memo(() => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
   return (
-    <div className="icon_container _S">
+    <div className="icon_container titleS">
       <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path

@@ -30,9 +30,9 @@
     &-dark {
         // Dark Theme
         color: #fff;
-        border-bottom: 1px solid colors(border-color);
-        border-left: 1px solid colors(border-color);
-        border-right: 1px solid colors(border-color);
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
         background-color: colors(Nav-background-Dark);
     }
 
@@ -51,7 +51,7 @@
 
         &-dark {
             // Dark Theme
-            background-color: colors(border-color);
+            background-color: colors(border-color-Dark);
         }
 
         &-light {
@@ -95,14 +95,14 @@
         }
 
         .sa_acc {
-            display: flex;
-            align-items: center;
+            @include display-flex();
+            @include alignItems-center();
             cursor: pointer;
 
             &-dark {
                 &:hover {
                     // Dark Theme
-                    background-color: colors(hover-Dark);
+                    background-color: colors(Theme-hover-Dark);
                 }
             }
 
@@ -122,8 +122,8 @@
             }
 
             .ssa_tr {
-                display: flex;
-                align-items: center;
+                @include display-flex();
+                @include alignItems-center();
                 width: 100%;
                 margin-right: 15px;
                 justify-content: space-between;
@@ -169,8 +169,8 @@
 
 
         .sa_lang {
-            display: flex;
-            align-items: center;
+            @include display-flex();
+            @include alignItems-center();
             cursor: pointer;
             padding: 10px 15px;
             font-size: 1.4em;
@@ -178,7 +178,7 @@
             &-dark {
                 &:hover {
                     // Dark Theme
-                    background-color: colors(hover-Dark);
+                    background-color: colors(Theme-hover-Dark);
                 }
             }
 
@@ -201,8 +201,8 @@
         }
 
         .th_container {
-            display: flex;
-            align-items: center;
+            @include display-flex();
+            @include alignItems-center();
             justify-content: space-between;
             font-size: 1.35em;
             padding: 10px 20px 15px 10px;
@@ -277,9 +277,9 @@
 
                     .circle {
                         position: absolute;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                        @include display-flex();
+                        @include alignItems-center();
+                        @include justifyContent-center();
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;

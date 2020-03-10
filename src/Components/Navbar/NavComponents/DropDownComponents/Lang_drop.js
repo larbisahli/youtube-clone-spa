@@ -10,6 +10,7 @@ const LangDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   // Navbar context
   const { langState } = useContext(NavContext);
   const [lang, setLang] = langState;
+
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;

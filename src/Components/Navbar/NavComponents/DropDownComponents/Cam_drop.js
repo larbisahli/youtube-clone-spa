@@ -25,10 +25,10 @@ const CamDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <UploadIcon />
         </div>
-        <div className="text_">Upload video</div>
+        <div className="textdr">Upload video</div>
       </a>
       <a
         href="https://studio.youtube.com/channel/"
@@ -36,10 +36,10 @@ const CamDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icon_">
+        <div className="icondr">
           <GoLiveIcon />
         </div>
-        <div className="text_">Go live</div>
+        <div className="textdr">Go live</div>
       </a>
     </div>
   );

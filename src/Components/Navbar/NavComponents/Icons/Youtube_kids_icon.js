@@ -1,7 +1,7 @@
 import React from "react";
 import "./app_icon.scss";
 
-// SVG COPIED FROM YOUTUBE
+// SVG paths COPIED FROM YOUTUBE
 
 const YouTubeKidsIcon = React.memo(() => {
   return (

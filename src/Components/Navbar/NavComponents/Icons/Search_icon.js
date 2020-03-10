@@ -1,7 +1,7 @@
 import React from "react";
 import "./app_icon.scss";
 
-// SVG COPIED FROM YOUTUBE
+// SVG path COPIED FROM YOUTUBE
 
 const SearchIcon = React.memo(({ Theme }) => {
   return (

@@ -6,8 +6,7 @@ import "./search_drop.scss";
 // =================
 
 // Using Memo to prevent event handler of resizing to re-render this component
-// with the help of useCallback to prevent functions
-// [RemoveHandleClick,HandleSelect] from re-creation.
+// with the help of useCallback to prevent functions [RemoveHandleClick, HandleSelect] from re-creation.
 
 const SearchDropSuggestion = React.memo(
   ({
@@ -19,24 +18,22 @@ const SearchDropSuggestion = React.memo(
   }) => {
     return (
       <div
-        data-id="X"
+        id="sdrop"
         className="search_drop"
         style={{ display: ShowSearchDrop ? "" : "none" }}
       >
         {suggestions.map(s => (
           <div key={s.id} className="sugge_holder">
             <li
-              data-id={s.id}
               onClick={() => HandleSelect(s.suggestion)}
               className="suggestion_list"
             >
               {s.removed ? (
-                <div data-id={s.id} className="placeHolder">
+                <div id="plholder" className="placeHolder">
                   Suggestion removed
                 </div>
               ) : (
                 <div
-                  data-id={s.id}
                   className={
                     "Suggestion_text" + (searchIsActive ? "" : " hisText")
                   }
@@ -47,7 +44,7 @@ const SearchDropSuggestion = React.memo(
             </li>
             {!searchIsActive && s.suggestion && (
               <div
-                data-id="X"
+                id="rembtnsd"
                 onClick={() => RemoveHandleClick(s.id)}
                 className="Suggestion_remove"
               >

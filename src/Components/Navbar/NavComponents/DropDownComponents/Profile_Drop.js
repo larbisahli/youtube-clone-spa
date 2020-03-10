@@ -10,10 +10,10 @@ import {
   TIcon,
   LangIcon,
   SettingsIcon,
-  DIcon,
+  DataIcon,
   HelpIcon,
   FeedIcon,
-  KeyIcon
+  KeyboardIcon
 } from "../Icons";
 import { NavContext } from "../../../../Context/NavContext";
 import { ThemeContext } from "../../../../Context/ThemeContext";
@@ -165,7 +165,7 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
         </div>
         <div className={wrapper_x}>
           <div className="_logo_">
-            <DIcon />
+            <DataIcon />
           </div>
           <div className="arte_">
             <div className="_text_">Your data in YouTube</div>
@@ -189,7 +189,7 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
         </div>
         <div className={wrapper_x}>
           <div className="_logo_">
-            <KeyIcon />
+            <KeyboardIcon />
           </div>
           <div className="arte_">
             <div className="_text_">Keyboard shortcuts</div>

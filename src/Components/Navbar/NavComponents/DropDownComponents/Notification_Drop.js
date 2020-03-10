@@ -92,19 +92,19 @@ const Notification = React.memo(({ show }) => {
   const Theme = YtTheme.isDarkTheme;
 
   useEffect(() => {
-    // simulating loading time
+    // Simulating loading time
 
     setTimeout(() => {
       setIsLoading({ isLoading: true });
     }, 1500);
 
-    // only load if the component is mounted
+    // Only load if the component is mounted
     if (show) {
       setNotifictions(fake_noti);
     }
 
     return () => {
-      // cleaning up
+      // Cleaning up
       setNotifictions([]);
       setIsLoading({ isLoading: false });
     };
@@ -129,10 +129,14 @@ const Notification = React.memo(({ show }) => {
           <SettingsIcon />
         </a>
       </div>
-      <div className={"_line" + (Theme ? " _line-dark" : " _line-light")}></div>
+      <div
+        className={"nt_line" + (Theme ? " nt_line-dark" : " nt_line-light")}
+      ></div>
       {/*------------ Mapping ------------*/}
       <div
-        className={"notifications_container" + (!isLoading ? " x_spinner" : "")}
+        className={
+          "notifications_container" + (!isLoading ? " noti_spinner" : "")
+        }
       >
         {!isLoading ? (
           <div className="lds-ring">
@@ -166,8 +170,8 @@ const Notification = React.memo(({ show }) => {
                   <img className="img_n" src={noti.proImage} alt="" />
                 </div>
                 <div className="n_textArea">
-                  <div className="text_">{noti.text}</div>
-                  <div className="date_">{noti.time}</div>
+                  <div className="text_nt">{noti.text}</div>
+                  <div className="date_nt">{noti.time}</div>
                 </div>
                 <div className="thumbnail_container">
                   <div className="thumbnail_wrapper">
@@ -175,12 +179,12 @@ const Notification = React.memo(({ show }) => {
                       className="n_img"
                       width="90"
                       src={noti.thumbnail}
-                      alt=""
+                      alt="avatar"
                     />
                   </div>
                 </div>
                 <div className="n_sd">
-                  <Dots className="fi_" />
+                  <Dots />
                 </div>
               </div>
             );

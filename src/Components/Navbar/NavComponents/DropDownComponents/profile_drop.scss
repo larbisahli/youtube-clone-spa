@@ -17,9 +17,9 @@
     &-dark {
         // Dark Theme
         color: #fff;
-        border-bottom: 1px solid colors(border-color);
-        border-left: 1px solid colors(border-color);
-        border-right: 1px solid colors(border-color);
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
         background-color: colors(Nav-background-Dark);
         @extend %scroll-Dark;
     }
@@ -41,7 +41,7 @@
 
         &-dark {
             // Dark Theme
-            background-color: colors(border-color);
+            background-color: colors(border-color-Dark);
         }
 
         &-light {
@@ -112,7 +112,7 @@
 
             &-dark {
                 // Dark Theme
-                background-color: colors(border-color);
+                background-color: colors(border-color-Dark);
             }
 
             &-light {
@@ -130,7 +130,7 @@
             &-dark {
                 &:hover {
                     // Dark Theme
-                    background-color: colors(hover-Dark);
+                    background-color: colors(Theme-hover-Dark);
                 }
             }
 
@@ -183,7 +183,7 @@
                 &-dark {
                     &:hover {
                         // Dark Theme
-                        background-color: colors(hover-Dark);
+                        background-color: colors(Theme-hover-Dark);
                     }
                 }
 

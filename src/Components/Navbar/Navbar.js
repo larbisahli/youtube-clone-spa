@@ -3,7 +3,8 @@ import React, {
   useEffect,
   useCallback,
   Fragment,
-  useContext
+  useContext,
+  useReducer
 } from "react";
 import "./Navbar.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
@@ -62,7 +63,7 @@ const From = React.memo(
               }
             >
               <input
-                className="input_"
+                className="search_input"
                 type="text"
                 name="search"
                 value={searchValue}
@@ -101,56 +102,49 @@ let isInSemiDrop = false;
 
 const Navbar = React.memo(
   ({ searchValue, setSearchValue, HandleSelect, HandleSubmit }) => {
-    // Context
+    // ==> Context
     const { accountState } = useContext(NavContext);
     const [acc] = accountState;
-
     const [YtTheme] = useContext(ThemeContext);
     const Theme = YtTheme.isDarkTheme;
-
     const IsCurrentAccount = useCallback(acc.filter(acc => acc.isCurrent)[0], [
       acc
     ]);
 
-    // input focus state
+    // ==> Input focus state
     const [{ inputFocus }, setInputFocus] = useState({ inputFocus: false });
 
-    // you can setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
+    // ==> Input suggestions state
+    // you use can setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
     const [suggestions] = useState([
-      { suggestion: "travis media", id: 1 },
+      { suggestion: "Traversy Media", id: 1 },
       { suggestion: "ed dev", id: 2 },
       { suggestion: "freecodecamp", id: 3 },
       { suggestion: "him tears On tape", id: 4 },
       { suggestion: "metallica unforgiven", id: 5 }
     ]);
 
-    // historical Suggestions state
+    // ==> Historical Suggestions state
     const [historicalSuggestions, setH_suggest] = useState([
       { suggestion: "Alter Bridge", removed: false, id: 1 },
       { suggestion: "learn react js", removed: false, id: 2 },
       { suggestion: "freecodecamp", removed: false, id: 3 },
-      {
-        suggestion: "in flames full album",
-        removed: false,
-        id: 4
-      },
+      { suggestion: "in flames", removed: false, id: 4 },
       { suggestion: "python tutorial", removed: false, id: 5 }
     ]);
 
-    // search drop state
+    // ==> Search drop state
     const [{ ShowSearchDrop, searchIsActive }, setSDstate] = useState({
       ShowSearchDrop: false,
       searchIsActive: false
     });
 
-    // navbar responsive state
+    // ==> Navbar responsive state
     const [{ isResponsive }, setIsResponsive] = useState({
       isResponsive: false
     });
 
-    //const isCurrent = useRef(true);
-
-    // drop state
+    // ==> Drops state
     const [dropHandler, setDropHandler] = useState({
       ShowCamDrop: false,
       ShowAppDrop: false,
@@ -158,6 +152,7 @@ const Navbar = React.memo(
       ShowProfDrop: false
     });
 
+    // ==> SemiDrops state (Drops that inside profile drop)
     const [semiDrop, setSemiDrop] = useState({
       SADrop: false,
       LangDrop: false,
@@ -166,7 +161,7 @@ const Navbar = React.memo(
       RestrictDrop: false
     });
 
-    // check if a component is mounted
+    // ==> Check if th nav component is mounted
     const [{ componentMounted }, setComponentMounted] = useState({
       componentMounted: false
     });
@@ -181,7 +176,7 @@ const Navbar = React.memo(
       const updateWindowDimensions = () => {
         setInnerWidth({ innerWidth: window.innerWidth });
 
-        // hide search drop when the window width is less than 890
+        // Hide search drop when the window width is less than 890
         if (window.innerWidth < 890) {
           setSDstate({
             searchIsActive,
@@ -207,23 +202,20 @@ const Navbar = React.memo(
       return [innerWidth];
     };
 
-    // window.innerWidth update rate is slower than useState in some cases
-    // if you resize the window fast enough react will not re-render because of the slow update.
+    /* 
+      window.innerWidth update rate is slower than useState in some cases
+      if you try to resize the window fast enough react will not re-render 
+      because of the slow update.
+    */
 
     const innerWidth = useMeasure();
 
     useEffect(() => {
       setComponentMounted({ componentMounted: true });
-      return () => {
-        if (!isResponsive) {
-          // isCurrent is to prevent React state update on an unmounted component issue.
-          //isCurrent.current = false;
-        }
-      };
     }, []);
 
     // ==========================
-    //    handle input change
+    //    Handle input change
     // ==========================
 
     const HandleChange = useCallback(
@@ -247,7 +239,7 @@ const Navbar = React.memo(
     );
 
     // ==========================
-    //    handle input Focus
+    //    Handle input Focus
     // ==========================
 
     const handleInputFocus = useCallback(() => {
@@ -255,7 +247,7 @@ const Navbar = React.memo(
         inputFocus: true
       });
       if (window.innerWidth > 900) {
-        // preventing the search dropdown from showing up
+        // Preventing the search dropdown from showing up
         // if window innerWidth is less than 950 (to look responsive)
         setSDstate({
           searchIsActive,
@@ -270,7 +262,7 @@ const Navbar = React.memo(
     }, [isResponsive, searchIsActive]);
 
     // =====================================
-    // handle search dropdown and inputFocus
+    // Handle search dropdown and inputFocus
     // =====================================
 
     const handleInputBlur = useCallback(() => {
@@ -283,12 +275,23 @@ const Navbar = React.memo(
     }, [setInputFocus]);
 
     // ==========================
-    // handle closing search drop
+    // Handle closing search drop
     // ==========================
 
     const HandleSearchDropClose = e => {
-      const data = e.target.getAttribute("data-id");
-      if ((!data && e.target.className !== "input_") || data !== "X") {
+      const SearchDrop = document.getElementById("rembtnsd");
+      const SDrop = document.getElementById("sdrop");
+      const PL = document.getElementById("plholder");
+
+      const SearchD =
+        SearchDrop !== null ? SearchDrop.isEqualNode(e.target) : false;
+      const SD = SDrop !== null ? SDrop.isEqualNode(e.target) : false;
+      const ETF =
+        e.target.firstChild !== null
+          ? e.target.firstChild.isEqualNode(PL)
+          : false;
+
+      if (!(SearchD || SD || ETF)) {
         setSDstate(
           {
             searchIsActive,
@@ -300,7 +303,7 @@ const Navbar = React.memo(
     };
 
     // ================================
-    // handle suggesition when removed
+    // Handle suggesition when removed
     // ================================
 
     const RemoveHandleClick = useCallback(
@@ -319,35 +322,31 @@ const Navbar = React.memo(
     );
 
     // ============================
-    //   handle responsive From on
+    //   Handle responsive From on
     // ============================
 
     const HandleRespOn = e => {
-      e.preventDefault();
-
       setIsResponsive({
         isResponsive: true
       });
     };
 
     // ============================
-    //  handle responsive Form off
+    //  Handle responsive Form off
     // ============================
 
     const HandleRespOff = e => {
-      e.preventDefault();
-
       setIsResponsive({
         isResponsive: false
       });
     };
 
     // ==========================
-    // handle show icon dropdowns
+    // Handle show icon dropdowns
     // ==========================
 
-    // cam logo
-    const HandleCamDrop = e => {
+    // ==> Cam logo
+    const HandleCamDrop = () => {
       if (
         !dropHandler.ShowCamDrop &&
         !dropHandler.ShowAppDrop &&
@@ -364,7 +363,7 @@ const Navbar = React.memo(
       }
     };
 
-    // app logo
+    // ==> App logo
     const HandleAppDrop = () => {
       if (
         !dropHandler.ShowCamDrop &&
@@ -382,7 +381,7 @@ const Navbar = React.memo(
       }
     };
 
-    // bell logo
+    // ==> Bell logo
     const HandleBellDrop = () => {
       if (
         !dropHandler.ShowCamDrop &&
@@ -400,7 +399,7 @@ const Navbar = React.memo(
       }
     };
 
-    // profile
+    // ==> Profile
     const HandleProfDrop = () => {
       if (
         !dropHandler.ShowCamDrop &&
@@ -418,8 +417,40 @@ const Navbar = React.memo(
       }
     };
 
+    // ===============================
+    //    Handle profile semiDrops
+    // ===============================
+
+    const HandleGoBack = useCallback(() => {
+      setDropHandler({
+        ...dropHandler,
+        ShowProfDrop: !dropHandler.ShowCamDrop
+      });
+      setSemiDrop({
+        SADrop: false,
+        LangDrop: false,
+        ThemeDrop: false,
+        LocaDrop: false,
+        RestrictDrop: false
+      });
+    }, [setSemiDrop, dropHandler]);
+
+    const HandleShowSemiDrop = useCallback(
+      value => {
+        setDropHandler({
+          ...dropHandler,
+          ShowProfDrop: false
+        });
+        setSemiDrop({
+          ...semiDrop,
+          [value]: true
+        });
+      },
+      [semiDrop, dropHandler]
+    );
+
     // =============================
-    //  handle close icons dropdown
+    //  Handle close icons dropdown
     // =============================
 
     const ChangeIsInSemiDrop = () => {
@@ -430,7 +461,12 @@ const Navbar = React.memo(
 
     const DropHandlerClose = useCallback(
       e => {
-        // -----------------------------
+        // ----------------------------- Drops
+        const CamDrop = document.getElementById("cax");
+        const AppDrop = document.getElementById("apx");
+        const BellDrop = document.getElementById("bex");
+        const ProfDrop = document.getElementById("prx");
+        // ----------------------------- SemiDrops
         const ProfileDrop = document.getElementById("profile_drop");
         const SwitchAccDrop = document.getElementById("switch_acc_drop");
         const LangDrop = document.getElementById("lang_drop");
@@ -440,7 +476,6 @@ const Navbar = React.memo(
         const ThemeDrop = document.getElementById("theme_drop");
 
         let target = e.target;
-        const data = e.target.getAttribute("data-id");
 
         SwitchAccDrop.addEventListener("click", ChangeIsInSemiDrop);
         LangDrop.addEventListener("click", ChangeIsInSemiDrop);
@@ -470,8 +505,8 @@ const Navbar = React.memo(
             });
             isInSemiDrop = false;
           }
-
-          if (data === "cax") {
+          // ---------------------------
+          if (CamDrop.contains(target)) {
             setDropHandler(currentState => {
               if (currentState.ShowCamDrop) {
                 document.removeEventListener("click", DropHandlerClose);
@@ -483,7 +518,7 @@ const Navbar = React.memo(
                 ShowProfDrop: false
               };
             });
-          } else if (data === "apx") {
+          } else if (AppDrop.contains(target)) {
             setDropHandler(currentState => {
               if (currentState.ShowAppDrop) {
                 document.removeEventListener("click", DropHandlerClose);
@@ -495,7 +530,7 @@ const Navbar = React.memo(
                 ShowProfDrop: false
               };
             });
-          } else if (data === "bex") {
+          } else if (BellDrop.contains(target)) {
             setDropHandler(currentState => {
               if (currentState.ShowBellDrop) {
                 document.removeEventListener("click", DropHandlerClose);
@@ -507,7 +542,7 @@ const Navbar = React.memo(
                 ShowProfDrop: false
               };
             });
-          } else if (data === "prx") {
+          } else if (ProfDrop.contains(target)) {
             setDropHandler(currentState => {
               if (currentState.ShowProfDrop) {
                 document.removeEventListener("click", DropHandlerClose);
@@ -535,9 +570,9 @@ const Navbar = React.memo(
       [setDropHandler, setSemiDrop]
     );
 
-    // ===============================
-    // Preventing the drop on keypress
-    // ===============================
+    // ============================================
+    // Preventing show dropdowns on Enter keypress
+    // ============================================
 
     const HandlekeyPress = event => {
       if (event.key === "Enter") {
@@ -545,40 +580,7 @@ const Navbar = React.memo(
       }
     };
 
-    // ===============================
-    //    Handle profile semiDrops
-    // ===============================
-
-    const HandleGoBackDrop = useCallback(() => {
-      setDropHandler({
-        ...dropHandler,
-        ShowProfDrop: !dropHandler.ShowCamDrop
-      });
-      setSemiDrop({
-        SADrop: false,
-        LangDrop: false,
-        ThemeDrop: false,
-        LocaDrop: false,
-        RestrictDrop: false
-      });
-    }, [setSemiDrop, dropHandler]);
-
-    const HandleShowSemiDrop = useCallback(
-      value => {
-        setDropHandler({
-          ...dropHandler,
-          ShowProfDrop: false
-        });
-        setSemiDrop({
-          ...semiDrop,
-          [value]: true
-        });
-      },
-      [semiDrop, dropHandler]
-    );
-
     // --------------------------------------------
-
     return (
       <div
         className={
@@ -644,7 +646,7 @@ const Navbar = React.memo(
               <div
                 onKeyPress={HandlekeyPress}
                 onClick={HandleCamDrop}
-                className="merg_container"
+                className="icons_container"
               >
                 <CamIcon />
                 <div style={{ display: dropHandler.ShowCamDrop ? "" : "none" }}>
@@ -654,7 +656,7 @@ const Navbar = React.memo(
               <div
                 onKeyPress={HandlekeyPress}
                 onClick={HandleAppDrop}
-                className="merg_container"
+                className="icons_container"
               >
                 <AppIcon />
                 <div
@@ -667,7 +669,7 @@ const Navbar = React.memo(
               <div
                 onKeyPress={HandlekeyPress}
                 onClick={HandleBellDrop}
-                className="merg_container"
+                className="icons_container"
               >
                 <Bell />
                 <div
@@ -679,12 +681,11 @@ const Navbar = React.memo(
               <div className="profile_container">
                 <button
                   onKeyPress={HandlekeyPress}
-                  data-id="ap_"
                   onClick={HandleProfDrop}
                   className="prof_btn"
                 >
                   <img
-                    data-id="prx"
+                    id="prx"
                     className="profile_img"
                     src={IsCurrentAccount.img}
                     height="32"
@@ -696,31 +697,31 @@ const Navbar = React.memo(
                   style={{ display: dropHandler.ShowProfDrop ? "" : "none" }}
                 >
                   <ProfileDrop
-                    handleGoBackDrop={HandleGoBackDrop}
+                    handleGoBackDrop={HandleGoBack}
                     handleShowSemiDrop={HandleShowSemiDrop}
                   />
                 </div>
                 <div style={{ display: semiDrop.SADrop ? "" : "none" }}>
-                  <SADrop handleGoBackDrop={HandleGoBackDrop} />
+                  <SADrop handleGoBackDrop={HandleGoBack} />
                 </div>
                 <div style={{ display: semiDrop.LangDrop ? "" : "none" }}>
-                  <LangDrop handleGoBackDrop={HandleGoBackDrop} />
+                  <LangDrop handleGoBackDrop={HandleGoBack} />
                 </div>
                 <div style={{ display: semiDrop.ThemeDrop ? "" : "none" }}>
-                  <ThemeDrop handleGoBackDrop={HandleGoBackDrop} />
+                  <ThemeDrop handleGoBackDrop={HandleGoBack} />
                 </div>
                 <div style={{ display: semiDrop.RestrictDrop ? "" : "none" }}>
-                  <RestrictDrop handleGoBackDrop={HandleGoBackDrop} />
+                  <RestrictDrop handleGoBackDrop={HandleGoBack} />
                 </div>
                 <div style={{ display: semiDrop.LocaDrop ? "" : "none" }}>
-                  <LocaDrop handleGoBackDrop={HandleGoBackDrop} />
+                  <LocaDrop handleGoBackDrop={HandleGoBack} />
                 </div>
               </div>
             </div>
           </Fragment>
         ) : (
           <Fragment>
-            <button className="babtn" onClick={HandleRespOff}>
+            <button onClick={HandleRespOff}>
               <BackArrow />
             </button>
             <From

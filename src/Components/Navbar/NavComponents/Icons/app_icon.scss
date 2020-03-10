@@ -72,7 +72,7 @@
     padding: 10px;
     font-size: 1em;
     border-radius: 2px;
-    background-color: colors(hover-Dark);
+    background-color: colors(Theme-hover-Dark);
     @include transform(translateX(-50%));
     color: #e0e0e0;
     top: calc(100% + 25px);
@@ -80,7 +80,7 @@
     opacity: 0.8;
 }
 
-._A {
+.titleA {
 
     position: relative;
 
@@ -96,7 +96,7 @@
 }
 
 
-._B {
+.titleB {
 
     position: relative;
 
@@ -112,7 +112,7 @@
 }
 
 
-._C {
+.titleC {
 
     position: relative;
 
@@ -127,7 +127,7 @@
     }
 }
 
-._S {
+.titleS {
 
     position: relative;
 

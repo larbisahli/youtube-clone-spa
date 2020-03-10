@@ -1,4 +1,5 @@
 import React, { useState, createContext } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export const NavContext = createContext();
 
@@ -7,36 +8,36 @@ export const NavProvider = props => {
   // Location state
   // Feel free to extend this array.
   const [loca, setLoca] = useState([
-    { loca: "Algeria", checked: false, id: 0 },
-    { loca: "Canada", checked: false, id: 1 },
-    { loca: "Finland", checked: false, id: 2 },
-    { loca: "France", checked: false, id: 3 },
-    { loca: "Greece", checked: false, id: 4 },
-    { loca: "Germany", checked: false, id: 5 },
-    { loca: "Greenland", checked: false, id: 6 },
-    { loca: "Hong Kong", checked: false, id: 7 },
-    { loca: "Indonesia", checked: false, id: 8 },
-    { loca: "Israel", checked: false, id: 9 },
-    { loca: "Italy", checked: false, id: 10 },
-    { loca: "Japan", checked: false, id: 11 },
-    { loca: "Morocco", checked: true, id: 12 },
-    { loca: "Netherlands", checked: false, id: 13 },
-    { loca: "New Zealand", checked: false, id: 14 },
-    { loca: "Singapore", checked: false, id: 15 },
-    { loca: "United Kingdom", checked: false, id: 16 },
-    { loca: "United States", checked: false, id: 17 }
+    { loca: "Algeria", checked: false, id: uuidv4() },
+    { loca: "Canada", checked: false, id: uuidv4() },
+    { loca: "Finland", checked: false, id: uuidv4() },
+    { loca: "France", checked: false, id: uuidv4() },
+    { loca: "Greece", checked: false, id: uuidv4() },
+    { loca: "Germany", checked: false, id: uuidv4() },
+    { loca: "Greenland", checked: false, id: uuidv4() },
+    { loca: "Hong Kong", checked: false, id: uuidv4() },
+    { loca: "Indonesia", checked: false, id: uuidv4() },
+    { loca: "Israel", checked: false, id: uuidv4() },
+    { loca: "Italy", checked: false, id: uuidv4() },
+    { loca: "Japan", checked: false, id: uuidv4() },
+    { loca: "Morocco", checked: true, id: uuidv4() },
+    { loca: "Netherlands", checked: false, id: uuidv4() },
+    { loca: "New Zealand", checked: false, id: uuidv4() },
+    { loca: "Singapore", checked: false, id: uuidv4() },
+    { loca: "United Kingdom", checked: false, id: uuidv4() },
+    { loca: "United States", checked: false, id: uuidv4() }
   ]);
 
   // Langguage state
   const [lang, setLang] = useState([
-    { lang: "English (Uk)", checked: false, id: 1 },
-    { lang: "English (US)", checked: true, id: 21 },
-    { lang: "Espanol", checked: false, id: 3 },
-    { lang: "Francais", checked: false, id: 4 },
-    { lang: "Italiano", checked: false, id: 5 },
-    { lang: "Nederlands", checked: false, id: 6 },
-    { lang: "Galego", checked: false, id: 7 },
-    { lang: "Eesti", checked: false, id: 8 }
+    { lang: "English (Uk)", checked: false, id: uuidv4() },
+    { lang: "English (US)", checked: true, id: uuidv4() },
+    { lang: "Espanol", checked: false, id: uuidv4() },
+    { lang: "Francais", checked: false, id: uuidv4() },
+    { lang: "Italiano", checked: false, id: uuidv4() },
+    { lang: "Nederlands", checked: false, id: uuidv4() },
+    { lang: "Galego", checked: false, id: uuidv4() },
+    { lang: "Eesti", checked: false, id: uuidv4() }
   ]);
 
   // Restrict state
@@ -79,13 +80,3 @@ export const NavProvider = props => {
     </NavContext.Provider>
   );
 };
-
-// Provider.propTypes = {
-//     users: PropTypes.array,
-//     selectedUser: PropTypes.object
-//   };
-
-//   Provider.defaultProps = {
-//     users: [],
-//     selectedUser: {}
-//   };

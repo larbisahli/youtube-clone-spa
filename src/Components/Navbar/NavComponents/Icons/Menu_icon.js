@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./app_icon.scss";
 import { ThemeContext } from "../../../../Context/ThemeContext";
 
-// SVG COPIED FROM YOUTUBE
+// SVG path COPIED FROM YOUTUBE
 
 const MenuIcon = React.memo(() => {
   const [fade, setFade] = useState(false);

@@ -7,7 +7,7 @@ export const ThemeProvider = props => {
 
   // Theme state
   const [YtTheme, setYtTheme] = useState({
-    isDarkTheme: false
+    isDarkTheme: true
   });
 
   const generalBackgroundDark = "#1f1f1f";
@@ -23,13 +23,3 @@ export const ThemeProvider = props => {
     </ThemeContext.Provider>
   );
 };
-
-// Provider.propTypes = {
-//     users: PropTypes.array,
-//     selectedUser: PropTypes.object
-//   };
-
-//   Provider.defaultProps = {
-//     users: [],
-//     selectedUser: {}
-//   };

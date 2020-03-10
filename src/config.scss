@@ -1,20 +1,12 @@
-// --primary-text-color: #212121;
-//     --primary-background-color: #ffffff;
-//     --disabled-text-color: #9b9b9b;
-//     --divider-color: #dbdbdb;
-//     --error-color: #dd2c00;
-//     --primary-color: #3f51b5;
-//searchbox-legacy-border-color
-
-
-$colors: (hover-Dark: #484848,
+$colors: (Theme-hover-Dark: #484848,
+  Theme-hover-Light: #ebebeb,
   Nav-background-Dark:#282828,
+  Nav-background-Light:#fffffffa,
   general-background-Dark: #1f1f1f,
   general-background-Light: #f9f9f9,
-  Nav-background-Light:#fffffffa,
-  border-color:#363636,
+  border-color-Dark:#363636,
   border-color-Light:#ccc,
-  Theme-hover-Light: #ebebeb,
+
 );
 
 
@@ -54,52 +46,6 @@ $colors: (hover-Dark: #484848,
   -ms-transform: $property;
   transform: $property;
 }
-
-body {
-  margin: 0;
-  font-size: 10px;
-  font-family: Roboto, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-div,
-form,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-i,
-iframe,
-img,
-label,
-li,
-small,
-span,
-ul {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-
-}
-
-button {
-  background: transparent;
-  padding: 0;
-  border: 0;
-  cursor: pointer;
-  outline: none;
-}
-
-._dis_flex_items_center_ {
-  display: flex;
-  align-items: center;
-}
-
 
 
 %scroll-Dark {

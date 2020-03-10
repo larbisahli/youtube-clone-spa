@@ -1,9 +1,9 @@
 import React from "react";
 import "./app_icon.scss";
 
-// SVG COPIED FROM YOUTUBE
+// SVG path COPIED FROM YOUTUBE
 
-const KeyIcon = React.memo(() => {
+const KeyboardIcon = React.memo(() => {
   return (
     <div className="icon_container">
       <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
@@ -19,4 +19,4 @@ const KeyIcon = React.memo(() => {
   );
 });
 
-export default KeyIcon;
+export default KeyboardIcon;

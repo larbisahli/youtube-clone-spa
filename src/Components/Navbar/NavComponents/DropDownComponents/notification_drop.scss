@@ -18,9 +18,9 @@
     &-dark {
         // Dark Theme
         color: #fff;
-        border-bottom: 1px solid colors(border-color);
-        border-left: 1px solid colors(border-color);
-        border-right: 1px solid colors(border-color);
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
         background-color: colors(Nav-background-Dark);
         @extend %scroll-Dark;
     }
@@ -63,13 +63,13 @@
         }
     }
 
-    ._line {
+    .nt_line {
         height: 2px;
         margin: 5px 0;
 
         &-dark {
             // Dark Theme
-            background-color: colors(border-color);
+            background-color: colors(border-color-Dark);
         }
 
         &-light {
@@ -79,7 +79,7 @@
 
     }
 
-    .x_spinner {
+    .noti_spinner {
         height: 550px;
         justify-content: center !important;
     }
@@ -104,7 +104,7 @@
             &-dark {
                 &:hover {
                     // Dark Theme
-                    background-color: colors(hover-Dark);
+                    background-color: colors(Theme-hover-Dark);
                 }
             }
 
@@ -167,11 +167,11 @@
                 font-size: 1.3em;
 
 
-                .text_ {
+                .text_nt {
                     margin-bottom: 10px;
                 }
 
-                .date_ {
+                .date_nt {
                     color: #aaa;
                     font-weight: 400;
                     text-transform: none;

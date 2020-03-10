@@ -7,15 +7,15 @@ import { ThemeContext } from "../Context/ThemeContext";
 import "./App.scss";
 
 function App() {
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  //const [YtTheme] = useContext(ThemeContext);
+  //const Theme = YtTheme.isDarkTheme;
 
   const [{ searchValue }, setSearchValue] = useState({
     searchValue: ""
   });
 
   // ==========================
-  //       handle Submit
+  //       Handle Submit
   // ==========================
 
   const HandleSubmit = useCallback(
@@ -27,7 +27,7 @@ function App() {
   );
 
   // ==========================
-  //       handle Select
+  //       Handle Select
   // ==========================
 
   const HandleSelect = useCallback(select => {
@@ -35,12 +35,7 @@ function App() {
   }, []);
 
   return (
-    <div
-      className={
-        "rootContainer" +
-        (Theme ? " rootContainer-dark" : " rootContainer-light")
-      }
-    >
+    <div className="rootContainer">
       <NavProvider>
         <Navbar
           searchValue={searchValue}
