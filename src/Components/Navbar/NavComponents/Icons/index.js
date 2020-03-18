@@ -27,3 +27,4 @@ export { default as FeedIcon } from "./Feed_icon";
 export { default as KeyboardIcon } from "./Keyboard_icon";
 export { default as CheckedIcon } from "./Checked_icon";
 export { default as AddAccIcon } from "./Add_Acc_icon";
+export { default as LocaIcon } from "./Location_icon";

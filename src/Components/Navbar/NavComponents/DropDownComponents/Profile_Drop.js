@@ -13,7 +13,8 @@ import {
   DataIcon,
   HelpIcon,
   FeedIcon,
-  KeyboardIcon
+  KeyboardIcon,
+  LocaIcon
 } from "../Icons";
 import { NavContext } from "../../../../Context/NavContext";
 import { ThemeContext } from "../../../../Context/ThemeContext";
@@ -22,7 +23,7 @@ import { ThemeContext } from "../../../../Context/ThemeContext";
 
 const Location = React.memo(({ loca }) => {
   const location_ = loca.filter(loca => loca.checked);
-  return <div className="loca_">{location_[0].loca}</div>;
+  return <div className="loca_">{`: ${location_[0].loca}`}</div>;
 });
 
 const Language = React.memo(({ lang }) => {
@@ -47,20 +48,18 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
     acc
   ]);
 
-  const line = "line_b" + (Theme ? " line_b-dark" : " line_b-light");
+  const line = `line_b line_b-${Theme ? "dark" : "light"}`;
 
-  const wrapper_x =
-    "wrapper_x" + (Theme ? " wrapper_x-dark" : " wrapper_x-light");
+  const wrapper_x = `wrapper_x wrapper_x-${Theme ? "dark" : "light"}`;
 
-  const arte_ = "arte_" + (Theme ? " arte_-dark" : " arte_-light");
+  const arte_ = `arte_ arte_-${Theme ? "dark" : "light"}`;
 
   return (
     <div
       id="profile_drop"
-      className={
-        "profile_Container" +
-        (Theme ? " profile_Container-dark" : " profile_Container-light")
-      }
+      className={`profile_Container profile_Container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <div className="intro_container">
         <div className="image_container">
@@ -75,14 +74,12 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
         <div className="intro_text">
           <div className="name_">{IsCurrentAccount.name}</div>
           <div className="email_">{IsCurrentAccount.email}</div>
-          <div className={"blue_text" + (Theme ? " db" : " lb")}>
+          <div className={`blue_text ${Theme ? "db" : "lb"}`}>
             Manage your Google Account
           </div>
         </div>
       </div>
-      <div
-        className={"line_a" + (Theme ? " line_a-dark" : " line_a-light")}
-      ></div>
+      <div className={`line_a line_a-${Theme ? "dark" : "light"}`}></div>
       <div className="f_container">
         <div className={wrapper_x}>
           <div className="_logo_">
@@ -136,7 +133,9 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
             onClick={() => handleShowSemiDrop("ThemeDrop")}
             className="arte_"
           >
-            <div className="_text_">Dark theme: {Theme ? "On" : "Off"}</div>
+            <div className="_text_">{`Dark theme: ${
+              Theme ? "On" : "Off"
+            }`}</div>
             <div className="_logo_">
               <ArrowIcon />
             </div>
@@ -149,6 +148,19 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
           <div onClick={() => handleShowSemiDrop("LangDrop")} className="arte_">
             <div className="_text_">
               Language: <Language lang={lang} />
+            </div>
+            <div className="_logo_">
+              <ArrowIcon />
+            </div>
+          </div>
+        </div>
+        <div className={wrapper_x}>
+          <div className="_logo_">
+            <LocaIcon />
+          </div>
+          <div onClick={() => handleShowSemiDrop("LocaDrop")} className={arte_}>
+            <div className="_text_">
+              Location <Location loca={loca} />
             </div>
             <div className="_logo_">
               <ArrowIcon />
@@ -197,21 +209,12 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
         </div>
         <div className={line}></div>
         <div className="wrapper_y">
-          <div onClick={() => handleShowSemiDrop("LocaDrop")} className={arte_}>
-            <div className="s_text">
-              Location: <Location loca={loca} />
-            </div>
-            <div className="arrow_">
-              <ArrowIcon />
-            </div>
-          </div>
-
           <div
             onClick={() => handleShowSemiDrop("RestrictDrop")}
             className={arte_}
           >
             <div className="s_text">
-              Restricted Mode: {restrict.isRestrict ? "On" : "Off"}
+              {`Restricted Mode: ${restrict.isRestrict ? "On" : "Off"}`}
             </div>
             <div className="arrow_">
               <ArrowIcon />

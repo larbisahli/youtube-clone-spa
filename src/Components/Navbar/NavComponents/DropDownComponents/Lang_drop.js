@@ -29,10 +29,9 @@ const LangDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="lang_drop"
-      className={
-        "semiDrop_container" +
-        (Theme ? " semiDrop_container-dark" : " semiDrop_container-light")
-      }
+      className={`semiDrop_container semiDrop_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <div className="sa_wrapper">
         <button onClick={handleGoBackDrop} className="sa_arrow">
@@ -40,16 +39,14 @@ const LangDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
         </button>
         <div className="sa_text">Choose your language</div>
       </div>
-      <div className={"line" + (Theme ? " line-dark" : " line-light")}></div>
+      <div className={`line line-${Theme ? "dark" : "light"}`}></div>
       <div className="main_wrapper">
         {lang.map((lang, index) => {
           return (
             <div
               key={index}
               onClick={() => HandleClick(lang.id)}
-              className={
-                "sa_lang" + (Theme ? " sa_lang-dark" : " sa_lang-light")
-              }
+              className={`sa_lang sa_lang-${Theme ? "dark" : "light"}`}
             >
               <div className="_xch">
                 <CheckedIcon

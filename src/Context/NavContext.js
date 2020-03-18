@@ -28,6 +28,10 @@ export const NavProvider = props => {
     { loca: "United States", checked: false, id: uuidv4() }
   ]);
 
+  // Notification count
+
+  const [NotiCount, setNotiCount] = useState({ notiCount: "2", seen: true });
+
   // Langguage state
   const [lang, setLang] = useState([
     { lang: "English (Uk)", checked: false, id: uuidv4() },
@@ -73,7 +77,8 @@ export const NavProvider = props => {
         restrictState: [restrict, setRestrict],
         langState: [lang, setLang],
         locaState: [loca, setLoca],
-        accountState: [acc, setAcc]
+        accountState: [acc, setAcc],
+        notiCountState: [NotiCount, setNotiCount]
       }}
     >
       {props.children}

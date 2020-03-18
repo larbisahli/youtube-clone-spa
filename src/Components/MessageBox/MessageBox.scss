@@ -1,0 +1,40 @@
+@import '../../config.scss';
+
+.error_message_container {
+    position: fixed;
+    background-color: #444444;
+    bottom: 10px;
+    color: #fff;
+    padding: 10px;
+    border-radius: 2px;
+    left: 50px;
+    font-size: 1.5em;
+    z-index: 100;
+    transition: all .6s ease-in-out;
+
+
+    &-show {
+        transform: translateY(0px);
+    }
+
+    &-fade {
+        transform: translateY(60px);
+    }
+
+    .em_wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .error_message {
+            margin-left: 10px;
+        }
+
+        .error_btn {
+            color: #2793e6;
+            margin: 0 10px 0 50px;
+            font-size: 1.04em;
+            cursor: pointer;
+        }
+    }
+}

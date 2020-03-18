@@ -32,15 +32,14 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
     acc
   ]);
 
-  const sa_acc = "sa_acc" + (Theme ? " sa_acc-dark" : " sa_acc-light");
+  const sa_acc = `sa_acc sa_acc-${Theme ? "dark" : "light"}`;
 
   return (
     <div
       id="switch_acc_drop"
-      className={
-        "semiDrop_container" +
-        (Theme ? " semiDrop_container-dark" : " semiDrop_container-light")
-      }
+      className={`semiDrop_container semiDrop_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <div className="sa_wrapper">
         <button onClick={handleGoBackDrop} className="sa_arrow">
@@ -70,11 +69,7 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
               <div className="ssa_tr">
                 <div className="sa_t">
                   <div className="sa_name">{acc.name}</div>
-                  <div
-                    className={
-                      "sa_sub" + (Theme ? " sa_sub-dark" : " sa_sub-light")
-                    }
-                  >
+                  <div className={`sa_sub sa_sub-${Theme ? "dark" : "light"}`}>
                     {acc.subs} subscribers
                   </div>
                 </div>
@@ -89,7 +84,7 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
           );
         })}
       </div>
-      <div className={"line" + (Theme ? " line-dark" : " line-light")}></div>
+      <div className={`line line-${Theme ? "dark" : "light"}`}></div>
       <div className="main_wrapper btmpad">
         <div className={sa_acc}>
           <div className="ad_icon">

@@ -16,15 +16,14 @@ const AppDrop = React.memo(() => {
   const Theme = YtTheme.isDarkTheme;
 
   // Preventing from repeating computed logic
-  const app_text = "app_text" + (Theme ? " app_text-dark" : " app_text-light");
-  const line_ = "line_ap" + (Theme ? " line_ap-dark" : " line_ap-light");
+  const app_text = `app_text app_text-${Theme ? "dark" : "light"}`;
+  const line_ = `line_ap line_ap-${Theme ? "dark" : "light"}`;
 
   return (
     <div
-      className={
-        "app_container app-position" +
-        (Theme ? " app_container-dark" : " app_container-light")
-      }
+      className={`app_container app-position app_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <a
         href="https://tv.youtube.com/welcome/"

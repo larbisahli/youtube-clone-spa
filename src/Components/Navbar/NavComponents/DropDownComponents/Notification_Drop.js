@@ -17,7 +17,7 @@ const fake_noti = [
     video_id: ""
   },
   {
-    seen: true,
+    seen: false,
     proImage:
       "https://lh6.googleusercontent.com/-OsgBxXITFdg/AAAAAAAAAAI/AAAAAAAAAAA/gDaUV_aSb2Q/s96-c-mo/photo.jpg",
     text: "Traversy Media uploaded: Sass Crash Course",
@@ -26,7 +26,7 @@ const fake_noti = [
     video_id: ""
   },
   {
-    seen: false,
+    seen: true,
     proImage:
       "https://lh5.googleusercontent.com/-FQU6W_hrGWw/AAAAAAAAAAI/AAAAAAAAAAA/LplmQYovgug/s96-c-mo/photo.jpg",
     text:
@@ -113,10 +113,7 @@ const Notification = React.memo(({ show }) => {
   return (
     <div
       id="noti_drop"
-      className={
-        "noti_Container" +
-        (Theme ? " noti_Container-dark" : " noti_Container-light")
-      }
+      className={`noti_Container noti_Container-${Theme ? "dark" : "light"}`}
     >
       <div className="noti_title_holder">
         <div className="noti_text">Notifications</div>
@@ -129,9 +126,7 @@ const Notification = React.memo(({ show }) => {
           <SettingsIcon />
         </a>
       </div>
-      <div
-        className={"nt_line" + (Theme ? " nt_line-dark" : " nt_line-light")}
-      ></div>
+      <div className={`nt_line nt_line-${Theme ? "dark" : "light"}`}></div>
       {/*------------ Mapping ------------*/}
       <div
         className={
@@ -150,9 +145,7 @@ const Notification = React.memo(({ show }) => {
             return (
               <div
                 key={index}
-                className={
-                  "n_wrapper" + (Theme ? " n_wrapper-dark" : " n_wrapper-light")
-                }
+                className={`n_wrapper n_wrapper-${Theme ? "dark" : "light"}`}
               >
                 <div className="dot_container">
                   <div
@@ -167,7 +160,7 @@ const Notification = React.memo(({ show }) => {
                   ></div>
                 </div>
                 <div className="n_propic">
-                  <img className="img_n" src={noti.proImage} alt="" />
+                  <img className="img_n" src={noti.proImage} alt="avatar" />
                 </div>
                 <div className="n_textArea">
                   <div className="text_nt">{noti.text}</div>
@@ -175,12 +168,22 @@ const Notification = React.memo(({ show }) => {
                 </div>
                 <div className="thumbnail_container">
                   <div className="thumbnail_wrapper">
+                    <div
+                      className={`bg_cover  bg_cover-top  bg_cover-top-${
+                        Theme ? "dark" : "light"
+                      }`}
+                    ></div>
                     <img
                       className="n_img"
                       width="90"
                       src={noti.thumbnail}
-                      alt="avatar"
+                      alt="thumbnail"
                     />
+                    <div
+                      className={`bg_cover  bg_cover-bottom  bg_cover-bottom-${
+                        Theme ? "dark" : "light"
+                      }`}
+                    ></div>
                   </div>
                 </div>
                 <div className="n_sd">

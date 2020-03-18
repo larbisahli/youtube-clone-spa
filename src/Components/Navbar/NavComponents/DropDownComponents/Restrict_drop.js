@@ -34,10 +34,9 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="restrictmode_drop"
-      className={
-        "semiDrop_container" +
-        (Theme ? " semiDrop_container-dark" : " semiDrop_container-light")
-      }
+      className={`semiDrop_container semiDrop_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <div className="sa_wrapper">
         <button onClick={handleGoBackDrop} className="sa_arrow">
@@ -45,7 +44,7 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
         </button>
         <div className="sa_text">Restricted Mode</div>
       </div>
-      <div className={"line" + (Theme ? " line-dark" : " line-light")}></div>
+      <div className={`line line-${Theme ? "dark" : "light"}`}></div>
       <div className="main_wrapper">
         <div className="th_text">
           This helps hide potentially mature videos. No filter is 100% accurate.
@@ -54,18 +53,12 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
           This setting only applies to this browser.
         </div>
         <div
-          className={
-            "th_container" +
-            (Theme ? " th_container-dark" : " th_container-light")
-          }
+          className={`th_container th_container-${Theme ? "dark" : "light"}`}
         >
           <div className="tc_text">ACTIVATE RESTRICTED MODE</div>
 
           <label
-            className={
-              "switch-wrap" +
-              (Theme ? " switch-wrap-dark" : " switch-wrap-light")
-            }
+            className={`switch-wrap switch-wrap-${Theme ? "dark" : "light"}`}
           >
             <input
               type="checkbox"

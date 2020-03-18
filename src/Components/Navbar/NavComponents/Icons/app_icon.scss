@@ -39,7 +39,6 @@
                     @include transform(scale(.9));
                 }
             }
-
         }
 
         &-light {
@@ -59,9 +58,6 @@
                 }
             }
         }
-
-
-
     }
 }
 
@@ -77,7 +73,7 @@
     color: #e0e0e0;
     top: calc(100% + 25px);
     left: 50%;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .titleA {

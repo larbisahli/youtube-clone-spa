@@ -30,10 +30,9 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="theme_drop"
-      className={
-        "semiDrop_container" +
-        (Theme ? " semiDrop_container-dark" : " semiDrop_container-light")
-      }
+      className={`semiDrop_container semiDrop_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <div className="sa_wrapper">
         <button onClick={handleGoBackDrop} className="sa_arrow">
@@ -41,7 +40,7 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
         </button>
         <div className="sa_text">Dark theme</div>
       </div>
-      <div className={"line" + (Theme ? " line-dark" : " line-light")}></div>
+      <div className={`line line-${Theme ? "dark" : "light"}`}></div>
       <div className="main_wrapper">
         <div className="th_text">
           Dark theme turns the light surfaces of the page dark, creating an
@@ -49,18 +48,12 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
         </div>
         <div className="th_text">It's Working try it out!</div>
         <div
-          className={
-            "th_container" +
-            (Theme ? " th_container-dark" : " th_container-light")
-          }
+          className={`th_container th_container-${Theme ? "dark" : "light"}`}
         >
           <div className="tc_text">DARK THEME</div>
 
           <label
-            className={
-              "switch-wrap" +
-              (Theme ? " switch-wrap-dark" : " switch-wrap-light")
-            }
+            className={`switch-wrap switch-wrap-${Theme ? "dark" : "light"}`}
           >
             <input
               type="checkbox"

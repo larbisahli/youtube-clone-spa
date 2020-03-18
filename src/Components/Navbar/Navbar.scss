@@ -3,12 +3,16 @@
 
 .NavContainer {
     // see config.scss for mixin
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
     @include display-flex();
     @include alignItems-center();
     height: 56px;
     padding: 0 16px;
     justify-content: space-between;
-    z-index: 1;
+    z-index: 10;
 
     &-dark {
         // Dark Theme
@@ -221,6 +225,33 @@
             width: 40px;
             height: 40px;
             margin-right: 8px;
+
+            .noti_count {
+                position: absolute;
+                align-self: flex-start;
+                z-index: 2;
+                margin: 3px 0px 0px 10px;
+
+                &-dark {
+                    background-color: #c00;
+                    box-shadow: 0px 0px 0px 1px colors(Nav-background-Dark);
+                }
+
+                &-light {
+                    background-color: rgb(233, 56, 56);
+                    box-shadow: 0px 0px 0px 1px colors(Nav-background-Light);
+                }
+
+                color: #fff;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                line-height: 18px;
+                font-size: 10px;
+                text-align: center;
+                cursor: pointer;
+
+            }
         }
 
         .profile_container {

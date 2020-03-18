@@ -1,0 +1,14 @@
+@import '../../../config.scss';
+
+.icon_container {
+    @include display-flex();
+    @include alignItems-center();
+    @include justifyContent-center();
+
+    .icon_ {
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+        cursor: pointer;
+    }
+}

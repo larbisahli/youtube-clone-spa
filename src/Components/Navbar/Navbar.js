@@ -32,7 +32,7 @@ import {
 } from "./NavComponents/DropDownComponents";
 import { NavContext } from "../../Context/NavContext";
 import { ThemeContext } from "../../Context/ThemeContext";
-
+import { Helmet } from "react-helmet";
 //import { DataApis } from "../api/YoutubeApi";
 
 const From = React.memo(
@@ -56,11 +56,9 @@ const From = React.memo(
         <form className="form_container" onSubmit={HandleSubmit}>
           <div className="form_wrapper">
             <div
-              className={
-                "input_wrapper" +
-                (inputFocus ? " focus" : "") +
-                (Theme ? " input_wrapper-dark" : " input_wrapper-light")
-              }
+              className={`input_wrapper ${
+                Theme ? "input_wrapper-dark" : "input_wrapper-light"
+              } ${inputFocus ? "focus" : ""}`}
             >
               <input
                 className="search_input"
@@ -83,10 +81,9 @@ const From = React.memo(
               />
             </div>
             <button
-              className={
-                "btn_container" +
-                (Theme ? " btn_container-dark" : " btn_container-light")
-              }
+              className={`btn_container btn_container-${
+                Theme ? "dark" : "light"
+              }`}
             >
               <SearchIcon Theme={Theme} />
             </button>
@@ -101,15 +98,23 @@ const From = React.memo(
 let isInSemiDrop = false;
 
 const Navbar = React.memo(
-  ({ searchValue, setSearchValue, HandleSelect, HandleSubmit }) => {
+  ({
+    searchValue,
+    setSearchValue,
+    HandleSelect,
+    HandleSubmit,
+    HandleShowGuide
+  }) => {
     // ==> Context
-    const { accountState } = useContext(NavContext);
+    const { accountState, notiCountState } = useContext(NavContext);
     const [acc] = accountState;
     const [YtTheme] = useContext(ThemeContext);
     const Theme = YtTheme.isDarkTheme;
     const IsCurrentAccount = useCallback(acc.filter(acc => acc.isCurrent)[0], [
       acc
     ]);
+
+    const [NotiCount, setNotiCount] = notiCountState;
 
     // ==> Input focus state
     const [{ inputFocus }, setInputFocus] = useState({ inputFocus: false });
@@ -389,6 +394,7 @@ const Navbar = React.memo(
         !dropHandler.ShowBellDrop &&
         !dropHandler.ShowProfDrop
       ) {
+        setNotiCount(prev => ({ notiCount: prev.notiCount, seen: false }));
         setDropHandler(
           {
             ...dropHandler,
@@ -437,6 +443,7 @@ const Navbar = React.memo(
 
     const HandleShowSemiDrop = useCallback(
       value => {
+        //console.log("HandleShowSemiDrop :=>", value);
         setDropHandler({
           ...dropHandler,
           ShowProfDrop: false
@@ -461,6 +468,7 @@ const Navbar = React.memo(
 
     const DropHandlerClose = useCallback(
       e => {
+        isInSemiDrop = true;
         // ----------------------------- Drops
         const CamDrop = document.getElementById("cax");
         const AppDrop = document.getElementById("apx");
@@ -582,16 +590,21 @@ const Navbar = React.memo(
 
     // --------------------------------------------
     return (
-      <div
-        className={
-          "NavContainer" +
-          (Theme ? " NavContainer-dark" : " NavContainer-light")
-        }
-      >
+      <div className={`NavContainer NavContainer-${Theme ? "dark" : "light"}`}>
+        {/* Helmet */}
+        <Helmet>
+          <title>
+            {NotiCount.seen
+              ? `(${NotiCount.notiCount}) YouTube-Clone`
+              : "YouTube-Clone"}
+          </title>
+          <meta name="description" content="Helmet application" />
+        </Helmet>
+        {/* NavBar */}
         {!isResponsive ? (
           <Fragment>
             <div className="LeftContainer">
-              <div className="menuIcon">
+              <div onClick={HandleShowGuide} className="menuIcon">
                 <MenuIcon />
               </div>
               <div title="YouTube Home" className="LogoContainer">
@@ -604,10 +617,7 @@ const Navbar = React.memo(
                 </Link>
                 <Link to="/">
                   <div
-                    className={
-                      "LogoText" +
-                      (Theme ? " LogoText-dark" : " LogoText-light")
-                    }
+                    className={`LogoText LogoText-${Theme ? "dark" : "light"}`}
                   >
                     YouTube
                   </div>
@@ -672,6 +682,15 @@ const Navbar = React.memo(
                 className="icons_container"
               >
                 <Bell />
+                <div
+                  style={{ display: NotiCount.seen ? "" : "none" }}
+                  className={`noti_count noti_count-${
+                    Theme ? "dark" : "light"
+                  }`}
+                >
+                  {NotiCount.notiCount}
+                </div>
+                {/*??? unmounted*/}
                 <div
                   style={{ display: dropHandler.ShowBellDrop ? "" : "none" }}
                 >

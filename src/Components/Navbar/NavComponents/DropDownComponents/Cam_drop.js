@@ -10,14 +10,13 @@ const CamDrop = React.memo(() => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
-  const app_text = "app_text" + (Theme ? " app_text-dark" : " app_text-light");
+  const app_text = `app_text app_text-${Theme ? "dark" : "light"}`;
 
   return (
     <div
-      className={
-        "app_container cam-position" +
-        (Theme ? " app_container-dark" : " app_container-light")
-      }
+      className={`app_container cam-position app_container-${
+        Theme ? "dark" : "light"
+      }`}
     >
       <a
         href="https://studio.youtube.com/channel/"

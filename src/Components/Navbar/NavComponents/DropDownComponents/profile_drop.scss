@@ -37,8 +37,8 @@
 
     .line_a {
         height: 2px;
-        margin: 5px 0;
 
+        //margin: 5px 0;
         &-dark {
             // Dark Theme
             background-color: colors(border-color-Dark);
@@ -167,17 +167,13 @@
 
         .wrapper_y {
             display: block;
-
-
-            div:nth-child(1) {
-                margin: 5px 0;
-            }
+            padding: 5px 0;
 
             .arte_ {
                 @include display-flex();
                 @include alignItems-center();
                 justify-content: space-between;
-                padding: 0 15px;
+                padding: 10px 15px;
                 cursor: pointer;
 
                 &-dark {
@@ -199,11 +195,6 @@
                     @include justifyContent-center();
                     @include alignItems-center;
                     color: #929292;
-
-
-                    .loca_ {
-                        padding-left: 5px;
-                    }
                 }
             }
         }
