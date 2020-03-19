@@ -1,13 +1,14 @@
-@import '../../../config.scss';
+@import '../../config.scss';
 
-.icon_container_x {
+.icon_container_y {
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 
-    .icon_x_ {
+
+    .icon_y_ {
         height: 24px;
         width: 24px;
         z-index: 1;

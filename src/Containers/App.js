@@ -5,14 +5,13 @@ import React, {
   useContext,
   Fragment
 } from "react";
-import "./App.scss";
 import { Route, Switch } from "react-router-dom";
 import { Navbar, Guide, MiniGuide } from "../Components";
 import { NavProvider, NavContext } from "../Context/NavContext";
 import { ThemeContext } from "../Context/ThemeContext";
-
+import Results from "./Results";
 import Home from "./Home";
-import "./App.scss";
+import "./SCSS/App.scss";
 
 function App() {
   // Slider State
@@ -85,7 +84,8 @@ function App() {
       <Switch>
         {/* HOME PAGE ROUTE */}
         <Route path="/" exact component={Home} />
-        {/* */}
+        {/* RESULTS PAGE ROUTE*/}
+        <Route path="/results/" component={Results} />
       </Switch>
       {/* GUIDE */}
       <Fragment>

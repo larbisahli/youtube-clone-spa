@@ -5,12 +5,12 @@ import "./app_icon_x.scss";
 
 const QueueIcon = React.memo(() => {
   return (
-    <div style={{ width: "20px", height: "20px" }} className="icon_container">
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+    <div className="icon_container_x">
+      <svg className="icon_x_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill="#fff"
-            d="M12 3.67c-4.58 0-8.33 3.75-8.33 8.33s3.75 8.33 8.33 8.33 8.33-3.75 8.33-8.33S16.58 3.67 12 3.67zm3.5 11.83l-4.33-2.67v-5h1.25v4.34l3.75 2.25-.67 1.08z"
+            d="M9,10 L18,10 L18,12 L9,12 L9,10 Z M6,6 L18,6 L18,8 L6,8 L6,6 Z M12,14 L18,14 L18,16 L12,16 L12,14 Z M6,12 L6,18 L10,15 L6,12 Z"
           ></path>
         </g>
       </svg>

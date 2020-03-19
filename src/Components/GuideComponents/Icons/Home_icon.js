@@ -10,7 +10,7 @@ const HomeIcon = React.memo(() => {
 
   return (
     <button id="cax" className="icon_container">
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+      <svg className="icon_" viewBox="0 0 25 25" focusable={false}>
         <g>
           <path
             fill={Theme ? "#fff" : "#f00"}

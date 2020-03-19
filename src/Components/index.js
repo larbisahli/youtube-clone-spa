@@ -4,3 +4,4 @@ export { default as MiniGuide } from "./GuideComponents/MiniGuide";
 export { default as HomeVideoContainer } from "./VideoComponents/HomeVideoContainer";
 export { default as HomeSkeleton } from "./Skeletons/HomeSkeleton";
 export { default as MessageBox } from "./MessageBox/MessageBox";
+export { default as ReasultVideoContainer } from "./VideoComponents/ReasultsVideoContainer";

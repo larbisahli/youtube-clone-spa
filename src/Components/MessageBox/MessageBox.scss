@@ -1,11 +1,10 @@
 @import '../../config.scss';
 
-.error_message_container {
+.message_box_container {
     position: fixed;
     background-color: #444444;
     bottom: 10px;
     color: #fff;
-    padding: 10px;
     border-radius: 2px;
     left: 50px;
     font-size: 1.5em;
@@ -23,18 +22,25 @@
 
     .em_wrapper {
         display: flex;
-        justify-content: space-between;
         align-items: center;
 
-        .error_message {
+        .box_message {
             margin-left: 10px;
+            padding: 15px 10px;
         }
 
-        .error_btn {
+        .box_btn {
             color: #2793e6;
-            margin: 0 10px 0 50px;
-            font-size: 1.04em;
+            margin: 0 0 0 10px;
+            font-size: 0.9em;
             cursor: pointer;
+            padding: 15px 12px;
+
+            &:active {
+                background-color: #616161c0;
+                color: #1f98f5;
+            }
+
         }
     }
 }

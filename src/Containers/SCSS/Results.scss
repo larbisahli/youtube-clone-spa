@@ -1,0 +1,75 @@
+@import '../../config.scss';
+
+
+.results_container {
+
+    margin-top: 56px;
+    //background-color: red;
+
+    .results_video_container {
+        margin-left: 240px;
+        //padding: 16px 24px;
+        //background-color: rgb(90, 138, 18);
+
+        @media screen and (max-width: 810px) {
+            margin-left: 0px;
+        }
+
+
+
+        .r_contentwrap {
+            margin: 0 24px 0 24px;
+            //background-color: blue;
+
+
+            .r_line {
+                height: 1px;
+                background-color: colors(border-color-Dark);
+
+                &-dark {
+                    // Dark Theme
+                    background-color: colors(border-color-Dark);
+                }
+
+                &-light {
+                    // Dark Theme
+                    background-color: colors(border-color-Light);
+                }
+            }
+
+            .r_filter_container {
+
+                padding-top: 16px;
+                //background-color: chartreuse;
+
+
+                .r_filter_wrapper {
+
+                    display: flex;
+                    color: #fff;
+                    align-items: center;
+                    width: 100px;
+                    padding: 10px;
+                    cursor: pointer;
+                    border-radius: 2px;
+
+                    .filter_icon {}
+
+                    .r_filter_text {
+                        margin-left: 8px;
+                        font-size: .92rem;
+                        text-transform: uppercase;
+                        color: #ccc;
+                    }
+
+                    &:active {
+                        background-color: rgb(90, 90, 90);
+
+                    }
+                }
+            }
+
+            .results_section_list {}
+        }
+    }
+}

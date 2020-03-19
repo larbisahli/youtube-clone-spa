@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./Home.scss";
+import React, { useEffect, useState, useCallback } from "react";
+import "./SCSS/Home.scss";
 import { HomeVideoContainer } from "../Components";
 import { YouTubeAPI } from "../Components/api/YoutubeApi";
 import { HomeSkeleton, MessageBox } from "../Components";
@@ -17,10 +17,14 @@ const Home = React.memo(() => {
   const [PopularVideos, setPopularVideos] = useState([]);
 
   // Message Error State
-  const [{ show, message, btnMessage }, setShowErrorMessage] = useState({
+  const [
+    { show, message, btnMessage, isError },
+    setShowErrorMessage
+  ] = useState({
     show: false,
     message: "",
-    btnMessage: ""
+    btnMessage: "",
+    isError: false
   });
 
   // ===========================
@@ -28,10 +32,10 @@ const Home = React.memo(() => {
   // ===========================
   const PopularVideosRequest = async () => {
     setIsLoading(true);
-    YouTubeAPI.get("videos", {
+    YouTubeAPI.get("videoss", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 5,
+        maxResults: 2,
         chart: "mostPopular",
         key: process.env.REACT_APP_YOUTUBE_API_KEY
       }
@@ -66,22 +70,49 @@ const Home = React.memo(() => {
         setShowErrorMessage({
           show: true,
           message: "Error 403, YouTube API has a limited requests.",
-          btnMessage: "dismiss"
+          btnMessage: "dismiss",
+          isError: true
         });
         setIsLoading(true);
       });
   };
 
-  // =================
-  //  Error Handling
-  // =================
-  const HandleErrorShow = () => {
-    setShowErrorMessage({
-      show: false,
-      message,
-      btnMessage
-    });
+  // ====================================
+  //           Error Handling
+  // ====================================
+
+  const HandleClosingMessageBox = () => {
+    // Just to make sure isError will not
+    // change to false by any chance before doing some logic if true
+    try {
+      if (isError) {
+      }
+    } finally {
+      setShowErrorMessage(pre => {
+        return {
+          show: false,
+          message: pre.message,
+          btnMessage: pre.btnMessage,
+          isError: false
+        };
+      });
+    }
   };
+
+  const HandleShowMessageBox = useCallback(watchLater => {
+    setShowErrorMessage({
+      show: true,
+      message: !watchLater
+        ? "Saved to Watch later"
+        : "Removed from Watch later",
+      btnMessage: "UNDO",
+      isError: false
+    });
+
+    setTimeout(() => {
+      HandleClosingMessageBox();
+    }, 4000);
+  }, []);
 
   useEffect(() => {
     PopularVideosRequest();
@@ -105,6 +136,7 @@ const Home = React.memo(() => {
                       key={index}
                       index={index}
                       PopularVideo={PopularVideo}
+                      HandleShowMessageBox={HandleShowMessageBox}
                     />
                   );
                 })}
@@ -115,7 +147,7 @@ const Home = React.memo(() => {
         message={message}
         btnMessage={btnMessage}
         show={show}
-        HandleMessageShow={HandleErrorShow}
+        HandleMessageBtn={HandleClosingMessageBox}
       />
     </div>
   );

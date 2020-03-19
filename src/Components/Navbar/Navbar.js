@@ -81,7 +81,7 @@ const From = React.memo(
               />
             </div>
             <button
-              className={`btn_container btn_container-${
+              className={`btn_container titleS btn_container-${
                 Theme ? "dark" : "light"
               }`}
             >
@@ -690,7 +690,7 @@ const Navbar = React.memo(
                 >
                   {NotiCount.notiCount}
                 </div>
-                {/*??? unmounted*/}
+                {/*???*/}
                 <div
                   style={{ display: dropHandler.ShowBellDrop ? "" : "none" }}
                 >
