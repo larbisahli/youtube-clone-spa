@@ -1,3 +1,41 @@
+## Information
+-----------------------------------------
+
+### ... on progress.
+
+Frontend Developer Challenge: YouTube Clone SPA
+
+Working Prototype: 
+
+Cloning Features:
+
+1. YouTube Theme:
+   - dark
+   - light
+2. browsing, YouTube pages: 
+   - Results page
+   - Watch page
+   - Channel page
+   - Watch later page
+   - History page
+   - Library page
+   - Liked videos page
+   - Others 
+3. Using Queue.
+4. adding and removing videos from watch later list and Queue.
+5. Using YouTube filtering in results page.
+6. You can get playlists, channels, and videos on results page or home page.
+7. Cloning all the Navigation bar Features
+   - Dropdowns 
+   - Autosuggestion Dropdown
+     - Ability to remove suggestions
+   - Fake Notifications
+8. State Management using context api.
+9. Using react helmet.
+10. Handling YouTuve v3 API requests with React axios.
+
+
+-----------------------------------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
