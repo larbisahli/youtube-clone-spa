@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./MessageBox.scss";
+import { RippleButton } from "../.";
 
 const MessageBox = React.memo(
   ({ message, btnMessage, show, HandleMessageBtn }) => {
@@ -11,9 +12,9 @@ const MessageBox = React.memo(
       >
         <div className="em_wrapper">
           <span className="box_message">{message}</span>
-          <button onClick={HandleMessageBtn} className="box_btn">
-            {btnMessage}
-          </button>
+          <RippleButton onclick={HandleMessageBtn} classname="box_btn">
+            <span>{btnMessage}</span>
+          </RippleButton>
         </div>
       </div>
     );

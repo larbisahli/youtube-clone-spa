@@ -154,11 +154,19 @@
                         background-color: colors(Theme-hover-Dark);
                     }
 
+                    &:active {
+                        background-color: lighten(colors(Theme-hover-Dark), 8%);
+                    }
+
                     &:first-child {
                         background-color: colors(Theme-hover-Dark);
 
                         &:hover {
                             background-color: #636363;
+                        }
+
+                        &:active {
+                            background-color: lighten(colors(Theme-hover-Dark), 8%);
                         }
                     }
                 }
@@ -170,11 +178,19 @@
                         background-color: colors(Theme-hover-Light)
                     }
 
+                    &:active {
+                        background-color: darken(colors(Theme-hover-Light), 8%);
+                    }
+
                     &:first-child {
                         background-color: colors(Theme-hover-Light);
 
                         &:hover {
                             background-color: #d8d8d8;
+                        }
+
+                        &:active {
+                            background-color: darken(colors(Theme-hover-Light), 10%);
                         }
                     }
                 }

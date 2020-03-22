@@ -32,7 +32,7 @@ const Home = React.memo(() => {
   // ===========================
   const PopularVideosRequest = async () => {
     setIsLoading(true);
-    YouTubeAPI.get("videoss", {
+    YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
         maxResults: 2,
@@ -65,11 +65,10 @@ const Home = React.memo(() => {
         PopularVideosArray = [];
       })
       .catch(err => {
-        console.log(err);
         // Error Setup
         setShowErrorMessage({
           show: true,
-          message: "Error 403, YouTube API has a limited requests.",
+          message: `${err}`,
           btnMessage: "dismiss",
           isError: true
         });
@@ -81,7 +80,7 @@ const Home = React.memo(() => {
   //           Error Handling
   // ====================================
 
-  const HandleClosingMessageBox = () => {
+  const HandleClosingMessageBox = useCallback(() => {
     // Just to make sure isError will not
     // change to false by any chance before doing some logic if true
     try {
@@ -97,50 +96,51 @@ const Home = React.memo(() => {
         };
       });
     }
-  };
+  }, [isError]);
 
-  const HandleShowMessageBox = useCallback(watchLater => {
-    setShowErrorMessage({
-      show: true,
-      message: !watchLater
-        ? "Saved to Watch later"
-        : "Removed from Watch later",
-      btnMessage: "UNDO",
-      isError: false
-    });
+  const HandleShowMessageBox = useCallback(
+    watchLater => {
+      setShowErrorMessage({
+        show: true,
+        message: !watchLater
+          ? "Saved to Watch later"
+          : "Removed from Watch later",
+        btnMessage: "UNDO",
+        isError: false
+      });
 
-    setTimeout(() => {
-      HandleClosingMessageBox();
-    }, 4000);
-  }, []);
+      setTimeout(() => {
+        HandleClosingMessageBox();
+      }, 4000);
+    },
+    [HandleClosingMessageBox]
+  );
 
   useEffect(() => {
     PopularVideosRequest();
   }, []);
 
   return (
-    <div className="home_container">
-      <div id="hvc" className="home_video_container">
-        <div className="hcontentwrap">
-          <div className="home_title_container">
-            <span className="home_title">Most Popular</span>
-          </div>
-          <div className="homevideowrapper">
-            {isLoading
-              ? [...Array(8)].map((e, i) => {
-                  return <HomeSkeleton key={i} />;
-                })
-              : PopularVideos.map((PopularVideo, index) => {
-                  return (
-                    <HomeVideoContainer
-                      key={index}
-                      index={index}
-                      PopularVideo={PopularVideo}
-                      HandleShowMessageBox={HandleShowMessageBox}
-                    />
-                  );
-                })}
-          </div>
+    <div id="hvc" className="home_container">
+      <div className="hcontentwrap">
+        <div className="home_title_container">
+          <span className="home_title">Most Popular</span>
+        </div>
+        <div className="homevideowrapper">
+          {isLoading
+            ? [...Array(8)].map((e, i) => {
+                return <HomeSkeleton key={i} />;
+              })
+            : PopularVideos.map((PopularVideo, index) => {
+                return (
+                  <HomeVideoContainer
+                    key={index}
+                    index={index}
+                    PopularVideo={PopularVideo}
+                    HandleShowMessageBox={HandleShowMessageBox}
+                  />
+                );
+              })}
         </div>
       </div>
       <MessageBox

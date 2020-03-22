@@ -1,37 +1,31 @@
 @import '../../config.scss';
 
-
 .home_container {
+    margin-left: 240px;
 
-    margin-top: 56px;
+    @media screen and (max-width: 810px) {
+        margin-left: 0px;
+    }
 
-    .home_video_container {
-        margin-left: 240px;
+    .hcontentwrap {
+        margin: 0 24px 0 24px;
 
-        @media screen and (max-width: 810px) {
-            margin-left: 0px;
+        .homevideowrapper {
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 24px;
         }
 
-        .hcontentwrap {
-            margin: 0 24px 0 24px;
-
-            .homevideowrapper {
-                display: flex;
-                flex-flow: row wrap;
-                margin-top: 24px;
-            }
-
-            .home_title_container {
-                padding-top: 36px;
-                padding-left: calc(16px / 2);
+        .home_title_container {
+            padding-top: 36px;
+            padding-left: calc(16px / 2);
 
 
-                .home_title {
-                    color: #fff;
-                    font-size: 2em;
-                    font-weight: 500;
-                    line-height: 2.4rem;
-                }
+            .home_title {
+                color: #fff;
+                font-size: 2em;
+                font-weight: 500;
+                line-height: 2.4rem;
             }
         }
     }

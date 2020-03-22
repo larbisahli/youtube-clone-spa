@@ -117,7 +117,7 @@ const HomeVideoContainer = React.memo(
                 className="text_con_txt"
               >
                 <div title={PopularVideo.title} className="title_txt">
-                  {TextReducer(PopularVideo.title)}
+                  {TextReducer(PopularVideo.title, 56)}
                 </div>
               </Link>
               <Link

@@ -11,6 +11,8 @@ export const NumFormatter = num => {
     FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000000) + "M";
   } else if (Math.abs(num) > 999999999) {
     FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000000000) + "B";
+  } else {
+    return num;
   }
 
   return FormatNum;
@@ -36,10 +38,14 @@ export const HandleDuration = d => {
   }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
 };
 
-export const TextReducer = text => {
+export const TextReducer = (text, num) => {
   if (text.length > 64) {
-    return text.substring(0, 54) + "...";
+    return text.substring(0, num) + "...";
   } else {
     return text;
   }
+};
+
+export const numberWithCommas = x => {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };

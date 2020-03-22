@@ -21,79 +21,46 @@ function App() {
   //const [YtTheme] = useContext(ThemeContext);
   //const Theme = YtTheme.isDarkTheme;
 
-  const [{ searchValue }, setSearchValue] = useState({
-    searchValue: ""
-  });
-
   // ===========================
   //       Handle Guide
   // ===========================
 
   // Handle Close
-  const HandleCloseGuide = event => {
+  const HandleCloseGuide = useCallback(event => {
     const GUIDENODE = document.getElementById("GuideG");
     if (GUIDENODE.isSameNode(event.target)) {
       setShowGuide(false);
       GUIDENODE.removeEventListener("click", HandleCloseGuide);
     }
-  };
+  }, []);
 
   // Handle Show
   const HandleShowGuide = useCallback(() => {
     const GUIDENODE = document.getElementById("GuideG");
     if (!ShowGuide && false) {
+      // for watch page
       GUIDENODE.addEventListener("click", HandleCloseGuide);
     }
     setShowGuide(!ShowGuide);
   }, [setShowGuide, ShowGuide]);
 
-  // ==========================
-  //       Handle Submit
-  // ==========================
-
-  console.log("ShowGuide :", ShowGuide);
-
-  const HandleSubmit = useCallback(
-    event => {
-      event.preventDefault();
-      console.log("HandleSubmit: ", searchValue);
-    },
-    [searchValue]
-  );
-
-  // ==========================
-  //       Handle Select
-  // ==========================
-
-  const HandleSelect = useCallback(select => {
-    console.log("HandleSelect: ", select);
-  }, []);
-
   return (
     <div className="rootContainer">
       {/* NAVBAR */}
       <NavProvider>
-        <Navbar
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          HandleSubmit={HandleSubmit}
-          HandleSelect={HandleSelect}
-          HandleShowGuide={HandleShowGuide}
-        />
+        <Navbar HandleShowGuide={HandleShowGuide} />
       </NavProvider>
-      <Switch>
-        {/* HOME PAGE ROUTE */}
-        <Route path="/" exact component={Home} />
-        {/* RESULTS PAGE ROUTE*/}
-        <Route path="/results/" component={Results} />
-      </Switch>
+      <div className="page_container">
+        <Switch>
+          {/* HOME PAGE ROUTE */}
+          <Route path="/" exact component={Home} />
+          {/* RESULTS PAGE ROUTE*/}
+          <Route path="/results/search=:id" component={Results} />
+        </Switch>
+      </div>
       {/* GUIDE */}
-      <Fragment>
-        <MiniGuide />
-      </Fragment>
-      <Fragment>
-        <Guide ShowGuide={ShowGuide} />
-      </Fragment>
+      <MiniGuide />
+      <Guide ShowGuide={ShowGuide} />
     </div>
   );
 }

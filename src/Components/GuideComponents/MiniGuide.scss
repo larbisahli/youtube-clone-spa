@@ -30,6 +30,10 @@
             background-color: colors(Theme-hover-Dark);
         }
 
+        &:active {
+            background-color: red;
+        }
+
         .icon_hx_guide {
             display: flex;
 

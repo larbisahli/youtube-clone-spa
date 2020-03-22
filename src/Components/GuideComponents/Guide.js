@@ -230,9 +230,11 @@ const Guide = React.memo(({ ShowGuide }) => {
   };
 
   useEffect(() => {
-    document.getElementById("hvc").style.marginLeft = ShowGuide
-      ? "240px"
-      : "72px";
+    if (document.getElementById("hvc") != null) {
+      document.getElementById("hvc").style.marginLeft = ShowGuide
+        ? "240px"
+        : "72px";
+    }
   }, [ShowGuide]);
 
   const line_guide = `line_guide line_guide-${ReturnTheme()}`;
