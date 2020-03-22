@@ -5,7 +5,9 @@
 
 Frontend Developer Challenge: YouTube Clone SPA
 
-Working Prototype: 
+Working Prototype: https://larbisahli-youtube-clone.netlify.com/
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/113616f3-5a6f-4960-884d-0aecae96b50c/deploy-status)](https://app.netlify.com/sites/larbisahli-youtube-clone/deploys)
 
 Cloning Features:
 
