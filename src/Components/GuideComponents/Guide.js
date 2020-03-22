@@ -502,7 +502,8 @@ const Guide = React.memo(({ ShowGuide }) => {
           <div className={`${line_guide} line_guide_in`}></div>
           <div className={`aboutext aboutext-${ReturnTheme()}`}>
             <div className="tx">
-              Cloning YouTube with pure scss, js and React Framework 2020.
+              Cloning YouTube with pure sass, Javascript and React Framework
+              2020.
             </div>
             <div className="tx">Author: Larbi Sahli</div>
             <div className="tx">

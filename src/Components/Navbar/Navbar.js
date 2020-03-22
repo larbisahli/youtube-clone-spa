@@ -49,8 +49,22 @@ const From = React.memo(
     handleInputFocus,
     HandleChange,
     handleInputBlur,
-    Theme
+    Theme,
+    setSDstate
   }) => {
+    const HandlekeyPress = event => {
+      if (event.key === "Enter") {
+        if (ShowSearchDrop) {
+          setSDstate(pre => {
+            return {
+              searchIsActive: pre.searchIsActive,
+              ShowSearchDrop: false
+            };
+          });
+        }
+      }
+    };
+
     return (
       <div className="searchContainer">
         <form className="form_container" onSubmit={HandleSubmit}>
@@ -69,6 +83,7 @@ const From = React.memo(
                 placeholder="Search"
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
+                onKeyPress={HandlekeyPress}
               />
               <SearchDropSuggestion
                 ShowSearchDrop={ShowSearchDrop}
@@ -655,6 +670,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
           </div>
           {innerWidth > 700 ? (
             <From
+              setSDstate={setSDstate}
               ShowSearchDrop={ShowSearchDrop}
               HandleChange={HandleChange}
               suggestions={suggestions}
@@ -763,6 +779,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
             <BackArrow />
           </button>
           <From
+            setSDstate={setSDstate}
             ShowSearchDrop={ShowSearchDrop}
             HandleChange={HandleChange}
             suggestions={suggestions}

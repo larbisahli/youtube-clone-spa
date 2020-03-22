@@ -474,7 +474,7 @@
                 @include transform(translateX(-50%));
                 color: #e0e0e0;
                 top: calc(100% + 25px);
-                left: 70%;
+                left: 100%;
                 min-width: 120px;
                 content: attr(data-scontent);
 

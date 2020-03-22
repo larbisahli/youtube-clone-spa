@@ -339,7 +339,6 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState }) => {
               WhoActive === "rating" ? "fcc_text-active" : ""
             }`}
           >
-            Rating
             <span>Rating</span>
             {WhoActive === "rating" ? (
               <div className="x_icon">

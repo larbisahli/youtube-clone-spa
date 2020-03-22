@@ -35,7 +35,7 @@ const Home = React.memo(() => {
     YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 2,
+        maxResults: 14,
         chart: "mostPopular",
         key: process.env.REACT_APP_YOUTUBE_API_KEY
       }
