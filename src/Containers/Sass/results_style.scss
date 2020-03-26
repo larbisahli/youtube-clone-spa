@@ -1,0 +1,181 @@
+@import '../../config_style.scss';
+
+.results_container {
+    margin-left: 240px;
+    max-width: 862px;
+
+    @media screen and (max-width: 810px) {
+        margin-left: 0px !important;
+    }
+
+
+    .results_contentwrapper {
+        margin: 0 24px 0 24px;
+
+        .r_line {
+            height: 1px;
+            background-color: colors(border-color-Dark);
+
+            &-dark {
+                // Dark Theme
+                background-color: colors(border-color-Dark);
+            }
+
+            &-light {
+                // Dark Theme
+                background-color: colors(border-color-Light);
+            }
+        }
+
+        .header_container {
+
+            margin-top: 16px;
+
+            &:hover>.header_wrapper>.header_text-dark {
+                color: #fff !important;
+            }
+
+            &:hover>.header_wrapper>.header_text-light {
+                color: #333 !important;
+            }
+
+            .header_wrapper {
+
+                display: flex;
+                color: #fff;
+                align-items: center;
+                width: 100px;
+                padding: 10px 5px;
+                cursor: pointer;
+                border-radius: 2px;
+
+                .header_text {
+                    margin-left: 8px;
+                    font-size: .85rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+
+                    &-dark {
+                        // Dark Theme
+                        color: #c0c0c0;
+                    }
+
+                    &-light {
+                        // Dark Theme
+                        color: #6e6e6e;
+                    }
+                }
+            }
+        }
+
+        // ================ FILTER ================
+
+
+        .filter_content_container {
+            position: relative;
+            overflow: hidden;
+            transition-property: max-height;
+            transition-duration: .3s;
+            transition-timing-function: linear;
+
+            .fcc_wrapper {
+                display: flex;
+                flex-flow: row nowrap;
+
+
+                .fcc_text_container {
+                    padding-right: 32px;
+                    width: calc(100%);
+                    margin-bottom: 32px;
+
+
+                    &:nth-child(4) {
+                        padding-right: 0;
+                    }
+
+                    .fcc_header_text {
+                        margin: 5px 0;
+                        padding: 15px 0 5px 0;
+                        font-size: .72rem;
+                        font-weight: 590;
+                        text-transform: uppercase;
+
+                        &-dark {
+                            // Dark Theme
+                            color: colors(VidTitle_Dark_Color);
+                        }
+
+                        &-light {
+                            // Light Theme
+                            color: colors(VidTitle_Light_Color);
+                        }
+                    }
+
+                    .fcc_line {
+                        height: 1px;
+
+                        &-dark {
+                            background-color: colors(border-color-Dark);
+                        }
+
+                        &-light {
+                            background-color: colors(border-color-Light);
+                        }
+                    }
+
+                    .active {
+
+                        &-dark {
+                            // Dark Theme
+                            font-size: 1.35em !important;
+                            color: #fff !important;
+                        }
+
+                        &-light {
+                            // Light Theme
+                            font-size: 1.35em !important;
+                            color: #000 !important;
+                        }
+                    }
+
+                    .fcc_text {
+
+                        font-size: 1.4em;
+                        cursor: pointer;
+                        padding: 15px 0 0;
+                        margin: 5px 0;
+                        display: flex;
+                        align-items: center;
+
+
+                        &-dark {
+                            // Dark Theme
+                            color: #b9b8b8;
+                        }
+
+                        &-light {
+                            // Light Theme
+                            color: #818181;
+                        }
+
+                        .x_icon {
+                            padding-left: 10px;
+                            cursor: pointer;
+
+                            &>.icon_container_y {
+                                width: 15px;
+                                height: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .results_section_list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+    }
+}

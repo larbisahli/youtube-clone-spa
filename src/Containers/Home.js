@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
-import "./SCSS/Home.scss";
+import React, { useEffect, useState, useCallback, useContext } from "react";
+import "./Sass/home_style.scss";
 import { HomeVideoContainer } from "../Components";
 import { YouTubeAPI } from "../Components/api/YoutubeApi";
 import { HomeSkeleton, MessageBox } from "../Components";
+import { UrlLocationContext } from "../Context/UrlLocationContext";
+import { UrlLocation } from "../config";
 
 // Creating a global variable to hold all api looped data
 // and then store it in a state to only render once.
@@ -28,6 +30,21 @@ const Home = React.memo(() => {
   });
 
   // ===========================
+  //  Handle Location Context
+  // ===========================
+  const [UrlLocationState, setUrlLocationState] = useContext(
+    UrlLocationContext
+  );
+
+  useEffect(() => {
+    // home location set to true
+    const UrlLoc = UrlLocation(true);
+    if (UrlLoc !== UrlLocationState) {
+      setUrlLocationState(() => UrlLoc);
+    }
+  }, []);
+
+  // ===========================
   //  FETCH MOST POPULAR VIDEOS
   // ===========================
   const PopularVideosRequest = async () => {
@@ -35,7 +52,7 @@ const Home = React.memo(() => {
     YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 14,
+        maxResults: 2,
         chart: "mostPopular",
         key: process.env.REACT_APP_YOUTUBE_API_KEY
       }

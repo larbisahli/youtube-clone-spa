@@ -5,18 +5,18 @@ import React, {
   Fragment,
   useContext
 } from "react";
-import "./Navbar.scss";
+import "./navbar_style.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
 import { Link } from "react-router-dom";
 import {
-  CamIcon,
-  MenuIcon,
-  Bell,
-  AppIcon,
-  SearchIcon,
-  ReSearchIcon,
-  BackArrow
-} from "./NavComponents/Icons";
+  CamSvg,
+  MenuSvg,
+  BellSvg,
+  AppSvg,
+  SearchSvg,
+  ReSearchSvg,
+  BackArrowSvg
+} from "./NavComponents/Svg";
 import {
   SearchDropSuggestion,
   CamDrop,
@@ -33,7 +33,7 @@ import { NavContext } from "../../Context/NavContext";
 import { ThemeContext } from "../../Context/ThemeContext";
 import { Helmet } from "react-helmet";
 import { useHistory } from "react-router-dom";
-//import { DataApis } from "../api/YoutubeApi";
+import { ReturnTheme } from "../../config";
 
 const From = React.memo(
   ({
@@ -70,9 +70,9 @@ const From = React.memo(
         <form className="form_container" onSubmit={HandleSubmit}>
           <div className="form_wrapper">
             <div
-              className={`input_wrapper ${
-                Theme ? "input_wrapper-dark" : "input_wrapper-light"
-              } ${inputFocus ? "focus" : ""}`}
+              className={`input_wrapper input_wrapper-${ReturnTheme(Theme)} ${
+                inputFocus ? "focus" : ""
+              }`}
             >
               <input
                 className="search_input"
@@ -96,11 +96,11 @@ const From = React.memo(
               />
             </div>
             <button
-              className={`btn_container titleS btn_container-${
-                Theme ? "dark" : "light"
-              }`}
+              className={`btn_container titleS btn_container-${ReturnTheme(
+                Theme
+              )}`}
             >
-              <SearchIcon Theme={Theme} />
+              <SearchSvg Theme={Theme} />
             </button>
           </div>
         </form>
@@ -126,6 +126,10 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
 
   // ==> Input focus state
   const [{ inputFocus }, setInputFocus] = useState({ inputFocus: false });
+
+  // =================
+  // FAKE SUGGESTIONS
+  // =================
 
   // ==> Input suggestions state
   // you use can setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
@@ -528,6 +532,8 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
 
       let target = e.target;
 
+      console.log("target==> :", target);
+
       SwitchAccDrop.addEventListener("click", ChangeIsInSemiDrop);
       LangDrop.addEventListener("click", ChangeIsInSemiDrop);
       LocDrop.addEventListener("click", ChangeIsInSemiDrop);
@@ -633,7 +639,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
 
   // --------------------------------------------
   return (
-    <div className={`NavContainer NavContainer-${Theme ? "dark" : "light"}`}>
+    <div className={`NavContainer NavContainer-${ReturnTheme(Theme)}`}>
       {/* Helmet */}
       <Helmet>
         <title>
@@ -648,7 +654,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
         <Fragment>
           <div className="LeftContainer">
             <div onClick={HandleShowGuide} className="menuIcon">
-              <MenuIcon />
+              <MenuSvg />
             </div>
             <div title="YouTube Home" className="LogoContainer">
               <Link to="/">
@@ -659,9 +665,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
                 />
               </Link>
               <Link to="/">
-                <div
-                  className={`LogoText LogoText-${Theme ? "dark" : "light"}`}
-                >
+                <div className={`LogoText LogoText-${ReturnTheme(Theme)}`}>
                   YouTube
                 </div>
               </Link>
@@ -688,7 +692,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
           ) : (
             componentMounted && (
               <button onClick={HandleRespOn} className="responsive_search_icon">
-                <ReSearchIcon />
+                <ReSearchSvg />
               </button>
             )
           )}
@@ -699,7 +703,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               onClick={HandleCamDrop}
               className="icons_container"
             >
-              <CamIcon />
+              <CamSvg />
               <div style={{ display: dropHandler.ShowCamDrop ? "" : "none" }}>
                 <CamDrop />
               </div>
@@ -709,7 +713,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               onClick={HandleAppDrop}
               className="icons_container"
             >
-              <AppIcon />
+              <AppSvg />
               <div
                 style={{ display: dropHandler.ShowAppDrop ? "" : "none" }}
                 className="drop"
@@ -722,10 +726,10 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               onClick={HandleBellDrop}
               className="icons_container"
             >
-              <Bell />
+              <BellSvg />
               <div
                 style={{ display: NotiCount.seen ? "" : "none" }}
-                className={`noti_count noti_count-${Theme ? "dark" : "light"}`}
+                className={`noti_count noti_count-${ReturnTheme(Theme)}`}
               >
                 {NotiCount.notiCount}
               </div>
@@ -776,7 +780,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       ) : (
         <Fragment>
           <button onClick={HandleRespOff}>
-            <BackArrow />
+            <BackArrowSvg />
           </button>
           <From
             setSDstate={setSDstate}

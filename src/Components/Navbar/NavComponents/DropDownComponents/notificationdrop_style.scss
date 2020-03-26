@@ -1,0 +1,259 @@
+@import "../../../../config_style.scss";
+
+.noti_Container {
+    @include display-flex();
+    position: absolute;
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 50px;
+    right: 80px;
+    z-index: 2;
+    outline: none;
+    box-sizing: border-box;
+    max-width: 480px;
+    max-height: 550px;
+    width: 480px;
+
+
+    &-dark {
+        // Dark Theme
+        color: #fff;
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
+        background-color: colors(Nav-background-Dark);
+        @extend %scroll-Dark;
+    }
+
+    &-light {
+        // Light Theme
+        color: #212121;
+        border-bottom: 1px solid colors(border-color-Light);
+        border-left: 1px solid colors(border-color-Light);
+        border-right: 1px solid colors(border-color-Light);
+        background-color: colors(Nav-background-Light);
+        @extend %scroll-Light;
+    }
+
+
+    @media (max-width: 1210px) {
+        top: 60px;
+        right: 60px;
+    }
+
+    @media (max-width: 600px) {
+        top: 60px;
+        right: 3px;
+    }
+
+    .noti_title_holder {
+        @include display-flex();
+        @include alignItems-center();
+        justify-content: space-between;
+        margin: 7px 0;
+
+        .noti_text {
+            margin-left: 16px;
+            font-size: 1.5em;
+        }
+
+        .noti_setting_icon {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .nt_line {
+        height: 2px;
+        margin: 5px 0;
+
+        &-dark {
+            // Dark Theme
+            background-color: colors(border-color-Dark);
+        }
+
+        &-light {
+            // Dark Theme
+            background-color: colors(border-color-Light);
+        }
+
+    }
+
+    .noti_spinner {
+        height: 550px;
+        justify-content: center !important;
+    }
+
+    .notifications_container {
+        @include display-flex();
+        @include alignItems-center();
+        justify-content: flex-start;
+        flex-flow: column nowrap;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .n_wrapper {
+            @include display-flex();
+            @include alignItems-center();
+            @include justifyContent-center();
+            flex-flow: row nowrap;
+            padding: 5px 10px 5px 0;
+            cursor: pointer;
+
+            &-dark {
+                &:hover {
+                    // Dark Theme
+                    background-color: colors(Theme-hover-Dark);
+                }
+
+                &:hover .bg_cover {
+                    // Dark Theme
+                    background-color: colors(Theme-hover-Dark) !important;
+                }
+            }
+
+            &-light {
+                &:hover {
+                    // Light Theme
+                    background-color: colors(Theme-hover-Light);
+                }
+
+                &:hover .bg_cover {
+                    // Dark Theme
+                    background-color: colors(Theme-hover-Light) !important;
+                }
+
+
+            }
+
+
+            .dot_container {
+                display: block;
+
+                .n_dot {
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 2px;
+                    margin-left: 8px;
+                    margin-right: 5px;
+                }
+
+                .f_dot_light {
+                    background-color: #065fd4;
+                }
+
+                .f_dot_dark {
+                    background-color: #3ea6ff;
+                }
+
+                .t_dot {
+                    background-color: transparent;
+                }
+
+            }
+
+            .n_propic {
+                height: 48px;
+                width: 48px;
+                margin-right: 16px;
+                flex: none;
+                border-radius: 50%;
+                background-color: #8a8a8a;
+                overflow: hidden;
+                align-self: center;
+
+
+                .img_n {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-height: none;
+                    max-width: 100%;
+                    border-radius: none;
+                }
+            }
+
+            .n_textArea {
+                display: block;
+                font-size: 1.3em;
+
+                .text_nt {
+                    margin-bottom: 10px;
+                }
+
+                .date_nt {
+                    color: #aaa;
+                    font-weight: 400;
+                    text-transform: none;
+                }
+            }
+
+            .thumbnail_container {
+                display: block;
+                box-sizing: border-box;
+                margin: 0 16px;
+
+                .thumbnail_wrapper {
+                    background-color: transparent;
+                    position: relative;
+
+                    .bg_cover {
+                        height: 10px;
+                        position: absolute;
+                        width: 90px;
+
+                        &-top {
+                            top: 0;
+
+                            &-dark {
+                                // Theme Dark
+                                background-color: colors(Nav-background-Dark);
+                            }
+
+                            &-light {
+                                // Theme Light
+
+                                // I choose white (#fff) over colors(Nav-background-Light) 
+                                // because in a high resolution monitors like (1440px)
+                                // you can see differ in the colors. ¯\_(ツ)_/¯
+                                background-color: #fff;
+
+                            }
+                        }
+
+                        &-bottom {
+                            bottom: 0;
+
+                            &-dark {
+                                // Theme Dark
+                                background-color: colors(Nav-background-Dark);
+                            }
+
+                            &-light {
+                                // Theme Light
+                                background-color: #fff;
+                            }
+                        }
+                    }
+
+                    .n_img {
+                        align-self: center;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        border-radius: none;
+                    }
+                }
+            }
+
+            .n_sd {
+                align-self: stretch;
+                opacity: 0;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

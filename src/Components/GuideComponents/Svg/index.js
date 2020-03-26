@@ -1,0 +1,15 @@
+export { default as HomeSvg } from "./HomeSvg";
+export { default as TrendingSvg } from "./TrendingSvg";
+export { default as SubscriptionSvg } from "./SubscriptionSvg";
+export { default as LibrarySvg } from "./LibrarySvg";
+export { default as HistorySvg } from "./HistorySvg";
+export { default as VideoSvg } from "./VideoSvg";
+export { default as WatchLaterSvg } from "./WatchLaterSvg";
+export { default as LikeSvg } from "./LikeSvg";
+export { default as DownArrowSvg } from "./DownArrowSvg";
+export { default as PlayListSvg } from "./PlayListSvg";
+export { default as UpArrowSvg } from "./UpArrowSvg";
+export { default as LiveSvg } from "./LiveSvg";
+export { default as GamingSvg } from "./GamingSvg";
+export { default as LiveDefaultSvg } from "./LiveDefaultSvg";
+export { default as FlagSvg } from "./FlagSvg";

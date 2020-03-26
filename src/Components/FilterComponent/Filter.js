@@ -1,352 +1,223 @@
-import React, { useState } from "react";
-import { XIcon } from "../../Containers/ICON";
+import React, { useState, useCallback, useContext } from "react";
+import { XSvg } from "../../Containers/Svg";
+import { ReturnTheme } from "../../config";
+import { ThemeContext } from "../../Context/ThemeContext";
 
-// {
-//   /* <div className="fcc_text_container">
-//           <h4 className="fcc_header_text">UPLOAD DATE</h4>
-//           <div className="fcc_line"></div>
-//           <div className="fcc_text">Last hour</div>
-//           <div className="fcc_text">Today</div>
-//           <div className="fcc_text">This week</div>
-//         </div> */
-// }
+const RemoveSvg = React.memo(({ WhoActive, text }) => {
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
+  return WhoActive === text ? (
+    <div className="x_icon">
+      <XSvg Theme={Theme} />
+    </div>
+  ) : (
+    <div></div>
+  );
+});
+
+const activeClass = (WhoActive, classtext, Theme) => {
+  return (
+    `fcc_text fcc_text-${ReturnTheme(Theme)}` +
+    (WhoActive === classtext ? ` active-${ReturnTheme(Theme)}` : "")
+  );
+};
 
 const Filter = React.memo(({ ShowFilterDrop, setFilterState }) => {
+  // Active btn State
   const [WhoActive, setWhoActive] = useState("");
+
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
+  // Handle Selection
+  const HandleSelection = useCallback(
+    (type, filter, active) => {
+      setFilterState({ [type]: filter });
+      setWhoActive(() => (WhoActive === active ? "" : active));
+    },
+    [setFilterState, setWhoActive, WhoActive]
+  );
+
+  const fccHtxt = `fcc_header_text fcc_header_text-${ReturnTheme(Theme)}`;
+
+  const fccline = `fcc_line fcc_line-${ReturnTheme(Theme)}`;
 
   return (
     <div
       className="filter_content_container"
       style={{
-        maxHeight: ShowFilterDrop ? "458px" : "0px"
+        maxHeight: ShowFilterDrop ? "450px" : "0px"
       }}
     >
       <div className="fcc_wrapper">
         <div className="fcc_text_container">
-          <h4 className="fcc_header_text">TYPE</h4>
-          <div className="fcc_line"></div>
+          <h4 className={fccHtxt}>TYPE</h4>
+          <div className={fccline}></div>
           <div
             onClick={() => {
-              setFilterState({ type: "video" });
-              setWhoActive(() => (WhoActive === "video" ? "" : "video"));
+              HandleSelection("type", "video", "video");
             }}
             title="Remove Video filter"
-            className={`fcc_text ${
-              WhoActive === "video" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "video", Theme)}
           >
             <span>Video</span>
-            {WhoActive === "video" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="video" />
           </div>
 
           <div
             onClick={() => {
-              setFilterState({ type: "channel" });
-              setWhoActive(() => (WhoActive === "channel" ? "" : "channel"));
+              HandleSelection("type", "channel", "channel");
             }}
             title="Remove Channel filter"
-            className={`fcc_text ${
-              WhoActive === "channel" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "channel", Theme)}
           >
             <span>Channel</span>
-            {WhoActive === "channel" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="channel" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ type: "playlist" });
-              setWhoActive(() => (WhoActive === "playlist" ? "" : "playlist"));
+              HandleSelection("type", "playlist", "playlist");
             }}
             title="Remove Playlist filter"
-            className={`fcc_text ${
-              WhoActive === "playlist" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "playlist", Theme)}
           >
             <span>Playlist</span>
-            {WhoActive === "playlist" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="playlist" />
           </div>
         </div>
         <div className="fcc_text_container">
-          <h4 className="fcc_header_text">DURATION</h4>
-          <div className="fcc_line"></div>
+          <h4 className={fccHtxt}>DURATION</h4>
+          <div className={fccline}></div>
           <div
             onClick={() => {
-              setFilterState({ videoDuration: "any" });
-              setWhoActive(() => (WhoActive === "vda-any" ? "" : "vda-any"));
+              HandleSelection("videoDuration", "any", "vda-any");
             }}
             title="Remove Any filter"
-            className={`fcc_text ${
-              WhoActive === "vda-any" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "vda-any", Theme)}
           >
             <span>Any</span>
-            {WhoActive === "vda-any" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="vda-any" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ videoDuration: "short" });
-              setWhoActive(() => (WhoActive === "s4" ? "" : "s4"));
+              HandleSelection("videoDuration", "short", "s4");
             }}
             title="Remove Short (< 4 minutes) filter"
-            className={`fcc_text ${
-              WhoActive === "s4" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "s4", Theme)}
           >
             <span>{"Short (< 4 minutes)"}</span>
-            {WhoActive === "s4" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="s4" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ videoDuration: "long" });
-              setWhoActive(() => (WhoActive === "l-20" ? "" : "l-20"));
+              HandleSelection("videoDuration", "long", "l-20");
             }}
-            className={`fcc_text ${
-              WhoActive === "l-20" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "l-20", Theme)}
           >
             <span>{"Long (> 20 minutes)"}</span>
-            {WhoActive === "l-20" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="l-20" />
           </div>
         </div>
         <div className="fcc_text_container">
-          <h4 className="fcc_header_text">FEATURES</h4>
-          <div className="fcc_line"></div>
+          <h4 className={fccHtxt}>FEATURES</h4>
+          <div className={fccline}></div>
           <div
             onClick={() => {
-              setFilterState({
-                videoDefinition: "any"
-              });
-              setWhoActive(() => (WhoActive === "vdf-any" ? "" : "vdf-any"));
+              HandleSelection("videoDefinition", "any", "vdf-any");
             }}
-            className={`fcc_text ${
-              WhoActive === "vdf-any" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "vdf-any", Theme)}
           >
             Any
             <span>Any</span>
-            {WhoActive === "vdf-any" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="vdf-any" />
           </div>
           <div
             onClick={() => {
-              setFilterState({
-                videoDefinition: "high"
-              });
-              setWhoActive(() => (WhoActive === "hight" ? "" : "hight"));
+              HandleSelection("videoDefinition", "high", "high");
             }}
-            className={`fcc_text ${
-              WhoActive === "hight" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "high", Theme)}
           >
             <span>High</span>
-            {WhoActive === "hight" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="high" />
           </div>
           <div
             onClick={() => {
-              setFilterState({
-                videoDefinition: "standard "
-              });
-              setWhoActive(() => (WhoActive === "standard" ? "" : "standard"));
+              HandleSelection("videoDefinition", "standard", "standard");
             }}
-            className={`fcc_text ${
-              WhoActive === "standard" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "standard", Theme)}
           >
             <span>Standard</span>
-            {WhoActive === "standard" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="standard" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ videoDimension: "2d" });
-              setWhoActive(() => (WhoActive === "2d" ? "" : "2d"));
+              HandleSelection("videoDimension", "2d", "2d");
             }}
-            className={`fcc_text ${
-              WhoActive === "2d" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "2d", Theme)}
           >
             <span>2D</span>
-            {WhoActive === "2d" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="2d" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ videoDimension: "3d" });
-              setWhoActive(() => (WhoActive === "3d" ? "" : "3d"));
+              HandleSelection("videoDimension", "3d", "3d");
             }}
-            className={`fcc_text ${
-              WhoActive === "3d" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "3d", Theme)}
           >
             <span>3D</span>
-            {WhoActive === "3d" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="3d" />
           </div>
         </div>
         <div className="fcc_text_container">
-          <h4 className="fcc_header_text">SORT BY</h4>
-          <div className="fcc_line"></div>
+          <h4 className={fccHtxt}>SORT BY</h4>
+          <div className={fccline}></div>
           <div
             onClick={() => {
-              setFilterState({ order: "relevance" });
-              setWhoActive(() =>
-                WhoActive === "relevance" ? "" : "relevance"
-              );
+              HandleSelection("order", "relevance", "relevance");
             }}
-            className={`fcc_text ${
-              WhoActive === "relevance" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "relevance", Theme)}
           >
             <span>Relevance</span>
-            {WhoActive === "relevance" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="relevance" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ order: "date" });
-              setWhoActive(() =>
-                WhoActive === "uploadDate" ? "" : "uploadDate"
-              );
+              HandleSelection("order", "date", "uploadDate");
             }}
-            className={`fcc_text ${
-              WhoActive === "uploadDate" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "uploadDate", Theme)}
           >
             <span>Upload date</span>
-            {WhoActive === "uploadDate" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="uploadDate" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ order: "viewCount" });
-              setWhoActive(() =>
-                WhoActive === "viewCount" ? "" : "viewCount"
-              );
+              HandleSelection("order", "viewCount", "viewCount");
             }}
-            className={`fcc_text ${
-              WhoActive === "viewCount" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "viewCount", Theme)}
           >
             <span>View count</span>
-            {WhoActive === "viewCount" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="viewCount" />
           </div>
           <div
             onClick={() => {
-              setFilterState({
-                order: "videoCount"
-              });
-              setWhoActive(() =>
-                WhoActive === "videoCount" ? "" : "videoCount"
-              );
+              HandleSelection("order", "videoCount", "videoCount");
             }}
-            className={`fcc_text ${
-              WhoActive === "videoCount" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "videoCount", Theme)}
           >
             <span>Video count</span>
-            {WhoActive === "videoCount" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="videoCount" />
           </div>
           <div
             onClick={() => {
-              setFilterState({ order: "rating" });
-              setWhoActive(() => (WhoActive === "rating" ? "" : "rating"));
+              HandleSelection("order", "rating", "rating");
             }}
-            className={`fcc_text ${
-              WhoActive === "rating" ? "fcc_text-active" : ""
-            }`}
+            className={activeClass(WhoActive, "rating", Theme)}
           >
             <span>Rating</span>
-            {WhoActive === "rating" ? (
-              <div className="x_icon">
-                <XIcon />
-              </div>
-            ) : (
-              ""
-            )}
+            <RemoveSvg WhoActive={WhoActive} text="rating" />
           </div>
         </div>
       </div>

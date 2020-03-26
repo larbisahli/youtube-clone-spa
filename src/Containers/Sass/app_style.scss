@@ -1,0 +1,22 @@
+@import '../../config_style.scss';
+
+.rootContainer {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    &-dark {
+        // Dark Theme
+        background-color: colors(general-background-Dark) !important;
+    }
+
+    &-light {
+        // Light Theme
+        background-color: colors(general-background-Light) !important;
+    }
+
+    .page_container {
+        margin-top: 56px;
+    }
+}

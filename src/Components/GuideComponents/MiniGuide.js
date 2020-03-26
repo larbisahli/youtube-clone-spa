@@ -1,34 +1,64 @@
-import React from "react";
-import { HomeIcon, TrendingIcon, SubscriptionIcon, LibraryIcon } from "./Icons";
-import "./MiniGuide.scss";
+import React, { useContext } from "react";
+import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
+import "./miniguide_style.scss";
+import { Link } from "react-router-dom";
+import { ReturnTheme } from "../../config";
+import { ThemeContext } from "../../Context/ThemeContext";
+import { UrlLocationContext } from "../../Context/UrlLocationContext";
 
 const MiniGuide = React.memo(() => {
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
+  const [UrlLocationState] = useContext(UrlLocationContext);
+
+  const hx_guide = `hx_guide hx_guide-${ReturnTheme(Theme)}`;
+
   return (
-    <div className="guidewrapper">
-      <div className="hx_guide">
+    <div className={`guidewrapper guidewrapper-${ReturnTheme(Theme)}`}>
+      <Link
+        to="/"
+        className={`${hx_guide}${UrlLocationState === "home" ? "-active" : ""}`}
+      >
         <div className="icon_hx_guide">
-          <HomeIcon />
+          <HomeSvg changeColor={UrlLocationState === "home"} />
         </div>
         <div className="text_guide_h">Home</div>
-      </div>
-      <div className="hx_guide">
+      </Link>
+      <Link
+        to="trending/"
+        className={`${hx_guide}${
+          UrlLocationState === "trending" ? "-active" : ""
+        }`}
+      >
         <div className="icon_hx_guide">
-          <TrendingIcon />
+          <TrendingSvg changeColor={UrlLocationState === "trending"} />
         </div>
         <div className="text_guide_h">Trending</div>
-      </div>
-      <div className="hx_guide">
+      </Link>
+      <Link
+        to="subscriptions/"
+        className={`${hx_guide}${
+          UrlLocationState === "subscriptions" ? "-active" : ""
+        }`}
+      >
         <div className="icon_hx_guide">
-          <SubscriptionIcon />
+          <SubscriptionSvg changeColor={UrlLocationState === "subscriptions"} />
         </div>
         <div className="text_guide_h">Subscriptions</div>
-      </div>
-      <div className="hx_guide">
+      </Link>
+      <Link
+        to="library/"
+        className={`${hx_guide}${
+          UrlLocationState === "library" ? "-active" : ""
+        }`}
+      >
         <div className="icon_hx_guide">
-          <LibraryIcon />
+          <LibrarySvg changeColor={UrlLocationState === "library"} />
         </div>
         <div className="text_guide_h">Library</div>
-      </div>
+      </Link>
     </div>
   );
 });

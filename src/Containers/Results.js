@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { YouTubeAPI } from "../Components/api/YoutubeApi";
-import "./SCSS/Results.scss";
-import { FilterIcon } from "./ICON";
+import "./Sass/results_style.scss";
+import { FilterSvg } from "./Svg";
 import {
   RippleButton,
   ResultVideoContainer,
@@ -9,8 +9,11 @@ import {
   ResultPlaylistContainer,
   Filter
 } from "../Components";
+import { UrlLocationContext } from "../Context/UrlLocationContext";
+import { UrlLocation, ReturnTheme } from "../config";
 import { useParams } from "react-router";
 import { ResultSkeleton, MessageBox } from "../Components";
+import { ThemeContext } from "../Context/ThemeContext";
 
 let SearchArray = [];
 
@@ -18,11 +21,32 @@ const Results = React.memo(() => {
   // Get Route Param
   let { id } = useParams();
 
+  console.log("locationfromresults :", window.location.href);
+
   // Loading State
   const [isLoading, setIsLoading] = useState(true);
 
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
+
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
+  // ===========================
+  //  Handle Location Context
+  // ===========================
+  const [UrlLocationState, setUrlLocationState] = useContext(
+    UrlLocationContext
+  );
+
+  useEffect(() => {
+    // home location set to true
+    const UrlLoc = UrlLocation(false);
+    if (UrlLoc !== UrlLocationState) {
+      setUrlLocationState(() => UrlLoc);
+    }
+  }, []);
 
   // ==================
   // Filter drop state
@@ -43,6 +67,17 @@ const Results = React.memo(() => {
     isError: false
   });
 
+  useEffect(() => {
+    if (FilterState !== undefined) {
+      SearchRequest(
+        Object.keys(FilterState)[0],
+        FilterState[Object.keys(FilterState)[0]]
+      );
+    } else {
+      SearchRequest();
+    }
+  }, [id, FilterState]);
+
   // ===========================
   //           SEARCH
   // ===========================
@@ -53,21 +88,20 @@ const Results = React.memo(() => {
         parameter && option
           ? {
               part: "snippet",
-              maxResults: 5,
+              maxResults: 2,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
               [parameter]: option
             }
           : {
               part: "snippet",
-              maxResults: 5,
+              maxResults: 2,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY
             }
     })
       .then(res => {
         res.data.items.map(res => {
-          //console.log("object :", res);
           return (SearchArray = [
             ...SearchArray,
             {
@@ -104,17 +138,6 @@ const Results = React.memo(() => {
         setIsLoading(true);
       });
   };
-
-  useEffect(() => {
-    if (FilterState !== undefined) {
-      SearchRequest(
-        Object.keys(FilterState)[0],
-        FilterState[Object.keys(FilterState)[0]]
-      );
-    } else {
-      SearchRequest();
-    }
-  }, [id, FilterState]);
 
   const handleFilterClick = useCallback(() => {
     setShowFilterDrop(!ShowFilterDrop);
@@ -156,7 +179,7 @@ const Results = React.memo(() => {
       } else {
         setShowErrorMessage({
           show: true,
-          message: "sub",
+          message: !watchLater ? "Subscription added" : "Subscription removed",
           btnMessage: "UNDO",
           isError: false
         });
@@ -177,9 +200,11 @@ const Results = React.memo(() => {
         <RippleButton onclick={handleFilterClick} classname="header_container">
           <div className="header_wrapper">
             <div className="header_icon">
-              <FilterIcon />
+              <FilterSvg Theme={Theme} />
             </div>
-            <span className="header_text">filter</span>
+            <span className={`header_text header_text-${ReturnTheme(Theme)}`}>
+              filter
+            </span>
           </div>
         </RippleButton>
 
@@ -189,7 +214,7 @@ const Results = React.memo(() => {
         />
 
         {/* END FILTER AREA */}
-        <div className="r_line"></div>
+        <div className={`r_line r_line-${ReturnTheme(Theme)}`}></div>
         <div className="results_section_list">
           {SearchResult.map((item, index) => {
             //console.log("---->", item.videoId, item.playlistId);

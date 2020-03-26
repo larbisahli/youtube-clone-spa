@@ -1,0 +1,118 @@
+@import '../../config_style.scss';
+
+// @include display-flex();
+// @include justifyContent-center();
+// @include alignItems-center;
+
+.guidewrapper {
+
+    position: fixed;
+    left: 0;
+    top: 56px;
+    bottom: 0;
+
+    font-size: 1.05em;
+
+    &-dark {
+        // Dark Theme
+        background-color: colors(Nav-background-Dark);
+        color: #a3a3a3;
+    }
+
+    &-light {
+        // Light Theme
+        background-color: colors(Nav-background-Light);
+        color: #3a3a3a;
+    }
+
+
+    @media screen and (max-width: 810px) {
+        display: none;
+    }
+
+    a:active {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .hx_guide {
+        @include display-flex();
+        @include justifyContent-center();
+        @include alignItems-center;
+        flex-flow: column nowrap;
+        margin-top: 4px;
+        width: 72px;
+        padding: 16px 0 14px;
+        outline: 0;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+
+
+        &-dark {
+            // Dark Theme
+
+            &:hover {
+
+                background-color: colors(Theme-hover-Dark);
+            }
+
+            &:active {
+                background-color: lighten(colors(Theme-hover-Dark), 2%);
+            }
+
+            &-active {
+                color: #fff !important;
+
+                &:hover {
+
+                    background-color: colors(Theme-hover-Dark);
+                }
+
+                &:active {
+                    background-color: lighten(colors(Theme-hover-Dark), 2%);
+                }
+            }
+        }
+
+        &-light {
+
+            // Light Theme
+            &:hover {
+
+                background-color: colors(Theme-hover-Light)
+            }
+
+            &:active {
+                background-color: darken(colors(Theme-hover-Light), 2%);
+            }
+
+            &-active {
+                color: #d40000 !important;
+
+                // Light Theme
+                &:hover {
+
+                    background-color: colors(Theme-hover-Light)
+                }
+
+                &:active {
+                    background-color: darken(colors(Theme-hover-Light), 2%);
+                }
+            }
+        }
+
+        .icon_hx_guide {
+            @include display-flex();
+        }
+
+        .text_guide_h {
+            padding-top: 5px;
+        }
+    }
+}

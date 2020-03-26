@@ -1,0 +1,92 @@
+@import "../../../../config_style.scss";
+
+.app_container {
+    @include display-flex();
+    position: absolute;
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 55px;
+    z-index: 3;
+
+    &-dark {
+        // Dark Theme
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
+        background-color: colors(Nav-background-Dark);
+    }
+
+    &-light {
+        // Light Theme
+        border-bottom: 1px solid colors(border-color-Light);
+        border-left: 1px solid colors(border-color-Light);
+        border-right: 1px solid colors(border-color-Light);
+        background-color: colors(Nav-background-Light);
+    }
+
+
+    .app_text {
+        @include display-flex();
+        @include alignItems-center();
+        justify-content: flex-start;
+        padding: 5px 25px 10px 13px;
+        cursor: pointer;
+        text-decoration: none;
+
+        &-dark {
+            // Dark Theme
+            color: #fff;
+
+            &:hover {
+                // Dark Theme
+                background-color: colors(Theme-hover-Dark);
+            }
+        }
+
+        &-light {
+            // Ligth Theme
+            color: #212121;
+
+            &:hover {
+                // Light Theme
+                background-color: colors(Theme-hover-Light)
+            }
+        }
+
+
+
+        .icondr {
+            margin-right: 7px
+        }
+
+        .textdr {
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+    }
+
+    .line_ap {
+        margin: 5px 0;
+
+        &-dark {
+            // Dark Theme
+            background-color: colors(border-color-Dark);
+            height: 2px;
+        }
+
+        &-light {
+            // Light Theme
+            background-color: colors(border-color-Light);
+            height: 1px;
+        }
+    }
+}
+
+
+.cam-position {
+    right: 50px;
+}
+
+.app-position {
+    right: 130px;
+}

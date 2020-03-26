@@ -1,0 +1,111 @@
+@import '../../config_style.scss';
+
+
+.video_skeleton {
+    margin-left: calc(16px / 2);
+    margin-right: calc(16px / 2);
+    margin-bottom: 40px;
+    width: calc(100% /(4) - 16px);
+
+    @media screen and (max-width: 1340px) {
+        width: calc(100% /(3) - 16px);
+    }
+
+    @media screen and (max-width: 1000px) {
+        width: calc(100% /(2) - 16px);
+
+    }
+
+    @media screen and (max-width: 750px) {
+        width: calc(100% - 16px);
+
+    }
+
+    .skeleton_thumb {
+        width: 100%;
+        height: 150px;
+
+        &-dark {
+            background-color: #38383898;
+        }
+
+        &-light {
+            background-color: #d3d3d398;
+        }
+    }
+
+
+    .skeleton_bottom {
+        @include display-flex();
+        margin-top: 12px;
+        margin-right: 12px;
+        align-items: flex-start;
+
+        .s_pro {
+            border-radius: 50%;
+            height: 36px;
+            width: 36px;
+
+            &-dark {
+                background-color: #38383898;
+            }
+
+            &-light {
+                background-color: #d3d3d398;
+            }
+        }
+
+        .tt {
+            @include display-flex();
+            flex-direction: column;
+            margin: 0 5px;
+
+            .s_title {
+                width: 150px;
+                height: 12px;
+                margin: 5px;
+                border-radius: 4px;
+                background-repeat: repeat-y;
+                background-position: 120px 120px;
+                animation: shine 1s infinite;
+
+                &-dark {
+                    background-color: #38383898;
+                    background-image:
+                        linear-gradient(#414141a8 10px, transparent 0);
+                }
+
+                &-light {
+                    background-color: #d3d3d398;
+                    background-image:
+                        linear-gradient(#f1f1f1 10px, transparent 0);
+                }
+            }
+
+            @keyframes shine {
+                0% {
+                    background-position: -250px 0;
+                }
+
+                100% {
+                    background-position: 250px 0;
+                }
+            }
+
+            .s_title_x {
+                width: 100px;
+                height: 12px;
+                margin: 5px;
+                border-radius: 4px;
+
+                &-dark {
+                    background-color: #38383898;
+                }
+
+                &-light {
+                    background-color: #d3d3d398;
+                }
+            }
+        }
+    }
+}

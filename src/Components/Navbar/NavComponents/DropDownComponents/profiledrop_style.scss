@@ -1,0 +1,202 @@
+@import "../../../../config_style.scss";
+
+.profile_Container {
+    @include display-flex();
+    position: absolute;
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 10px;
+    right: 75px;
+    z-index: 2;
+    outline: none;
+    box-sizing: border-box;
+    max-width: 300px;
+    max-height: 600px;
+    width: 300px;
+
+    &-dark {
+        // Dark Theme
+        color: #fff;
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
+        background-color: colors(Nav-background-Dark);
+        @extend %scroll-Dark;
+    }
+
+
+    &-light {
+        // Light Theme
+        color: #212121;
+        border-bottom: 1px solid colors(border-color-Light);
+        border-left: 1px solid colors(border-color-Light);
+        border-right: 1px solid colors(border-color-Light);
+        background-color: colors(Nav-background-Light);
+        @extend %scroll-Light;
+    }
+
+    .line_a {
+        height: 2px;
+
+        //margin: 5px 0;
+        &-dark {
+            // Dark Theme
+            background-color: colors(border-color-Dark);
+        }
+
+        &-light {
+            // Light Theme
+            background-color: colors(border-color-Light);
+        }
+    }
+
+    .intro_container {
+        @include display-flex();
+        align-items: stretch;
+        justify-content: stretch;
+        margin: 15px 0px 5px 15px;
+
+        height: 70px;
+
+        .image_container {
+            margin-right: 15px;
+
+            .img_profile {
+                border-radius: 50%;
+            }
+        }
+
+        .intro_text {
+            font-size: 1.3em;
+            display: block;
+
+            .name_ {
+                font-size: 1.3em;
+                padding-bottom: 1px;
+            }
+
+            .email_ {
+                font-size: 1.02em;
+            }
+
+            .blue_text {
+                padding: 10px 0;
+                font-size: 1.1em;
+                cursor: pointer;
+            }
+
+            .lb {
+                color: #065fd4;
+            }
+
+            .db {
+                color: #3ea6ff;
+            }
+        }
+    }
+
+    .f_container {
+        @include display-flex();
+        @include justifyContent-center();
+        flex-flow: column nowrap;
+        font-size: 1.4em;
+        padding-top: 135px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        // I had to repeat this because of the overflow need to add some padding 
+        .line_b {
+            height: 2px;
+            margin: 5px 0;
+            padding-top: 1px;
+
+            &-dark {
+                // Dark Theme
+                background-color: colors(border-color-Dark);
+            }
+
+            &-light {
+                // Light Theme
+                background-color: colors(border-color-Light);
+            }
+        }
+
+        .wrapper_x {
+            @include display-flex();
+            @include justifyContent-center();
+            @include alignItems-center;
+            cursor: pointer;
+
+            &-dark {
+                &:hover {
+                    // Dark Theme
+                    background-color: colors(Theme-hover-Dark);
+                }
+            }
+
+            &-light {
+                &:hover {
+                    // Light Theme
+                    background-color: colors(Theme-hover-Light)
+                }
+            }
+
+
+            ._logo_ {
+                margin: 10px 10px 10px 15px;
+            }
+
+            .arte_ {
+
+                @include display-flex();
+                @include alignItems-center();
+                justify-content: space-between;
+                flex: 1;
+
+                ._text_ {
+                    @include display-flex();
+                    @include justifyContent-center();
+                    @include alignItems-center;
+
+                    .lang_ {
+                        padding-left: 5px;
+                    }
+                }
+            }
+        }
+
+        .wrapper_y {
+            display: block;
+            padding: 5px 0;
+
+            .arte_ {
+                @include display-flex();
+                @include alignItems-center();
+                justify-content: space-between;
+                padding: 10px 15px;
+                cursor: pointer;
+
+                &-dark {
+                    &:hover {
+                        // Dark Theme
+                        background-color: colors(Theme-hover-Dark);
+                    }
+                }
+
+                &-light {
+                    &:hover {
+                        // Light Theme
+                        background-color: colors(Theme-hover-Light)
+                    }
+                }
+
+                .s_text {
+                    @include display-flex();
+                    @include justifyContent-center();
+                    @include alignItems-center;
+                    color: #929292;
+                }
+            }
+        }
+    }
+}

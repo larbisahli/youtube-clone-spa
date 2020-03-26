@@ -1,12 +1,19 @@
-import React, { useCallback, useState } from "react";
-import "./RippleButton.scss";
+import React, { useCallback, useState, useContext } from "react";
+import "./ripplebutton_style.scss";
+import { ReturnTheme } from "../../config";
+import { ThemeContext } from "../../Context/ThemeContext";
 
 const RippleButton = React.memo(({ children, onclick, classname }) => {
+  // Coordinates State
   const [{ y, x, show }, setRipple] = useState({
     y: 0,
     x: 0,
     show: false
   });
+
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
 
   const HandleRipple = useCallback(e => {
     var rect = e.target.getBoundingClientRect();
@@ -40,7 +47,7 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
       <div className="ripple">
         {show && (
           <div
-            className="circle"
+            className={`circle circle-${ReturnTheme(Theme)}`}
             style={{ top: `${y}px`, left: `${x}px` }}
           ></div>
         )}

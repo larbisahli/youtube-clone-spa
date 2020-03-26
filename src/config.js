@@ -1,4 +1,4 @@
-export const NumFormatter = num => {
+export const ViewsNumFormatter = num => {
   let FormatNum = 0;
 
   const Num = num => {
@@ -33,8 +33,8 @@ export const HandleDuration = d => {
 
   S = HasS ? X.split("S")[0] : 0;
 
-  return `${HasH ? (H > 9 ? H : `0${H}:`) : ""}${
-    HasM ? (M > 9 ? M : `0${M}`) : "00"
+  return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
+    HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
   }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
 };
 
@@ -48,4 +48,28 @@ export const TextReducer = (text, num) => {
 
 export const numberWithCommas = x => {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const ReturnTheme = Theme => {
+  return Theme ? "dark" : "light";
+};
+
+export const UrlLocation = (home = false) => {
+  const url = window.location.href;
+  console.log("url :", url);
+  if (url.includes("/trending/")) {
+    return "trending";
+  } else if (url.includes("/subscriptions/")) {
+    return "subscriptions";
+  } else if (url.includes("/library/")) {
+    return "library";
+  } else if (url.includes("/history/")) {
+    return "history";
+  } else if (url.includes("/watchlater/")) {
+    return "watchlater";
+  } else if (home) {
+    return "home";
+  } else {
+    return false;
+  }
 };

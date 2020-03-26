@@ -1,0 +1,76 @@
+@import '../../../../config_style.scss';
+
+.search_drop {
+    color: #000;
+    position: absolute;
+    @include transform(translateY(40px));
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #222;
+    line-height: 22px;
+    overflow: hidden;
+
+    box-shadow: 1px 2px 5px rgba(85, 85, 85, 0.12);
+
+    div:nth-child(1) {
+        margin-top: 10px;
+    }
+
+    div:last-child {
+        margin-bottom: 10px;
+    }
+
+    .sugge_holder {
+        @include display-flex();
+        @include alignItems-center();
+        @include justifyContent-center();
+        list-style: none;
+        padding: 0 24px 0 10px;
+        margin-bottom: 1px;
+        box-sizing: border-box;
+
+        &:hover {
+            background-color: rgb(238, 238, 238);
+        }
+
+        .suggestion_list {
+
+            @include display-flex();
+            @include alignItems-center();
+            flex: 1;
+            line-height: 100%;
+
+            .Suggestion_text {
+
+                color: #222;
+                cursor: default;
+            }
+
+            .hisText {
+                color: #52188c;
+            }
+
+            .placeHolder {
+                pointer-events: none;
+                color: #666;
+            }
+        }
+
+        .Suggestion_remove {
+            position: absolute;
+            right: 0;
+            padding-right: 25px;
+            font-size: 13px;
+            color: #36c;
+            text-decoration: none;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

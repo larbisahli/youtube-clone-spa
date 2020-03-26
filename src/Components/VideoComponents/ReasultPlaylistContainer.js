@@ -1,13 +1,18 @@
-import React from "react";
-import "./RVContainer.scss";
+import React, { useContext } from "react";
+import "./rvccontainer_style.scss";
 import { Link } from "react-router-dom";
-import { TextReducer, numberWithCommas } from "../../config";
+import { TextReducer, numberWithCommas, ReturnTheme } from "../../config";
 import { YouTubeAPI } from "../api/YoutubeApi";
-import { PlayIcon } from "./Icons";
-import { PlayListIcon } from "../GuideComponents/Icons";
+import { PlaySvg } from "./Svg";
+import { PlayListSvg } from "../GuideComponents/Svg";
 import axios from "axios";
+import { ThemeContext } from "../../Context/ThemeContext";
 
 const ResultPlaylistContainer = React.memo(({ item, index }) => {
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
   // =========================
   //  FETCH VIDEOS DETAILS
   // =========================
@@ -34,8 +39,6 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
         .then(responseArr => {
           //this will be executed only when all requests are complete
           resolve(responseArr);
-          console.log("1 =>: ", responseArr[0]);
-          console.log("2 =>: ", responseArr[1]);
         });
     });
   };
@@ -63,9 +66,9 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
     <div className="item_section">
       <div className="rv_container">
         <div className="rv_thumbnail_container">
-          <Link to={`/watch/${item.playlistId}`} className="rvh_link_wrap">
-            <div className="scw">
-              <img src={item.thumbnail} alt="thumbnail" className="scw_img" />
+          <Link to={`/watch/${item.playlistId}`} className="rv_vid_link_wrap">
+            <div className="rv_v_thumb">
+              <img src={item.thumbnail} alt="thumbnail" className="rv_v_img" />
             </div>
           </Link>
 
@@ -79,12 +82,12 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
               >
                 {Fetch_Data(item.playlistId, index)}
               </div>
-              <PlayListIcon color={"#fff"} />
+              <PlayListSvg color={"#fff"} />
             </div>
           </div>
           <div className="playlist_thu_con playlist_thu_con-pp">
             <div className="plall_rv">
-              <PlayIcon />
+              <PlaySvg />
               <span className="plall_txt">Play all</span>
             </div>
           </div>
@@ -95,7 +98,9 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
               <h3 className="search_header_title">
                 <Link
                   to={`watch/${item.playlistId}`}
-                  className="search_title_h"
+                  className={`search_title_h search_title_h-${ReturnTheme(
+                    Theme
+                  )}`}
                 >
                   {TextReducer(item.title, 56)}
                 </Link>
@@ -103,20 +108,30 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
               <div className="search_cv_details search_cv_details-playlist">
                 <Link
                   data-scontent={item.channelTitle}
-                  className="rvch_title"
+                  className={`rvch_title rvch_title-${ReturnTheme(Theme)}`}
                   to={`/channel/${item.channelId}`}
                 >
                   {item.channelTitle}
                 </Link>
                 <div
                   id={`${item.playlistId}-${index}-items-0`}
-                  className="playlist_items_rv playlist_items_rv-space"
+                  className={`playlist_items_rv playlist_items_rv-space playlist_items_rv-${ReturnTheme(
+                    Theme
+                  )}`}
                 ></div>
                 <div
                   id={`${item.playlistId}-${index}-items-1`}
-                  className="playlist_items_rv"
+                  className={`playlist_items_rv playlist_items_rv-${ReturnTheme(
+                    Theme
+                  )}`}
                 ></div>
-                <button className="playlist_txt_btn">View full playlist</button>
+                <button
+                  className={`playlist_txt_btn playlist_txt_btn-${ReturnTheme(
+                    Theme
+                  )}`}
+                >
+                  View full playlist
+                </button>
               </div>
             </div>
           </div>

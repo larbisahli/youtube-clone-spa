@@ -1,23 +1,32 @@
-import React, { useCallback, useState, Fragment } from "react";
-import "./HVContainer.scss";
+import React, { useCallback, useState, Fragment, useContext } from "react";
+import "./hvcontainer_style.scss";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
-import { Dots } from "../Navbar/NavComponents/Icons";
-import { NumFormatter, HandleDuration, TextReducer } from "../../config";
+import { DotsSvg } from "../Navbar/NavComponents/Svg";
+import {
+  ViewsNumFormatter,
+  HandleDuration,
+  TextReducer,
+  ReturnTheme
+} from "../../config";
 import { Link } from "react-router-dom";
-import { TimeIcon, QueueIcon, CheckedVIcon } from "./Icons";
+import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
+import { ThemeContext } from "../../Context/ThemeContext";
 
 const HomeVideoContainer = React.memo(
   ({ PopularVideo, index, HandleShowMessageBox }) => {
     // Watch later state
+    const [IswatchLater, setIsWatchLater] = useState(false);
 
-    const [watchLater, setWatchLater] = useState(false);
+    // Theme context
+    const [YtTheme] = useContext(ThemeContext);
+    const Theme = YtTheme.isDarkTheme;
+
+    // =========================
+    //  FETCH CHANNELS SNIPPET
+    //=========================
 
     const GetChannelsthumbnail = async id => {
-      // =========================
-      //  FETCH CHANNELS SNIPPET
-      //=========================
-
       return await new Promise(resolve => {
         YouTubeAPI.get("channels", {
           params: {
@@ -39,9 +48,9 @@ const HomeVideoContainer = React.memo(
     };
 
     const HandleWLClick = useCallback(() => {
-      setWatchLater(!watchLater);
-      HandleShowMessageBox(watchLater);
-    }, [watchLater, HandleShowMessageBox]);
+      setIsWatchLater(!IswatchLater);
+      HandleShowMessageBox(IswatchLater);
+    }, [IswatchLater, HandleShowMessageBox]);
 
     return (
       <div className="hvideo_container">
@@ -69,16 +78,16 @@ const HomeVideoContainer = React.memo(
               className="hvideo_ab hvideo_ab-clock"
             >
               <div className="tt_icon">
-                {watchLater ? (
+                {IswatchLater ? (
                   <div className="checked_icon">
-                    <CheckedVIcon />
+                    <CheckedSvg />
                   </div>
                 ) : (
-                  <TimeIcon />
+                  <TimeSvg />
                 )}
               </div>
               <div className="slider_text">
-                {watchLater ? (
+                {IswatchLater ? (
                   <div className="checkedtxt">added</div>
                 ) : (
                   <div className="normaltxt">watch later</div>
@@ -87,7 +96,7 @@ const HomeVideoContainer = React.memo(
             </button>
             <button className="hvideo_ab hvideo_ab-queue">
               <div className="tt_icon">
-                <QueueIcon />
+                <QueueSvg />
               </div>
               <div className="slider_text">
                 <div className="normaltxt">add to queue</div>
@@ -95,26 +104,26 @@ const HomeVideoContainer = React.memo(
             </button>
           </div>
           <div className="hvideo_title_container">
-            <div className="hvideo_pro_wrapper">
+            <div className="hvideo_ch_wrapper">
               <Link
                 to={`/channel/${PopularVideo.channelId}`}
-                className="hvideo_pro_img"
+                className="hvideo_ch_img"
               >
-                <Fragment>
-                  <img
-                    // making sure the id is unique
-                    className="hvideo_img"
-                    id={`${PopularVideo.channelId}_${index}`}
-                    src={Fetch_Data(PopularVideo.channelId, index)}
-                    alt=""
-                  />
-                </Fragment>
+                <img
+                  // making sure the id is unique
+                  className="hvideo_img"
+                  id={`${PopularVideo.channelId}_${index}`}
+                  src={Fetch_Data(PopularVideo.channelId, index)}
+                  alt=""
+                />
               </Link>
             </div>
             <div className="text_area">
               <Link
                 to={`/watch/${PopularVideo.videoId}`}
-                className="text_con_txt"
+                className={`video_title_wrap video_title_wrap-${ReturnTheme(
+                  Theme
+                )}`}
               >
                 <div title={PopularVideo.title} className="title_txt">
                   {TextReducer(PopularVideo.title, 56)}
@@ -122,13 +131,13 @@ const HomeVideoContainer = React.memo(
               </Link>
               <Link
                 data-content={PopularVideo.channelTitle}
-                className="ch_title"
+                className={`ch_title ch_title-${ReturnTheme(Theme)}`}
                 to={`/channel/${PopularVideo.channelId}`}
               >
                 {PopularVideo.channelTitle}
               </Link>
-              <div className="xxs">
-                <span className="numv">{`${NumFormatter(
+              <div className={`vduration vduration-${ReturnTheme(Theme)}`}>
+                <span className="vnum">{`${ViewsNumFormatter(
                   PopularVideo.viewCount
                 )} views`}</span>
                 <span>
@@ -136,8 +145,8 @@ const HomeVideoContainer = React.memo(
                 </span>
               </div>
             </div>
-            <div className="hvideo_dots">
-              <Dots />
+            <div className={`hvideo_dots hvideo_dots-${ReturnTheme(Theme)}`}>
+              <DotsSvg />
             </div>
           </div>
         </div>

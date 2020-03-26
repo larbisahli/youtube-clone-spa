@@ -1,31 +1,28 @@
 import React, { useContext, useState, useCallback, useEffect } from "react";
-import "./Guide.scss";
+import "./guide_style.scss";
 import {
-  HomeIcon,
-  TrendingIcon,
-  SubscriptionIcon,
-  LibraryIcon,
-  HistoryIcon,
-  VideoIcon,
-  WatchLaterIcon,
-  LikeIcon,
-  DownArrowIcon,
-  PlayListIcon,
-  UpArrowIcon,
-  LiveIcon,
-  GamingIcon,
-  LiveDefaultIcon,
-  FlagIcon
-} from "./Icons";
-import {
-  SettingsIcon,
-  HelpIcon,
-  FeedIcon
-} from "../Navbar/NavComponents/Icons";
-import { MenuIcon } from "../Navbar/NavComponents/Icons";
-import YoutubeLogo from "../../Images/Youtube_icon.svg";
+  HomeSvg,
+  TrendingSvg,
+  SubscriptionSvg,
+  LibrarySvg,
+  HistorySvg,
+  VideoSvg,
+  WatchLaterSvg,
+  LikeSvg,
+  DownArrowSvg,
+  PlayListSvg,
+  UpArrowSvg,
+  LiveSvg,
+  GamingSvg,
+  LiveDefaultSvg,
+  FlagSvg
+} from "./Svg";
+import { SettingsSvg, HelpSvg, FeedSvg } from "../Navbar/NavComponents/Svg";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../Context/ThemeContext";
+import { UrlLocationContext } from "../../Context/UrlLocationContext";
+import { ReturnTheme } from "../../config";
+import { v4 as uuidv4 } from "uuid";
 
 // Play List var
 // This should be an API Call
@@ -96,7 +93,7 @@ const FrontSubscriptions = [
   }
 ];
 
-// sort by isLive: true to show live channels first in the list
+// sort by {isLive: true} to show live channels first in the list
 
 FrontSubscriptions.sort((x, y) => {
   return x.isLive === y.isLive ? 0 : x.isLive ? -1 : 1;
@@ -206,12 +203,14 @@ const Guide = React.memo(({ ShowGuide }) => {
   const [IsShowMore, setIsShowMore] = useState(false);
 
   // Subscription Show More State
-
   const [SubIsShowMore, setSubIsShowMore] = useState(false);
 
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
+
+  // UrlLocation context
+  const [UrlLocationState] = useContext(UrlLocationContext);
 
   // ===========================
   //  Handle Show More Or Less
@@ -225,10 +224,6 @@ const Guide = React.memo(({ ShowGuide }) => {
     setSubIsShowMore(!SubIsShowMore);
   }, [setSubIsShowMore, SubIsShowMore]);
 
-  const ReturnTheme = () => {
-    return Theme ? "dark" : "light";
-  };
-
   useEffect(() => {
     if (document.getElementById("hvc") != null) {
       document.getElementById("hvc").style.marginLeft = ShowGuide
@@ -237,9 +232,11 @@ const Guide = React.memo(({ ShowGuide }) => {
     }
   }, [ShowGuide]);
 
-  const line_guide = `line_guide line_guide-${ReturnTheme()}`;
+  const line_guide = `line_guide line_guide-${ReturnTheme(Theme)}`;
 
-  const content_wrapper = `content_wrapper content_wrapper-${ReturnTheme()}`;
+  const content_wrapper = `content_wrapper content_wrapper-${ReturnTheme(
+    Theme
+  )}`;
 
   // transform: `translateX(${ShowGuide ? "0" : "-100"}%)`,
   return (
@@ -252,49 +249,76 @@ const Guide = React.memo(({ ShowGuide }) => {
       id="GuideG"
       className="guide_general_container"
     >
-      <div className={`guide_container guide_container-${ReturnTheme()}`}>
+      <div className={`guide_container guide_container-${ReturnTheme(Theme)}`}>
         <div className="content_container">
           {/*--------------------*/}
-          <div title="Home" className={content_wrapper}>
+          <div
+            title="Home"
+            className={`${content_wrapper}${
+              UrlLocationState === "home" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <HomeIcon />
+              <HomeSvg changeColor={UrlLocationState === "home"} />
             </div>
             <div className="content_arte">
               <div className="content_text">Home</div>
             </div>
           </div>
           {/*--*/}
-          <div title="Trending" className={content_wrapper}>
+          <div
+            title="Trending"
+            className={`${content_wrapper}${
+              UrlLocationState === "trending" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <TrendingIcon />
+              <TrendingSvg changeColor={UrlLocationState === "trending"} />
             </div>
             <div className="content_arte">
               <div className="content_text">Trending</div>
             </div>
           </div>
           {/*--*/}
-          <div title="Subscriptions" className={content_wrapper}>
+          <div
+            title="Subscriptions"
+            className={`${content_wrapper}${
+              UrlLocationState === "subscriptions" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <SubscriptionIcon />
+              <SubscriptionSvg
+                changeColor={UrlLocationState === "subscriptions"}
+              />
             </div>
             <div className="content_arte">
               <div className="content_text">Subscriptions</div>
             </div>
           </div>
-          <div className={`${line_guide} line_guide_in`}></div>
+          <div className={line_guide}></div>
           {/*--------------------*/}
-          <div title="Library" className={content_wrapper}>
+          <div
+            title="Library"
+            className={`${content_wrapper}${
+              UrlLocationState === "library" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <LibraryIcon />
+              <LibrarySvg changeColor={UrlLocationState === "library"} />
             </div>
             <div className="content_arte">
               <div className="content_text">Library</div>
             </div>
           </div>
           {/*--*/}
-          <div title="History" className={content_wrapper}>
+          <div
+            title="History"
+            className={`${content_wrapper}${
+              UrlLocationState === "history" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <HistoryIcon />
+              <HistorySvg changeColor={UrlLocationState === "history"} />
             </div>
             <div className="content_arte">
               <div className="content_text">History</div>
@@ -303,16 +327,21 @@ const Guide = React.memo(({ ShowGuide }) => {
           {/*--*/}
           <div title="Your videos" className={content_wrapper}>
             <div className="content_logo">
-              <VideoIcon />
+              <VideoSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Your videos</div>
             </div>
           </div>
           {/*--*/}
-          <div title="Watch later" className={content_wrapper}>
+          <div
+            title="Watch later"
+            className={`${content_wrapper}${
+              UrlLocationState === "watchlater" ? "-active" : ""
+            }`}
+          >
             <div className="content_logo">
-              <WatchLaterIcon />
+              <WatchLaterSvg changeColor={UrlLocationState === "watchlater"} />
             </div>
             <div className="content_arte">
               <div className="content_text">Watch later</div>
@@ -321,7 +350,7 @@ const Guide = React.memo(({ ShowGuide }) => {
           {/*--*/}
           <div title="Liked videos" className={content_wrapper}>
             <div className="content_logo">
-              <LikeIcon />
+              <LikeSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Liked videos</div>
@@ -329,11 +358,11 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
           {/* <== START SHOW MORE AREA ==> */}
           {IsShowMore &&
-            PlayList.map((play, index) => {
+            PlayList.map(play => {
               return (
-                <div title={play} key={index} className={content_wrapper}>
+                <div title={play} key={uuidv4()} className={content_wrapper}>
                   <div className="content_logo">
-                    <PlayListIcon />
+                    <PlayListSvg />
                   </div>
                   <div className="content_arte">
                     <div className="content_text">{play}</div>
@@ -348,7 +377,7 @@ const Guide = React.memo(({ ShowGuide }) => {
             className={content_wrapper}
           >
             <div className="content_logo">
-              {IsShowMore ? <UpArrowIcon /> : <DownArrowIcon />}
+              {IsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
             </div>
             <div className="content_arte">
               <div className="content_text">
@@ -357,22 +386,22 @@ const Guide = React.memo(({ ShowGuide }) => {
             </div>
           </div>
           {/* <== END SHOW MORE AREA ==> */}
-          <div className={`${line_guide} line_guide_in`}></div>
+          <div className={line_guide}></div>
           {/* <== START SUBSCRIPTIONS AREA ==> */}
-          <div className={`subtitle subtitle-${ReturnTheme()}`}>
+          <div className={`subtitle subtitle-${ReturnTheme(Theme)}`}>
             SUBSCRIPTIONS
           </div>
           {/* --- FrontSubscriptions --- */}
-          {FrontSubscriptions.map((FrontSub, index) => {
+          {FrontSubscriptions.map(FrontSub => {
             return (
               <div
-                key={index}
+                key={uuidv4()}
                 title={FrontSub.name}
                 className={content_wrapper}
               >
                 <div className="content_logo">
                   <img
-                    className={`cha_img cha_img-${ReturnTheme()}`}
+                    className={`cha_img cha_img-${ReturnTheme(Theme)}`}
                     height="24"
                     width="24"
                     src={FrontSub.img}
@@ -383,7 +412,7 @@ const Guide = React.memo(({ ShowGuide }) => {
                   <div className="content_text">{FrontSub.name}</div>
                 </div>
                 <div className="sy_logo">
-                  <LiveIcon
+                  <LiveSvg
                     isLive={FrontSub.isLive}
                     notiExist={FrontSub.notiExist}
                     Theme={Theme}
@@ -393,18 +422,18 @@ const Guide = React.memo(({ ShowGuide }) => {
             );
           })}
 
-          {/* ---- Subscriptions show true ----*/}
+          {/* ---- Subscriptions show ----*/}
           {SubIsShowMore &&
-            Subscriptions.map((FrontSub, index) => {
+            Subscriptions.map(FrontSub => {
               return (
                 <div
-                  key={index}
+                  key={uuidv4()}
                   title={FrontSub.name}
                   className={content_wrapper}
                 >
                   <div className="content_logo">
                     <img
-                      className={`cha_img cha_img-${ReturnTheme()}`}
+                      className={`cha_img cha_img-${ReturnTheme(Theme)}`}
                       height="24"
                       width="24"
                       src={FrontSub.img}
@@ -415,7 +444,7 @@ const Guide = React.memo(({ ShowGuide }) => {
                     <div className="content_text">{FrontSub.name}</div>
                   </div>
                   <div className="sy_logo">
-                    <LiveIcon
+                    <LiveSvg
                       isLive={FrontSub.isLive}
                       notiExist={FrontSub.notiExist}
                       Theme={Theme}
@@ -431,7 +460,7 @@ const Guide = React.memo(({ ShowGuide }) => {
             className={content_wrapper}
           >
             <div className="content_logo">
-              {IsShowMore ? <UpArrowIcon /> : <DownArrowIcon />}
+              {SubIsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
             </div>
             <div className="content_arte">
               <div className="content_text">
@@ -443,14 +472,14 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
 
           {/* <== END SUBSCRIPTIONS AREA ==> */}
-          <div className={`${line_guide} line_guide_in`}></div>
+          <div className={line_guide}></div>
           {/* <== START MORE FROM YOUTUBE AREA ==> */}
-          <div className={`subtitle subtitle-${ReturnTheme()}`}>
+          <div className={`subtitle subtitle-${ReturnTheme(Theme)}`}>
             MORE FROM YOUTUBE
           </div>
           <div title="Gaming" className={content_wrapper}>
             <div className="content_logo">
-              <GamingIcon />
+              <GamingSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Gaming</div>
@@ -458,17 +487,17 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
           <div title="Live" className={content_wrapper}>
             <div className="content_logo">
-              <LiveDefaultIcon />
+              <LiveDefaultSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Live</div>
             </div>
           </div>
           {/* <== END MORE FROM YOUTUBE AREA ==> */}
-          <div className={`${line_guide} line_guide_in`}></div>
+          <div className={line_guide}></div>
           <div title="Settings" className={content_wrapper}>
             <div className="content_logo">
-              <SettingsIcon />
+              <SettingsSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Settings</div>
@@ -476,7 +505,7 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
           <div title="Report history" className={content_wrapper}>
             <div className="content_logo">
-              <FlagIcon />
+              <FlagSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Report history</div>
@@ -484,7 +513,7 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
           <div title="Help" className={content_wrapper}>
             <div className="content_logo">
-              <HelpIcon />
+              <HelpSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Help</div>
@@ -492,15 +521,15 @@ const Guide = React.memo(({ ShowGuide }) => {
           </div>
           <div title="Send feedback" className={content_wrapper}>
             <div className="content_logo">
-              <FeedIcon />
+              <FeedSvg />
             </div>
             <div className="content_arte">
               <div className="content_text">Send feedback</div>
             </div>
           </div>
           {/* <== ABOUT AREA ==> */}
-          <div className={`${line_guide} line_guide_in`}></div>
-          <div className={`aboutext aboutext-${ReturnTheme()}`}>
+          <div className={line_guide}></div>
+          <div className={`aboutext aboutext-${ReturnTheme(Theme)}`}>
             <div className="tx">
               Cloning YouTube with pure sass, Javascript and React Framework
               2020.
@@ -511,8 +540,8 @@ const Guide = React.memo(({ ShowGuide }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`lt lt-${ReturnTheme()}`}
-                href="https://github.com/larbisahli"
+                className={`lt lt-${ReturnTheme(Theme)}`}
+                href="https://github.com/larbisahli/youtube-clone"
               >
                 YouTube-Clone
               </a>
@@ -520,7 +549,7 @@ const Guide = React.memo(({ ShowGuide }) => {
             <div target="_blank" rel="noopener noreferrer" className="tx tx-x">
               GitHub:{" "}
               <a
-                className={`lt lt-${ReturnTheme()}`}
+                className={`lt lt-${ReturnTheme(Theme)}`}
                 href="https://github.com/larbisahli"
               >
                 larbisahli
