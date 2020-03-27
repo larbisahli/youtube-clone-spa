@@ -50,6 +50,7 @@ function App() {
       <NavProvider>
         <Navbar HandleShowGuide={HandleShowGuide} />
       </NavProvider>
+      {/* PAGES */}
       <UrlLocationProvider>
         <div className="page_container">
           <Switch>
@@ -63,6 +64,7 @@ function App() {
         <MiniGuide />
         <Guide ShowGuide={ShowGuide} />
       </UrlLocationProvider>
+      {/* QUEUE */}
     </div>
   );
 }

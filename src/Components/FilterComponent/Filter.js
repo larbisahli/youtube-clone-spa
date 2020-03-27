@@ -24,7 +24,7 @@ const activeClass = (WhoActive, classtext, Theme) => {
   );
 };
 
-const Filter = React.memo(({ ShowFilterDrop, setFilterState }) => {
+const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
   // Active btn State
   const [WhoActive, setWhoActive] = useState("");
 
@@ -35,7 +35,19 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState }) => {
   // Handle Selection
   const HandleSelection = useCallback(
     (type, filter, active) => {
-      setFilterState({ [type]: filter });
+      if (FilterState !== undefined) {
+        const key = Object.keys(FilterState)[0];
+        const value = FilterState[Object.keys(FilterState)[0]];
+
+        if (key === type && value === filter) {
+          setFilterState({ defaultType: false });
+        } else {
+          setFilterState({ [type]: filter });
+        }
+      } else {
+        setFilterState({ [type]: filter });
+      }
+
       setWhoActive(() => (WhoActive === active ? "" : active));
     },
     [setFilterState, setWhoActive, WhoActive]

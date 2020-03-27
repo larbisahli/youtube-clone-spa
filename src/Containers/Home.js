@@ -52,7 +52,7 @@ const Home = React.memo(() => {
     YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 2,
+        maxResults: 3,
         chart: "mostPopular",
         key: process.env.REACT_APP_YOUTUBE_API_KEY
       }
@@ -155,6 +155,7 @@ const Home = React.memo(() => {
                     index={index}
                     PopularVideo={PopularVideo}
                     HandleShowMessageBox={HandleShowMessageBox}
+                    PopularVideos={PopularVideos}
                   />
                 );
               })}

@@ -67,12 +67,8 @@ const ResultChannelContainer = React.memo(
         <div className="rv_container">
           <div className="rv_thumbnail_container">
             <Link to={`/watch/${item.videoId}`} className="rv_ch_link_wrap">
-              <div className="rv_ch_thumb">
-                <img
-                  src={item.thumbnail}
-                  alt="thumbnail"
-                  className="rv_ch_img"
-                />
+              <div className={`rv_ch_thumb rv_ch_thumb-${ReturnTheme(Theme)}`}>
+                <img src={item.thumbnail} alt="" className="rv_ch_img" />
               </div>
             </Link>
           </div>

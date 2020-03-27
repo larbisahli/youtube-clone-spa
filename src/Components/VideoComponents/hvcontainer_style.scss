@@ -1,5 +1,7 @@
 @import '../../config_style.scss';
 
+
+
 .hvideo_container {
     margin-left: calc(16px / 2);
     margin-right: calc(16px / 2);
@@ -35,24 +37,36 @@
             @include display-flex();
             position: relative;
 
+
             .hvideo_ch_wrapper {
 
                 margin-top: 12px;
                 margin-right: 12px;
 
-
                 .hvideo_ch_img {
-                    text-decoration: none;
                     cursor: pointer;
 
-                    .hvideo_img {
-                        position: relative;
-                        height: auto;
+                    .skltn_ch {
                         height: 36px;
                         width: 36px;
                         border-radius: 50%;
                         border: 0;
-                        background-color: #383838;
+
+                        &-dark {
+                            background-color: #38383898;
+                        }
+
+                        &-light {
+                            background-color: #d3d3d398;
+                        }
+
+                        .hvideo_img {
+                            position: relative;
+                            height: 36px;
+                            width: 36px;
+                            border-radius: 50%;
+                            border: 0;
+                        }
                     }
                 }
             }
@@ -189,11 +203,32 @@
             position: relative;
             width: 100%;
 
-            .hvideo_thumbnail_img {
-                width: 100%;
-                height: 140px;
-                background-color: #747474;
+            .vh_th_link {
+                outline: none;
+
+                .skltn_thumb {
+
+                    width: 100%;
+                    height: 140px;
+
+                    &-dark {
+                        background-color: #38383898;
+                    }
+
+                    &-light {
+                        background-color: #d3d3d398;
+                    }
+
+                    .hvideo_thumbnail_img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+
+
             }
+
+
 
             &:hover .hvideo_ab {
                 @include display-flex();

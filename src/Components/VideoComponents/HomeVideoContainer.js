@@ -14,7 +14,7 @@ import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { ThemeContext } from "../../Context/ThemeContext";
 
 const HomeVideoContainer = React.memo(
-  ({ PopularVideo, index, HandleShowMessageBox }) => {
+  ({ PopularVideo, index, HandleShowMessageBox, PopularVideos }) => {
     // Watch later state
     const [IswatchLater, setIsWatchLater] = useState(false);
 
@@ -52,23 +52,30 @@ const HomeVideoContainer = React.memo(
       HandleShowMessageBox(IswatchLater);
     }, [IswatchLater, HandleShowMessageBox]);
 
+    const HandleImg = useCallback((skeleton_id, index) => {
+      // BackgroundColor can be red and you can use it as video duration with the width.
+
+      document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
+        "transparent";
+      document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+    }, []);
+
     return (
       <div className="hvideo_container">
         <div className="hvideo_wrapper">
           <div className="hvideo_thumbnail_container">
-            <Link to={`/watch/${PopularVideo.videoId}`}>
-              <Fragment>
+            <Link to={`/watch/${PopularVideo.videoId}`} className="vh_th_link">
+              <div
+                id={`hvideoImg-${index}`}
+                className={`skltn_thumb skltn_thumb-${ReturnTheme(Theme)}`}
+              >
                 <img
-                  id={`hvideoImg-${index}`}
                   className="hvideo_thumbnail_img"
-                  onLoad={() => {
-                    document.getElementById(`hvideoImg-${index}`).style.height =
-                      "auto";
-                  }}
+                  onLoad={() => HandleImg("hvideoImg", index)}
                   src={PopularVideo.thumbnail}
                   alt=""
                 />
-              </Fragment>
+              </div>
             </Link>
             <div className="hvideo_ab hvideo_ab-duration">
               {HandleDuration(PopularVideo.duration)}
@@ -109,13 +116,20 @@ const HomeVideoContainer = React.memo(
                 to={`/channel/${PopularVideo.channelId}`}
                 className="hvideo_ch_img"
               >
-                <img
-                  // making sure the id is unique
-                  className="hvideo_img"
-                  id={`${PopularVideo.channelId}_${index}`}
-                  src={Fetch_Data(PopularVideo.channelId, index)}
-                  alt=""
-                />
+                <div
+                  id={`hvideoCha-${index}`}
+                  className={`skltn_ch skltn_ch-${ReturnTheme(Theme)}`}
+                >
+                  <img
+                    // making sure the id is unique
+                    className="hvideo_img"
+                    id={`${PopularVideo.channelId}_${index}`}
+                    onLoad={() => HandleImg("hvideoCha", index)}
+                    src=""
+                    alt=""
+                  />
+                  {Fetch_Data(PopularVideo.channelId, index)}
+                </div>
               </Link>
             </div>
             <div className="text_area">

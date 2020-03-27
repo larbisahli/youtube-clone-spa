@@ -11,17 +11,26 @@
     background-color: #00000057;
     z-index: 5;
 
+    // Show Scroll Bar On Hover
+
     &:hover>.guide_container-dark {
         @extend %scroll-Dark;
+    }
+
+    &:hover>.guide_container-light {
+        @extend %scroll-Light;
     }
 
     &:hover>.guide_container>.content_container>.content_wrapper>.sy_logo>.icon_container {
         padding-right: 0 !important;
     }
 
-    &:hover>.guide_container-light {
-        @extend %scroll-Light;
+    &:hover>.guide_container>.content_container {
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
+
+    // ----------
 
     .loo_width {
         width: 100%;
@@ -83,8 +92,8 @@
             flex-flow: column nowrap;
             font-size: 1.4em;
             padding-top: 10px;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            overflow: hidden;
+
 
             .content_wrapper {
                 @include display-flex();

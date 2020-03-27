@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import "./rvccontainer_style.scss";
 import { Link } from "react-router-dom";
 import { TextReducer, numberWithCommas, ReturnTheme } from "../../config";
@@ -45,7 +45,6 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
 
   const Fetch_Data = (id, index) => {
     GetVideoDetails(id).then(res => {
-      console.log("============ :", res);
       if (res) {
         document.getElementById(
           `${id}-${index}-itemCount`
@@ -62,13 +61,29 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
     });
   };
 
+  const HandlePLImg = useCallback((skeleton_id, index) => {
+    // BackgroundColor can be red and you can use it as video duration with the width.
+
+    document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
+      "transparent";
+    document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+  }, []);
+
   return (
     <div className="item_section">
       <div className="rv_container">
         <div className="rv_thumbnail_container">
           <Link to={`/watch/${item.playlistId}`} className="rv_vid_link_wrap">
-            <div className="rv_v_thumb">
-              <img src={item.thumbnail} alt="thumbnail" className="rv_v_img" />
+            <div
+              id={`hplaylistCha-${index}`}
+              className={`rv_v_thumb rv_v_thumb-${ReturnTheme(Theme)}`}
+            >
+              <img
+                onLoad={() => HandlePLImg("hplaylistCha", index)}
+                src={item.thumbnail}
+                alt="thumbnail"
+                className="rv_v_img"
+              />
             </div>
           </Link>
 

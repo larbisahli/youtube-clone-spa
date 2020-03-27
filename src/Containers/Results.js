@@ -7,12 +7,12 @@ import {
   ResultVideoContainer,
   ResultChannelContainer,
   ResultPlaylistContainer,
-  Filter
+  Filter,
+  MessageBox
 } from "../Components";
 import { UrlLocationContext } from "../Context/UrlLocationContext";
 import { UrlLocation, ReturnTheme } from "../config";
 import { useParams } from "react-router";
-import { ResultSkeleton, MessageBox } from "../Components";
 import { ThemeContext } from "../Context/ThemeContext";
 
 let SearchArray = [];
@@ -21,17 +21,28 @@ const Results = React.memo(() => {
   // Get Route Param
   let { id } = useParams();
 
-  console.log("locationfromresults :", window.location.href);
-
-  // Loading State
-  const [isLoading, setIsLoading] = useState(true);
-
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
 
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
+
+  // Filter drop state
+
+  const [ShowFilterDrop, setShowFilterDrop] = useState(false);
+  const [FilterState, setFilterState] = useState();
+
+  // Message Error State
+  const [
+    { show, message, btnMessage, isError },
+    setShowErrorMessage
+  ] = useState({
+    show: false,
+    message: "",
+    btnMessage: "",
+    isError: false
+  });
 
   // ===========================
   //  Handle Location Context
@@ -48,31 +59,16 @@ const Results = React.memo(() => {
     }
   }, []);
 
-  // ==================
-  // Filter drop state
-  // ==================
-
-  const [ShowFilterDrop, setShowFilterDrop] = useState(false);
-
-  const [FilterState, setFilterState] = useState();
-
-  // Message Error State
-  const [
-    { show, message, btnMessage, isError },
-    setShowErrorMessage
-  ] = useState({
-    show: false,
-    message: "",
-    btnMessage: "",
-    isError: false
-  });
-
   useEffect(() => {
     if (FilterState !== undefined) {
-      SearchRequest(
-        Object.keys(FilterState)[0],
-        FilterState[Object.keys(FilterState)[0]]
-      );
+      if (!("defaultType" in FilterState)) {
+        SearchRequest(
+          Object.keys(FilterState)[0],
+          FilterState[Object.keys(FilterState)[0]]
+        );
+      } else {
+        SearchRequest();
+      }
     } else {
       SearchRequest();
     }
@@ -82,20 +78,19 @@ const Results = React.memo(() => {
   //           SEARCH
   // ===========================
   const SearchRequest = async (parameter = false, option = false) => {
-    setIsLoading(true);
     YouTubeAPI.get("search", {
       params:
         parameter && option
           ? {
               part: "snippet",
-              maxResults: 2,
+              maxResults: 3,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
               [parameter]: option
             }
           : {
               part: "snippet",
-              maxResults: 2,
+              maxResults: 3,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY
             }
@@ -121,7 +116,7 @@ const Results = React.memo(() => {
           ]);
         });
 
-        setSearchResult([...SearchArray], setIsLoading(false));
+        setSearchResult([...SearchArray]);
         SearchArray = [];
         if (ShowFilterDrop) {
           setShowFilterDrop(false);
@@ -135,7 +130,6 @@ const Results = React.memo(() => {
           btnMessage: "dismiss",
           isError: true
         });
-        setIsLoading(true);
       });
   };
 
@@ -192,7 +186,6 @@ const Results = React.memo(() => {
     [HandleClosingMessageBox]
   );
 
-  //console.log("=====<> Results page");
   return (
     <div id="hvc" className="results_container">
       <div className="results_contentwrapper">
@@ -211,13 +204,13 @@ const Results = React.memo(() => {
         <Filter
           ShowFilterDrop={ShowFilterDrop}
           setFilterState={setFilterState}
+          FilterState={FilterState}
         />
 
         {/* END FILTER AREA */}
         <div className={`r_line r_line-${ReturnTheme(Theme)}`}></div>
         <div className="results_section_list">
           {SearchResult.map((item, index) => {
-            //console.log("---->", item.videoId, item.playlistId);
             return item.videoId ? (
               <ResultVideoContainer
                 key={index}

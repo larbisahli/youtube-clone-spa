@@ -62,15 +62,27 @@ const ResultVideoContainer = React.memo(
       HandleShowMessageBox(IswatchLater);
     }, [IswatchLater, HandleShowMessageBox]);
 
+    const HandleRImg = useCallback((skeleton_id, index) => {
+      // BackgroundColor can be red and you can use it as video duration with the width.
+
+      document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
+        "transparent";
+      document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+    }, []);
+
     return (
       <div className="item_section">
         <div className="rv_container">
           <div className="rv_thumbnail_container">
             <Link to={`/watch/${item.videoId}`} className="rv_vid_link_wrap">
-              <div className="rv_v_thumb">
+              <div
+                id={`hresultCha-${index}`}
+                className={`rv_v_thumb rv_v_thumb-${ReturnTheme(Theme)}`}
+              >
                 <img
+                  onLoad={() => HandleRImg("hresultCha", index)}
                   src={item.thumbnail}
-                  alt="thumbnail"
+                  alt=""
                   className="rv_v_img"
                 />
               </div>
