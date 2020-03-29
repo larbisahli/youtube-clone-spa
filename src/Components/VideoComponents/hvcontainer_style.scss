@@ -53,11 +53,11 @@
                         border: 0;
 
                         &-dark {
-                            background-color: #38383898;
+                            background-color: colors(Skeleton_Dark_color);
                         }
 
                         &-light {
-                            background-color: #d3d3d398;
+                            background-color: colors(Skeleton_Light_color);
                         }
 
                         .hvideo_img {
@@ -212,11 +212,11 @@
                     height: 140px;
 
                     &-dark {
-                        background-color: #38383898;
+                        background-color: colors(Skeleton_Dark_color);
                     }
 
                     &-light {
-                        background-color: #d3d3d398;
+                        background-color: colors(Skeleton_Light_color);
                     }
 
                     .hvideo_thumbnail_img {
@@ -224,10 +224,7 @@
                         height: auto;
                     }
                 }
-
-
             }
-
 
 
             &:hover .hvideo_ab {

@@ -15,7 +15,13 @@ $colors: (Theme-hover-Dark: #484848,
   ChTitle_Dark_Color: #b3b3b3,
   ChTitle_Light_Color:#616161,
   Duration_Dark_Color:#b1b1b1,
-  Duration_Light_Color: #5f5f5f);
+  Duration_Light_Color: #5f5f5f,
+  Skeleton_Dark_color: #38383898,
+  Skeleton_Light_color: #e2e2e298,
+  subedBtn_bg_Dark:#2e2e2e,
+  subedBtn_bg_Light:#cfcfcf,
+  subBtn_bg:#c00,
+);
 
 
 @function colors($color) {

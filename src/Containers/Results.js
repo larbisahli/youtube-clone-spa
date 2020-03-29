@@ -14,6 +14,7 @@ import { UrlLocationContext } from "../Context/UrlLocationContext";
 import { UrlLocation, ReturnTheme } from "../config";
 import { useParams } from "react-router";
 import { ThemeContext } from "../Context/ThemeContext";
+import { GuideContext } from "../Context/GuideContext";
 
 let SearchArray = [];
 
@@ -32,6 +33,9 @@ const Results = React.memo(() => {
 
   const [ShowFilterDrop, setShowFilterDrop] = useState(false);
   const [FilterState, setFilterState] = useState();
+
+  // Guide Context
+  const [GuideTrigger, setGuideTrigger] = useContext(GuideContext);
 
   // Message Error State
   const [
@@ -60,6 +64,7 @@ const Results = React.memo(() => {
   }, []);
 
   useEffect(() => {
+    setGuideTrigger(GuideTrigger + 1);
     if (FilterState !== undefined) {
       if (!("defaultType" in FilterState)) {
         SearchRequest(
@@ -83,14 +88,14 @@ const Results = React.memo(() => {
         parameter && option
           ? {
               part: "snippet",
-              maxResults: 3,
+              maxResults: 2,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
               [parameter]: option
             }
           : {
               part: "snippet",
-              maxResults: 3,
+              maxResults: 2,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY
             }
@@ -174,7 +179,7 @@ const Results = React.memo(() => {
         setShowErrorMessage({
           show: true,
           message: !watchLater ? "Subscription added" : "Subscription removed",
-          btnMessage: "UNDO",
+          btnMessage: "",
           isError: false
         });
       }

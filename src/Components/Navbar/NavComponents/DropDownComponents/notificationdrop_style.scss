@@ -1,5 +1,6 @@
 @import "../../../../config_style.scss";
 
+
 .noti_Container {
     @include display-flex();
     position: absolute;
@@ -158,9 +159,16 @@
                 margin-right: 16px;
                 flex: none;
                 border-radius: 50%;
-                background-color: #8a8a8a;
                 overflow: hidden;
                 align-self: center;
+
+                &-dark {
+                    background-color: colors(Skeleton_Dark_color);
+                }
+
+                &-light {
+                    background-color: colors(Skeleton_Light_color);
+                }
 
 
                 .img_n {

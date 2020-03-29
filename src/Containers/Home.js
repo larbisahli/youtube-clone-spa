@@ -59,7 +59,6 @@ const Home = React.memo(() => {
     })
       .then(res => {
         res.data.items.map(res => {
-          console.log("object :", res.snippet);
           return (PopularVideosArray = [
             ...PopularVideosArray,
             {

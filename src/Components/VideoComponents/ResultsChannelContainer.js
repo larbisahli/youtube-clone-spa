@@ -41,7 +41,6 @@ const ResultChannelContainer = React.memo(
         if (res.data.items.length >= 1) {
           const vidcount = res.data.items[0].statistics.videoCount;
           const subcount = res.data.items[0].statistics.subscriberCount;
-          console.log("channels=>", subcount);
           document.getElementById(
             `${id}-${index}-totalvideo`
           ).textContent = `${numberWithCommas(vidcount)} ${

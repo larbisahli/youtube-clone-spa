@@ -2,7 +2,8 @@ import React from "react";
 import "./searchdrop_style.scss";
 
 // Using Memo to prevent event handler of resizing to re-render this component
-// with the help of useCallback to prevent functions [RemoveHandleClick, HandleSelect] from re-creation.
+// with the help of useCallback to prevent functions
+// [RemoveHandleClick, HandleSelect] from re-creation.
 
 const SearchDropSuggestion = React.memo(
   ({

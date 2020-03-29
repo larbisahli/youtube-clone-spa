@@ -56,7 +56,7 @@ export const ReturnTheme = Theme => {
 
 export const UrlLocation = (home = false) => {
   const url = window.location.href;
-  console.log("url :", url);
+  // console.log("url :", url);
   if (url.includes("/trending/")) {
     return "trending";
   } else if (url.includes("/subscriptions/")) {

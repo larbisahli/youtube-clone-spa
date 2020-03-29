@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment, useContext } from "react";
+import React, { useCallback, useState, useContext } from "react";
 import "./hvcontainer_style.scss";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
@@ -14,7 +14,7 @@ import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { ThemeContext } from "../../Context/ThemeContext";
 
 const HomeVideoContainer = React.memo(
-  ({ PopularVideo, index, HandleShowMessageBox, PopularVideos }) => {
+  ({ PopularVideo, index, HandleShowMessageBox }) => {
     // Watch later state
     const [IswatchLater, setIsWatchLater] = useState(false);
 
@@ -24,7 +24,7 @@ const HomeVideoContainer = React.memo(
 
     // =========================
     //  FETCH CHANNELS SNIPPET
-    //=========================
+    // =========================
 
     const GetChannelsthumbnail = async id => {
       return await new Promise(resolve => {
@@ -53,7 +53,7 @@ const HomeVideoContainer = React.memo(
     }, [IswatchLater, HandleShowMessageBox]);
 
     const HandleImg = useCallback((skeleton_id, index) => {
-      // BackgroundColor can be red and you can use it as video duration with the width.
+      // BackgroundColor can be red and you can use it as video duration with the width value.
 
       document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
         "transparent";

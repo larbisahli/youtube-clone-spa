@@ -1,27 +1,22 @@
 @import '../../config_style.scss';
 
-// @include display-flex();
-// @include justifyContent-center();
-// @include alignItems-center;
-
 .guidewrapper {
 
     position: fixed;
     left: 0;
     top: 56px;
     bottom: 0;
-
     font-size: 1.05em;
 
     &-dark {
         // Dark Theme
-        background-color: colors(Nav-background-Dark);
+        background-color: lighten(colors(Nav-background-Dark), .8%);
         color: #a3a3a3;
     }
 
     &-light {
         // Light Theme
-        background-color: colors(Nav-background-Light);
+        background-color: darken(colors(Nav-background-Light), .4%);
         color: #3a3a3a;
     }
 

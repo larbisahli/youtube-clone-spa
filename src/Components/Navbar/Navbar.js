@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import "./navbar_style.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import {
   CamSvg,
   MenuSvg,
@@ -31,8 +32,7 @@ import {
 } from "./NavComponents/DropDownComponents";
 import { NavContext } from "../../Context/NavContext";
 import { ThemeContext } from "../../Context/ThemeContext";
-import { Helmet } from "react-helmet";
-import { useHistory } from "react-router-dom";
+import { GuideContext } from "../../Context/GuideContext";
 import { ReturnTheme } from "../../config";
 
 const From = React.memo(
@@ -96,9 +96,9 @@ const From = React.memo(
               />
             </div>
             <button
-              className={`btn_container titleS btn_container-${ReturnTheme(
+              className={`btn_container titleS titleS-${ReturnTheme(
                 Theme
-              )}`}
+              )} btn_container-${ReturnTheme(Theme)}`}
             >
               <SearchSvg Theme={Theme} />
             </button>
@@ -127,12 +127,9 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ==> Input focus state
   const [{ inputFocus }, setInputFocus] = useState({ inputFocus: false });
 
-  // =================
   // FAKE SUGGESTIONS
-  // =================
-
   // ==> Input suggestions state
-  // you use can setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
+  // you can use setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
   const [suggestions] = useState([
     { suggestion: "Traversy Media", id: 1 },
     { suggestion: "ed dev", id: 2 },
@@ -188,6 +185,9 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     searchValue: ""
   });
 
+  // Guide Context
+  const [GuideTrigger, setGuideTrigger] = useContext(GuideContext);
+
   let history = useHistory();
 
   // ==========================
@@ -219,7 +219,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   );
 
   // ================================================
-  // Custom Hook to handle the window current width
+  //  Custom Hook to handle the window current width
   // ================================================
 
   const useMeasure = () => {
@@ -258,7 +258,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       window.innerWidth update rate is slower than useState in some cases
       if you try to resize the window fast enough react will not re-render 
       because of the slow update.
-    */
+  */
 
   const innerWidth = useMeasure();
 
@@ -299,8 +299,8 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       inputFocus: true
     });
     if (window.innerWidth > 900) {
-      // Preventing the search dropdown from showing up
-      // if window innerWidth is less than 950 (to look responsive)
+      // Preventing search dropdown from showing up
+      // if the window innerWidth is less than 950px (to look responsive)
       setSDstate({
         searchIsActive,
         ShowSearchDrop: true
@@ -374,7 +374,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   );
 
   // ============================
-  //   Handle responsive From on
+  //  Handle responsive From on
   // ============================
 
   const HandleRespOn = e => {
@@ -393,11 +393,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     });
   };
 
-  // ==========================
-  // Handle show icon dropdowns
-  // ==========================
+  // ============================
+  //  Handle show nav dropdowns
+  // ============================
 
-  // ==> Cam logo
+  // ==> Cam Svg
   const HandleCamDrop = () => {
     if (
       !dropHandler.ShowCamDrop &&
@@ -415,7 +415,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     }
   };
 
-  // ==> App logo
+  // ==> App Svg
   const HandleAppDrop = () => {
     if (
       !dropHandler.ShowCamDrop &&
@@ -433,7 +433,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     }
   };
 
-  // ==> Bell logo
+  // ==> Bell Svg
   const HandleBellDrop = () => {
     if (
       !dropHandler.ShowCamDrop &&
@@ -452,7 +452,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     }
   };
 
-  // ==> Profile
+  // ==> Nav profile drop
   const HandleProfDrop = () => {
     if (
       !dropHandler.ShowCamDrop &&
@@ -490,7 +490,6 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
 
   const HandleShowSemiDrop = useCallback(
     value => {
-      //console.log("HandleShowSemiDrop :=>", value);
       setDropHandler({
         ...dropHandler,
         ShowProfDrop: false
@@ -516,12 +515,12 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   const DropHandlerClose = useCallback(
     e => {
       isInSemiDrop = true;
-      // ----------------------------- Drops
+      // --> Nav Drops
       const CamDrop = document.getElementById("cax");
       const AppDrop = document.getElementById("apx");
       const BellDrop = document.getElementById("bex");
       const ProfDrop = document.getElementById("prx");
-      // ----------------------------- SemiDrops
+      // --> Profile SemiDrops
       const ProfileDrop = document.getElementById("profile_drop");
       const SwitchAccDrop = document.getElementById("switch_acc_drop");
       const LangDrop = document.getElementById("lang_drop");
@@ -531,8 +530,6 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       const ThemeDrop = document.getElementById("theme_drop");
 
       let target = e.target;
-
-      console.log("target==> :", target);
 
       SwitchAccDrop.addEventListener("click", ChangeIsInSemiDrop);
       LangDrop.addEventListener("click", ChangeIsInSemiDrop);
@@ -637,7 +634,6 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     }
   };
 
-  // --------------------------------------------
   return (
     <div className={`NavContainer NavContainer-${ReturnTheme(Theme)}`}>
       {/* Helmet */}
@@ -656,7 +652,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
             <div onClick={HandleShowGuide} className="menuIcon">
               <MenuSvg />
             </div>
-            <div title="YouTube Home" className="LogoContainer">
+            <div
+              onClick={() => setGuideTrigger(GuideTrigger + 1)}
+              title="YouTube Home"
+              className="LogoContainer"
+            >
               <Link to="/">
                 <img
                   src={YoutubeLogo}

@@ -18,12 +18,14 @@ const MessageBox = React.memo(
       >
         <div className="em_wrapper">
           <span className="box_message">{message}</span>
-          <RippleButton
-            onclick={HandleMessageBtn}
-            classname={`box_btn box_btn-${ReturnTheme(Theme)}`}
-          >
-            <span>{btnMessage}</span>
-          </RippleButton>
+          {btnMessage && (
+            <RippleButton
+              onclick={HandleMessageBtn}
+              classname={`box_btn box_btn-${ReturnTheme(Theme)}`}
+            >
+              <span>{btnMessage}</span>
+            </RippleButton>
+          )}
         </div>
       </div>
     );

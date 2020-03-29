@@ -4,7 +4,11 @@
     margin-left: 240px;
 
     @media screen and (max-width: 810px) {
-        margin-left: 0px;
+        margin-left: 0px !important;
+    }
+
+    @media screen and (max-width: 750px) {
+        margin: 0px 20px !important;
     }
 
     .hcontentwrap {

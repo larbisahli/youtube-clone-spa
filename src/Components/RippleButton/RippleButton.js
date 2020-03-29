@@ -15,6 +15,10 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
+  // ====================
+  //    Handle Ripple
+  // ====================
+
   const HandleRipple = useCallback(e => {
     var rect = e.target.getBoundingClientRect();
 

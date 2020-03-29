@@ -37,7 +37,7 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
           })
         ])
         .then(responseArr => {
-          //this will be executed only when all requests are complete
+          // this will be executed only when all requests are complete
           resolve(responseArr);
         });
     });
@@ -62,7 +62,7 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   };
 
   const HandlePLImg = useCallback((skeleton_id, index) => {
-    // BackgroundColor can be red and you can use it as video duration with the width.
+    // BackgroundColor can be red and you can use it as video duration with the width value.
 
     document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
       "transparent";

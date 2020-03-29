@@ -9,8 +9,15 @@
     }
 
 
+
     .results_contentwrapper {
         margin: 0 24px 0 24px;
+
+
+
+        @media screen and (min-width: 1440px) {
+            margin-left: 75px !important;
+        }
 
         .r_line {
             height: 1px;

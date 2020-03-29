@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./svg_style_scnni.scss";
 import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ReturnTheme } from "../../../../config";
 
 // SVG path COPIED FROM YOUTUBE
 
@@ -18,7 +19,11 @@ const CamSvg = React.memo(() => {
   };
 
   return (
-    <button id="cax" className="icon_container titleC " onClick={HundleClick}>
+    <button
+      id="cax"
+      className={`icon_container titleC titleC-${ReturnTheme(Theme)}`}
+      onClick={HundleClick}
+    >
       <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path

@@ -20,6 +20,7 @@ import {
 import { SettingsSvg, HelpSvg, FeedSvg } from "../Navbar/NavComponents/Svg";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../Context/ThemeContext";
+import { GuideContext } from "../../Context/GuideContext";
 import { UrlLocationContext } from "../../Context/UrlLocationContext";
 import { ReturnTheme } from "../../config";
 import { v4 as uuidv4 } from "uuid";
@@ -198,7 +199,7 @@ Subscriptions.sort((x, y) => {
   return a > b ? 1 : a < b ? -1 : 0;
 });
 
-const Guide = React.memo(({ ShowGuide }) => {
+const Guide = React.memo(({ ShowGuide, setShowGuide }) => {
   // Show more State
   const [IsShowMore, setIsShowMore] = useState(false);
 
@@ -212,6 +213,9 @@ const Guide = React.memo(({ ShowGuide }) => {
   // UrlLocation context
   const [UrlLocationState] = useContext(UrlLocationContext);
 
+  // Guide Context
+  const [GuideTrigger] = useContext(GuideContext);
+
   // ===========================
   //  Handle Show More Or Less
   //============================
@@ -224,35 +228,60 @@ const Guide = React.memo(({ ShowGuide }) => {
     setSubIsShowMore(!SubIsShowMore);
   }, [setSubIsShowMore, SubIsShowMore]);
 
-  useEffect(() => {
-    if (document.getElementById("hvc") != null) {
-      document.getElementById("hvc").style.marginLeft = ShowGuide
-        ? "240px"
-        : "72px";
-    }
-  }, [ShowGuide]);
-
   const line_guide = `line_guide line_guide-${ReturnTheme(Theme)}`;
 
   const content_wrapper = `content_wrapper content_wrapper-${ReturnTheme(
     Theme
   )}`;
 
+  // Handle Close
+  const HandleCloseGuide = useCallback(
+    event => {
+      const GUIDENODE = document.getElementById("GuideG");
+      if (GUIDENODE.isSameNode(event.target)) {
+        setShowGuide(false);
+        GUIDENODE.removeEventListener("click", HandleCloseGuide);
+      }
+    },
+    [setShowGuide]
+  );
+
+  useEffect(() => {
+    if (document.getElementById("hvc") != null) {
+      document.getElementById("hvc").style.marginLeft = ShowGuide
+        ? "240px"
+        : "72px";
+    }
+
+    console.log("ShowGuide :", !ShowGuide && window.innerWidth <= 810);
+    const GUIDENODE = document.getElementById("GuideG");
+    if (!ShowGuide && window.innerWidth <= 810) {
+      // for watch page
+      //GUIDENODE.style.display = "block";
+      GUIDENODE.style.transform = `translateX(0%)`;
+      GUIDENODE.style.display = "";
+      GUIDENODE.addEventListener("click", HandleCloseGuide);
+    } else if (ShowGuide && window.innerWidth <= 810) {
+      GUIDENODE.style.transform = `translateX(-100%)`;
+      GUIDENODE.style.display = "";
+      GUIDENODE.addEventListener("click", HandleCloseGuide);
+    } else if (!ShowGuide && window.innerWidth >= 810) {
+      //GUIDENODE.style.backgroundColor = "red";
+      GUIDENODE.style.display = "none";
+    } else if (ShowGuide && window.innerWidth >= 810) {
+      //GUIDENODE.style.backgroundColor = "red";
+      GUIDENODE.style.display = "";
+    }
+  }, [ShowGuide, GuideTrigger]);
+
   // transform: `translateX(${ShowGuide ? "0" : "-100"}%)`,
   return (
-    <div
-      style={{
-        //transform: `translateX(${ShowGuide ? "0" : "-100"}%)`,
-        display: ShowGuide ? "" : "none",
-        transitionDuration: "3000ms"
-      }}
-      id="GuideG"
-      className="guide_general_container"
-    >
+    <div id="GuideG" className="guide_general_container">
       <div className={`guide_container guide_container-${ReturnTheme(Theme)}`}>
         <div className="content_container">
           {/*--------------------*/}
-          <div
+          <Link
+            to="/"
             title="Home"
             className={`${content_wrapper}${
               UrlLocationState === "home" ? "-active" : ""
@@ -264,7 +293,7 @@ const Guide = React.memo(({ ShowGuide }) => {
             <div className="content_arte">
               <div className="content_text">Home</div>
             </div>
-          </div>
+          </Link>
           {/*--*/}
           <div
             title="Trending"

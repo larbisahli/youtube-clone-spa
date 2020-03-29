@@ -16,6 +16,10 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
+  // ================
+  //   Handle Click
+  // ================
+
   const HundleClick = useCallback(() => {
     setFade(true);
     setTimeout(() => {

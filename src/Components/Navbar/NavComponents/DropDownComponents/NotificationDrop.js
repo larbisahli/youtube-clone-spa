@@ -5,8 +5,6 @@ import "./loadingspinner_style.scss";
 import { ThemeContext } from "../../../../Context/ThemeContext";
 import { ReturnTheme } from "../../../../config";
 
-// Using Memo to prevent unnecessary re-renders
-
 const fake_noti = [
   {
     seen: false,
@@ -85,6 +83,8 @@ const fake_noti = [
   }
 ];
 
+// Using Memo to prevent unnecessary re-renders
+
 const Notification = React.memo(({ show }) => {
   // Notification State
   const [notifications, setNotifictions] = useState([]);
@@ -161,8 +161,8 @@ const Notification = React.memo(({ show }) => {
                     }
                   ></div>
                 </div>
-                <div className="n_propic">
-                  <img className="img_n" src={noti.proImage} alt="avatar" />
+                <div className={`n_propic n_propic-${ReturnTheme(Theme)}`}>
+                  <img className="img_n" src={noti.proImage} alt="" />
                 </div>
                 <div className="n_textArea">
                   <div className="text_nt">{noti.text}</div>

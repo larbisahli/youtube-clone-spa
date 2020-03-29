@@ -12,6 +12,10 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   const [YtTheme, setYtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
+  // ================
+  //   Handle Click
+  // ================
+
   const HundleClick = useCallback(() => {
     setFade(true);
     setTimeout(() => {
@@ -43,7 +47,7 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
       <div className="main_wrapper">
         <div className="th_text">
           Dark theme turns the light surfaces of the page dark, creating an
-          experience ideal for night. Try it out!
+          experience ideal for night.
         </div>
         <div className="th_text">It's Working try it out!</div>
         <div className={`th_container th_container-${ReturnTheme(Theme)}`}>

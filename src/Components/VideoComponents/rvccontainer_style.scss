@@ -4,11 +4,15 @@
 .item_section {
     margin-top: 16px;
 
+    @media screen and (max-width: 650px) {
+        margin-top: 50px;
+        overflow: hidden;
+    }
+
     .rv_container {
         @include display-flex();
         flex-direction: row;
         position: relative;
-
 
         &:hover {
             .search_text_wrapper>.search_header>.search_menu_h {
@@ -69,7 +73,6 @@
                         align-items: center;
                         text-transform: uppercase;
                         font-size: 1.4em;
-                        // background-color: red;
                     }
 
 
@@ -91,14 +94,13 @@
                     overflow: hidden;
                     height: 136px;
                     width: 136px;
-                    margin-right: 16px;
 
                     &-dark {
-                        background-color: #38383898;
+                        background-color: colors(Skeleton_Dark_color);
                     }
 
                     &-light {
-                        background-color: #d3d3d398;
+                        background-color: colors(Skeleton_Light_color);
                     }
 
 
@@ -133,11 +135,11 @@
                     height: 140px;
 
                     &-dark {
-                        background-color: #38383898;
+                        background-color: colors(Skeleton_Dark_color);
                     }
 
                     &-light {
-                        background-color: #d3d3d398;
+                        background-color: colors(Skeleton_Light_color);
                     }
 
                     .rv_v_img {
@@ -317,13 +319,13 @@
 
                         &-dark {
                             // Dark Theme
-                            background-color: rgb(46, 46, 46);
+                            background-color: colors(subedBtn_bg_Dark);
                             color: colors(Duration_Dark_Color) !important;
                         }
 
                         &-light {
                             // Light Theme
-                            background-color: rgb(207, 207, 207);
+                            background-color: colors(subedBtn_bg_Light);
                             color: colors(Duration_Light_Color) !important
                         }
                     }
@@ -341,7 +343,7 @@
                 .rv_subbtn {
                     top: 25%;
                     right: 0;
-                    background-color: #c00;
+                    background-color: colors(subBtn_bg);
                     color: #fff;
                     border-radius: 2px;
                     padding: 10px 16px;
@@ -371,11 +373,9 @@
 
 
             .search_header {
-
                 @include display-flex();
                 @include alignItems-center;
                 justify-content: space-between;
-
 
                 .search_menu_h {
                     display: none;

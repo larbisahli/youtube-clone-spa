@@ -68,16 +68,47 @@
     padding: 10px;
     font-size: 1em;
     border-radius: 2px;
-    background-color: colors(Theme-hover-Dark);
     @include transform(translateX(-50%));
-    color: #e0e0e0;
     top: calc(100% + 25px);
     left: 50%;
     opacity: 0.9;
 }
 
-.titleA {
+%theme_dark {
 
+
+    // Dark Theme
+    color: colors(ChTitle_Dark_Color);
+
+    &:hover {
+        color: #fff;
+    }
+
+    &::before {
+        color: #e0e0e0;
+        background-color: colors(Theme-hover-Dark);
+
+    }
+}
+
+%theme_light {
+
+    // Light Theme
+    color: colors(ChTitle_Light_Color);
+
+    &:hover {
+        color: #000;
+    }
+
+    &::before {
+        background-color: colors(Theme-hover-Light);
+        color: #555;
+        border: 1px solid rgba(85, 85, 85, 0.247);
+    }
+
+}
+
+.titleA {
     position: relative;
 
     &::before {
@@ -88,6 +119,14 @@
 
     &:hover::before {
         display: inline-block;
+    }
+
+    &-dark {
+        @extend %theme_dark;
+    }
+
+    &-light {
+        @extend %theme_light;
     }
 }
 
@@ -105,6 +144,14 @@
     &:hover::before {
         display: inline-block;
     }
+
+    &-dark {
+        @extend %theme_dark;
+    }
+
+    &-light {
+        @extend %theme_light;
+    }
 }
 
 
@@ -121,6 +168,14 @@
     &:hover::before {
         display: inline-block;
     }
+
+    &-dark {
+        @extend %theme_dark;
+    }
+
+    &-light {
+        @extend %theme_light;
+    }
 }
 
 .titleS {
@@ -134,5 +189,13 @@
 
     &:hover::before {
         display: inline-block;
+    }
+
+    &-dark {
+        @extend %theme_dark;
+    }
+
+    &-light {
+        @extend %theme_light;
     }
 }
