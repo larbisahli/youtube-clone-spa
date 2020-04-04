@@ -70,6 +70,7 @@ const ResultVideoContainer = React.memo(
       document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
     }, []);
 
+    console.log("video=<> :", item);
     return (
       <div className="item_section">
         <div className="rv_container">

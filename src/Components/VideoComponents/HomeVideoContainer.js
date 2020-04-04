@@ -12,15 +12,28 @@ import {
 import { Link } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { ThemeContext } from "../../Context/ThemeContext";
+import { WLVContext } from "../../Context/WLVContext";
+import { QueueContext } from "../../Context/QueueContext";
 
 const HomeVideoContainer = React.memo(
   ({ PopularVideo, index, HandleShowMessageBox }) => {
     // Watch later state
     const [IswatchLater, setIsWatchLater] = useState(false);
+    // Watch later state
+    const [IsQueue, setIsQueue] = useState(false);
 
     // Theme context
     const [YtTheme] = useContext(ThemeContext);
     const Theme = YtTheme.isDarkTheme;
+
+    // WLV Context
+    const { WatchLaterState } = useContext(WLVContext);
+    const [WatchLaterList, WLdispatch] = WatchLaterState;
+
+    // Queue Context
+    const { QueueState, ShowQueueState } = useContext(QueueContext);
+    const [ShowQueue, setShowQueue] = ShowQueueState;
+    const [QueueList, QueueListDispatch] = QueueState;
 
     // =========================
     //  FETCH CHANNELS SNIPPET
@@ -42,15 +55,95 @@ const HomeVideoContainer = React.memo(
 
     const Fetch_Data = (id, index) => {
       GetChannelsthumbnail(id).then(res => {
-        document.getElementById(`${id}_${index}`).src =
-          res.data.items[0].snippet.thumbnails.medium.url;
+        const sgix = document.getElementById(`${id}_${index}`);
+        if (sgix !== null) {
+          sgix.src = res.data.items[0].snippet.thumbnails.medium.url;
+        }
       });
     };
 
-    const HandleWLClick = useCallback(() => {
-      setIsWatchLater(!IswatchLater);
-      HandleShowMessageBox(IswatchLater);
-    }, [IswatchLater, HandleShowMessageBox]);
+    const CheckWatchLaterList = useCallback(
+      videoId => {
+        return WatchLaterList.some(wl => wl.videoId === videoId);
+      },
+      [WatchLaterList]
+    );
+
+    const HandleWLClick = useCallback(
+      (
+        title,
+        duration,
+        videoId,
+        channelTitle,
+        channelId,
+        thumbnail,
+        IswatchLater_
+      ) => {
+        setIsWatchLater(!IswatchLater);
+        HandleShowMessageBox(IswatchLater);
+
+        if (IswatchLater_) {
+          WLdispatch({ type: "removeOne", videoId });
+        } else {
+          WLdispatch({
+            type: "add",
+            title,
+            duration,
+            videoId,
+            channelTitle,
+            channelId,
+            thumbnail
+          });
+        }
+      },
+      [IswatchLater, HandleShowMessageBox, WLdispatch]
+    );
+
+    const HandleQueueClick = useCallback(
+      (
+        title,
+        duration,
+        videoId,
+        channelTitle,
+        channelId,
+        thumbnail,
+        IsQueue_
+      ) => {
+        setIsQueue(!IsQueue);
+        HandleShowMessageBox(IsQueue);
+
+        if (!ShowQueue) {
+          setShowQueue(true);
+        }
+
+        const playing = QueueList.length === 0;
+        console.log("playing :", playing);
+
+        if (IsQueue_) {
+          QueueListDispatch({ type: "removeOne", videoId });
+        } else {
+          QueueListDispatch({
+            type: "add",
+            title,
+            duration,
+            videoId,
+            channelTitle,
+            channelId,
+            thumbnail,
+            playing,
+            index: QueueList.length
+          });
+        }
+      },
+      [
+        IsQueue,
+        HandleShowMessageBox,
+        QueueList,
+        QueueListDispatch,
+        ShowQueue,
+        setShowQueue
+      ]
+    );
 
     const HandleImg = useCallback((skeleton_id, index) => {
       // BackgroundColor can be red and you can use it as video duration with the width value.
@@ -81,11 +174,21 @@ const HomeVideoContainer = React.memo(
               {HandleDuration(PopularVideo.duration)}
             </div>
             <button
-              onClick={HandleWLClick}
+              onClick={() =>
+                HandleWLClick(
+                  PopularVideo.title,
+                  PopularVideo.duration,
+                  PopularVideo.videoId,
+                  PopularVideo.channelTitle,
+                  PopularVideo.channelId,
+                  PopularVideo.thumbnail,
+                  IswatchLater
+                )
+              }
               className="hvideo_ab hvideo_ab-clock"
             >
               <div className="tt_icon">
-                {IswatchLater ? (
+                {IswatchLater || CheckWatchLaterList(PopularVideo.videoId) ? (
                   <div className="checked_icon">
                     <CheckedSvg />
                   </div>
@@ -101,12 +204,29 @@ const HomeVideoContainer = React.memo(
                 )}
               </div>
             </button>
-            <button className="hvideo_ab hvideo_ab-queue">
+            <button
+              onClick={() =>
+                HandleQueueClick(
+                  PopularVideo.title,
+                  PopularVideo.duration,
+                  PopularVideo.videoId,
+                  PopularVideo.channelTitle,
+                  PopularVideo.channelId,
+                  PopularVideo.thumbnail,
+                  IsQueue
+                )
+              }
+              className="hvideo_ab hvideo_ab-queue"
+            >
               <div className="tt_icon">
-                <QueueSvg />
+                {IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
               <div className="slider_text">
-                <div className="normaltxt">add to queue</div>
+                {IsQueue ? (
+                  <div className="checkedtxt">added</div>
+                ) : (
+                  <div className="normaltxt">add to queue</div>
+                )}
               </div>
             </button>
           </div>

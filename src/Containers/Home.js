@@ -4,7 +4,8 @@ import { HomeVideoContainer } from "../Components";
 import { YouTubeAPI } from "../Components/api/YoutubeApi";
 import { HomeSkeleton, MessageBox } from "../Components";
 import { UrlLocationContext } from "../Context/UrlLocationContext";
-import { UrlLocation } from "../config";
+import { ThemeContext } from "../Context/ThemeContext";
+import { UrlLocation, ReturnTheme } from "../config";
 
 // Creating a global variable to hold all api looped data
 // and then store it in a state to only render once.
@@ -29,6 +30,10 @@ const Home = React.memo(() => {
     isError: false
   });
 
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
   // ===========================
   //  Handle Location Context
   // ===========================
@@ -52,7 +57,7 @@ const Home = React.memo(() => {
     YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 3,
+        maxResults: 10,
         chart: "mostPopular",
         key: process.env.REACT_APP_YOUTUBE_API_KEY
       }
@@ -97,8 +102,7 @@ const Home = React.memo(() => {
   // ====================================
 
   const HandleClosingMessageBox = useCallback(() => {
-    // Just to make sure isError will not
-    // change to false by any chance before doing some logic if true
+    // Just to make sure isError will not change to false by any chance before doing some logic if true
     try {
       if (isError) {
       }
@@ -140,7 +144,9 @@ const Home = React.memo(() => {
     <div id="hvc" className="home_container">
       <div className="hcontentwrap">
         <div className="home_title_container">
-          <span className="home_title">Most Popular</span>
+          <span className={`home_title home_title-${ReturnTheme(Theme)}`}>
+            Most Popular
+          </span>
         </div>
         <div className="homevideowrapper">
           {isLoading

@@ -9,3 +9,5 @@ export { default as ResultChannelContainer } from "./VideoComponents/ResultsChan
 export { default as ResultPlaylistContainer } from "./VideoComponents/ReasultPlaylistContainer";
 export { default as RippleButton } from "./RippleButton/RippleButton";
 export { default as Filter } from "./FilterComponent/Filter";
+export { default as Queue } from "./QueueComponent/Queue";
+export { default as VideoPlayer } from "./VideoPlayerComponent/VideoPlayer";

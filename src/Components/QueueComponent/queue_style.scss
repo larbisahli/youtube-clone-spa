@@ -1,0 +1,357 @@
+@import '../../config_style.scss';
+
+$miniplayer-width: 400px;
+$miniplayer-height: 225px;
+$miniplayer-playlist-height: 285px;
+$miniplayer-header-width:64px;
+
+
+
+.ytp_miniplayer_container {
+    position: fixed;
+    bottom: 0;
+    width: $miniplayer-width;
+    right: 12px;
+    z-index: 20;
+    pointer-events: auto;
+    display: block;
+    transition-property: transform;
+    transition-duration: 366ms;
+    transition-timing-function: cubic-bezier(0.05, 0, 0, 1);
+    will-change: transform;
+    touch-action: none;
+    user-select: none;
+
+    // Theme
+    @extend %scroll-Dark;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+
+
+    .ytp_miniplayer_wrapper {
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: $miniplayer-width;
+        display: flex;
+        flex-direction: column;
+
+        // Theme
+        color: #fff;
+        background-color: #212121fa;
+
+
+        .ytp_video_miniplayer_con {
+            width: $miniplayer-width;
+            height: $miniplayer-height;
+            background-color: #000;
+            position: relative;
+            flex: none;
+
+            &:hover>.ytp_pp_btn {
+                display: flex;
+            }
+
+            .ytp_pp_btn {
+                position: absolute;
+                display: none;
+                cursor: pointer;
+                align-items: center;
+                top: calc(50% - 68px/2);
+
+                &-prev {
+                    padding-left: 65px;
+                    left: 0;
+
+                    &>.icon_container>.icon_ {
+                        width: 68px;
+                        height: 68px;
+                    }
+                }
+
+                &-next {
+                    padding-right: 65px;
+                    right: 0;
+
+                    &>.icon_container>.icon_ {
+                        width: 68px;
+                        height: 68px;
+                    }
+                }
+
+                &-expandbtn {
+                    padding: 5px;
+                    left: 0;
+                    top: 0;
+
+                    &>.icon_container>.icon_ {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+
+                &-closebtn {
+                    padding: 5px;
+                    right: 0;
+                    top: 0;
+
+                    &>.icon_container>.icon_ {
+                        width: 32px;
+                        height: 32px;
+                    }
+                }
+
+                &-mid {
+                    right: calc(50% - 68px/2);
+
+                    &>.icon_container>.icon_ {
+                        width: 68px;
+                        height: 68px;
+                    }
+                }
+            }
+        }
+
+        .ytp_heading_miniplayer_con {
+            height: $miniplayer-header-width;
+            flex: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            // Theme
+            color: #fff;
+
+            .ytp_heading_wrap {
+                padding: 14px 16px 16px;
+                overflow: hidden;
+                cursor: pointer;
+                font-size: 1.4em;
+
+                .ytp_stat {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 4px;
+                    font-size: .85em;
+                    line-height: 1.5em;
+
+                    //Theme
+                    color: #aaa;
+
+                    span {
+                        padding: 0 3px;
+                    }
+                }
+            }
+
+            .ytp_show_more_svg {
+                display: flex;
+                justify-content: center;
+                padding-right: 16px;
+
+
+                .ytp_smv_btn {
+
+                    align-self: center;
+                    box-sizing: border-box;
+                    padding: 1px;
+                    border-radius: 50%;
+
+                    &:active {
+                        // Theme
+                        background-color: rgb(87, 87, 87);
+                    }
+
+                    &>.icon_container>.icon_>g>path {
+                        // Theme
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+
+        .ytp_playlist_miniplayer_con {
+
+            width: $miniplayer-width;
+            height: $miniplayer-playlist-height;
+            box-sizing: border-box;
+            position: relative;
+
+            // Theme 
+            border: 1px solid #3b3b3bbd;
+
+
+            .ytp_playlist_panel {
+                position: absolute;
+                z-index: 5;
+                height: 40px;
+                top: 0;
+                right: 0;
+                left: 0;
+
+                // Theme
+                background-color: #212121fa;
+
+                .ytp_playlist_panel_head {
+                    padding: 8px 16px;
+                    display: flex;
+                    align-items: center;
+                    z-index: 5;
+
+                    span {
+                        cursor: pointer;
+                        font-size: 1.2em;
+                        padding-left: 5px;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+
+            .ytp_playlist_items_con {
+                padding-top: 45px !important;
+                box-sizing: border-box;
+                height: 100%;
+                padding: 4px 0;
+                overflow-x: hidden;
+                overflow-y: scroll;
+
+                // Theme
+                background-color: #181818;
+            }
+        }
+    }
+}
+
+.ytp_current_playing_v {
+    // Theme
+    background-color: #303030;
+}
+
+.ytp_playlist_v_con {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    min-width: 0;
+    padding: 4px 8px 4px 0;
+
+    &:hover {
+        // Theme
+        background-color: #292929;
+    }
+
+    &:hover>.ytp_playlist_plh_con>.ytp_playlist_header_con>.ytp_playlist_del>.ytp_playlist_delbtn {
+        display: block;
+    }
+
+
+    .ytp_playlist_svg_area {
+        padding: 0 3px;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        cursor: grab;
+
+        .ytp_playing {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+    }
+
+    .ytp_playlist_plh_con {
+        display: flex;
+        position: relative;
+        flex: 1;
+
+
+        .ytp_playlist_thumbnail {
+
+            position: relative;
+            height: auto;
+            width: 100px;
+
+
+            .ytp_playlist_img_thumb {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: none;
+                max-width: 100%;
+                border-radius: none;
+            }
+
+            .ytp_playlist_ab {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin: 1px;
+                border-radius: 2px;
+                letter-spacing: 0.5px;
+                font-size: 0.8rem;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 2px 4px;
+                line-height: 0.9rem;
+
+            }
+        }
+
+        .ytp_playlist_header_con {
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+
+
+            .ytp_playlist_header_wrap {
+                align-self: flex-start;
+                padding: 0 8px;
+
+
+                .ytp_playlist_pl_title {
+                    font-size: 1.2em;
+                    padding-bottom: 5px;
+                }
+
+                .ytp_playlist_pl_chtitle {
+
+                    font-size: 1.25em;
+
+                    // Theme
+                    color: rgb(170, 170, 170);
+
+                    &:hover {
+                        //Theme
+                        color: #fff;
+                    }
+                }
+            }
+
+            .ytp_playlist_del {
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: 25px;
+
+                .ytp_delbtn_not {
+                    display: none !important;
+                }
+
+                .ytp_playlist_delbtn {
+                    position: absolute;
+                    right: 0;
+                    display: none;
+
+                    &:hover>.icon_container_y>.icon_y_>g>path {
+                        // Theme
+                        fill: #dbdbdb;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,2 +1,9 @@
 export { default as FilterSvg } from "./FilterSvg";
 export { default as XSvg } from "./XSvg";
+export { default as ShuffleSvg } from "./ShuffleSvg";
+export { default as SortBySvg } from "./SortBySvg";
+export { default as DRSvg } from "./DRSvg";
+export { default as AddPlayListSvg } from "./AddPlayListSvg";
+export { default as TrashSvg } from "./TrashSvg";
+export { default as MoveUpSvg } from "./MoveUpSvg";
+export { default as MoveDownSvg } from "./MoveDownSvg";

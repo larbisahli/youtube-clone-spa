@@ -26,10 +26,18 @@
 
 
             .home_title {
-                color: #fff;
                 font-size: 2em;
                 font-weight: 500;
                 line-height: 2.4rem;
+
+                &-dark {
+                    color: #fff;
+                }
+
+                &-light {
+                    color: #212121;
+                }
+
             }
         }
     }

@@ -313,6 +313,37 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     }
   }, [isResponsive, searchIsActive]);
 
+  // ==========================
+  // Handle closing search drop
+  // ==========================
+
+  const HandleSearchDropClose = useCallback(
+    e => {
+      const SearchDrop = document.getElementById("rembtnsd");
+      const SDrop = document.getElementById("sdrop");
+      const PL = document.getElementById("plholder");
+
+      const SearchD =
+        SearchDrop !== null ? SearchDrop.isEqualNode(e.target) : false;
+      const SD = SDrop !== null ? SDrop.isEqualNode(e.target) : false;
+      const ETF =
+        e.target.firstChild !== null
+          ? e.target.firstChild.isEqualNode(PL)
+          : false;
+
+      if (!(SearchD || SD || ETF)) {
+        setSDstate(
+          {
+            searchIsActive,
+            ShowSearchDrop: false
+          },
+          document.removeEventListener("click", HandleSearchDropClose)
+        );
+      }
+    },
+    [searchIsActive]
+  );
+
   // =====================================
   // Handle search dropdown and inputFocus
   // =====================================
@@ -324,35 +355,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       },
       document.addEventListener("click", HandleSearchDropClose)
     );
-  }, [setInputFocus]);
-
-  // ==========================
-  // Handle closing search drop
-  // ==========================
-
-  const HandleSearchDropClose = e => {
-    const SearchDrop = document.getElementById("rembtnsd");
-    const SDrop = document.getElementById("sdrop");
-    const PL = document.getElementById("plholder");
-
-    const SearchD =
-      SearchDrop !== null ? SearchDrop.isEqualNode(e.target) : false;
-    const SD = SDrop !== null ? SDrop.isEqualNode(e.target) : false;
-    const ETF =
-      e.target.firstChild !== null
-        ? e.target.firstChild.isEqualNode(PL)
-        : false;
-
-    if (!(SearchD || SD || ETF)) {
-      setSDstate(
-        {
-          searchIsActive,
-          ShowSearchDrop: false
-        },
-        document.removeEventListener("click", HandleSearchDropClose)
-      );
-    }
-  };
+  }, [setInputFocus, HandleSearchDropClose]);
 
   // ================================
   // Handle suggesition when removed

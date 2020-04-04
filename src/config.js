@@ -56,7 +56,6 @@ export const ReturnTheme = Theme => {
 
 export const UrlLocation = (home = false) => {
   const url = window.location.href;
-  // console.log("url :", url);
   if (url.includes("/trending/")) {
     return "trending";
   } else if (url.includes("/subscriptions/")) {
@@ -69,7 +68,35 @@ export const UrlLocation = (home = false) => {
     return "watchlater";
   } else if (home) {
     return "home";
+  } else if (url.includes("/wlv/WL")) {
+    return "WL";
   } else {
     return false;
+  }
+};
+
+export const moveDown = (array, index) => {
+  if (array.length === index + 1) {
+    let p1 = array.slice(0, index);
+    let p2 = array.slice(index);
+    return p2.concat(p1);
+  } else {
+    let p1 = array.slice(0, index);
+    let pp = array.slice(index, index + 2);
+    let p2 = [pp[1], pp[0]];
+    let p3 = array.slice(index + 2, array.length);
+    return p1.concat(p2, p3);
+  }
+};
+
+export const moveUp = (array, index) => {
+  if (0 === index) {
+    return array;
+  } else {
+    let p1 = array.slice(0, index - 1);
+    let pp = array.slice(index - 1, index + 1);
+    let p2 = [pp[1], pp[0]];
+    let p3 = array.slice(index + 1, array.length);
+    return p1.concat(p2, p3);
   }
 };

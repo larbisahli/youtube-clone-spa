@@ -275,6 +275,11 @@ const Guide = React.memo(({ ShowGuide, setShowGuide }) => {
   }, [ShowGuide, GuideTrigger]);
 
   // transform: `translateX(${ShowGuide ? "0" : "-100"}%)`,
+  console.log(
+    "UrlLocationState ====:",
+    UrlLocationState,
+    UrlLocationState === "WL"
+  );
   return (
     <div id="GuideG" className="guide_general_container">
       <div className={`guide_container guide_container-${ReturnTheme(Theme)}`}>
@@ -363,19 +368,20 @@ const Guide = React.memo(({ ShowGuide, setShowGuide }) => {
             </div>
           </div>
           {/*--*/}
-          <div
+          <Link
+            to="/wlv/WL"
             title="Watch later"
             className={`${content_wrapper}${
-              UrlLocationState === "watchlater" ? "-active" : ""
+              UrlLocationState === "WL" ? "-active" : ""
             }`}
           >
             <div className="content_logo">
-              <WatchLaterSvg changeColor={UrlLocationState === "watchlater"} />
+              <WatchLaterSvg changeColor={UrlLocationState === "WL"} />
             </div>
             <div className="content_arte">
               <div className="content_text">Watch later</div>
             </div>
-          </div>
+          </Link>
           {/*--*/}
           <div title="Liked videos" className={content_wrapper}>
             <div className="content_logo">

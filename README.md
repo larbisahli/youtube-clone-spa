@@ -1,6 +1,6 @@
-## Information
+# Informations
 
-### ... on progress.
+## On Progress...
 
 Frontend Developer Challenge: YouTube Clone SPA
 
@@ -8,12 +8,13 @@ Working Prototype: https://larbisahli-youtube-clone.netlify.com/
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/113616f3-5a6f-4960-884d-0aecae96b50c/deploy-status)](https://app.netlify.com/sites/larbisahli-youtube-clone/deploys)
 
-Cloning Features:
+### Cloning Features
 
 1. YouTube Theme:
-   - dark
-   - light
-2. browsing, YouTube pages: 
+   - Dark
+   - Light
+2. browsing, YouTube pages:
+   - Home page
    - Results page
    - Watch page
    - Channel page
@@ -21,22 +22,25 @@ Cloning Features:
    - History page
    - Library page
    - Liked videos page
-   - Others 
-3. Using Queue.
-4. adding and removing videos from watch later list and Queue.
-5. Using YouTube filtering in results page.
-6. You can get playlists, channels, and videos on results page or home page.
-7. Cloning all the Navigation bar Features
-   - Dropdowns 
+3. Cloning YouTube Queue.
+4. Adding, removing and sorting videos from watch later list and Queue.
+5. Cloning YouTube filtering and get playlists, channels, and videos on results page.
+6. Cloning all the Navigation bar Features:
+   - Dropdowns
    - Autosuggestion Dropdown
-     - Ability to remove suggestions
+   - Ability to remove suggestions
    - Fake Notifications
-8. State Management using context api.
-9. Using react helmet.
-10. Handling YouTuve v3 API requests with React axios.
 
+### About React Framework
 
------------------------------------------
+1. State Management using context api.
+2. Using React Helmet.
+3. Using React Router.
+4. Using node-sass.
+5. Handling YouTuve v3 API requests with React axios.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
