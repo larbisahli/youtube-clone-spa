@@ -47,7 +47,7 @@ const Home = React.memo(() => {
     if (UrlLoc !== UrlLocationState) {
       setUrlLocationState(() => UrlLoc);
     }
-  }, []);
+  }, [UrlLocationState, setUrlLocationState]);
 
   // ===========================
   //  FETCH MOST POPULAR VIDEOS

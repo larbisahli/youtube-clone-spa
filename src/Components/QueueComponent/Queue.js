@@ -249,7 +249,7 @@ const Queue = React.memo(() => {
     }
   }, []);
 
-  console.log("queue :", getCurrentTime());
+  //console.log("queue :", getCurrentTime());
 
   return (
     <div
