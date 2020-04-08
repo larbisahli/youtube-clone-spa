@@ -8,9 +8,9 @@ import {
   ResultChannelContainer,
   ResultPlaylistContainer,
   Filter,
-  MessageBox
 } from "../Components";
 import { UrlLocationContext } from "../Context/UrlLocationContext";
+import { MessageBoxContext } from "../Context/MessageBoxContext";
 import { UrlLocation, ReturnTheme } from "../config";
 import { useParams } from "react-router";
 import { ThemeContext } from "../Context/ThemeContext";
@@ -37,16 +37,8 @@ const Results = React.memo(() => {
   // Guide Context
   const [GuideTrigger, setGuideTrigger] = useContext(GuideContext);
 
-  // Message Error State
-  const [
-    { show, message, btnMessage, isError },
-    setShowErrorMessage
-  ] = useState({
-    show: false,
-    message: "",
-    btnMessage: "",
-    isError: false
-  });
+  // Message Box Context
+  const [, setMessageBox] = useContext(MessageBoxContext);
 
   // ===========================
   //  Handle Location Context
@@ -91,17 +83,17 @@ const Results = React.memo(() => {
               maxResults: 2,
               q: id,
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
-              [parameter]: option
+              [parameter]: option,
             }
           : {
               part: "snippet",
               maxResults: 2,
               q: id,
-              key: process.env.REACT_APP_YOUTUBE_API_KEY
-            }
+              key: process.env.REACT_APP_YOUTUBE_API_KEY,
+            },
     })
-      .then(res => {
-        res.data.items.map(res => {
+      .then((res) => {
+        res.data.items.map((res) => {
           return (SearchArray = [
             ...SearchArray,
             {
@@ -116,8 +108,8 @@ const Results = React.memo(() => {
                 res.id.kind === "youtube#playlist" ? res.id.playlistId : false,
               publishedAt: res.snippet.publishedAt,
               title: res.snippet.title,
-              description: res.snippet.description
-            }
+              description: res.snippet.description,
+            },
           ]);
         });
 
@@ -127,13 +119,14 @@ const Results = React.memo(() => {
           setShowFilterDrop(false);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         // Error Setup
-        setShowErrorMessage({
+        setMessageBox({
           show: true,
           message: `${err}`,
           btnMessage: "dismiss",
-          isError: true
+          MassageFrom: "error",
+          id: "",
         });
       });
   };
@@ -149,38 +142,43 @@ const Results = React.memo(() => {
   const HandleClosingMessageBox = useCallback(() => {
     // Just to make sure isError will not
     // change to false by any chance before doing some logic if true
-    try {
-      if (isError) {
-      }
-    } finally {
-      setShowErrorMessage(pre => {
-        return {
-          show: false,
-          message: pre.message,
-          btnMessage: pre.btnMessage,
-          isError: false
-        };
-      });
-    }
-  }, [isError]);
+
+    setMessageBox((pre) => {
+      return {
+        show: false,
+        message: pre.message,
+        btnMessage: pre.btnMessage,
+        MassageFrom: "",
+        id: "",
+      };
+    });
+  }, [setMessageBox]);
 
   const HandleShowMessageBox = useCallback(
-    (watchLater, ch = false) => {
+    (MassageFrom, state, id = "", ch = false) => {
       if (!ch) {
-        setShowErrorMessage({
+        let msg;
+        let btnMsg;
+        if (MassageFrom === "wl") {
+          msg = !state ? "Saved to Watch later" : "Removed from Watch later";
+          btnMsg = !state ? "UNDO" : "";
+        }
+
+        // console.log("watchLater :", MassageFrom, state, id);
+        setMessageBox({
           show: true,
-          message: !watchLater
-            ? "Saved to Watch later"
-            : "Removed from Watch later",
-          btnMessage: "UNDO",
-          isError: false
+          message: msg,
+          btnMessage: btnMsg,
+          MassageFrom: MassageFrom,
+          id: id,
         });
       } else {
-        setShowErrorMessage({
+        setMessageBox({
           show: true,
-          message: !watchLater ? "Subscription added" : "Subscription removed",
+          message: !state ? "Subscription added" : "Subscription removed",
           btnMessage: "",
-          isError: false
+          MassageFrom: "",
+          id: "",
         });
       }
 
@@ -188,7 +186,7 @@ const Results = React.memo(() => {
         HandleClosingMessageBox();
       }, 4000);
     },
-    [HandleClosingMessageBox]
+    [HandleClosingMessageBox, setMessageBox]
   );
 
   return (
@@ -236,12 +234,6 @@ const Results = React.memo(() => {
           })}
         </div>
       </div>
-      <MessageBox
-        message={message}
-        btnMessage={btnMessage}
-        show={show}
-        HandleMessageBtn={HandleClosingMessageBox}
-      />
     </div>
   );
 });

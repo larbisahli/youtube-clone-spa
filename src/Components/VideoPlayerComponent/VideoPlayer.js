@@ -10,37 +10,53 @@ const loadVideo = (videoId, PlayerId, onPlayerStateChange, onPlayerError) => {
   currentVideoId = videoId;
 
   player = new window.YT.Player(PlayerId, {
-    videoId: videoId,
+    // videoId: videoId,
     height: "100%",
     width: "100%",
     playerVars: {
-      controls: 0,
-      enablejsapi: 1,
-      showinfo: 0
+      controls: 1,
+      enablejsapi: 0,
+      showinfo: 0,
+      origin: "https",
     },
     events: {
-      onReady: onPlayerReady,
+      //onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
-      onError: onPlayerError
-    }
+      onError: onPlayerError,
+    },
   });
 };
 
-const onPlayerReady = event => {
-  console.log("playVideo==> :");
-  event.target.playVideo();
-};
+// const onPlayerReady = (event) => {
+//   try {
+//     event.target.playVideo();
+//   } catch (error) {
+//     console.log("onPlayerReady error :", error);
+//   }
+// };
 
 export const PauseVideo = () => {
-  player.pauseVideo();
+  try {
+    player.pauseVideo();
+  } catch (error) {
+    console.log("PauseVideo error :", error);
+  }
 };
 export const PlayVideo = () => {
-  player.playVideo();
+  try {
+    player.playVideo();
+  } catch (error) {
+    console.log("PlayVideo error :", error);
+  }
 };
 
 export const getCurrentTime = () => {
   if (player !== undefined) {
-    return player.getCurrentTime();
+    try {
+      return player.getCurrentTime();
+    } catch (error) {
+      return 0;
+    }
   } else {
     return 0;
   }
@@ -52,9 +68,9 @@ const VideoPlayer = React.memo(
     HandlePlayingVideo,
     PlayerId,
     onPlayerStateChange,
-    onPlayerError
+    onPlayerError,
   }) => {
-    console.log("VideoPlayer::: :");
+    console.log("<::-VideoPlayer-::>");
 
     useEffect(() => {
       if (check) {
@@ -92,7 +108,7 @@ const VideoPlayer = React.memo(
       HandlePlayingVideo,
       PlayerId,
       onPlayerStateChange,
-      onPlayerError
+      onPlayerError,
     ]);
 
     return <div id={PlayerId}></div>;

@@ -5,7 +5,7 @@ import {
   TextReducer,
   ViewsNumFormatter,
   numberWithCommas,
-  ReturnTheme
+  ReturnTheme,
 } from "../../config";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { SubBellSvg } from "./Svg";
@@ -22,22 +22,22 @@ const ResultChannelContainer = React.memo(
     // =========================
     //  FETCH CHANNEL DETAILS
     // =========================
-    const GetChannelsDetails = async id => {
-      return await new Promise(resolve => {
+    const GetChannelsDetails = async (id) => {
+      return await new Promise((resolve) => {
         YouTubeAPI.get("channels", {
           params: {
             part: "statistics",
             key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id
-          }
-        }).then(res => {
+            id: id,
+          },
+        }).then((res) => {
           resolve(res);
         });
       });
     };
 
     const Fetch_Data = (id, index) => {
-      GetChannelsDetails(id).then(res => {
+      GetChannelsDetails(id).then((res) => {
         if (res.data.items.length >= 1) {
           const vidcount = res.data.items[0].statistics.videoCount;
           const subcount = res.data.items[0].statistics.subscriberCount;
@@ -57,9 +57,9 @@ const ResultChannelContainer = React.memo(
     };
 
     const HandleSub = useCallback(() => {
-      setSubed(prev => !prev);
-      HandleShowMessageBox(subed, true);
-    }, [setSubed, subed, HandleShowMessageBox]);
+      setSubed((prev) => !prev);
+      HandleShowMessageBox("", subed, item.videoId, true);
+    }, [setSubed, subed, HandleShowMessageBox, item]);
 
     return (
       <div className="item_section">

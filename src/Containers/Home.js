@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback, useContext } from "react";
 import "./Sass/home_style.scss";
 import { HomeVideoContainer } from "../Components";
 import { YouTubeAPI } from "../Components/api/YoutubeApi";
-import { HomeSkeleton, MessageBox } from "../Components";
+import { HomeSkeleton } from "../Components";
 import { UrlLocationContext } from "../Context/UrlLocationContext";
 import { ThemeContext } from "../Context/ThemeContext";
+import { MessageBoxContext } from "../Context/MessageBoxContext";
 import { UrlLocation, ReturnTheme } from "../config";
 
 // Creating a global variable to hold all api looped data
@@ -19,20 +20,12 @@ const Home = React.memo(() => {
   // API Collector State
   const [PopularVideos, setPopularVideos] = useState([]);
 
-  // Message Error State
-  const [
-    { show, message, btnMessage, isError },
-    setShowErrorMessage
-  ] = useState({
-    show: false,
-    message: "",
-    btnMessage: "",
-    isError: false
-  });
-
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
+
+  // Message Box Context
+  const [, setMessageBox] = useContext(MessageBoxContext);
 
   // ===========================
   //  Handle Location Context
@@ -57,13 +50,13 @@ const Home = React.memo(() => {
     YouTubeAPI.get("videos", {
       params: {
         part: "snippet,statistics,contentDetails",
-        maxResults: 10,
+        maxResults: 5,
         chart: "mostPopular",
-        key: process.env.REACT_APP_YOUTUBE_API_KEY
-      }
+        key: process.env.REACT_APP_YOUTUBE_API_KEY,
+      },
     })
-      .then(res => {
-        res.data.items.map(res => {
+      .then((res) => {
+        res.data.items.map((res) => {
           return (PopularVideosArray = [
             ...PopularVideosArray,
             {
@@ -77,21 +70,22 @@ const Home = React.memo(() => {
               publishedAt: res.snippet.publishedAt,
               viewCount: res.statistics.viewCount,
               title: res.snippet.localized.title,
-              duration: res.contentDetails.duration
-            }
+              duration: res.contentDetails.duration,
+            },
           ]);
         });
 
         setPopularVideos([...PopularVideosArray], setIsLoading(false));
         PopularVideosArray = [];
       })
-      .catch(err => {
+      .catch((err) => {
         // Error Setup
-        setShowErrorMessage({
+        setMessageBox({
           show: true,
           message: `${err}`,
           btnMessage: "dismiss",
-          isError: true
+          MassageFrom: "error",
+          id: "",
         });
         setIsLoading(true);
       });
@@ -103,37 +97,41 @@ const Home = React.memo(() => {
 
   const HandleClosingMessageBox = useCallback(() => {
     // Just to make sure isError will not change to false by any chance before doing some logic if true
-    try {
-      if (isError) {
-      }
-    } finally {
-      setShowErrorMessage(pre => {
-        return {
-          show: false,
-          message: pre.message,
-          btnMessage: pre.btnMessage,
-          isError: false
-        };
-      });
-    }
-  }, [isError]);
+
+    setMessageBox((pre) => {
+      return {
+        show: false,
+        message: pre.message,
+        btnMessage: pre.btnMessage,
+        MassageFrom: "",
+        id: "",
+      };
+    });
+  }, [setMessageBox]);
 
   const HandleShowMessageBox = useCallback(
-    watchLater => {
-      setShowErrorMessage({
+    (MassageFrom, state, id = "") => {
+      let msg;
+      let btnMsg;
+      if (MassageFrom === "wl") {
+        msg = !state ? "Saved to Watch later" : "Removed from Watch later";
+        btnMsg = !state ? "UNDO" : "";
+      }
+
+      // console.log("watchLater :", MassageFrom, state, id);
+      setMessageBox({
         show: true,
-        message: !watchLater
-          ? "Saved to Watch later"
-          : "Removed from Watch later",
-        btnMessage: "UNDO",
-        isError: false
+        message: msg,
+        btnMessage: btnMsg,
+        MassageFrom: MassageFrom,
+        id: id,
       });
 
       setTimeout(() => {
         HandleClosingMessageBox();
       }, 4000);
     },
-    [HandleClosingMessageBox]
+    [HandleClosingMessageBox, setMessageBox]
   );
 
   useEffect(() => {
@@ -166,12 +164,6 @@ const Home = React.memo(() => {
               })}
         </div>
       </div>
-      <MessageBox
-        message={message}
-        btnMessage={btnMessage}
-        show={show}
-        HandleMessageBtn={HandleClosingMessageBox}
-      />
     </div>
   );
 });

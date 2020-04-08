@@ -6,41 +6,68 @@ import {
   TextReducer,
   ViewsNumFormatter,
   HandleDuration,
-  ReturnTheme
+  ReturnTheme,
 } from "../../config";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { ThemeContext } from "../../Context/ThemeContext";
+import { WLVContext } from "../../Context/WLVContext";
+import { QueueContext } from "../../Context/QueueContext";
 
 const ResultVideoContainer = React.memo(
   ({ item, index, HandleShowMessageBox }) => {
-    // Watch later state
-    const [IswatchLater, setIsWatchLater] = useState(false);
-
     // Theme context
     const [YtTheme] = useContext(ThemeContext);
     const Theme = YtTheme.isDarkTheme;
 
+    // WLV Context
+    const { WatchLaterState } = useContext(WLVContext);
+    const [WatchLaterList, WLdispatch] = WatchLaterState;
+
+    // Queue Context
+    const { QueueState, ShowQueueState } = useContext(QueueContext);
+    const [ShowQueue, setShowQueue] = ShowQueueState;
+    const [QueueList, QueueListDispatch] = QueueState;
+
+    // ======================================
+    // Check if a video is already in wl list
+    // ======================================
+
+    const [IswatchLater, setIsWatchLater] = useState(
+      WatchLaterList.some((wl) => wl.videoId === item.videoId)
+    );
+
+    // =========================================
+    // Check if a video is already in queue list
+    // =========================================
+    const [IsQueue, setIsQueue] = useState(
+      QueueList.some((que) => que.videoId === item.videoId)
+    );
+
     // =========================
     //  FETCH VIDEOS DETAILS
     // =========================
-    const GetVideoDetails = async id => {
-      return await new Promise(resolve => {
+    const GetVideoDetails = async (id) => {
+      return await new Promise((resolve) => {
         YouTubeAPI.get("videos", {
           params: {
             part: "contentDetails,statistics",
             key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id
-          }
-        }).then(res => {
+            id: id,
+          },
+        }).then((res) => {
           resolve(res);
         });
       });
     };
 
+    // =================================
+    // fetch video duration and viewer
+    // =================================
+
     const Fetch_Data = (id, index) => {
-      GetVideoDetails(id).then(res => {
+      GetVideoDetails(id).then((res) => {
         if (res.data.items.length >= 1) {
           document.getElementById(
             `${id}-${index}-duration`
@@ -57,10 +84,88 @@ const ResultVideoContainer = React.memo(
       });
     };
 
-    const HandleWLClick = useCallback(() => {
-      setIsWatchLater(!IswatchLater);
-      HandleShowMessageBox(IswatchLater);
-    }, [IswatchLater, HandleShowMessageBox]);
+    // =========================
+    //  Handle Watch Later btn
+    // =========================
+
+    const HandleWLClick = useCallback(
+      (
+        title,
+        duration,
+        videoId,
+        channelTitle,
+        channelId,
+        thumbnail,
+        IswatchLater_
+      ) => {
+        setIsWatchLater(!IswatchLater);
+        HandleShowMessageBox("wl", IswatchLater, item.videoId);
+
+        if (IswatchLater_) {
+          WLdispatch({ type: "removeOne", videoId });
+        } else {
+          WLdispatch({
+            type: "add",
+            title,
+            duration,
+            videoId,
+            channelTitle,
+            channelId,
+            thumbnail,
+          });
+        }
+      },
+      [IswatchLater, HandleShowMessageBox, item, WLdispatch]
+    );
+
+    // =========================
+    //    Handle Queue btn
+    // =========================
+
+    const HandleQueueClick = useCallback(
+      (
+        title,
+        duration,
+        videoId,
+        channelTitle,
+        channelId,
+        thumbnail,
+        IsQueue_
+      ) => {
+        setIsQueue(!IsQueue);
+        //HandleShowMessageBox(IsQueue);
+
+        if (!ShowQueue) {
+          setShowQueue(true);
+        }
+
+        const playing = QueueList.length === 0;
+
+        if (IsQueue_) {
+          QueueListDispatch({ type: "removeOne", videoId });
+        } else {
+          QueueListDispatch({
+            type: "add",
+            title,
+            duration,
+            videoId,
+            channelTitle,
+            channelId,
+            thumbnail,
+            playing,
+            index: QueueList.length,
+          });
+        }
+      },
+      [
+        IsQueue,
+        //HandleShowMessageBox,
+        QueueList,
+        QueueListDispatch,
+        ShowQueue,
+        setShowQueue,
+      ]
+    );
 
     const HandleRImg = useCallback((skeleton_id, index) => {
       // BackgroundColor can be red and you can use it as video duration with the width.
@@ -70,7 +175,6 @@ const ResultVideoContainer = React.memo(
       document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
     }, []);
 
-    console.log("video=<> :", item);
     return (
       <div className="item_section">
         <div className="rv_container">
@@ -96,7 +200,18 @@ const ResultVideoContainer = React.memo(
               {Fetch_Data(item.videoId, index)}
             </div>
             <button
-              onClick={HandleWLClick}
+              onClick={() =>
+                HandleWLClick(
+                  item.title,
+                  document.getElementById(`${item.videoId}-${index}-duration`)
+                    .innerHTML,
+                  item.videoId,
+                  item.channelTitle,
+                  item.channelId,
+                  item.thumbnail,
+                  IswatchLater
+                )
+              }
               className="rv_video_ab rv_video_ab-clock"
             >
               <div className="rv_icon">
@@ -116,12 +231,30 @@ const ResultVideoContainer = React.memo(
                 )}
               </div>
             </button>
-            <button className="rv_video_ab rv_video_ab-queue">
+            <button
+              onClick={() =>
+                HandleQueueClick(
+                  item.title,
+                  document.getElementById(`${item.videoId}-${index}-duration`)
+                    .innerHTML,
+                  item.videoId,
+                  item.channelTitle,
+                  item.channelId,
+                  item.thumbnail,
+                  IsQueue
+                )
+              }
+              className="rv_video_ab rv_video_ab-queue"
+            >
               <div className="rv_icon">
-                <QueueSvg />
+                {IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
               <div className="rv_slider_text">
-                <div className="rv_normaltxt">add to queue</div>
+                {IsQueue ? (
+                  <div className="rv_normaltxt">added</div>
+                ) : (
+                  <div className="rv_normaltxt">add to queue</div>
+                )}
               </div>
             </button>
             {/* -------------Text Area-------------- */}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from "react";
+import React, { useCallback, useState, useContext, useEffect } from "react";
 import "./hvcontainer_style.scss";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
@@ -7,7 +7,7 @@ import {
   ViewsNumFormatter,
   HandleDuration,
   TextReducer,
-  ReturnTheme
+  ReturnTheme,
 } from "../../config";
 import { Link } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
@@ -17,11 +17,6 @@ import { QueueContext } from "../../Context/QueueContext";
 
 const HomeVideoContainer = React.memo(
   ({ PopularVideo, index, HandleShowMessageBox }) => {
-    // Watch later state
-    const [IswatchLater, setIsWatchLater] = useState(false);
-    // Watch later state
-    const [IsQueue, setIsQueue] = useState(false);
-
     // Theme context
     const [YtTheme] = useContext(ThemeContext);
     const Theme = YtTheme.isDarkTheme;
@@ -35,26 +30,48 @@ const HomeVideoContainer = React.memo(
     const [ShowQueue, setShowQueue] = ShowQueueState;
     const [QueueList, QueueListDispatch] = QueueState;
 
+    //
+    const [Isplaying, setIsplayingNow] = useState([]);
+
+    // ======================================
+    // Check if a video is already in wl list
+    // ======================================
+
+    const [IswatchLater, setIsWatchLater] = useState(
+      WatchLaterList.some((wl) => wl.videoId === PopularVideo.videoId)
+    );
+
+    // =========================================
+    // Check if a video is already in queue list
+    // =========================================
+    const [IsQueue, setIsQueue] = useState(
+      QueueList.some((que) => que.videoId === PopularVideo.videoId)
+    );
+
     // =========================
     //  FETCH CHANNELS SNIPPET
     // =========================
 
-    const GetChannelsthumbnail = async id => {
-      return await new Promise(resolve => {
+    const GetChannelsthumbnail = async (id) => {
+      return await new Promise((resolve) => {
         YouTubeAPI.get("channels", {
           params: {
             part: "snippet",
             key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id
-          }
-        }).then(res => {
+            id: id,
+          },
+        }).then((res) => {
           resolve(res);
         });
       });
     };
 
+    // =========================
+    //  fetching for thumbnails
+    // =========================
+
     const Fetch_Data = (id, index) => {
-      GetChannelsthumbnail(id).then(res => {
+      GetChannelsthumbnail(id).then((res) => {
         const sgix = document.getElementById(`${id}_${index}`);
         if (sgix !== null) {
           sgix.src = res.data.items[0].snippet.thumbnails.medium.url;
@@ -62,12 +79,9 @@ const HomeVideoContainer = React.memo(
       });
     };
 
-    const CheckWatchLaterList = useCallback(
-      videoId => {
-        return WatchLaterList.some(wl => wl.videoId === videoId);
-      },
-      [WatchLaterList]
-    );
+    // =========================
+    //  Handle Watch Later btn
+    // =========================
 
     const HandleWLClick = useCallback(
       (
@@ -80,7 +94,7 @@ const HomeVideoContainer = React.memo(
         IswatchLater_
       ) => {
         setIsWatchLater(!IswatchLater);
-        HandleShowMessageBox(IswatchLater);
+        HandleShowMessageBox("wl", IswatchLater, videoId);
 
         if (IswatchLater_) {
           WLdispatch({ type: "removeOne", videoId });
@@ -92,12 +106,16 @@ const HomeVideoContainer = React.memo(
             videoId,
             channelTitle,
             channelId,
-            thumbnail
+            thumbnail,
           });
         }
       },
       [IswatchLater, HandleShowMessageBox, WLdispatch]
     );
+
+    // =========================
+    //    Handle Queue btn
+    // =========================
 
     const HandleQueueClick = useCallback(
       (
@@ -110,14 +128,13 @@ const HomeVideoContainer = React.memo(
         IsQueue_
       ) => {
         setIsQueue(!IsQueue);
-        HandleShowMessageBox(IsQueue);
+        //HandleShowMessageBox(IsQueue);
 
         if (!ShowQueue) {
           setShowQueue(true);
         }
 
         const playing = QueueList.length === 0;
-        console.log("playing :", playing);
 
         if (IsQueue_) {
           QueueListDispatch({ type: "removeOne", videoId });
@@ -131,17 +148,17 @@ const HomeVideoContainer = React.memo(
             channelId,
             thumbnail,
             playing,
-            index: QueueList.length
+            index: QueueList.length,
           });
         }
       },
       [
         IsQueue,
-        HandleShowMessageBox,
+        //HandleShowMessageBox,
         QueueList,
         QueueListDispatch,
         ShowQueue,
-        setShowQueue
+        setShowQueue,
       ]
     );
 
@@ -152,6 +169,29 @@ const HomeVideoContainer = React.memo(
         "transparent";
       document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
     }, []);
+
+    // ===============================================
+    //   Check if the video is playing now on queue
+    // ===============================================
+
+    const IsplayingNow = useCallback(() => {
+      return QueueList.filter((plv) => {
+        if (plv.playing) {
+          return plv.videoId;
+        } else {
+          return "";
+        }
+      });
+    }, [QueueList]);
+
+    useEffect(() => {
+      const value = IsplayingNow();
+      if (value.length > 0) {
+        setIsplayingNow(() => {
+          return value[0].videoId;
+        });
+      }
+    }, [QueueList, IsplayingNow]);
 
     return (
       <div className="hvideo_container">
@@ -170,6 +210,10 @@ const HomeVideoContainer = React.memo(
                 />
               </div>
             </Link>
+            {Isplaying === PopularVideo.videoId && (
+              <div className="hvideo_ab hvideo_ab-playing">Now playing</div>
+            )}
+
             <div className="hvideo_ab hvideo_ab-duration">
               {HandleDuration(PopularVideo.duration)}
             </div>
@@ -188,7 +232,7 @@ const HomeVideoContainer = React.memo(
               className="hvideo_ab hvideo_ab-clock"
             >
               <div className="tt_icon">
-                {IswatchLater || CheckWatchLaterList(PopularVideo.videoId) ? (
+                {IswatchLater ? (
                   <div className="checked_icon">
                     <CheckedSvg />
                   </div>

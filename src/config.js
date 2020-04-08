@@ -1,7 +1,7 @@
-export const ViewsNumFormatter = num => {
+export const ViewsNumFormatter = (num) => {
   let FormatNum = 0;
 
-  const Num = num => {
+  const Num = (num) => {
     return num.toFixed(1).split(".")[1] >= 5 ? num.toFixed(1) : Math.floor(num);
   };
 
@@ -18,24 +18,28 @@ export const ViewsNumFormatter = num => {
   return FormatNum;
 };
 
-export const HandleDuration = d => {
+export const HandleDuration = (d) => {
   let H, M, S, X;
 
-  const HasH = d.split("PT")[1].includes("H");
-  const HasM = d.split("PT")[1].includes("M");
-  const HasS = d.split("PT")[1].includes("S");
+  if (d.includes("PT")) {
+    const HasH = d.split("PT")[1].includes("H");
+    const HasM = d.split("PT")[1].includes("M");
+    const HasS = d.split("PT")[1].includes("S");
 
-  [H, X] = HasH ? d.split("PT")[1].split("H") : d.split("PT");
+    [H, X] = HasH ? d.split("PT")[1].split("H") : d.split("PT");
 
-  if (HasM) {
-    [M, X] = X.split("M");
+    if (HasM) {
+      [M, X] = X.split("M");
+    }
+
+    S = HasS ? X.split("S")[0] : 0;
+
+    return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
+      HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
+    }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
+  } else {
+    return d;
   }
-
-  S = HasS ? X.split("S")[0] : 0;
-
-  return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
-    HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
-  }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
 };
 
 export const TextReducer = (text, num) => {
@@ -46,11 +50,11 @@ export const TextReducer = (text, num) => {
   }
 };
 
-export const numberWithCommas = x => {
+export const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const ReturnTheme = Theme => {
+export const ReturnTheme = (Theme) => {
   return Theme ? "dark" : "light";
 };
 

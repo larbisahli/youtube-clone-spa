@@ -3,32 +3,37 @@ import "./queue_style.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
 import { QueueContext } from "../../Context/QueueContext";
-import { HandleDuration, TextReducer } from "../../config";
+import { ThemeContext } from "../../Context/ThemeContext";
+import { HandleDuration, TextReducer, ReturnTheme } from "../../config";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
   ExpandSvg,
   CloseBtnSvg,
   NextBtnSvg,
-  PrevBtnSvg
+  PrevBtnSvg,
 } from "./Svg";
 import { VideoPlayer } from "../.";
 import {
   PauseVideo,
   PlayVideo,
-  getCurrentTime
+  getCurrentTime,
 } from "../VideoPlayerComponent/VideoPlayer";
 
-const PLitems = React.memo(({ plv, HandleWhoPlaying }) => {
+const PLitems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
   // Queue Context
   const { QueueState } = useContext(QueueContext);
   const [, QueueListDispatch] = QueueState;
+
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
 
   // ===============
   //  Handle Delete
   // ===============
   const HandleDelClick = useCallback(
-    videoId => {
+    (videoId) => {
       QueueListDispatch({ type: "removeOne", videoId });
     },
     [QueueListDispatch]
@@ -39,11 +44,13 @@ const PLitems = React.memo(({ plv, HandleWhoPlaying }) => {
       onClick={() =>
         QueueListDispatch({
           type: "play",
-          videoId: plv.videoId
+          videoId: plv.videoId,
         })
       }
-      className={`ytp_playlist_v_con ${
-        HandleWhoPlaying() === plv.index ? "ytp_current_playing_v" : ""
+      className={`ytp_playlist_v_con ytp_playlist_v_con-${ReturnTheme(Theme)} ${
+        CurrentPlayingVidIndex() === plv.index
+          ? `ytp_current_playing_v-${ReturnTheme(Theme)}`
+          : ""
       }`}
     >
       <div className="ytp_playlist_svg_area">
@@ -66,13 +73,21 @@ const PLitems = React.memo(({ plv, HandleWhoPlaying }) => {
             <div className="ytp_playlist_pl_title">
               {TextReducer(plv.title, 40)}
             </div>
-            <div className="ytp_playlist_pl_chtitle">{plv.channelTitle}</div>
+            <div
+              className={`ytp_playlist_pl_chtitle ytp_playlist_pl_chtitle-${ReturnTheme(
+                Theme
+              )}`}
+            >
+              {plv.channelTitle}
+            </div>
           </div>
           <div className="ytp_playlist_del">
             <div
               onClick={() => HandleDelClick(plv.videoId, plv.index)}
-              className={`ytp_playlist_delbtn ${
-                HandleWhoPlaying() === plv.index ? "ytp_delbtn_not" : ""
+              className={`ytp_playlist_delbtn ytp_playlist_delbtn-${ReturnTheme(
+                Theme
+              )} ${
+                CurrentPlayingVidIndex() === plv.index ? "ytp_delbtn_not" : ""
               }`}
             >
               <TrashSvg />
@@ -96,6 +111,10 @@ const Queue = React.memo(() => {
   // Play Btn Toggle between pause and play State
   const [ShowPlayBtn, setShowPlayBtn] = useState(false);
 
+  // Theme context
+  const [YtTheme] = useContext(ThemeContext);
+  const Theme = YtTheme.isDarkTheme;
+
   // =======================================
   // Get the videoId if the {playing : true}
   // =======================================
@@ -104,7 +123,7 @@ const Queue = React.memo(() => {
     let vidId = "";
 
     if (QueueList.length !== 0) {
-      vidId = QueueList.filter(plv => {
+      vidId = QueueList.filter((plv) => {
         return plv.playing;
       });
 
@@ -114,9 +133,11 @@ const Queue = React.memo(() => {
         vidId = QueueList[0].videoId;
         QueueListDispatch({
           type: "play",
-          videoId: QueueList[0].videoId
+          videoId: QueueList[0].videoId,
         });
       }
+    } else {
+      return "";
     }
 
     return vidId;
@@ -127,12 +148,14 @@ const Queue = React.memo(() => {
   // ===================================
 
   const HandleVidPlayingTitle = useCallback(() => {
-    const plv = QueueList.filter(plv => {
+    const plv = QueueList.filter((plv) => {
       return plv.videoId === HandlePlayingVideo();
     });
 
     if (plv.length !== 0) {
       return plv[0].title;
+    } else if (QueueList.length !== 0) {
+      return QueueList[0].title;
     } else {
       return "";
     }
@@ -142,8 +165,8 @@ const Queue = React.memo(() => {
   // Get the index of the current video
   // ==================================
 
-  const HandleWhoPlaying = useCallback(() => {
-    const plv = QueueList.filter(plv => {
+  const CurrentPlayingVidIndex = useCallback(() => {
+    const plv = QueueList.filter((plv) => {
       return plv.videoId === HandlePlayingVideo();
     });
 
@@ -160,7 +183,7 @@ const Queue = React.memo(() => {
 
   const HandleVideoIndex = useCallback(() => {
     if (QueueList.length !== 0) {
-      return QueueList.filter(plv => {
+      return QueueList.filter((plv) => {
         return plv.playing;
       })[0].index;
     } else {
@@ -175,8 +198,12 @@ const Queue = React.memo(() => {
   const HandleCloseQueue = useCallback(() => {
     setShowQueue(() => false);
     QueueListDispatch({
-      type: "removeAll"
+      type: "removeAll",
     });
+    // Clean Up
+    document.getElementById(
+      "mini-Player"
+    ).src = `https://www.youtube.com/embed/?autoplay=1&fs=0&modestbranding=1&rel=0&enablejsapi=1&start=0&showinfo=0&controls=1`;
   }, [QueueListDispatch, setShowQueue]);
 
   // ============================
@@ -184,14 +211,12 @@ const Queue = React.memo(() => {
   // ============================
 
   const onPlayerStateChange = useCallback(
-    event => {
-      console.log("==<> :", event.data);
-
+    (event) => {
       switch (event.data) {
         case 0:
           QueueListDispatch({
             type: "play_next",
-            index: HandleVideoIndex()
+            index: HandleVideoIndex(),
           });
           break;
         case 1:
@@ -233,7 +258,7 @@ const Queue = React.memo(() => {
   //  Handle Error Message
   // ======================
 
-  const onPlayerError = useCallback(event => {
+  const onPlayerError = useCallback((event) => {
     switch (event.data) {
       case 2:
         console.log("The request contains an invalid parameter value");
@@ -257,11 +282,17 @@ const Queue = React.memo(() => {
         // 225px + 285px + 65px = 575px
         transform: `translate3d(0, ${
           ShowQueue ? (ShowList ? "0" : "285px") : "575px"
-        }, 0)`
+        }, 0)`,
       }}
-      className="ytp_miniplayer_container"
+      className={`ytp_miniplayer_container ytp_miniplayer_container-${ReturnTheme(
+        Theme
+      )}`}
     >
-      <div className="ytp_miniplayer_wrapper">
+      <div
+        className={`ytp_miniplayer_wrapper ytp_miniplayer_wrapper-${ReturnTheme(
+          Theme
+        )}`}
+      >
         <div className="ytp_video_miniplayer_con">
           {/* Video Iframe */}
 
@@ -277,7 +308,7 @@ const Queue = React.memo(() => {
             onClick={() =>
               QueueListDispatch({
                 type: "play_prev",
-                index: HandleVideoIndex()
+                index: HandleVideoIndex(),
               })
             }
             className="ytp_pp_btn ytp_pp_btn-prev"
@@ -288,7 +319,7 @@ const Queue = React.memo(() => {
             onClick={() =>
               QueueListDispatch({
                 type: "play_next",
-                index: HandleVideoIndex()
+                index: HandleVideoIndex(),
               })
             }
             className="ytp_pp_btn ytp_pp_btn-next"
@@ -317,34 +348,46 @@ const Queue = React.memo(() => {
 
           <div className="ytp_playbtn"></div>
         </div>
-        <div className="ytp_heading_miniplayer_con">
+        <div
+          className={`ytp_heading_miniplayer_con ytp_heading_miniplayer_con-${ReturnTheme(
+            Theme
+          )}`}
+        >
           <div className="ytp_heading_wrap">
             <div className="ytp_title">
               <span>{TextReducer(HandleVidPlayingTitle(), 40)}</span>
             </div>
             <div
-              onClick={() => setShowList(value => !value)}
-              className="ytp_stat"
+              onClick={() => setShowList((value) => !value)}
+              className={`ytp_stat ytp_stat-${ReturnTheme(Theme)}`}
             >
               <div>Queue</div>
               <span>•</span>
-              <div>{`${QueueList.length === 0 ? 0 : HandleWhoPlaying() + 1} / ${
-                QueueList.length
-              }`}</div>
+              <div>{`${
+                QueueList.length === 0 ? 0 : CurrentPlayingVidIndex() + 1
+              } / ${QueueList.length}`}</div>
             </div>
           </div>
           <div
-            onClick={() => setShowList(value => !value)}
+            onClick={() => setShowList((value) => !value)}
             className="ytp_show_more_svg"
           >
-            <div className="ytp_smv_btn">
+            <div className={`ytp_smv_btn ytp_smv_btn-${ReturnTheme(Theme)}`}>
               {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
             </div>
           </div>
         </div>
         {/* PLAYLIST CONTAINER */}
-        <div className="ytp_playlist_miniplayer_con">
-          <div className="ytp_playlist_panel">
+        <div
+          className={`ytp_playlist_miniplayer_con ytp_playlist_miniplayer_con-${ReturnTheme(
+            Theme
+          )}`}
+        >
+          <div
+            className={`ytp_playlist_panel ytp_playlist_panel-${ReturnTheme(
+              Theme
+            )}`}
+          >
             <div className="ytp_playlist_panel_head">
               <AddPlayListSvg />
 
@@ -352,13 +395,17 @@ const Queue = React.memo(() => {
             </div>
           </div>
           {/* PLAYLIST ITEMS */}
-          <div className="ytp_playlist_items_con">
+          <div
+            className={`ytp_playlist_items_con ytp_playlist_items_con-${ReturnTheme(
+              Theme
+            )}`}
+          >
             {QueueList.map((plv, index) => {
               return (
                 <PLitems
                   plv={plv}
                   key={index}
-                  HandleWhoPlaying={HandleWhoPlaying}
+                  CurrentPlayingVidIndex={CurrentPlayingVidIndex}
                 />
               );
             })}

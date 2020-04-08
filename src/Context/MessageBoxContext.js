@@ -2,16 +2,15 @@ import React, { useState, createContext } from "react";
 
 export const MessageBoxContext = createContext();
 
-export const MessageBoxProvider = props => {
-  console.log("GuideProvider:==>");
-
-  // Trigger the Guide for resizing
+export const MessageBoxProvider = (props) => {
+  console.log("MessageBoxProvider:==>");
 
   const [MessageBox, setMessageBox] = useState({
     show: false,
     message: "",
     btnMessage: "",
-    this: ""
+    MassageFrom: "",
+    id: "",
   });
 
   return (
