@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./drop_style.scss";
 import { UploadSvg, GoLiveSvg } from "../Svg";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders

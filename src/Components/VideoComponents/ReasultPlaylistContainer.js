@@ -6,7 +6,7 @@ import { YouTubeAPI } from "../api/YoutubeApi";
 import { PlaySvg } from "./Svg";
 import { PlayListSvg } from "../GuideComponents/Svg";
 import axios from "axios";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext } from "../../Context";
 
 const ResultPlaylistContainer = React.memo(({ item, index }) => {
   // Theme context
@@ -16,8 +16,8 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   // =========================
   //  FETCH VIDEOS DETAILS
   // =========================
-  const GetVideoDetails = async id => {
-    return await new Promise(resolve => {
+  const GetVideoDetails = async (id) => {
+    return await new Promise((resolve) => {
       axios
         .all([
           YouTubeAPI.get("playlistItems", {
@@ -25,18 +25,18 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
               part: "snippet",
               maxResults: 2,
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
-              playlistId: id
-            }
+              playlistId: id,
+            },
           }),
           YouTubeAPI.get("playlists", {
             params: {
               part: "contentDetails",
               key: process.env.REACT_APP_YOUTUBE_API_KEY,
-              id: id
-            }
-          })
+              id: id,
+            },
+          }),
         ])
-        .then(responseArr => {
+        .then((responseArr) => {
           // this will be executed only when all requests are complete
           resolve(responseArr);
         });
@@ -44,7 +44,7 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   };
 
   const Fetch_Data = (id, index) => {
-    GetVideoDetails(id).then(res => {
+    GetVideoDetails(id).then((res) => {
       if (res) {
         document.getElementById(
           `${id}-${index}-itemCount`

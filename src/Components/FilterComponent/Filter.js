@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from "react";
 import { XSvg } from "../../Containers/Svg";
 import { ReturnTheme } from "../../config";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext } from "../../Context";
 
 const RemoveSvg = React.memo(({ WhoActive, text }) => {
   // Theme context
@@ -50,7 +50,7 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
 
       setWhoActive(() => (WhoActive === active ? "" : active));
     },
-    [setFilterState, setWhoActive, WhoActive]
+    [setFilterState, setWhoActive, WhoActive, FilterState]
   );
 
   const fccHtxt = `fcc_header_text fcc_header_text-${ReturnTheme(Theme)}`;
@@ -61,7 +61,7 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
     <div
       className="filter_content_container"
       style={{
-        maxHeight: ShowFilterDrop ? "450px" : "0px"
+        maxHeight: ShowFilterDrop ? "450px" : "0px",
       }}
     >
       <div className="fcc_wrapper">

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from "react";
 import "./sa_style.scss";
 import { BackArrowSvg } from "../Svg";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders
@@ -24,9 +24,9 @@ const ThemeDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   }, [setFade]);
 
   const handleCheckboxChange = useCallback(
-    event => {
+    (event) => {
       setYtTheme({
-        isDarkTheme: event.target.checked
+        isDarkTheme: event.target.checked,
       });
     },
     [setYtTheme]

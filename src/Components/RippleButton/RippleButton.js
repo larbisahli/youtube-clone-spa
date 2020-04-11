@@ -1,14 +1,14 @@
 import React, { useCallback, useState, useContext } from "react";
 import "./ripplebutton_style.scss";
 import { ReturnTheme } from "../../config";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext } from "../../Context";
 
 const RippleButton = React.memo(({ children, onclick, classname }) => {
   // Coordinates State
   const [{ y, x, show }, setRipple] = useState({
     y: 0,
     x: 0,
-    show: false
+    show: false,
   });
 
   // Theme context
@@ -19,25 +19,25 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
   //    Handle Ripple
   // ====================
 
-  const HandleRipple = useCallback(e => {
+  const HandleRipple = useCallback((e) => {
     var rect = e.target.getBoundingClientRect();
 
     var offset = {
       top: rect.top + window.scrollY,
-      left: rect.left + window.scrollX
+      left: rect.left + window.scrollX,
     };
 
     setRipple({
       y: e.pageY - offset.top,
       x: e.pageX - offset.left,
-      show: true
+      show: true,
     });
 
     setTimeout(() => {
       setRipple({
         y: 0,
         x: 0,
-        show: false
+        show: false,
       });
     }, 900);
   }, []);
@@ -56,7 +56,7 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
           ></div>
         )}
       </div>
-      {React.Children.map(children, child => React.cloneElement(child))}
+      {React.Children.map(children, (child) => React.cloneElement(child))}
     </button>
   );
 });

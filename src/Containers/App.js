@@ -1,30 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Navbar, Guide, MiniGuide, Queue, MessageBox } from "../Components";
-import { NavProvider } from "../Context/NavContext";
-import { GuideProvider } from "../Context/GuideContext";
-import { UrlLocationProvider } from "../Context/UrlLocationContext";
-import { WLVProvider } from "../Context/WLVContext";
-import { MessageBoxProvider } from "../Context/MessageBoxContext";
-import { QueueProvider } from "../Context/QueueContext";
+import {
+  MessageBoxProvider,
+  GuideProvider,
+  QueueProvider,
+  WLVProvider,
+  UrlLocationProvider,
+  NavProvider,
+} from "../Context";
 import Results from "./Results";
 import Home from "./Home";
 import WLV from "./WLV";
+import Watch from "./Watch";
+import Channel from "./Channel";
 import "./Sass/app_style.scss";
 
 function App() {
-  // Slider State
-  const [ShowGuide, setShowGuide] = useState(true);
-
-  // ===========================
-  //       Handle Guide
-  // ===========================
-
-  // Handle Show
-  const HandleShowGuide = useCallback(() => {
-    setShowGuide(!ShowGuide);
-  }, [setShowGuide, ShowGuide]);
-
   return (
     <div className="rootContainer">
       <MessageBoxProvider>
@@ -32,7 +24,7 @@ function App() {
           <GuideProvider>
             {/* NAVBAR */}
             <NavProvider>
-              <Navbar HandleShowGuide={HandleShowGuide} />
+              <Navbar />
               {/* PAGES */}
               <UrlLocationProvider>
                 <WLVProvider>
@@ -43,12 +35,16 @@ function App() {
                       {/* RESULTS PAGE ROUTE*/}
                       <Route path="/results/search=:id" component={Results} />
                       {/* WLV PAGE ROUTE*/}
-                      <Route path="/wlv/WL" exact component={WLV} />
+                      <Route path="/playlist/list=:id" exact component={WLV} />
+                      {/* WATCH PAGE ROUTE */}
+                      <Route path="/watch/v=:id" exact component={Watch} />
+                      {/* CHANNEL PAGE ROUTE */}
+                      <Route path="/channel/:id" exact component={Channel} />
                     </Switch>
                   </div>
                   {/* GUIDE */}
                   <MiniGuide />
-                  <Guide ShowGuide={ShowGuide} setShowGuide={setShowGuide} />
+                  <Guide />
                   {/* MESSAGE BOX */}
                   <MessageBox />
                 </WLVProvider>

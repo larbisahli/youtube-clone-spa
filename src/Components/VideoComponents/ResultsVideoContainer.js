@@ -11,9 +11,7 @@ import {
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
-import { ThemeContext } from "../../Context/ThemeContext";
-import { WLVContext } from "../../Context/WLVContext";
-import { QueueContext } from "../../Context/QueueContext";
+import { WLVContext, ThemeContext, QueueContext } from "../../Context";
 
 const ResultVideoContainer = React.memo(
   ({ item, index, HandleShowMessageBox }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./svg_style_scnni.scss";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // SVG path COPIED FROM YOUTUBE

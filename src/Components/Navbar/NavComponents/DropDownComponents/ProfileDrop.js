@@ -14,21 +14,20 @@ import {
   HelpSvg,
   FeedSvg,
   KeyboardSvg,
-  LocaSvg
+  LocaSvg,
 } from "../Svg";
-import { NavContext } from "../../../../Context/NavContext";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { NavContext, ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders
 
 const Location = React.memo(({ loca }) => {
-  const location_ = loca.filter(loca => loca.checked);
+  const location_ = loca.filter((loca) => loca.checked);
   return <div className="loca_">{`: ${location_[0].loca}`}</div>;
 });
 
 const Language = React.memo(({ lang }) => {
-  const Language_ = lang.filter(lang => lang.checked);
+  const Language_ = lang.filter((lang) => lang.checked);
   return <div className="lang_">{Language_[0].lang}</div>;
 });
 
@@ -45,8 +44,8 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
-  const IsCurrentAccount = useCallback(acc.filter(acc => acc.isCurrent)[0], [
-    acc
+  const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
+    acc,
   ]);
 
   const line = `line_b line_b-${ReturnTheme(Theme)}`;

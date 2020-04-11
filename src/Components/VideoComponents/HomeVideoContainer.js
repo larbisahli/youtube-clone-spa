@@ -11,9 +11,7 @@ import {
 } from "../../config";
 import { Link } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
-import { ThemeContext } from "../../Context/ThemeContext";
-import { WLVContext } from "../../Context/WLVContext";
-import { QueueContext } from "../../Context/QueueContext";
+import { WLVContext, ThemeContext, QueueContext } from "../../Context";
 
 const HomeVideoContainer = React.memo(
   ({ PopularVideo, index, HandleShowMessageBox }) => {
@@ -210,7 +208,7 @@ const HomeVideoContainer = React.memo(
                 />
               </div>
             </Link>
-            {Isplaying === PopularVideo.videoId && (
+            {ShowQueue && Isplaying === PopularVideo.videoId && (
               <div className="hvideo_ab hvideo_ab-playing">Now playing</div>
             )}
 
@@ -263,10 +261,10 @@ const HomeVideoContainer = React.memo(
               className="hvideo_ab hvideo_ab-queue"
             >
               <div className="tt_icon">
-                {IsQueue ? <CheckedSvg /> : <QueueSvg />}
+                {ShowQueue && IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
               <div className="slider_text">
-                {IsQueue ? (
+                {ShowQueue && IsQueue ? (
                   <div className="checkedtxt">added</div>
                 ) : (
                   <div className="normaltxt">add to queue</div>

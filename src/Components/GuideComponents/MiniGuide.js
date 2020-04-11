@@ -3,8 +3,7 @@ import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
 import "./miniguide_style.scss";
 import { Link } from "react-router-dom";
 import { ReturnTheme } from "../../config";
-import { ThemeContext } from "../../Context/ThemeContext";
-import { UrlLocationContext } from "../../Context/UrlLocationContext";
+import { UrlLocationContext, ThemeContext } from "../../Context";
 
 const MiniGuide = React.memo(() => {
   // Theme context
@@ -27,7 +26,7 @@ const MiniGuide = React.memo(() => {
         <div className="text_guide_h">Home</div>
       </Link>
       <Link
-        to="trending/"
+        to="/trending/"
         className={`${hx_guide}${
           UrlLocationState === "trending" ? "-active" : ""
         }`}
@@ -38,7 +37,7 @@ const MiniGuide = React.memo(() => {
         <div className="text_guide_h">Trending</div>
       </Link>
       <Link
-        to="subscriptions/"
+        to="/subscriptions/"
         className={`${hx_guide}${
           UrlLocationState === "subscriptions" ? "-active" : ""
         }`}
@@ -49,7 +48,7 @@ const MiniGuide = React.memo(() => {
         <div className="text_guide_h">Subscriptions</div>
       </Link>
       <Link
-        to="library/"
+        to="/library/"
         className={`${hx_guide}${
           UrlLocationState === "library" ? "-active" : ""
         }`}

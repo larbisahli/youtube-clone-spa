@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./svg_style_scnni.scss";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 
 // SVG path COPIED FROM YOUTUBE
 
@@ -10,7 +10,7 @@ const MenuSvg = React.memo(() => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
-  const HundleClick = e => {
+  const HundleClick = (e) => {
     e.preventDefault();
     setFade(true);
     setTimeout(() => {

@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useCallback,
   Fragment,
-  useContext
+  useContext,
 } from "react";
 import "./navbar_style.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
@@ -16,7 +16,7 @@ import {
   AppSvg,
   SearchSvg,
   ReSearchSvg,
-  BackArrowSvg
+  BackArrowSvg,
 } from "./NavComponents/Svg";
 import {
   SearchDropSuggestion,
@@ -28,11 +28,9 @@ import {
   LangDrop,
   ThemeDrop,
   LocaDrop,
-  RestrictDrop
+  RestrictDrop,
 } from "./NavComponents/DropDownComponents";
-import { NavContext } from "../../Context/NavContext";
-import { ThemeContext } from "../../Context/ThemeContext";
-import { GuideContext } from "../../Context/GuideContext";
+import { NavContext, ThemeContext, GuideContext } from "../../Context";
 import { ReturnTheme } from "../../config";
 
 const From = React.memo(
@@ -50,15 +48,15 @@ const From = React.memo(
     HandleChange,
     handleInputBlur,
     Theme,
-    setSDstate
+    setSDstate,
   }) => {
-    const HandlekeyPress = event => {
+    const HandlekeyPress = (event) => {
       if (event.key === "Enter") {
         if (ShowSearchDrop) {
-          setSDstate(pre => {
+          setSDstate((pre) => {
             return {
               searchIsActive: pre.searchIsActive,
-              ShowSearchDrop: false
+              ShowSearchDrop: false,
             };
           });
         }
@@ -112,14 +110,14 @@ const From = React.memo(
 // Global variable for semiDrops
 let isInSemiDrop = false;
 
-const Navbar = React.memo(({ HandleShowGuide }) => {
+const Navbar = React.memo(() => {
   // ==> Context
   const { accountState, notiCountState } = useContext(NavContext);
   const [acc] = accountState;
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
-  const IsCurrentAccount = useCallback(acc.filter(acc => acc.isCurrent)[0], [
-    acc
+  const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
+    acc,
   ]);
 
   const [NotiCount, setNotiCount] = notiCountState;
@@ -135,7 +133,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     { suggestion: "ed dev", id: 2 },
     { suggestion: "freecodecamp", id: 3 },
     { suggestion: "him tears On tape", id: 4 },
-    { suggestion: "metallica unforgiven", id: 5 }
+    { suggestion: "metallica unforgiven", id: 5 },
   ]);
 
   // ==> Historical Suggestions state
@@ -144,18 +142,18 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     { suggestion: "learn react js", removed: false, id: 2 },
     { suggestion: "freecodecamp", removed: false, id: 3 },
     { suggestion: "in flames", removed: false, id: 4 },
-    { suggestion: "python tutorial", removed: false, id: 5 }
+    { suggestion: "python tutorial", removed: false, id: 5 },
   ]);
 
   // ==> Search drop state
   const [{ ShowSearchDrop, searchIsActive }, setSDstate] = useState({
     ShowSearchDrop: false,
-    searchIsActive: false
+    searchIsActive: false,
   });
 
   // ==> Navbar responsive state
   const [{ isResponsive }, setIsResponsive] = useState({
-    isResponsive: false
+    isResponsive: false,
   });
 
   // ==> Drops state
@@ -163,7 +161,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     ShowCamDrop: false,
     ShowAppDrop: false,
     ShowBellDrop: false,
-    ShowProfDrop: false
+    ShowProfDrop: false,
   });
 
   // ==> SemiDrops state (Drops that inside profile drop)
@@ -172,21 +170,23 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
     LangDrop: false,
     ThemeDrop: false,
     LocaDrop: false,
-    RestrictDrop: false
+    RestrictDrop: false,
   });
 
   // ==> Check if th nav component is mounted
   const [{ componentMounted }, setComponentMounted] = useState({
-    componentMounted: false
+    componentMounted: false,
   });
 
   // ==> Search Value State
   const [{ searchValue }, setSearchValue] = useState({
-    searchValue: ""
+    searchValue: "",
   });
 
   // Guide Context
-  const [GuideTrigger, setGuideTrigger] = useContext(GuideContext);
+  const { winSize, guide } = useContext(GuideContext);
+  const [, setWindowSize] = winSize;
+  const [, setShowGuide] = guide;
 
   let history = useHistory();
 
@@ -195,7 +195,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ==========================
 
   const HandleSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       if (searchValue !== "") {
@@ -210,7 +210,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ==========================
 
   const HandleSelect = useCallback(
-    select => {
+    (select) => {
       if (select !== "") {
         history.push(`/results/search=${select}`);
       }
@@ -232,14 +232,24 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       if (window.innerWidth < 890) {
         setSDstate({
           searchIsActive,
-          ShowSearchDrop: false
+          ShowSearchDrop: false,
         });
       }
 
       if (window.innerWidth > 750 && isResponsive) {
         setIsResponsive({
-          isResponsive: false
+          isResponsive: false,
         });
+      }
+
+      // for guide
+
+      if (window.innerWidth > 810) {
+        setWindowSize(811);
+      }
+
+      if (window.innerWidth < 810) {
+        setWindowSize(809);
       }
     };
 
@@ -271,19 +281,19 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ==========================
 
   const HandleChange = useCallback(
-    e => {
+    (e) => {
       setSearchValue({
-        searchValue: e.target.value
+        searchValue: e.target.value,
       });
       if (e.target.value) {
         setSDstate({
           ShowSearchDrop,
-          searchIsActive: true
+          searchIsActive: true,
         });
       } else {
         setSDstate({
           ShowSearchDrop,
-          searchIsActive: false
+          searchIsActive: false,
         });
       }
     },
@@ -296,19 +306,19 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
 
   const handleInputFocus = useCallback(() => {
     setInputFocus({
-      inputFocus: true
+      inputFocus: true,
     });
     if (window.innerWidth > 900) {
       // Preventing search dropdown from showing up
       // if the window innerWidth is less than 950px (to look responsive)
       setSDstate({
         searchIsActive,
-        ShowSearchDrop: true
+        ShowSearchDrop: true,
       });
     } else if (isResponsive && window.innerWidth < 750) {
       setSDstate({
         searchIsActive,
-        ShowSearchDrop: true
+        ShowSearchDrop: true,
       });
     }
   }, [isResponsive, searchIsActive]);
@@ -318,7 +328,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ==========================
 
   const HandleSearchDropClose = useCallback(
-    e => {
+    (e) => {
       const SearchDrop = document.getElementById("rembtnsd");
       const SDrop = document.getElementById("sdrop");
       const PL = document.getElementById("plholder");
@@ -335,7 +345,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
         setSDstate(
           {
             searchIsActive,
-            ShowSearchDrop: false
+            ShowSearchDrop: false,
           },
           document.removeEventListener("click", HandleSearchDropClose)
         );
@@ -351,7 +361,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   const handleInputBlur = useCallback(() => {
     setInputFocus(
       {
-        inputFocus: false
+        inputFocus: false,
       },
       document.addEventListener("click", HandleSearchDropClose)
     );
@@ -362,15 +372,15 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // ================================
 
   const RemoveHandleClick = useCallback(
-    id => {
+    (id) => {
       setH_suggest([
-        ...historicalSuggestions.map(sugg => {
+        ...historicalSuggestions.map((sugg) => {
           if (sugg.id === id) {
             sugg.suggestion = "";
             sugg.removed = true;
           }
           return sugg;
-        })
+        }),
       ]);
     },
     [historicalSuggestions]
@@ -380,9 +390,9 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   //  Handle responsive From on
   // ============================
 
-  const HandleRespOn = e => {
+  const HandleRespOn = (e) => {
     setIsResponsive({
-      isResponsive: true
+      isResponsive: true,
     });
   };
 
@@ -390,9 +400,9 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   //  Handle responsive Form off
   // ============================
 
-  const HandleRespOff = e => {
+  const HandleRespOff = (e) => {
     setIsResponsive({
-      isResponsive: false
+      isResponsive: false,
     });
   };
 
@@ -411,7 +421,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       setDropHandler(
         {
           ...dropHandler,
-          ShowCamDrop: !dropHandler.ShowCamDrop
+          ShowCamDrop: !dropHandler.ShowCamDrop,
         },
         document.addEventListener("click", DropHandlerClose)
       );
@@ -429,7 +439,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       setDropHandler(
         {
           ...dropHandler,
-          ShowAppDrop: !dropHandler.ShowAppDrop
+          ShowAppDrop: !dropHandler.ShowAppDrop,
         },
         document.addEventListener("click", DropHandlerClose)
       );
@@ -444,11 +454,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       !dropHandler.ShowBellDrop &&
       !dropHandler.ShowProfDrop
     ) {
-      setNotiCount(prev => ({ notiCount: prev.notiCount, seen: false }));
+      setNotiCount((prev) => ({ notiCount: prev.notiCount, seen: false }));
       setDropHandler(
         {
           ...dropHandler,
-          ShowBellDrop: !dropHandler.ShowBellDrop
+          ShowBellDrop: !dropHandler.ShowBellDrop,
         },
         document.addEventListener("click", DropHandlerClose)
       );
@@ -466,7 +476,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       setDropHandler(
         {
           ...dropHandler,
-          ShowProfDrop: !dropHandler.ShowProfDrop
+          ShowProfDrop: !dropHandler.ShowProfDrop,
         },
         document.addEventListener("click", DropHandlerClose)
       );
@@ -480,26 +490,26 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   const HandleGoBack = useCallback(() => {
     setDropHandler({
       ...dropHandler,
-      ShowProfDrop: !dropHandler.ShowCamDrop
+      ShowProfDrop: !dropHandler.ShowCamDrop,
     });
     setSemiDrop({
       SADrop: false,
       LangDrop: false,
       ThemeDrop: false,
       LocaDrop: false,
-      RestrictDrop: false
+      RestrictDrop: false,
     });
   }, [setSemiDrop, dropHandler]);
 
   const HandleShowSemiDrop = useCallback(
-    value => {
+    (value) => {
       setDropHandler({
         ...dropHandler,
-        ShowProfDrop: false
+        ShowProfDrop: false,
       });
       setSemiDrop({
         ...semiDrop,
-        [value]: true
+        [value]: true,
       });
     },
     [semiDrop, dropHandler]
@@ -516,7 +526,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   };
 
   const DropHandlerClose = useCallback(
-    e => {
+    (e) => {
       isInSemiDrop = true;
       // --> Nav Drops
       const CamDrop = document.getElementById("cax");
@@ -557,14 +567,14 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               LangDrop: false,
               ThemeDrop: false,
               LocaDrop: false,
-              RestrictDrop: false
+              RestrictDrop: false,
             };
           });
           isInSemiDrop = false;
         }
         // ---------------------------
         if (CamDrop.contains(target)) {
-          setDropHandler(currentState => {
+          setDropHandler((currentState) => {
             if (currentState.ShowCamDrop) {
               document.removeEventListener("click", DropHandlerClose);
             }
@@ -572,11 +582,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               ShowCamDrop: !currentState.ShowCamDrop,
               ShowAppDrop: false,
               ShowBellDrop: false,
-              ShowProfDrop: false
+              ShowProfDrop: false,
             };
           });
         } else if (AppDrop.contains(target)) {
-          setDropHandler(currentState => {
+          setDropHandler((currentState) => {
             if (currentState.ShowAppDrop) {
               document.removeEventListener("click", DropHandlerClose);
             }
@@ -584,11 +594,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               ShowCamDrop: false,
               ShowAppDrop: !currentState.ShowAppDrop,
               ShowBellDrop: false,
-              ShowProfDrop: false
+              ShowProfDrop: false,
             };
           });
         } else if (BellDrop.contains(target)) {
-          setDropHandler(currentState => {
+          setDropHandler((currentState) => {
             if (currentState.ShowBellDrop) {
               document.removeEventListener("click", DropHandlerClose);
             }
@@ -596,11 +606,11 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               ShowCamDrop: false,
               ShowAppDrop: false,
               ShowBellDrop: !currentState.ShowBellDrop,
-              ShowProfDrop: false
+              ShowProfDrop: false,
             };
           });
         } else if (ProfDrop.contains(target)) {
-          setDropHandler(currentState => {
+          setDropHandler((currentState) => {
             if (currentState.ShowProfDrop) {
               document.removeEventListener("click", DropHandlerClose);
             }
@@ -608,7 +618,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               ShowCamDrop: false,
               ShowAppDrop: false,
               ShowBellDrop: false,
-              ShowProfDrop: !currentState.ShowProfDrop
+              ShowProfDrop: !currentState.ShowProfDrop,
             };
           });
         } else {
@@ -617,7 +627,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               ShowCamDrop: false,
               ShowAppDrop: false,
               ShowBellDrop: false,
-              ShowProfDrop: false
+              ShowProfDrop: false,
             },
             document.removeEventListener("click", DropHandlerClose)
           );
@@ -631,7 +641,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
   // Preventing show dropdowns on Enter keypress
   // ============================================
 
-  const HandlekeyPress = event => {
+  const HandlekeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
@@ -652,14 +662,15 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
       {!isResponsive ? (
         <Fragment>
           <div className="LeftContainer">
-            <div onClick={HandleShowGuide} className="menuIcon">
+            <div
+              onClick={() => {
+                setShowGuide((prev) => !prev);
+              }}
+              className="menuIcon"
+            >
               <MenuSvg />
             </div>
-            <div
-              onClick={() => setGuideTrigger(GuideTrigger + 1)}
-              title="YouTube Home"
-              className="LogoContainer"
-            >
+            <div title="YouTube Home" className="LogoContainer">
               <Link to="/">
                 <img
                   src={YoutubeLogo}
@@ -736,7 +747,7 @@ const Navbar = React.memo(({ HandleShowGuide }) => {
               >
                 {NotiCount.notiCount}
               </div>
-              {/*???*/}
+
               <div style={{ display: dropHandler.ShowBellDrop ? "" : "none" }}>
                 <Notification show={dropHandler.ShowBellDrop} />
               </div>

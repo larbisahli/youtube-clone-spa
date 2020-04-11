@@ -4,9 +4,9 @@ import {
   YouTubeTvSvg,
   YouTubeMusicSvg,
   YouTubeKidsSvg,
-  YouTubeNormalSvg
+  YouTubeNormalSvg,
 } from "../Svg";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders

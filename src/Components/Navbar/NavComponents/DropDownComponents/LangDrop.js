@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import "./sa_style.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
-import { NavContext } from "../../../../Context/NavContext";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { NavContext, ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders
@@ -16,15 +15,15 @@ const LangDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
-  const HandleClick = id => {
+  const HandleClick = (id) => {
     setLang([
-      ...lang.map(lang => {
+      ...lang.map((lang) => {
         lang.checked = false;
         if (lang.id === id) {
           lang.checked = true;
         }
         return lang;
-      })
+      }),
     ]);
   };
   return (

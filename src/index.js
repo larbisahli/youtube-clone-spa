@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index_style.scss";
 import App from "./Containers/App";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider } from "./Context/ThemeContext";
+import { ThemeProvider } from "./Context";
 
 ReactDOM.render(
   <Router>

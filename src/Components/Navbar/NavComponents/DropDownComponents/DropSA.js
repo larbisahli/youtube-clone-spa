@@ -1,8 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import "./sa_style.scss";
 import { BackArrowSvg, CheckedSvg, AddAccSvg, SOSvg } from "../Svg";
-import { NavContext } from "../../../../Context/NavContext";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext, NavContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders
@@ -16,22 +15,22 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   const Theme = YtTheme.isDarkTheme;
 
   const HandleProChange = useCallback(
-    id => {
+    (id) => {
       setAcc([
-        ...acc.map(acc => {
+        ...acc.map((acc) => {
           acc.isCurrent = false;
           if (acc.accId === id) {
             acc.isCurrent = !acc.isCurrent;
           }
           return acc;
-        })
+        }),
       ]);
     },
     [acc, setAcc]
   );
 
-  const IsCurrentAccount = useCallback(acc.filter(acc => acc.isCurrent)[0], [
-    acc
+  const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
+    acc,
   ]);
 
   const sa_acc = `sa_acc sa_acc-${ReturnTheme(Theme)}`;

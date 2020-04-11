@@ -14,11 +14,11 @@ function WatchLater_reducer(state, action) {
           videoId: action.videoId,
           channelTitle: action.channelTitle,
           channelId: action.channelId,
-          thumbnail: action.thumbnail
-        }
+          thumbnail: action.thumbnail,
+        },
       ];
     case "removeOne":
-      return state.filter(wl => {
+      return state.filter((wl) => {
         return wl.videoId !== action.videoId;
       });
     case "removeAll":
@@ -32,7 +32,7 @@ function WatchLater_reducer(state, action) {
   }
 }
 
-export const WLVProvider = props => {
+export const WLVProvider = (props) => {
   // This state (this should be an API call)
   const [WatchLaterList, WLdispatch] = useReducer(WatchLater_reducer, [
     {
@@ -41,16 +41,27 @@ export const WLVProvider = props => {
       videoId: "qSRrxpdMpVc",
       channelTitle: "Academind",
       channelId: "UCSJbGtTlrDami-tDGPUV9-w",
-      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg"
-    }
+      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
+    },
   ]);
 
-  // Liked videos state
+  // const [WLV_Lists, WLVdispatch] = useReducer(WLV_reducer, {
+  //   WL: {
+  //     title: "React Native Tutorial for Beginners - Crash Course 2020",
+  //     duration: "PT5H45M44S",
+  //     videoId: "qSRrxpdMpVc",
+  //     channelTitle: "Academind",
+  //     channelId: "UCSJbGtTlrDami-tDGPUV9-w",
+  //     thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg"
+  //   },
+  //   LV: {},
+
+  // });
 
   return (
     <WLVContext.Provider
       value={{
-        WatchLaterState: [WatchLaterList, WLdispatch]
+        WatchLaterState: [WatchLaterList, WLdispatch],
       }}
     >
       {props.children}

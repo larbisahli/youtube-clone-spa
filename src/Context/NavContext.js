@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const NavContext = createContext();
 
-export const NavProvider = props => {
-  console.log("NavProvider:==>");
+export const NavProvider = (props) => {
   // Location state
   // Feel free to extend this array.
   const [loca, setLoca] = useState([
@@ -25,7 +24,7 @@ export const NavProvider = props => {
     { loca: "New Zealand", checked: false, id: uuidv4() },
     { loca: "Singapore", checked: false, id: uuidv4() },
     { loca: "United Kingdom", checked: false, id: uuidv4() },
-    { loca: "United States", checked: false, id: uuidv4() }
+    { loca: "United States", checked: false, id: uuidv4() },
   ]);
 
   // Notification count
@@ -41,12 +40,12 @@ export const NavProvider = props => {
     { lang: "Italiano", checked: false, id: uuidv4() },
     { lang: "Nederlands", checked: false, id: uuidv4() },
     { lang: "Galego", checked: false, id: uuidv4() },
-    { lang: "Eesti", checked: false, id: uuidv4() }
+    { lang: "Eesti", checked: false, id: uuidv4() },
   ]);
 
   // Restrict state
   const [restrict, setRestrict] = useState({
-    isRestrict: false
+    isRestrict: false,
   });
 
   // Account state
@@ -58,7 +57,7 @@ export const NavProvider = props => {
       email: "larbisahli1905@gmail.com",
       subs: 666,
       isCurrent: true,
-      accId: 1
+      accId: 1,
     },
     {
       img:
@@ -67,8 +66,8 @@ export const NavProvider = props => {
       email: "fakemail_xxx@gmail.com",
       subs: 2,
       isCurrent: false,
-      accId: 2
-    }
+      accId: 2,
+    },
   ]);
 
   return (
@@ -78,7 +77,7 @@ export const NavProvider = props => {
         langState: [lang, setLang],
         locaState: [loca, setLoca],
         accountState: [acc, setAcc],
-        notiCountState: [NotiCount, setNotiCount]
+        notiCountState: [NotiCount, setNotiCount],
       }}
     >
       {props.children}

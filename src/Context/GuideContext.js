@@ -2,15 +2,22 @@ import React, { useState, createContext } from "react";
 
 export const GuideContext = createContext();
 
-export const GuideProvider = props => {
-  console.log("GuideProvider:==>");
+export const GuideProvider = (props) => {
+  const [windowSize, setWindowSize] = useState(() => {
+    return window.innerWidth;
+  });
 
-  // Trigger the Guide for resizing
-
-  const [GuideTrigger, setGuideTrigger] = useState(0);
+  const [ShowGuide, setShowGuide] = useState(() => {
+    return window.innerWidth > 810 ? true : null;
+  });
 
   return (
-    <GuideContext.Provider value={[GuideTrigger, setGuideTrigger]}>
+    <GuideContext.Provider
+      value={{
+        winSize: [windowSize, setWindowSize],
+        guide: [ShowGuide, setShowGuide],
+      }}
+    >
       {props.children}
     </GuideContext.Provider>
   );

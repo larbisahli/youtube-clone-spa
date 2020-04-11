@@ -43,7 +43,7 @@ export const HandleDuration = (d) => {
 };
 
 export const TextReducer = (text, num) => {
-  if (text.length > 64) {
+  if (text.length > num) {
     return text.substring(0, num) + "...";
   } else {
     return text;

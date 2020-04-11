@@ -2,9 +2,7 @@ import React, { useState, createContext } from "react";
 
 export const UrlLocationContext = createContext();
 
-export const UrlLocationProvider = props => {
-  console.log("UrlLocation:==>");
-
+export const UrlLocationProvider = (props) => {
   // UrlLocation State
   const [UrlLocationState, setUrlLocationState] = useState(false);
 

@@ -11,12 +11,14 @@ import {
   MoveUpSvg,
 } from "./Svg";
 import { DotsSvg } from "../Components/Navbar/NavComponents/Svg";
-import { WLVContext } from "../Context/WLVContext";
 import { RippleButton } from "../Components";
-import { UrlLocationContext } from "../Context/UrlLocationContext";
-import { QueueContext } from "../Context/QueueContext";
-import { NavContext } from "../Context/NavContext";
-import { ThemeContext } from "../Context/ThemeContext";
+import {
+  ThemeContext,
+  WLVContext,
+  NavContext,
+  QueueContext,
+  UrlLocationContext,
+} from "../Context";
 import {
   HandleDuration,
   ReturnTheme,
@@ -28,36 +30,37 @@ const WLV = React.memo(() => {
   // WLV Context
   const { WatchLaterState } = useContext(WLVContext);
   const [WatchLaterList, WLdispatch] = WatchLaterState;
+
   // Location Context
   const [UrlLocationState, setUrlLocationState] = useContext(
     UrlLocationContext
   );
+
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
   // menu drop state
   const [showMenudrop, setShowMenudrop] = useState(false);
+
   // menu drop state
   const [showRemoveAllDrop, setShowRemoveAllDrop] = useState(false);
+
   // current clicked menu index drop
   const [CurrentMenuIndex, setCurrentMenuIndex] = useState(0);
-  // sort by drop state
-  //const [showRdrop, setShowRdrop] =useState(false)
 
   // Navbar context
   const { accountState } = useContext(NavContext);
-
-  // Queue Context
-  const { QueueState, ShowQueueState } = useContext(QueueContext);
-  const [ShowQueue, setShowQueue] = ShowQueueState;
-  const [QueueList, QueueListDispatch] = QueueState;
-
   const [acc] = accountState;
 
   const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
     acc,
   ]);
+
+  // Queue Context
+  const { QueueState, ShowQueueState } = useContext(QueueContext);
+  const [ShowQueue, setShowQueue] = ShowQueueState;
+  const [QueueList, QueueListDispatch] = QueueState;
 
   useEffect(() => {
     const UrlLoc = UrlLocation();
@@ -66,8 +69,7 @@ const WLV = React.memo(() => {
     }
   }, [UrlLocationState, setUrlLocationState]);
 
-  const HandleSortByClick = useCallback(() => {}, []);
-
+  //
   const HandleRemoveWL = useCallback(
     (videoId) => {
       WLdispatch({ type: "removeOne", videoId });
@@ -75,6 +77,7 @@ const WLV = React.memo(() => {
     [WLdispatch]
   );
 
+  //
   const HandleCloseRdrop = useCallback(() => {
     setShowMenudrop(() => false);
     const Menu = document.getElementById(`wl-mn-${CurrentMenuIndex}`);
@@ -84,6 +87,7 @@ const WLV = React.memo(() => {
     document.removeEventListener("click", HandleCloseRdrop);
   }, [setShowMenudrop, CurrentMenuIndex]);
 
+  //
   const HandleShowRdrop = useCallback(
     (e) => {
       // responsive dropdown
@@ -109,7 +113,7 @@ const WLV = React.memo(() => {
   );
 
   // ===================
-  // HandleSkeleton
+  //   HandleSkeleton
   // ===================
 
   const HandleSkeleton = useCallback(() => {
@@ -184,6 +188,8 @@ const WLV = React.memo(() => {
     },
     [QueueList, QueueListDispatch, ShowQueue, setShowQueue]
   );
+
+  //
 
   const wlmd_txt_area = `wlmd_txt_area wlmd_txt_area-${ReturnTheme(Theme)}`;
   const wlmd_line_txt_con = `wlmd_line_txt_con wlmd_line_txt_con-${ReturnTheme(
@@ -272,7 +278,7 @@ const WLV = React.memo(() => {
           <div className="wl_sby_con">
             <div className="wl_sby_wrap">
               <RippleButton
-                onclick={HandleSortByClick}
+                onclick={() => {}}
                 classname={`wl_sby wl_sby-${ReturnTheme(Theme)}`}
               >
                 <SortBySvg />

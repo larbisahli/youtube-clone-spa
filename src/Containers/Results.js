@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useContext } from "react";
-import { YouTubeAPI } from "../Components/api/YoutubeApi";
+import { SearchRequest } from "../Components/api/YoutubeApi";
 import "./Sass/results_style.scss";
 import { FilterSvg } from "./Svg";
 import {
@@ -9,12 +9,14 @@ import {
   ResultPlaylistContainer,
   Filter,
 } from "../Components";
-import { UrlLocationContext } from "../Context/UrlLocationContext";
-import { MessageBoxContext } from "../Context/MessageBoxContext";
+import {
+  MessageBoxContext,
+  ThemeContext,
+  UrlLocationContext,
+  GuideContext,
+} from "../Context";
 import { UrlLocation, ReturnTheme } from "../config";
 import { useParams } from "react-router";
-import { ThemeContext } from "../Context/ThemeContext";
-import { GuideContext } from "../Context/GuideContext";
 
 let SearchArray = [];
 
@@ -34,11 +36,20 @@ const Results = React.memo(() => {
   const [ShowFilterDrop, setShowFilterDrop] = useState(false);
   const [FilterState, setFilterState] = useState();
 
-  // Guide Context
-  const [GuideTrigger, setGuideTrigger] = useContext(GuideContext);
-
   // Message Box Context
   const [, setMessageBox] = useContext(MessageBoxContext);
+
+  // Guide Context
+  const { guide } = useContext(GuideContext);
+  const [ShowGuide] = guide;
+
+  useEffect(() => {
+    if (document.getElementById("hvc") != null) {
+      document.getElementById("hvc").style.marginLeft = ShowGuide
+        ? "240px"
+        : "72px";
+    }
+  }, []);
 
   // ===========================
   //  Handle Location Context
@@ -56,44 +67,28 @@ const Results = React.memo(() => {
   }, []);
 
   useEffect(() => {
-    setGuideTrigger(GuideTrigger + 1);
     if (FilterState !== undefined) {
       if (!("defaultType" in FilterState)) {
-        SearchRequest(
+        Search(
+          id,
           Object.keys(FilterState)[0],
           FilterState[Object.keys(FilterState)[0]]
         );
       } else {
-        SearchRequest();
+        Search(id);
       }
     } else {
-      SearchRequest();
+      Search(id);
     }
   }, [id, FilterState]);
 
   // ===========================
   //           SEARCH
   // ===========================
-  const SearchRequest = async (parameter = false, option = false) => {
-    YouTubeAPI.get("search", {
-      params:
-        parameter && option
-          ? {
-              part: "snippet",
-              maxResults: 2,
-              q: id,
-              key: process.env.REACT_APP_YOUTUBE_API_KEY,
-              [parameter]: option,
-            }
-          : {
-              part: "snippet",
-              maxResults: 2,
-              q: id,
-              key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            },
-    })
-      .then((res) => {
-        res.data.items.map((res) => {
+  const Search = (id, parameter = false, option = false) => {
+    SearchRequest(id, parameter, option)
+      .then((data) => {
+        data.items.map((res) => {
           return (SearchArray = [
             ...SearchArray,
             {
@@ -139,10 +134,8 @@ const Results = React.memo(() => {
   //           Error Handling
   // ====================================
 
+  // Closing Message box
   const HandleClosingMessageBox = useCallback(() => {
-    // Just to make sure isError will not
-    // change to false by any chance before doing some logic if true
-
     setMessageBox((pre) => {
       return {
         show: false,
@@ -154,6 +147,7 @@ const Results = React.memo(() => {
     });
   }, [setMessageBox]);
 
+  // Show Message box
   const HandleShowMessageBox = useCallback(
     (MassageFrom, state, id = "", ch = false) => {
       if (!ch) {
@@ -164,7 +158,6 @@ const Results = React.memo(() => {
           btnMsg = !state ? "UNDO" : "";
         }
 
-        // console.log("watchLater :", MassageFrom, state, id);
         setMessageBox({
           show: true,
           message: msg,

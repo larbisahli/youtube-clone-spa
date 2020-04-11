@@ -9,7 +9,7 @@ import {
 } from "../../config";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { SubBellSvg } from "./Svg";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext } from "../../Context";
 
 const ResultChannelContainer = React.memo(
   ({ item, index, HandleShowMessageBox }) => {

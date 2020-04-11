@@ -2,8 +2,7 @@ import React, { useContext, useState, useCallback } from "react";
 import "./queue_style.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
-import { QueueContext } from "../../Context/QueueContext";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext, QueueContext, MessageBoxContext } from "../../Context";
 import { HandleDuration, TextReducer, ReturnTheme } from "../../config";
 import {
   PlayBtnSvg,
@@ -17,7 +16,8 @@ import { VideoPlayer } from "../.";
 import {
   PauseVideo,
   PlayVideo,
-  getCurrentTime,
+  //getCurrentTime,
+  StopVideo,
 } from "../VideoPlayerComponent/VideoPlayer";
 
 const PLitems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
@@ -115,6 +115,9 @@ const Queue = React.memo(() => {
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
 
+  // Message Box Context
+  const [, setMessageBox] = useContext(MessageBoxContext);
+
   // =======================================
   // Get the videoId if the {playing : true}
   // =======================================
@@ -201,9 +204,7 @@ const Queue = React.memo(() => {
       type: "removeAll",
     });
     // Clean Up
-    document.getElementById(
-      "mini-Player"
-    ).src = `https://www.youtube.com/embed/?autoplay=1&fs=0&modestbranding=1&rel=0&enablejsapi=1&start=0&showinfo=0&controls=1`;
+    StopVideo();
   }, [QueueListDispatch, setShowQueue]);
 
   // ============================
@@ -212,8 +213,10 @@ const Queue = React.memo(() => {
 
   const onPlayerStateChange = useCallback(
     (event) => {
+      console.log("event.data :", event.data);
       switch (event.data) {
         case 0:
+          // play next video when the current video finished
           QueueListDispatch({
             type: "play_next",
             index: HandleVideoIndex(),
@@ -244,6 +247,7 @@ const Queue = React.memo(() => {
 
   const PauseVid = useCallback(() => {
     PauseVideo();
+    setShowPlayBtn(() => true);
   }, []);
 
   // ==================
@@ -252,27 +256,62 @@ const Queue = React.memo(() => {
 
   const PlayVid = useCallback(() => {
     PlayVideo();
+    setShowPlayBtn(() => false);
   }, []);
 
   // ======================
   //  Handle Error Message
   // ======================
 
-  const onPlayerError = useCallback((event) => {
-    switch (event.data) {
-      case 2:
-        console.log("The request contains an invalid parameter value");
-        break;
-      case 100:
-        console.log("The video requested was not found");
-        break;
-      case 101 || 150:
-        console.log("The Video owner does not allow embedded players");
-        break;
-      default:
-        break;
-    }
-  }, []);
+  const HandleClosingMessageBox = useCallback(() => {
+    setMessageBox((pre) => {
+      return {
+        show: false,
+        message: pre.message,
+        btnMessage: pre.btnMessage,
+        MassageFrom: "",
+        id: "",
+      };
+    });
+  }, [setMessageBox]);
+
+  const onPlayerError = useCallback(
+    (event) => {
+      switch (event.data) {
+        case 2:
+          break;
+        case 100:
+          setMessageBox({
+            show: true,
+            message: "The video requested was not found",
+            btnMessage: "",
+            MassageFrom: "",
+            id: "",
+          });
+
+          setTimeout(() => {
+            HandleClosingMessageBox();
+          }, 4000);
+          break;
+        case 150:
+          setMessageBox({
+            show: true,
+            message: "The Video owner does not allow embedded players",
+            btnMessage: "",
+            MassageFrom: "",
+            id: "",
+          });
+
+          setTimeout(() => {
+            HandleClosingMessageBox();
+          }, 4000);
+          break;
+        default:
+          break;
+      }
+    },
+    [setMessageBox, HandleClosingMessageBox]
+  );
 
   //console.log("queue :", getCurrentTime());
 

@@ -1,39 +1,46 @@
 import React, { useEffect } from "react";
 
 let player;
-
 let currentVideoId = null;
 
-const loadVideo = (videoId, PlayerId, onPlayerStateChange, onPlayerError) => {
+const loadVideo = (PlayerId, onPlayerStateChange, onPlayerError) => {
   // the Player object is created uniquely based on the PlayerId
 
-  currentVideoId = videoId;
-
   player = new window.YT.Player(PlayerId, {
-    // videoId: videoId,
+    //videoId: videoId,
     height: "100%",
     width: "100%",
     playerVars: {
       controls: 1,
-      enablejsapi: 0,
+      enablejsapi: 1,
       showinfo: 0,
-      origin: "https",
+      modestbranding: 1,
+      rel: 0,
     },
     events: {
-      //onReady: onPlayerReady,
+      onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
       onError: onPlayerError,
     },
   });
 };
 
-// const onPlayerReady = (event) => {
-//   try {
-//     event.target.playVideo();
-//   } catch (error) {
-//     console.log("onPlayerReady error :", error);
-//   }
-// };
+// - The API will call this function when the video player is ready.
+const onPlayerReady = (event) => {
+  try {
+    event.target.playVideo();
+  } catch (error) {
+    console.log("onPlayerReady error :", error);
+  }
+};
+
+export const StopVideo = () => {
+  try {
+    player.stopVideo();
+  } catch (error) {
+    console.log("StopVideo error :", error);
+  }
+};
 
 export const PauseVideo = () => {
   try {
@@ -73,35 +80,41 @@ const VideoPlayer = React.memo(
     console.log("<::-VideoPlayer-::>");
 
     useEffect(() => {
-      if (check) {
-        if (currentVideoId === null || currentVideoId !== HandlePlayingVideo())
-          if (!window.YT) {
-            // If not, load the script asynchronously
-            const tag = document.createElement("script");
-            tag.src = "https://www.youtube.com/iframe_api";
+      console.log("Up useEffect :");
 
-            // onYouTubeIframeAPIReady will load the video after the script is loaded
-            window.onYouTubeIframeAPIReady = loadVideo(
-              HandlePlayingVideo(),
-              PlayerId,
-              onPlayerStateChange,
-              onPlayerError
-            );
-            const firstScriptTag = document.getElementsByTagName("script")[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-          } else {
-            // If script is already there, load the video directly
-            loadVideo(
-              HandlePlayingVideo(),
-              PlayerId,
-              onPlayerStateChange,
-              onPlayerError
-            );
-            // Update the PlayerId
-            document.getElementById(
-              PlayerId
-            ).src = `https://www.youtube.com/embed/${HandlePlayingVideo()}?autoplay=1&fs=0&modestbranding=1&rel=0&enablejsapi=1&start=0&showinfo=0&controls=1`;
+      // - This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement("script");
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }, []);
+
+    useEffect(() => {
+      // - This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      window.onYouTubeIframeAPIReady = () => {
+        console.log("------------APIReady------------");
+        loadVideo(
+          // HandlePlayingVideo(),
+          PlayerId,
+          onPlayerStateChange,
+          onPlayerError
+        );
+      };
+
+      if (check) {
+        if (
+          currentVideoId === null ||
+          currentVideoId !== HandlePlayingVideo()
+        ) {
+          try {
+            currentVideoId = HandlePlayingVideo();
+            player.loadVideoById(HandlePlayingVideo());
+          } catch (error) {
+            console.log("error :", error);
           }
+        }
       }
     }, [
       check,

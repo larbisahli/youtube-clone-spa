@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./notificationdrop_style.scss";
 import { SettingsSvg, DotsSvg } from "../Svg";
 import "./loadingspinner_style.scss";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 const fake_noti = [
@@ -13,7 +13,7 @@ const fake_noti = [
     text: "Ben Eater uploaded: Subroutine call, now with RAM",
     time: "23 hours ago",
     thumbnail: "https://i.ytimg.com/vi/omI0MrTWiMU/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: false,
@@ -22,7 +22,7 @@ const fake_noti = [
     text: "Traversy Media uploaded: Sass Crash Course",
     time: "1 day ago",
     thumbnail: "https://i.ytimg.com/vi/nu5mdN2JIwM/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: true,
@@ -32,7 +32,7 @@ const fake_noti = [
       "Dapp University uploaded: How to build a dApp with ZERO gas fees (Gas Station Network Tutorial)",
     time: "2 days ago",
     thumbnail: "https://i.ytimg.com/vi/r7zOcgYul8k/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: true,
@@ -42,7 +42,7 @@ const fake_noti = [
       "freeCodeCamp.org uploaded: Functional Programming in Java - Full Course",
     time: "4 days ago",
     thumbnail: "https://i.ytimg.com/vi/rPSL1alFIjI/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: false,
@@ -52,7 +52,7 @@ const fake_noti = [
       "Corey Schafer uploaded: Python Pandas Tutorial (Part 9): Cleaning Data - Casting Datatypes and Handling Missing Values",
     time: "6 days ago",
     thumbnail: "https://i.ytimg.com/vi/KdmPHEnPJPs/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: false,
@@ -61,7 +61,7 @@ const fake_noti = [
     text: "Linus Tech Tips is live: I WAS RIGHT!! - WAN Show Feb 21, 2020",
     time: "1 week ago",
     thumbnail: "https://i.ytimg.com/vi/7Wm7sEn8Mc8/hqdefault_live.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: true,
@@ -70,7 +70,7 @@ const fake_noti = [
     text: "Ben Eater uploaded: What is a stack and how does it work?",
     time: "3 weeks ago",
     thumbnail: "https://i.ytimg.com/vi/OS5hIC2Zado/hqdefault.jpg",
-    video_id: ""
+    video_id: "",
   },
   {
     seen: true,
@@ -79,8 +79,8 @@ const fake_noti = [
     text: "Ben Eater uploaded: Subroutine call, now with RAM",
     time: "1 month ago",
     thumbnail: "https://i.ytimg.com/vi/xBjQVxVxOxc/hqdefault.jpg",
-    video_id: ""
-  }
+    video_id: "",
+  },
 ];
 
 // Using Memo to prevent unnecessary re-renders

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./homeskeleton_style.scss";
-import { ThemeContext } from "../../Context/ThemeContext";
+import { ThemeContext } from "../../Context";
 import { ReturnTheme } from "../../config";
 
 const HomeSkeleton = React.memo(() => {

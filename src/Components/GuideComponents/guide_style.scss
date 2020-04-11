@@ -1,5 +1,18 @@
 @import "../../config_style.scss";
 
+.bg_guide {
+  position: absolute;
+  background-color: #00000057;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+
+}
+
 .guide_general_container {
   position: fixed;
   top: 56px;
@@ -7,7 +20,7 @@
   bottom: 0;
   height: calc(100% - 56px);
   box-sizing: border-box;
-  background-color: #00000057;
+  background-color: transparent;
   z-index: 5;
 
   @media screen and (max-width: 810px) {

@@ -1,8 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import "./sa_style.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
-import { NavContext } from "../../../../Context/NavContext";
-import { ThemeContext } from "../../../../Context/ThemeContext";
+import { ThemeContext, NavContext } from "../../../../Context";
 import { ReturnTheme } from "../../../../config";
 
 // Using Memo to prevent unnecessary re-renders
@@ -16,15 +15,15 @@ const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   const Theme = YtTheme.isDarkTheme;
 
   const HandleClick = useCallback(
-    id => {
+    (id) => {
       setLoca([
-        ...loca.map(loca => {
+        ...loca.map((loca) => {
           loca.checked = false;
           if (loca.id === id) {
             loca.checked = true;
           }
           return loca;
-        })
+        }),
       ]);
     },
     [loca, setLoca]

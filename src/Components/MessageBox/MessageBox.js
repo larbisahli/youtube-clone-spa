@@ -2,9 +2,7 @@ import React, { useContext, useCallback } from "react";
 import "./messagebox_style.scss";
 import { RippleButton } from "../.";
 import { ReturnTheme } from "../../config";
-import { ThemeContext } from "../../Context/ThemeContext";
-import { MessageBoxContext } from "../../Context/MessageBoxContext";
-import { WLVContext } from "../../Context/WLVContext";
+import { MessageBoxContext, ThemeContext, WLVContext } from "../../Context";
 
 const MessageBox = React.memo(() => {
   // Theme context
@@ -19,7 +17,6 @@ const MessageBox = React.memo(() => {
   const [, WLdispatch] = WatchLaterState;
 
   // HandleBtn
-
   const HandleBtn = useCallback(() => {
     if (MessageBox.MassageFrom === "wl") {
       WLdispatch({ type: "removeOne", videoId: MessageBox.id });

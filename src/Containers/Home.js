@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import "./Sass/home_style.scss";
 import { HomeVideoContainer } from "../Components";
-import { YouTubeAPI } from "../Components/api/YoutubeApi";
+import { getMostPopularVideos } from "../Components/api/YoutubeApi";
 import { HomeSkeleton } from "../Components";
-import { UrlLocationContext } from "../Context/UrlLocationContext";
-import { ThemeContext } from "../Context/ThemeContext";
-import { MessageBoxContext } from "../Context/MessageBoxContext";
+import {
+  UrlLocationContext,
+  MessageBoxContext,
+  ThemeContext,
+  GuideContext,
+} from "../Context";
 import { UrlLocation, ReturnTheme } from "../config";
 
-// Creating a global variable to hold all api looped data
+// Creating a global variable to hold all api data
 // and then store it in a state to only render once.
 
 let PopularVideosArray = [];
@@ -26,6 +29,18 @@ const Home = React.memo(() => {
 
   // Message Box Context
   const [, setMessageBox] = useContext(MessageBoxContext);
+
+  // Guide Context
+  const { guide } = useContext(GuideContext);
+  const [ShowGuide] = guide;
+
+  useEffect(() => {
+    if (document.getElementById("hvc") != null) {
+      document.getElementById("hvc").style.marginLeft = ShowGuide
+        ? "240px"
+        : "72px";
+    }
+  }, []);
 
   // ===========================
   //  Handle Location Context
@@ -45,18 +60,11 @@ const Home = React.memo(() => {
   // ===========================
   //  FETCH MOST POPULAR VIDEOS
   // ===========================
-  const PopularVideosRequest = async () => {
+  useEffect(() => {
     setIsLoading(true);
-    YouTubeAPI.get("videos", {
-      params: {
-        part: "snippet,statistics,contentDetails",
-        maxResults: 5,
-        chart: "mostPopular",
-        key: process.env.REACT_APP_YOUTUBE_API_KEY,
-      },
-    })
-      .then((res) => {
-        res.data.items.map((res) => {
+    getMostPopularVideos()
+      .then((data) => {
+        data.items.map((res) => {
           return (PopularVideosArray = [
             ...PopularVideosArray,
             {
@@ -89,7 +97,7 @@ const Home = React.memo(() => {
         });
         setIsLoading(true);
       });
-  };
+  }, []);
 
   // ====================================
   //           Error Handling
@@ -118,7 +126,6 @@ const Home = React.memo(() => {
         btnMsg = !state ? "UNDO" : "";
       }
 
-      // console.log("watchLater :", MassageFrom, state, id);
       setMessageBox({
         show: true,
         message: msg,
@@ -133,10 +140,6 @@ const Home = React.memo(() => {
     },
     [HandleClosingMessageBox, setMessageBox]
   );
-
-  useEffect(() => {
-    PopularVideosRequest();
-  }, []);
 
   return (
     <div id="hvc" className="home_container">

@@ -2,12 +2,10 @@ import React, { useState, createContext } from "react";
 
 export const ThemeContext = createContext();
 
-export const ThemeProvider = props => {
-  console.log("ThemeProvider:==>");
-
+export const ThemeProvider = (props) => {
   // Theme state
   const [YtTheme, setYtTheme] = useState({
-    isDarkTheme: true
+    isDarkTheme: true,
   });
 
   const generalBackgroundDark = "#1f1f1f";
