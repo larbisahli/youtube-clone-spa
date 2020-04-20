@@ -4,16 +4,16 @@
 
 Frontend Developer Challenge: YouTube Clone SPA
 
-Working Prototype: https://larbisahli-youtube-clone.netlify.com/
+Working Prototype: https://youtube-klonos.netlify.app
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/113616f3-5a6f-4960-884d-0aecae96b50c/deploy-status)](https://app.netlify.com/sites/larbisahli-youtube-clone/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/113616f3-5a6f-4960-884d-0aecae96b50c/deploy-status)](https://app.netlify.com/sites/youtube-klonos/deploys)
 
 ### Cloning Features
 
 1. YouTube Theme:
    - Dark
    - Light
-2. browsing, YouTube pages:
+2. Browsing, YouTube pages:
    - Home page
    - Results page
    - Watch page
@@ -38,7 +38,7 @@ Working Prototype: https://larbisahli-youtube-clone.netlify.com/
 3. Using React Router.
 4. Using node-sass.
 5. Handling YouTuve v3 API requests with React axios.
-6. using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML and SASS.
+6. Using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML and SASS.
 
 ---
 
