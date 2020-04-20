@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
-import "./svg_style_scnni.scss";
+import "./sass/svg_style_scnni.scss";
 import { ThemeContext } from "../../../../Context";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // SVG path COPIED FROM YOUTUBE
 
@@ -19,8 +20,8 @@ const MenuSvg = React.memo(() => {
   };
 
   return (
-    <button className="icon_container" onClick={HundleClick}>
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+    <button className="ytb_svg" onClick={HundleClick}>
+      <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill={Theme ? "#fff" : "#606060"}
@@ -29,9 +30,9 @@ const MenuSvg = React.memo(() => {
         </g>
       </svg>
       <div
-        className={
-          "effect" + (fade ? (Theme ? " action-dark" : " action-light") : "")
-        }
+        className={`ytb_svg__effect ${
+          fade ? `ytb_svg__action--${ReturnTheme(Theme)}` : ""
+        }`}
       ></div>
     </button>
   );

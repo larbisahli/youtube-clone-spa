@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import "./rvccontainer_style.scss";
+import "./sass/rvccontainer_style.scss";
 import { Link } from "react-router-dom";
 import { DotsSvg } from "../Navbar/NavComponents/Svg";
 import {
@@ -7,7 +7,7 @@ import {
   ViewsNumFormatter,
   HandleDuration,
   ReturnTheme,
-} from "../../config";
+} from "../../utils/utils";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
@@ -67,17 +67,25 @@ const ResultVideoContainer = React.memo(
     const Fetch_Data = (id, index) => {
       GetVideoDetails(id).then((res) => {
         if (res.data.items.length >= 1) {
-          document.getElementById(
+          const durationIdElement = document.getElementById(
             `${id}-${index}-duration`
-          ).textContent = HandleDuration(
-            res.data.items[0].contentDetails.duration
           );
 
-          document.getElementById(
+          const viewCountIdElement = document.getElementById(
             `${id}-${index}-viewcount`
-          ).textContent = `${ViewsNumFormatter(
-            res.data.items[0].statistics.viewCount
-          )} views`;
+          );
+
+          if (durationIdElement) {
+            durationIdElement.textContent = HandleDuration(
+              res.data.items[0].contentDetails.duration
+            );
+          }
+
+          if (viewCountIdElement) {
+            viewCountIdElement.textContent = `${ViewsNumFormatter(
+              res.data.items[0].statistics.viewCount
+            )} views`;
+          }
         }
       });
     };
@@ -168,32 +176,39 @@ const ResultVideoContainer = React.memo(
     const HandleRImg = useCallback((skeleton_id, index) => {
       // BackgroundColor can be red and you can use it as video duration with the width.
 
-      document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
-        "transparent";
-      document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+      const imgTIdElement = document.getElementById(`${skeleton_id}-${index}`);
+      if (imgTIdElement) {
+        imgTIdElement.style.backgroundColor = "transparent";
+        imgTIdElement.style.height = "auto";
+      }
     }, []);
 
     return (
       <div className="item_section">
-        <div className="rv_container">
-          <div className="rv_thumbnail_container">
-            <Link to={`/watch/${item.videoId}`} className="rv_vid_link_wrap">
+        <div className="item_wrap">
+          <div className="item_wrap__thumbnail">
+            <Link
+              to={`/watch/${item.videoId}`}
+              className="item_wrap__thumbnail__video"
+            >
               <div
                 id={`hresultCha-${index}`}
-                className={`rv_v_thumb rv_v_thumb-${ReturnTheme(Theme)}`}
+                className={`rv_video_thumb rv_video_thumb--${ReturnTheme(
+                  Theme
+                )}`}
               >
                 <img
                   onLoad={() => HandleRImg("hresultCha", index)}
                   src={item.thumbnail}
                   alt=""
-                  className="rv_v_img"
+                  className="rv_video_thumb__img"
                 />
               </div>
             </Link>
             {/* -------------head svg-------------- */}
             <div
               id={`${item.videoId}-${index}-duration`}
-              className="rv_video_ab rv_video_ab-duration"
+              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--duration"
             >
               {Fetch_Data(item.videoId, index)}
             </div>
@@ -210,22 +225,22 @@ const ResultVideoContainer = React.memo(
                   IswatchLater
                 )
               }
-              className="rv_video_ab rv_video_ab-clock"
+              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--clock"
             >
-              <div className="rv_icon">
+              <div className="rv_icon_btn">
                 {IswatchLater ? (
-                  <div className="rv_checked_icon">
+                  <div className="rv_icon_btn__check">
                     <CheckedSvg />
                   </div>
                 ) : (
                   <TimeSvg />
                 )}
               </div>
-              <div className="rv_slider_text">
+              <div className="rv_slider">
                 {IswatchLater ? (
-                  <div className="rv_checkedtxt">added</div>
+                  <div className="rv_slider__check">added</div>
                 ) : (
-                  <div className="rv_normaltxt">watch later</div>
+                  <div className="rv_slider__normal">watch later</div>
                 )}
               </div>
             </button>
@@ -242,64 +257,67 @@ const ResultVideoContainer = React.memo(
                   IsQueue
                 )
               }
-              className="rv_video_ab rv_video_ab-queue"
+              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--queue"
             >
-              <div className="rv_icon">
+              <div className="rv_icon_btn">
                 {IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
-              <div className="rv_slider_text">
+              <div className="rv_slider">
                 {IsQueue ? (
-                  <div className="rv_normaltxt">added</div>
+                  <div className="rv_slider__check">added</div>
                 ) : (
-                  <div className="rv_normaltxt">add to queue</div>
+                  <div className="rv_slider__text">add to queue</div>
                 )}
               </div>
             </button>
-            {/* -------------Text Area-------------- */}
+            {/* -------------body-------------- */}
           </div>
-          <div className="search_text_wrapper">
-            <div className="search_header">
-              <div className="search_wrap">
-                <h3 className="search_header_title">
+          <div className="item_wrap__body">
+            <div className="item_wrap__body__container">
+              <div className="item_wrap__body__text_wrap">
+                <div className="rv_results_header">
                   <Link
                     to={`watch/${item.videoId}`}
-                    className={`search_title_h search_title_h-${ReturnTheme(
+                    className={`rv_results_header__title rv_results_header__title--${ReturnTheme(
                       Theme
                     )}`}
                   >
                     {TextReducer(item.title, 56)}
                   </Link>
-                </h3>
+                </div>
                 <div
-                  className={`search_cv_details search_cv_details-${ReturnTheme(
+                  className={`rv_results_details rv_results_details--${ReturnTheme(
                     Theme
                   )}`}
                 >
                   <Link
                     data-scontent={item.channelTitle}
-                    className={`rvch_title rvch_title-${ReturnTheme(Theme)}`}
+                    className={`rv_results_details__ch_title rv_results_details__ch_title--${ReturnTheme(
+                      Theme
+                    )}`}
                     to={`/channel/${item.channelId}`}
                   >
                     {item.channelTitle}
                   </Link>
-                  <div className="rvch_dot">•</div>
-                  <div className="sv_tt">
-                    <span
-                      id={`${item.videoId}-${index}-viewcount`}
-                      className="numv"
-                    ></span>
-                    <div className="rvch_dot">•</div>
+                  <div className="rv_results_details__ch_dot">•</div>
+                  <div className="rv_results_details__sv_tt">
+                    <span id={`${item.videoId}-${index}-viewcount`}></span>
+                    <div className="rv_results_details__ch_dot">•</div>
                     <span>
                       <Moment fromNow>{item.publishedAt}</Moment>
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="search_menu_h">
+              <div className="item_wrap__body__container__menu">
                 <DotsSvg />
               </div>
             </div>
-            <div className={`svw_details svw_details-${ReturnTheme(Theme)}`}>
+            <div
+              className={`item_wrap__details item_wrap__details--${ReturnTheme(
+                Theme
+              )}`}
+            >
               {TextReducer(item.description, 121)}
             </div>
           </div>

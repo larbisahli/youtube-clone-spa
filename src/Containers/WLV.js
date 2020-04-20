@@ -10,6 +10,7 @@ import {
   MoveDownSvg,
   MoveUpSvg,
 } from "./Svg";
+import { Helmet } from "react-helmet";
 import { DotsSvg } from "../Components/Navbar/NavComponents/Svg";
 import { RippleButton } from "../Components";
 import {
@@ -24,7 +25,7 @@ import {
   ReturnTheme,
   TextReducer,
   UrlLocation,
-} from "../config";
+} from "../utils/utils";
 
 const WLV = React.memo(() => {
   // WLV Context
@@ -117,12 +118,15 @@ const WLV = React.memo(() => {
   // ===================
 
   const HandleSkeleton = useCallback(() => {
+    //
     console.log("WatchLaterList.length :", WatchLaterList.length);
     if (WatchLaterList.length === 0) {
-      document.getElementById("wl_xxid").style.height = "200px";
-      document.getElementById("wl_xxid").style.backgroundColor = Theme
-        ? "#38383898"
-        : "#e2e2e298";
+      if (document.getElementById("wl_xxid") !== undefined) {
+        document.getElementById("wl_xxid").style.height = "200px";
+        document.getElementById("wl_xxid").style.backgroundColor = Theme
+          ? "#38383898"
+          : "#e2e2e298";
+      }
     }
     return "";
   }, [WatchLaterList, Theme]);
@@ -191,23 +195,31 @@ const WLV = React.memo(() => {
 
   //
 
-  const wlmd_txt_area = `wlmd_txt_area wlmd_txt_area-${ReturnTheme(Theme)}`;
-  const wlmd_line_txt_con = `wlmd_line_txt_con wlmd_line_txt_con-${ReturnTheme(
+  const txt_area = `wl_drop_text_con__text wl_drop_text_con__text--${ReturnTheme(
+    Theme
+  )}`;
+  const wl_drop_text_con = `wl_drop_text_con wl_drop_text_con--${ReturnTheme(
     Theme
   )}`;
   return (
-    <div
-      id="hvc"
-      className={`wvl_container wvl_container-${ReturnTheme(Theme)}`}
-    >
+    <div id="page-manager" className={`wvl wvl--${ReturnTheme(Theme)}`}>
+      {/* Helmet */}
+      <Helmet>
+        <title>Watch later - youtube</title>
+        <meta name="youtube clone watch later" content="Helmet application" />
+      </Helmet>
       {/* Right Side */}
-      <div className={`rigth_container rigth_container-${ReturnTheme(Theme)}`}>
+      <div
+        className={`wvl__right_container wvl__right_container--${ReturnTheme(
+          Theme
+        )}`}
+      >
         <div className="main_thumb">
-          <div className="wl_img_thumb_wrap">
-            <div id="wl_xxid" className="wl_xx">
+          <div className="main_thumb__thumbnail">
+            <div id="wl_xxid" className="main_thumb__thumbnail__wrap">
               <img
                 width="357"
-                className="wl_img_thumb"
+                className="main_thumb__thumbnail__wrap__img"
                 src={
                   WatchLaterList.length !== 0
                     ? WatchLaterList[0].thumbnail
@@ -216,37 +228,47 @@ const WLV = React.memo(() => {
                 alt=""
               />
             </div>
-            <div className="wl_ab">
+            <div className="main_thumb__thumbnail__inner_bg">
               <PlaySvg />
-              <span className="wl_plall_txt">Play all</span>
+              <span className="main_thumb__thumbnail__inner_bg__txt">
+                Play all
+              </span>
             </div>
           </div>
 
-          <div className="wl_con_xl">
-            <div className="wl_title">
+          <div className="main_thumb__details">
+            <div className="main_thumb__details__title">
               <span>Watch later</span>
             </div>
-            <div className={`wl_stat wl_stat-${ReturnTheme(Theme)}`}>
+            <div className={`wl_stat_con wl_stat_con--${ReturnTheme(Theme)}`}>
               <span>{`${WatchLaterList.length} ${
                 WatchLaterList.length > 1 ? "videos" : "video"
               }`}</span>
-              <div className="rvch_dot">•</div>
+              <div className="wl_stat_con__dot">•</div>
               <span>Updated today</span>
             </div>
-            <div className="wl_stat">
-              <div className={`wl_svg wl_svg-${ReturnTheme(Theme)}`}>
+            <div className="wl_stat_con">
+              <div
+                className={`wl_stat_con__svg wl_stat_con__svg--${ReturnTheme(
+                  Theme
+                )}`}
+              >
                 <ShuffleSvg />
               </div>
               <div
                 onClick={HandleshowRemoveAllDrop}
-                className={`wl_svg wl_svg-${ReturnTheme(Theme)}`}
+                className={`wl_stat_con__svg wl_stat_con__svg--${ReturnTheme(
+                  Theme
+                )}`}
               >
                 <DotsSvg />
               </div>
               {showRemoveAllDrop && (
                 <div
                   onClick={() => WLdispatch({ type: "removeAll" })}
-                  className={`rallD rallD-${ReturnTheme(Theme)}`}
+                  className={`wl_stat_con__drop wl_stat_con__drop--${ReturnTheme(
+                    Theme
+                  )}`}
                 >
                   <TrashSvg />
                   <span>
@@ -257,34 +279,41 @@ const WLV = React.memo(() => {
                 </div>
               )}
             </div>
-            <div className={`wl_line wl_line-${ReturnTheme(Theme)}`}></div>
-            <div className="wl_prof_details">
-              <div className="wl_imgpro_wrap">
+            <div
+              style={{ margin: "5px 0" }}
+              className={`line line--${ReturnTheme(Theme)}`}
+            ></div>
+            <div className="prof_details">
+              <div className="prof_details__wrap">
                 <img
                   width="48"
-                  className="wl_imgpro"
+                  className="prof_details__wrap__img"
                   src={IsCurrentAccount.img}
                   alt=""
                 />
               </div>
-              <div className="wl_namepro">{IsCurrentAccount.name}</div>
+              <div className="prof_details__name">{IsCurrentAccount.name}</div>
             </div>
           </div>
         </div>
       </div>
       {/* Left Side */}
-      <div className={`left_container left_container-${ReturnTheme(Theme)}`}>
+      <div
+        className={`wvl__left_container wvl__left_container--${ReturnTheme(
+          Theme
+        )}`}
+      >
         <div className="wl_items_container">
-          <div className="wl_sby_con">
-            <div className="wl_sby_wrap">
-              <RippleButton
-                onclick={() => {}}
-                classname={`wl_sby wl_sby-${ReturnTheme(Theme)}`}
-              >
-                <SortBySvg />
-                <span>Sort by</span>
-              </RippleButton>
-            </div>
+          <div className="wl_sort_con">
+            <RippleButton
+              onclick={() => {}}
+              classname={`wl_sort_con__btn wl_sort_con__btn--${ReturnTheme(
+                Theme
+              )}`}
+            >
+              <SortBySvg />
+              <span>Sort by</span>
+            </RippleButton>
           </div>
           {/* videos container */}
           {WatchLaterList.map((wl, index) => {
@@ -296,34 +325,37 @@ const WLV = React.memo(() => {
                 key={index}
               >
                 <div
-                  className={`wl_v_container wl_v_container-${ReturnTheme(
+                  className={`wl_item_container wl_item_container--${ReturnTheme(
                     Theme
                   )}`}
                 >
-                  <div className="wl_dr_svg">
+                  <div className="wl_drag_area">
                     <DRSvg />
                   </div>
-                  <div className={`wl_ccc wl_ccc-${ReturnTheme(Theme)}`}>
-                    <div className="wl_v_thumb_xl">
-                      <div className="wl_immg_xl">
-                        <img
-                          width="120"
-                          className=""
-                          src={wl.thumbnail}
-                          alt=""
-                        />
-                      </div>
-                      <div className="wl_vh_ab">
+                  <div
+                    className={`wl_item_wrap wl_item_wrap--${ReturnTheme(
+                      Theme
+                    )}`}
+                  >
+                    <div className="wl_item_wrap__thumb">
+                      <img
+                        width="120"
+                        className="wl_item_wrap__thumb__img"
+                        src={wl.thumbnail}
+                        alt=""
+                      />
+
+                      <div className="wl_item_wrap__thumb__inner">
                         {HandleDuration(wl.duration)}
                       </div>
                     </div>
-                    <div className="wl_v_textarea_con">
-                      <div className="wl_v_title_con">
-                        <div className="wl_v_title_xl">
+                    <div className="wl_item_wrap__textarea">
+                      <div className="wl_item_details">
+                        <div className="wl_item_details__title">
                           <span>{TextReducer(wl.title, 56)}</span>
                         </div>
                         <div
-                          className={`wl_ch_title_xl wl_ch_title_xl-${ReturnTheme(
+                          className={`wl_item_details__channel_title wl_item_details__channel_title--${ReturnTheme(
                             Theme
                           )}`}
                         >
@@ -334,14 +366,16 @@ const WLV = React.memo(() => {
                         id={`${index}`}
                         onMouseEnter={() => setCurrentMenuIndex(() => index)}
                         onClick={HandleShowRdrop}
-                        className={`wl_v_a_xl wl_v_a_xl-${ReturnTheme(Theme)}`}
+                        className={`wl_dot_svg wl_dot_svg--${ReturnTheme(
+                          Theme
+                        )}`}
                       >
                         <DotsSvg />
                       </div>
                       {/* Drop */}
                       <div
                         style={{ display: "none" }}
-                        className={`wl_menu_drop wl_menu_drop-${ReturnTheme(
+                        className={`wl_menu_drop wl_menu_drop--${ReturnTheme(
                           Theme
                         )}`}
                         id={`wl-mn-${index}`}
@@ -357,54 +391,53 @@ const WLV = React.memo(() => {
                               wl.thumbnail
                             )
                           }
-                          className={wlmd_line_txt_con}
+                          className={wl_drop_text_con}
                         >
-                          <div className="wlmd_svg_wrap">
+                          <div className="wl_drop_text_con__icon">
                             <QueueSvg default_color={false} />
                           </div>
-                          <div className={wlmd_txt_area}>Add to queue</div>
+                          <div className={txt_area}>Add to queue</div>
                         </div>
-                        <div className={wlmd_line_txt_con}>
-                          <div className="wlmd_svg_wrap">
+                        <div className={wl_drop_text_con}>
+                          <div className="wl_drop_text_con__icon">
                             <AddPlayListSvg />
                           </div>
-                          <div className={wlmd_txt_area}>Save to playlist</div>
+                          <div className={txt_area}>Save to playlist</div>
                         </div>
                         <div
-                          className={`wlmd_line wlmd_line-${ReturnTheme(
-                            Theme
-                          )}`}
+                          style={{ margin: "5px 0" }}
+                          className={`line line--${ReturnTheme(Theme)}`}
                         ></div>
                         <div
                           onClick={() => HandleRemoveWL(wl.videoId)}
-                          className={wlmd_line_txt_con}
+                          className={wl_drop_text_con}
                         >
-                          <div className="wlmd_svg_wrap">
+                          <div className="wl_drop_text_con__icon">
                             <TrashSvg />
                           </div>
-                          <div className={wlmd_txt_area}>
+                          <div className={txt_area}>
                             Remove from Watch later
                           </div>
                         </div>
                         <div
                           onClick={() => WLdispatch({ type: "moveUp", index })}
-                          className={wlmd_line_txt_con}
+                          className={wl_drop_text_con}
                         >
-                          <div className="wlmd_svg_wrap">
+                          <div className="wl_drop_text_con__icon">
                             <MoveUpSvg />
                           </div>
-                          <div className={wlmd_txt_area}>Move to top</div>
+                          <div className={txt_area}>Move to top</div>
                         </div>
                         <div
                           onClick={() =>
                             WLdispatch({ type: "moveDown", index })
                           }
-                          className={wlmd_line_txt_con}
+                          className={wl_drop_text_con}
                         >
-                          <div className="wlmd_svg_wrap">
+                          <div className="wl_drop_text_con__icon">
                             <MoveDownSvg />
                           </div>
-                          <div className={wlmd_txt_area}>Move to bottom</div>
+                          <div className={txt_area}>Move to bottom</div>
                         </div>
                       </div>
                     </div>

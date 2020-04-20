@@ -1,9 +1,26 @@
 body {
     margin: 0;
     font-size: 10px;
-    font-family: Roboto, Arial, sans-serif;
+    font-family: Roboto-Regular, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+// https://fonts.google.com/specimen/Oswald
+@font-face {
+    font-family: Oswald-SemiBold;
+    src: url("./fonts/Oswald/Oswald-SemiBold.ttf") format("truetype");
+}
+
+// https://fonts.google.com/specimen/Roboto
+@font-face {
+    font-family: Roboto-Regular;
+    src: url("./fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url("./fonts/Roboto/Roboto-Medium.ttf") format("truetype");
 }
 
 div,
@@ -34,8 +51,6 @@ a {
     text-decoration: none;
     color: inherit;
 }
-
-
 
 button {
     background: transparent;

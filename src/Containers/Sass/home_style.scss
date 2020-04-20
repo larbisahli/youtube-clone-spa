@@ -8,36 +8,36 @@
     }
 
     @media screen and (max-width: 750px) {
-        margin: 0px 20px !important;
+        margin: 0px 35px !important;
     }
 
-    .hcontentwrap {
+    .home_content {
         margin: 0 24px 0 24px;
 
-        .homevideowrapper {
+        &__video_wrapper {
             display: flex;
             flex-flow: row wrap;
-            margin-top: 24px;
+            margin-top: 15px;
         }
 
-        .home_title_container {
+        &__title_wrapper {
+
             padding-top: 36px;
             padding-left: calc(16px / 2);
 
 
             .home_title {
-                font-size: 2em;
-                font-weight: 500;
-                line-height: 2.4rem;
 
-                &-dark {
+                font-size: 2em;
+                font-family: Roboto-Medium;
+
+                &--dark {
                     color: #fff;
                 }
 
-                &-light {
+                &--light {
                     color: #212121;
                 }
-
             }
         }
     }

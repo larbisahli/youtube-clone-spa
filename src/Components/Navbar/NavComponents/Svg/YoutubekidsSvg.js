@@ -1,15 +1,14 @@
 import React from "react";
-import "./svg_style_scnni.scss";
+import "./sass/svg_style_scnni.scss";
 
 // SVG paths COPIED FROM YOUTUBE
 
 const YouTubeKidsSvg = React.memo(() => {
   return (
-    <div className="icon_container">
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+    <div className="ytb_svg">
+      <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
-            className="fill"
             fill="#282828"
             d="M16.38 10.69c-.04-.02-.09-.03-.13-.05-1.35-.65-5.69-2.07-6.55-2.32-.15-.05-.59-.18-.76-.05-.16.12-.06.63-.04.78.07.5.7 5.03.77 5.5l.01.09c.06.4.16 1.21.39 1.33.23.12.82-.27 1.13-.52 0 0 3.68-2.6 4.31-3.05l.82-.58.1-.07c.19-.12.42-.26.41-.57 0-.31-.27-.42-.46-.49zm-5.88 4.44c-.23-.83-.89-5.11-.95-6.12.97.12 5.1 1.58 6.34 2.25-.24.17-4.76 3.52-5.39 3.87z"
           ></path>

@@ -1,7 +1,8 @@
-@import "../../../../config_style.scss";
+@import "../../../../../config_style.scss";
 
 
-.noti_Container {
+.notification {
+
     @include display-flex();
     position: absolute;
     flex-flow: column nowrap;
@@ -14,9 +15,10 @@
     max-width: 480px;
     max-height: 550px;
     width: 480px;
+    font-size: 1.01em;
+    font-family: Roboto-Medium;
 
-
-    &-dark {
+    &--dark {
         // Dark Theme
         color: #fff;
         border-bottom: 1px solid colors(border-color-Dark);
@@ -26,7 +28,7 @@
         @extend %scroll-Dark;
     }
 
-    &-light {
+    &--light {
         // Light Theme
         color: #212121;
         border-bottom: 1px solid colors(border-color-Light);
@@ -47,37 +49,21 @@
         right: 3px;
     }
 
-    .noti_title_holder {
+    &__header {
         @include display-flex();
         @include alignItems-center();
         justify-content: space-between;
         margin: 7px 0;
 
-        .noti_text {
+        &__text {
             margin-left: 16px;
             font-size: 1.5em;
         }
 
-        .noti_setting_icon {
+        &__setting_icon {
             margin-right: 10px;
             cursor: pointer;
         }
-    }
-
-    .nt_line {
-        height: 2px;
-        margin: 5px 0;
-
-        &-dark {
-            // Dark Theme
-            background-color: colors(border-color-Dark);
-        }
-
-        &-light {
-            // Dark Theme
-            background-color: colors(border-color-Light);
-        }
-
     }
 
     .noti_spinner {
@@ -85,7 +71,7 @@
         justify-content: center !important;
     }
 
-    .notifications_container {
+    &__body {
         @include display-flex();
         @include alignItems-center();
         justify-content: flex-start;
@@ -93,67 +79,68 @@
         overflow-y: scroll;
         overflow-x: hidden;
 
-        .n_wrapper {
+        .noti_block {
+
             @include display-flex();
             @include alignItems-center();
             @include justifyContent-center();
             flex-flow: row nowrap;
-            padding: 5px 10px 5px 0;
+            padding: 20px 10px 5px 0;
             cursor: pointer;
 
-            &-dark {
+            &:hover>.noti_block__btn {
+                opacity: 1;
+            }
+
+            &--dark {
                 &:hover {
                     // Dark Theme
                     background-color: colors(Theme-hover-Dark);
                 }
 
-                &:hover .bg_cover {
+                &:hover .noti_bg_cover {
                     // Dark Theme
                     background-color: colors(Theme-hover-Dark) !important;
                 }
             }
 
-            &-light {
+            &--light {
                 &:hover {
                     // Light Theme
                     background-color: colors(Theme-hover-Light);
                 }
 
-                &:hover .bg_cover {
+                &:hover .noti_bg_cover {
                     // Dark Theme
                     background-color: colors(Theme-hover-Light) !important;
                 }
-
-
             }
 
-
-            .dot_container {
+            &__dot {
                 display: block;
 
-                .n_dot {
+                .dot {
                     width: 4px;
                     height: 4px;
                     border-radius: 2px;
                     margin-left: 8px;
                     margin-right: 5px;
-                }
 
-                .f_dot_light {
-                    background-color: #065fd4;
-                }
+                    &--light {
+                        background-color: #065fd4;
+                    }
 
-                .f_dot_dark {
-                    background-color: #3ea6ff;
-                }
+                    &--dark {
+                        background-color: #3ea6ff;
+                    }
 
-                .t_dot {
-                    background-color: transparent;
+                    &--transparent {
+                        background-color: transparent;
+                    }
                 }
-
             }
 
-            .n_propic {
+            &__thumb {
                 height: 48px;
                 width: 48px;
                 margin-right: 16px;
@@ -162,16 +149,17 @@
                 overflow: hidden;
                 align-self: center;
 
-                &-dark {
+
+                &--dark {
                     background-color: colors(Skeleton_Dark_color);
                 }
 
-                &-light {
+                &--light {
                     background-color: colors(Skeleton_Light_color);
                 }
 
 
-                .img_n {
+                &__img {
                     display: block;
                     margin-left: auto;
                     margin-right: auto;
@@ -181,44 +169,44 @@
                 }
             }
 
-            .n_textArea {
+            &__text_wrap {
                 display: block;
                 font-size: 1.3em;
 
-                .text_nt {
+                &__title {
                     margin-bottom: 10px;
                 }
 
-                .date_nt {
+                &__date {
                     color: #aaa;
-                    font-weight: 400;
+                    color: #757575ec;
                     text-transform: none;
                 }
             }
 
-            .thumbnail_container {
+            &__thumbnail {
                 display: block;
                 box-sizing: border-box;
                 margin: 0 16px;
 
-                .thumbnail_wrapper {
+                &__wrapper {
                     background-color: transparent;
                     position: relative;
 
-                    .bg_cover {
+                    .noti_bg_cover {
                         height: 10px;
                         position: absolute;
                         width: 90px;
 
-                        &-top {
+                        &--top {
                             top: 0;
 
-                            &-dark {
+                            &--dark {
                                 // Theme Dark
                                 background-color: colors(Nav-background-Dark);
                             }
 
-                            &-light {
+                            &--light {
                                 // Theme Light
 
                                 // I choose white (#fff) over colors(Nav-background-Light) 
@@ -229,22 +217,22 @@
                             }
                         }
 
-                        &-bottom {
+                        &--bottom {
                             bottom: 0;
 
-                            &-dark {
+                            &--dark {
                                 // Theme Dark
                                 background-color: colors(Nav-background-Dark);
                             }
 
-                            &-light {
+                            &--light {
                                 // Theme Light
                                 background-color: #fff;
                             }
                         }
                     }
 
-                    .n_img {
+                    .noti_thumb_img {
                         align-self: center;
                         display: block;
                         margin-left: auto;
@@ -254,13 +242,9 @@
                 }
             }
 
-            .n_sd {
+            &__btn {
                 align-self: stretch;
                 opacity: 0;
-
-                &:hover {
-                    opacity: 1;
-                }
             }
         }
     }

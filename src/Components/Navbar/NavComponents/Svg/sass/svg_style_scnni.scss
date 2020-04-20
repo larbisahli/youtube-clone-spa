@@ -1,18 +1,18 @@
-@import '../../../../config_style.scss';
+@import '../../../../../config_style.scss';
 
-.icon_container {
+.ytb_svg {
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();
 
-    .icon_ {
+    &__wrapper {
         height: 24px;
         width: 24px;
         z-index: 1;
         cursor: pointer;
     }
 
-    .effect {
+    &__effect {
         @include display-flex();
         position: fixed;
         border-radius: 50%;
@@ -21,9 +21,9 @@
         z-index: 0;
     }
 
-    .action {
+    &__action {
 
-        &-dark {
+        &--dark {
             background-color: #484848;
             @include transform(scale(.6));
             animation: color_effect-dark 0.2s linear;
@@ -41,7 +41,7 @@
             }
         }
 
-        &-light {
+        &--light {
             background-color: #ccc;
             @include transform(scale(.6));
             animation: color_effect-light 0.2s linear;
@@ -121,11 +121,11 @@
         display: inline-block;
     }
 
-    &-dark {
+    &--dark {
         @extend %theme_dark;
     }
 
-    &-light {
+    &--light {
         @extend %theme_light;
     }
 }
@@ -145,11 +145,11 @@
         display: inline-block;
     }
 
-    &-dark {
+    &--dark {
         @extend %theme_dark;
     }
 
-    &-light {
+    &--light {
         @extend %theme_light;
     }
 }
@@ -169,11 +169,11 @@
         display: inline-block;
     }
 
-    &-dark {
+    &--dark {
         @extend %theme_dark;
     }
 
-    &-light {
+    &--light {
         @extend %theme_light;
     }
 }
@@ -191,11 +191,11 @@
         display: inline-block;
     }
 
-    &-dark {
+    &--dark {
         @extend %theme_dark;
     }
 
-    &-light {
+    &--light {
         @extend %theme_light;
     }
 }

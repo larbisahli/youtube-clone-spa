@@ -1,22 +1,22 @@
 @import "../../config_style.scss";
 
-.wvl_container {
+.wvl {
+
     margin-left: 240px;
     display: flex;
     height: calc(100vh - 56px);
 
-    &-dark {
+    &--dark {
         // Dark Theme
         color: #fff;
         @extend %scroll-Dark;
     }
 
-    &-light {
+    &--light {
         // Light Theme
         color: #212121;
         @extend %scroll-Light;
     }
-
 
 
     @media screen and (max-width: 810px) {
@@ -28,7 +28,7 @@
         width: 1em;
     }
 
-    .rigth_container {
+    &__right_container {
 
         justify-content: center;
         align-items: flex-start;
@@ -36,12 +36,12 @@
         position: relative;
         flex: 1.25;
 
-        &-dark {
+        &--dark {
             // Dark Theme
             background-color: #181818;
         }
 
-        &-light {
+        &--light {
             // Light Theme
             background-color: #f7f7f7;
         }
@@ -63,7 +63,7 @@
                 padding: 12px 16px;
             }
 
-            .wl_img_thumb_wrap {
+            &__thumbnail {
                 position: relative;
                 cursor: pointer;
 
@@ -73,7 +73,7 @@
                     flex: 2;
                 }
 
-                .wl_xx {
+                &__wrap {
                     width: 357px;
                     height: auto;
                     margin-bottom: 16px;
@@ -88,7 +88,7 @@
                     }
                 }
 
-                .wl_ab {
+                &__inner_bg {
                     position: absolute;
                     bottom: 0;
                     width: 100%;
@@ -97,10 +97,10 @@
                     align-self: center;
                     color: #fff;
                     background-color: rgba(0, 0, 0, 0.75);
-                    padding: 13px 0;
+                    padding: 15px 0;
 
 
-                    .wl_plall_txt {
+                    &__txt {
                         align-self: center;
                         font-size: 1.5em;
                         text-transform: uppercase;
@@ -109,7 +109,7 @@
                 }
             }
 
-            .wl_con_xl {
+            &__details {
 
                 @media screen and (max-width: 810px) {
                     width: 100%;
@@ -117,37 +117,38 @@
                     flex: 1;
                 }
 
-                .wl_title {
+                &__title {
                     font-size: 2.3em;
                     padding: 5px 0;
                 }
 
-                .wl_stat {
+                .wl_stat_con {
+
                     display: flex;
                     padding: 10px 0;
                     font-size: 1.4em;
                     position: relative;
 
-                    &-dark {
+                    &--dark {
                         // Dark Theme
                         color: colors(ChTitle_Dark_Color);
                     }
 
-                    &-light {
+                    &--light {
                         // Light Theme
                         color: colors(ChTitle_Light_Color);
                     }
 
 
-                    .rvch_dot {
+                    &__dot {
                         margin: 0 4px;
                     }
 
-                    .rallD {
+                    &__drop {
+
                         position: absolute;
                         display: flex;
                         align-items: center;
-                        background-color: #303030;
                         left: 20%;
                         bottom: -50%;
                         padding: 5px 25px 5px 0;
@@ -156,7 +157,7 @@
                         z-index: 10;
 
 
-                        &-dark {
+                        &--dark {
                             // Dark Theme
                             background-color: colors(Nav-background-Dark);
                             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -167,7 +168,7 @@
                             }
                         }
 
-                        &-light {
+                        &--light {
                             // Light Theme
                             background-color: colors(Nav-background-Light);
                             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
@@ -184,18 +185,18 @@
                         }
                     }
 
-                    .wl_svg {
+                    &__svg {
                         margin-left: -5px;
                         padding: 5px;
 
-                        &-dark {
+                        &--dark {
 
                             // Dark Theme
-                            &:hover>.icon_container_y>.icon_y_>g>path {
+                            &:hover>.ytb_svg_y>.ytb_svg_y__wrapper>g>path {
                                 fill: #fff;
                             }
 
-                            &:hover>.icon_container>.icon_>g>path {
+                            &:hover>.ytb_svg>.ytb_svg__wrapper>g>path {
                                 fill: #fff;
                             }
 
@@ -206,16 +207,14 @@
                         }
 
 
-                        &-light {
+                        &--light {
                             // Light Theme
 
-                            &:hover>.icon_container_y>.icon_y_>g>path {
+                            &:hover>.ytb_svg_y>.ytb_svg_y__wrapper>g>path {
                                 fill: #000;
                             }
 
-                            // Light Theme
-
-                            &:hover>.icon_container>.icon_>g>path {
+                            &:hover>.ytb_svg>.ytb_svg__wrapper>g>path {
                                 fill: #000;
                             }
 
@@ -234,31 +233,17 @@
             }
         }
 
-        .wl_line {
-            margin: 5px 0;
-            height: 1px;
-            width: 100%;
+        // ---
 
-            &-dark {
-                // Dark Theme
-                background-color: colors(border-color-Dark);
-            }
-
-            &-light {
-                // Light Theme
-                background-color: colors(border-color-Light);
-            }
-        }
-
-        .wl_prof_details {
+        .prof_details {
             display: flex;
             align-items: center;
             padding: 15px 0;
 
-            .wl_imgpro_wrap {
+            &__wrap {
                 padding-right: 15px;
 
-                .wl_imgpro {
+                &__img {
                     border-radius: 50%;
                     display: block;
                     margin-left: auto;
@@ -269,13 +254,16 @@
                 }
             }
 
-            .wl_namepro {
+            &__name {
+                font-family: Roboto-Medium;
                 font-size: 1.5em;
             }
         }
     }
 
-    .left_container {
+    // ---
+
+    &__left_container {
 
         padding-right: 24px;
         padding-top: 8px;
@@ -283,12 +271,12 @@
         overflow-y: scroll;
         overflow-x: hidden;
 
-        &-dark {
+        &--dark {
             // Dark Theme
             background-color: #111111;
         }
 
-        &-light {
+        &--light {
             // Light Theme
             background-color: #eeeeee;
         }
@@ -302,23 +290,27 @@
             flex-flow: column nowrap;
 
 
-            .wl_sby_con {
+            .wl_sort_con {
+
                 padding: 16px 0 8px 36px;
                 border-radius: 10px;
 
-                .wl_sby {
+
+                &__btn {
                     display: flex;
                     align-items: center;
                     padding: 5px 5px 5px 0;
+                    font-size: 1.35em;
+                    font-family: Roboto-Medium;
 
-                    &-dark {
+                    &--dark {
                         // Dark Theme
                         color: #c7c7c7;
                     }
 
-                    &-light {
+                    &--light {
                         // Light Theme
-                        color: #303030;
+                        color: #666;
                     }
 
                     span {
@@ -332,14 +324,15 @@
 
             // ======item=======
 
-            .wl_v_container {
+            .wl_item_container {
+
                 display: flex;
                 align-items: center;
                 position: relative;
                 cursor: pointer;
                 min-width: 0;
 
-                &-dark {
+                &--dark {
 
                     // Dark Theme
                     &:hover {
@@ -347,7 +340,7 @@
                     }
                 }
 
-                &-light {
+                &--light {
 
                     // Light Theme
                     &:hover {
@@ -359,21 +352,23 @@
                     fill: #909090;
                 }
 
-                .wl_dr_svg {
+                .wl_drag_area {
+
                     padding: 0 6px;
                     align-self: stretch;
                     display: flex;
                     align-items: center;
                     cursor: grab;
 
-                    &>.icon_container_y>.icon_y_ {
+                    &>.ytb_svg_y>.ytb_svg_y__wrapper {
                         cursor: grab;
                     }
                 }
 
                 // -----
 
-                .wl_ccc {
+                .wl_item_wrap {
+
                     display: flex;
                     align-items: center;
                     position: relative;
@@ -381,24 +376,34 @@
                     flex: 1;
                     box-sizing: border-box;
 
-                    &-dark {
+                    &--dark {
                         // Dark Theme
                         border-bottom: 1px solid #202020;
+
+                        &:hover>.wl_item_wrap__textarea>.wl_dot_svg>.ytb_svg>.ytb_svg__wrapper>g>path {
+                            fill: #fff;
+                        }
+
                     }
 
-                    &-light {
+                    &--light {
                         // Light Theme
                         border-bottom: 1px solid #dbdbdb;
+
+                        &:hover>.wl_item_wrap__textarea>.wl_dot_svg>.ytb_svg>.ytb_svg__wrapper>g>path {
+                            fill: #333;
+                        }
                     }
 
 
-                    .wl_v_thumb_xl {
+                    &__thumb {
                         position: relative;
                         margin-right: 8px;
                         height: 68px;
                         width: 120px;
 
-                        .wl_immg_xl {
+                        &__img {
+
                             display: block;
                             margin-left: auto;
                             margin-right: auto;
@@ -407,7 +412,8 @@
                             border-radius: none;
                         }
 
-                        .wl_vh_ab {
+                        &__inner {
+
                             position: absolute;
                             bottom: 0;
                             right: 0;
@@ -422,25 +428,29 @@
                         }
                     }
 
-                    .wl_v_textarea_con {
+                    &__textarea {
+
                         display: flex;
                         flex: 1;
                         align-self: flex-start;
                         justify-content: space-between;
 
-                        .wl_v_title_con {
+                        .wl_item_details {
 
                             display: block;
                             width: 100%;
 
-                            .wl_v_title_xl {
+                            // ---
+
+                            &__title {
 
                                 display: flex;
                                 padding-bottom: 10px;
                                 overflow: hidden;
 
                                 span {
-                                    font-size: 1.55em;
+                                    font-family: Roboto-Medium;
+                                    font-size: 1.5em;
                                     overflow: hidden;
 
                                     @media screen and (max-width: 1150px) {
@@ -450,11 +460,13 @@
                                 }
                             }
 
-                            .wl_ch_title_xl {
+                            // ---
+
+                            &__channel_title {
 
                                 font-size: 1.25em;
 
-                                &-dark {
+                                &--dark {
                                     // Dark Theme
                                     color: colors(ChTitle_Dark_Color);
 
@@ -463,7 +475,7 @@
                                     }
                                 }
 
-                                &-light {
+                                &--light {
                                     // Light Theme
                                     color: colors(ChTitle_Light_Color);
 
@@ -474,35 +486,45 @@
                             }
                         }
 
-                        .wl_v_a_xl {
+                        // ---
+
+                        .wl_dot_svg {
+
                             display: flex;
                             align-self: flex-start;
-                            top: 20%;
-                            right: 0;
+                            padding: 2px;
 
-                            &>.icon_container>.icon_>g>path {
-                                fill: transparent;
-                            }
+                            &--dark {
 
-                            &-dark {
                                 // Dark Theme
 
-                                &:hover>.icon_container>.icon_>g>path {
-                                    fill: #fff;
+                                &:active {
+                                    background-color: #3f3f3f;
+                                    padding: 2px;
+                                    border-radius: 50%;
                                 }
                             }
 
-                            &-light {
+                            &--light {
                                 // Light Theme
 
-                                &:hover>.icon_container>.icon_>g>path {
-                                    fill: #333;
+                                &:active {
+                                    background-color: #b9b9b9;
+                                    padding: 2px;
+                                    border-radius: 50%;
                                 }
+                            }
+
+
+
+                            &>.ytb_svg>.ytb_svg__wrapper>g>path {
+                                fill: transparent;
                             }
                         }
 
 
                         .wl_menu_drop {
+
                             position: absolute;
                             width: 240px;
                             box-sizing: border-box;
@@ -514,7 +536,7 @@
                             z-index: 10;
                             padding: 8px 0;
 
-                            &-dark {
+                            &--dark {
                                 // Dark Theme
                                 background-color: colors(Nav-background-Dark);
                                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -522,7 +544,7 @@
                             }
 
 
-                            &-light {
+                            &--light {
                                 // Light Theme
                                 background-color: colors(Nav-background-Light);
 
@@ -531,66 +553,54 @@
                             }
 
 
-
                             @media screen and (max-width: 1150px) {
                                 top: -50% !important;
                             }
 
-                            .wlmd_line_txt_con {
+                            .wl_drop_text_con {
+
                                 display: flex;
                                 padding: 5px 36px 5px 16px;
                                 align-items: center;
 
-                                &-dark {
+                                &--dark {
+
                                     &:hover {
                                         background-color: colors(Theme-hover-Dark);
                                     }
                                 }
 
 
-                                &-light {
+                                &--light {
+
                                     &:hover {
                                         background-color: colors(Theme-hover-Light);
                                     }
                                 }
 
-                                .wlmd_svg_wrap {
+                                &__icon {
+
                                     margin-right: 16px;
 
-                                    &>.icon_container_x>.icon_x_ {
+                                    &>.ytb_svg_x>.ytb_svg_x__wrapper {
                                         transform: scale(1.25);
 
                                     }
                                 }
 
-                                .wlmd_txt_area {
+                                &__text {
+
                                     font-size: 1.3em;
 
-                                    &-dark {
+                                    &--dark {
                                         // Dark Theme
                                         color: #fff;
                                     }
 
-                                    &-light {
+                                    &--light {
                                         // Light Theme
                                         color: #212121;
                                     }
-                                }
-                            }
-
-                            .wlmd_line {
-                                margin: 5px 0;
-                                height: 1px;
-                                width: 100%;
-
-                                &-dark {
-                                    // Dark Theme
-                                    background-color: #3b3b3b;
-                                }
-
-                                &-light {
-                                    // Light Theme
-                                    background-color: #cecece;
                                 }
                             }
                         }

@@ -1,0 +1,280 @@
+@import "../../../config_style.scss";
+
+.bg_guide {
+  position: absolute;
+  background-color: #00000057;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+
+}
+
+.guide {
+
+  position: fixed;
+  top: 56px;
+  left: 0;
+  bottom: 0;
+  height: calc(100% - 56px);
+  box-sizing: border-box;
+  background-color: transparent;
+  z-index: 5;
+
+  @media screen and (max-width: 810px) {
+    width: 100%;
+    transition-duration: 150ms;
+  }
+
+  // move svg to the right on hover
+  &:hover>&__container>&__content_container>&__content_wrapper>&__svg_noti>.ytb_svg {
+    padding-right: 0 !important;
+  }
+
+  // Show Scroll Bar On Hover
+
+  &:hover>&__container>&__content_container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  // ---
+  &__container {
+    @include display-flex();
+    position: absolute;
+    flex-flow: column nowrap;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    outline: none;
+    box-sizing: border-box !important;
+    max-width: 240px;
+    max-height: 100%;
+    height: 100%;
+    width: 240px;
+
+    &--dark {
+      // Dark Theme
+      color: #fff;
+      border-bottom: 1px solid colors(border-color-Dark);
+      border-left: 1px solid colors(border-color-Dark);
+      background-color: lighten(colors(Nav-background-Dark), .8%);
+
+      @extend %scroll-Dark;
+    }
+
+    &--light {
+      // Light Theme
+      color: #1f1f1f;
+      border-bottom: 1px solid colors(border-color-Light);
+      border-left: 1px solid colors(border-color-Light);
+      background-color: darken(colors(Nav-background-Light), .4%);
+      @extend %scroll-Light;
+    }
+  }
+
+  // ---
+
+  &__content_container {
+    @include display-flex();
+    justify-content: flex-start;
+    flex-flow: column nowrap;
+    font-size: 1.4em;
+    padding-top: 10px;
+    overflow: hidden;
+
+  }
+
+  // ---
+
+  &__content_wrapper {
+    @include display-flex();
+    @include justifyContent-center();
+    @include alignItems-center;
+    cursor: pointer;
+
+    &--dark {
+      &:hover {
+        // Dark Theme
+        background-color: colors(Theme-hover-Dark);
+      }
+
+      &:active {
+        background-color: lighten(colors(Theme-hover-Dark), 5%);
+      }
+
+      &--active {
+
+        font-family: Roboto-Medium;
+        color: #fff;
+        background-color: colors(Theme-hover-Dark);
+
+        &:hover {
+          background-color: #636363;
+        }
+
+        &:active {
+          background-color: lighten(colors(Theme-hover-Dark),
+              5%) !important;
+        }
+      }
+    }
+
+    &--light {
+      &:hover {
+        // Light Theme
+        background-color: colors(Theme-hover-Light);
+      }
+
+      &:active {
+        background-color: darken(colors(Theme-hover-Light), 3%);
+      }
+
+      &--active {
+
+        font-family: Roboto-Medium;
+        color: #030303;
+        background-color: #0000001a;
+
+        &:hover {
+          background-color: hsla(0, 0%, 0%, 0.192);
+        }
+
+        &:active {
+          background-color: hsla(0, 0%, 0%, 0.25);
+        }
+      }
+    }
+  }
+
+  // ---
+
+  &__text_container {
+    @include display-flex();
+    @include alignItems-center();
+    justify-content: flex-start;
+    flex: 1;
+
+    .text_wrap {
+      @include display-flex();
+      @include justifyContent-center();
+      @include alignItems-center;
+    }
+  }
+
+  // ---
+
+  &__svg_noti {
+
+    &>.ytb_svg {
+
+      padding-top: 5px;
+      padding-right: 0.65em;
+
+    }
+  }
+
+  // ---
+
+  &__content_logo {
+    padding: 8px 20px 8px 21px;
+  }
+
+
+  // ---
+  &__content_img {
+
+    border-radius: 50%;
+
+    &--dark {
+      background-color: lighten(colors(Nav-background-Dark), 5%);
+    }
+
+    &--light {
+      background-color: lighten(colors(Nav-background-Light), 5%);
+    }
+  }
+
+  // ---
+
+  &__line {
+
+    margin: 10px 0;
+    height: 0px !important;
+    padding: 1px 0;
+
+    &--dark {
+      // Dark Theme
+      background-color: colors(border-color-Dark);
+    }
+
+    &--light {
+      // Light Theme
+      background-color: colors(border-color-Light);
+    }
+  }
+
+  // ---
+
+  &__about_wrapper {
+
+
+    padding: 8px 20px 8px 20px;
+
+    &--dark {
+      color: #cacaca;
+    }
+
+    &--light {
+      color: #3a3a3a;
+    }
+
+    .abt_tx {
+
+      padding: 5px 0;
+
+      &--x {
+        margin-bottom: 20px;
+      }
+
+      &--name {
+        font-family: Roboto-Medium;
+      }
+
+      .abt_lt {
+
+        font-family: Roboto-Medium;
+        text-decoration: underline;
+
+        &--dark {
+          color: #cc9f9f;
+        }
+
+        &--light {
+          color: #8f2121;
+        }
+      }
+    }
+  }
+
+  // ---
+
+  &__subtitle {
+
+    font-family: Roboto-Medium;
+    padding: 8px 20px 8px 21px;
+
+
+    &--dark {
+      color: #c0c0c0;
+    }
+
+    &--light {
+      color: #333;
+    }
+  }
+}

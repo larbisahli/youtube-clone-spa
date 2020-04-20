@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useContext, useEffect } from "react";
-import "./hvcontainer_style.scss";
+import "./sass/hvcontainer_style.scss";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { DotsSvg } from "../Navbar/NavComponents/Svg";
@@ -8,7 +8,7 @@ import {
   HandleDuration,
   TextReducer,
   ReturnTheme,
-} from "../../config";
+} from "../../utils/utils";
 import { Link } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { WLVContext, ThemeContext, QueueContext } from "../../Context";
@@ -70,9 +70,10 @@ const HomeVideoContainer = React.memo(
 
     const Fetch_Data = (id, index) => {
       GetChannelsthumbnail(id).then((res) => {
-        const sgix = document.getElementById(`${id}_${index}`);
-        if (sgix !== null) {
-          sgix.src = res.data.items[0].snippet.thumbnails.medium.url;
+        const imgThumbIdElement = document.getElementById(`${id}_${index}`);
+        if (imgThumbIdElement) {
+          imgThumbIdElement.src =
+            res.data.items[0].snippet.thumbnails.medium.url;
         }
       });
     };
@@ -163,9 +164,11 @@ const HomeVideoContainer = React.memo(
     const HandleImg = useCallback((skeleton_id, index) => {
       // BackgroundColor can be red and you can use it as video duration with the width value.
 
-      document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
-        "transparent";
-      document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+      const imgIdElement = document.getElementById(`${skeleton_id}-${index}`);
+      if (imgIdElement) {
+        imgIdElement.style.backgroundColor = "transparent";
+        imgIdElement.style.height = "auto";
+      }
     }, []);
 
     // ===============================================
@@ -192,16 +195,21 @@ const HomeVideoContainer = React.memo(
     }, [QueueList, IsplayingNow]);
 
     return (
-      <div className="hvideo_container">
-        <div className="hvideo_wrapper">
-          <div className="hvideo_thumbnail_container">
-            <Link to={`/watch/${PopularVideo.videoId}`} className="vh_th_link">
+      <div className="home_video_container">
+        <div className="hvc_wrapper">
+          <div className="hvc_wrapper__thumbnail">
+            <Link
+              to={`/watch/${PopularVideo.videoId}`}
+              className="video_thumbnail"
+            >
               <div
                 id={`hvideoImg-${index}`}
-                className={`skltn_thumb skltn_thumb-${ReturnTheme(Theme)}`}
+                className={`video_thumbnail__img_wrapper video_thumbnail__img_wrapper--${ReturnTheme(
+                  Theme
+                )}`}
               >
                 <img
-                  className="hvideo_thumbnail_img"
+                  className="video_thumbnail__img_wrapper__img"
                   onLoad={() => HandleImg("hvideoImg", index)}
                   src={PopularVideo.thumbnail}
                   alt=""
@@ -209,10 +217,12 @@ const HomeVideoContainer = React.memo(
               </div>
             </Link>
             {ShowQueue && Isplaying === PopularVideo.videoId && (
-              <div className="hvideo_ab hvideo_ab-playing">Now playing</div>
+              <div className="vh_inner_btn vh_inner_btn--playing">
+                Now playing
+              </div>
             )}
 
-            <div className="hvideo_ab hvideo_ab-duration">
+            <div className="vh_inner_btn vh_inner_btn--duration">
               {HandleDuration(PopularVideo.duration)}
             </div>
             <button
@@ -227,22 +237,22 @@ const HomeVideoContainer = React.memo(
                   IswatchLater
                 )
               }
-              className="hvideo_ab hvideo_ab-clock"
+              className="vh_inner_btn vh_inner_btn--clock"
             >
-              <div className="tt_icon">
+              <div className="vh_inner_btn__btn_area">
                 {IswatchLater ? (
-                  <div className="checked_icon">
+                  <div className="hv_checked_icon">
                     <CheckedSvg />
                   </div>
                 ) : (
                   <TimeSvg />
                 )}
               </div>
-              <div className="slider_text">
+              <div className="vh_inner_btn__slider_txt">
                 {IswatchLater ? (
-                  <div className="checkedtxt">added</div>
+                  <div className="vh_checked_txt">added</div>
                 ) : (
-                  <div className="normaltxt">watch later</div>
+                  <div className="vh_normal_txt">watch later</div>
                 )}
               </div>
             </button>
@@ -258,33 +268,33 @@ const HomeVideoContainer = React.memo(
                   IsQueue
                 )
               }
-              className="hvideo_ab hvideo_ab-queue"
+              className="vh_inner_btn vh_inner_btn--queue"
             >
-              <div className="tt_icon">
+              <div className="vh_inner_btn__btn_area">
                 {ShowQueue && IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
-              <div className="slider_text">
+              <div className="vh_inner_btn__slider_txt">
                 {ShowQueue && IsQueue ? (
-                  <div className="checkedtxt">added</div>
+                  <div className="vh_checked_txt">added</div>
                 ) : (
-                  <div className="normaltxt">add to queue</div>
+                  <div className="vh_normal_txt">add to queue</div>
                 )}
               </div>
             </button>
           </div>
-          <div className="hvideo_title_container">
-            <div className="hvideo_ch_wrapper">
+          <div className="hvc_wrapper__body_container">
+            <div className="vh_ch_thumbnail">
               <Link
                 to={`/channel/${PopularVideo.channelId}`}
-                className="hvideo_ch_img"
+                className="vh_ch_thumbnail__wrap"
               >
                 <div
                   id={`hvideoCha-${index}`}
-                  className={`skltn_ch skltn_ch-${ReturnTheme(Theme)}`}
+                  className={`ch_skltn ch_skltn--${ReturnTheme(Theme)}`}
                 >
                   <img
                     // making sure the id is unique
-                    className="hvideo_img"
+                    className="ch_skltn__img"
                     id={`${PopularVideo.channelId}_${index}`}
                     onLoad={() => HandleImg("hvideoCha", index)}
                     src=""
@@ -294,26 +304,35 @@ const HomeVideoContainer = React.memo(
                 </div>
               </Link>
             </div>
-            <div className="text_area">
+            <div className="vh_text_area">
               <Link
                 to={`/watch/${PopularVideo.videoId}`}
-                className={`video_title_wrap video_title_wrap-${ReturnTheme(
+                className={`vh_text_area__vid_title vh_text_area__vid_title--${ReturnTheme(
                   Theme
                 )}`}
               >
-                <div title={PopularVideo.title} className="title_txt">
+                <div
+                  title={PopularVideo.title}
+                  className="vh_text_area__vid_title__title"
+                >
                   {TextReducer(PopularVideo.title, 56)}
                 </div>
               </Link>
               <Link
                 data-content={PopularVideo.channelTitle}
-                className={`ch_title ch_title-${ReturnTheme(Theme)}`}
+                className={`vh_text_area__ch_title vh_text_area__ch_title--${ReturnTheme(
+                  Theme
+                )}`}
                 to={`/channel/${PopularVideo.channelId}`}
               >
                 {PopularVideo.channelTitle}
               </Link>
-              <div className={`vduration vduration-${ReturnTheme(Theme)}`}>
-                <span className="vnum">{`${ViewsNumFormatter(
+              <div
+                className={`vh_text_area__duration vh_text_area__duration--${ReturnTheme(
+                  Theme
+                )}`}
+              >
+                <span className="vid_view_num">{`${ViewsNumFormatter(
                   PopularVideo.viewCount
                 )} views`}</span>
                 <span>
@@ -321,7 +340,7 @@ const HomeVideoContainer = React.memo(
                 </span>
               </div>
             </div>
-            <div className={`hvideo_dots hvideo_dots-${ReturnTheme(Theme)}`}>
+            <div className={`vh_dot_btn vh_dot_btn--${ReturnTheme(Theme)}`}>
               <DotsSvg />
             </div>
           </div>

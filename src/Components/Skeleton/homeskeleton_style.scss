@@ -19,61 +19,62 @@
         width: calc(100% - 16px);
     }
 
-    .skeleton_thumb {
+    &__thumb {
         width: 100%;
         height: 150px;
 
-        &-dark {
+        &--dark {
             background-color: colors(Skeleton_Dark_color);
         }
 
-        &-light {
+        &--light {
             background-color: colors(Skeleton_Light_color);
         }
     }
 
 
-    .skeleton_bottom {
+    &__bottom {
         @include display-flex();
         margin-top: 12px;
         margin-right: 12px;
         align-items: flex-start;
 
-        .s_pro {
+        &__img {
             border-radius: 50%;
             height: 36px;
             width: 36px;
 
-            &-dark {
+            &--dark {
                 background-color: colors(Skeleton_Dark_color);
             }
 
-            &-light {
+            &--light {
                 background-color: colors(Skeleton_Light_color);
             }
         }
 
-        .tt {
+        &__txt {
             @include display-flex();
             flex-direction: column;
             margin: 0 5px;
 
-            .s_title {
+            .skeleton_title {
                 width: 150px;
-                height: 12px;
+                height: 10px;
                 margin: 5px;
                 border-radius: 4px;
                 background-repeat: repeat-y;
                 background-position: 120px 120px;
                 animation: shine 1s infinite;
 
-                &-dark {
+                &--dark {
                     background-color: colors(Skeleton_Dark_color);
                     background-image:
                         linear-gradient(#414141a8 10px, transparent 0);
                 }
 
-                &-light {
+                &--light {
+
                     background-color: colors(Skeleton_Light_color);
                     background-image:
                         linear-gradient(#f1f1f1 10px, transparent 0);
@@ -81,6 +82,7 @@
             }
 
             @keyframes shine {
+
                 0% {
                     background-position: -250px 0;
                 }
@@ -90,17 +92,18 @@
                 }
             }
 
-            .s_title_x {
+            .skeleton_title_x {
+
                 width: 100px;
-                height: 12px;
+                height: 10px;
                 margin: 5px;
                 border-radius: 4px;
 
-                &-dark {
+                &--dark {
                     background-color: colors(Skeleton_Dark_color);
                 }
 
-                &-light {
+                &--light {
                     background-color: colors(Skeleton_Light_color);
                 }
             }

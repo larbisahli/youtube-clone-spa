@@ -1,13 +1,13 @@
-@import '../../../config_style.scss';
+@import '../../../../config_style.scss';
 
-.icon_container_x {
+.ytb_svg_x {
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();
     width: 20px;
     height: 20px;
 
-    .icon_x_ {
+    &__wrapper {
         height: 24px;
         width: 24px;
         z-index: 1;

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useContext } from "react";
 import "./ripplebutton_style.scss";
-import { ReturnTheme } from "../../config";
+import { ReturnTheme } from "../../utils/utils";
 import { ThemeContext } from "../../Context";
 
 const RippleButton = React.memo(({ children, onclick, classname }) => {
@@ -48,10 +48,10 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
       onClick={onclick}
       className={`${classname} ripple_button`}
     >
-      <div className="ripple">
+      <div className="ripple_button__wrap">
         {show && (
           <div
-            className={`circle circle-${ReturnTheme(Theme)}`}
+            className={`circle circle--${ReturnTheme(Theme)}`}
             style={{ top: `${y}px`, left: `${x}px` }}
           ></div>
         )}

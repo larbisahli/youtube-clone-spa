@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from "react";
-import "./profiledrop_style.scss";
+import "./sass/profiledrop_style.scss";
 import {
   AvatarSvg,
   ArrowSvg,
@@ -17,18 +17,22 @@ import {
   LocaSvg,
 } from "../Svg";
 import { NavContext, ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // Using Memo to prevent unnecessary re-renders
 
 const Location = React.memo(({ loca }) => {
   const location_ = loca.filter((loca) => loca.checked);
-  return <div className="loca_">{`: ${location_[0].loca}`}</div>;
+  return <div className="">{`: ${location_[0].loca}`}</div>;
 });
 
 const Language = React.memo(({ lang }) => {
   const Language_ = lang.filter((lang) => lang.checked);
-  return <div className="lang_">{Language_[0].lang}</div>;
+  return (
+    <div className="pro_top_wrap__text_wrap__txt--lang">
+      {Language_[0].lang}
+    </div>
+  );
 });
 
 const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
@@ -48,168 +52,193 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
     acc,
   ]);
 
-  const line = `line_b line_b-${ReturnTheme(Theme)}`;
-  const wrapper_x = `wrapper_x wrapper_x-${ReturnTheme(Theme)}`;
-  const arte_ = `arte_ arte_-${ReturnTheme(Theme)}`;
+  const line = `line line--${ReturnTheme(Theme)}`;
+  const wrapper_x = `pro_top_wrap pro_top_wrap--${ReturnTheme(Theme)}`;
+  const arte_ = `pro_bottom_wrap__text_wrap pro_bottom_wrap__text_wrap--${ReturnTheme(
+    Theme
+  )}`;
 
   return (
     <div
       id="profile_drop"
-      className={`profile_Container profile_Container-${ReturnTheme(Theme)}`}
+      className={`pro_menu pro_menu--${ReturnTheme(Theme)}`}
     >
-      <div className="intro_container">
+      <div className="pro_menu__header">
         <div className="image_container">
           <img
-            className="img_profile"
+            className="image_container__img"
             src={IsCurrentAccount.img}
             height="40"
             width="40"
             alt="Avatar"
           />
         </div>
-        <div className="intro_text">
-          <div className="name_">{IsCurrentAccount.name}</div>
-          <div className="email_">{IsCurrentAccount.email}</div>
-          <div className={`blue_text ${ReturnTheme(Theme)}`}>
+        <div className="pro_header_text">
+          <div className="pro_header_text__name">{IsCurrentAccount.name}</div>
+          <div className="pro_header_text__email">{IsCurrentAccount.email}</div>
+          <div
+            className={`pro_header_text__blue_text pro_header_text__blue_text--${ReturnTheme(
+              Theme
+            )}`}
+          >
             Manage your Google Account
           </div>
         </div>
       </div>
-      <div className={`line_a line_a-${ReturnTheme(Theme)}`}></div>
-      <div className="f_container">
+      <div className={`line line--${ReturnTheme(Theme)}`}></div>
+      <div className="pro_menu__body">
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <AvatarSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">Your channel</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Your channel</div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <SSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">Paid memberships</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Paid memberships</div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <YSSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">YouTube Studio</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">YouTube Studio</div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <SASvg />
           </div>
-          <div onClick={() => handleShowSemiDrop("SADrop")} className="arte_">
-            <div className="_text_">Switch account</div>
-            <div className="_logo_">
+          <div
+            onClick={() => handleShowSemiDrop("SADrop")}
+            className="pro_top_wrap__text_wrap"
+          >
+            <div className="pro_top_wrap__text_wrap__txt">Switch account</div>
+            <div className="pro_top_wrap__logo">
               <ArrowSvg />
             </div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <SOSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">Sign out</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Sign out</div>
           </div>
         </div>
-        <div className={line}></div>
+        <div
+          style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
+          className={line}
+        ></div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <TSvg />
           </div>
           <div
             onClick={() => handleShowSemiDrop("ThemeDrop")}
-            className="arte_"
+            className="pro_top_wrap__text_wrap"
           >
-            <div className="_text_">{`Dark theme: ${
+            <div className="pro_top_wrap__text_wrap__txt">{`Dark theme: ${
               Theme ? "On" : "Off"
             }`}</div>
-            <div className="_logo_">
+            <div className="pro_top_wrap__logo">
               <ArrowSvg />
             </div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <LangSvg />
           </div>
-          <div onClick={() => handleShowSemiDrop("LangDrop")} className="arte_">
-            <div className="_text_">
+          <div
+            onClick={() => handleShowSemiDrop("LangDrop")}
+            className="pro_top_wrap__text_wrap"
+          >
+            <div className="pro_top_wrap__text_wrap__txt">
               Language: <Language lang={lang} />
             </div>
-            <div className="_logo_">
+            <div className="pro_top_wrap__logo">
               <ArrowSvg />
             </div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <LocaSvg />
           </div>
-          <div onClick={() => handleShowSemiDrop("LocaDrop")} className={arte_}>
-            <div className="_text_">
+          <div
+            onClick={() => handleShowSemiDrop("LocaDrop")}
+            className="pro_top_wrap__text_wrap"
+          >
+            <div className="pro_top_wrap__text_wrap__txt">
               Location <Location loca={loca} />
             </div>
-            <div className="_logo_">
+            <div className="pro_top_wrap__logo">
               <ArrowSvg />
             </div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
-            <SettingsSvg />
+          <div className="pro_top_wrap__logo">
+            <SettingsSvg default_={true} />
           </div>
-          <div className="arte_">
-            <div className="_text_">Settings</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Settings</div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
             <DataSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">Your data in YouTube</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">
+              Your data in YouTube
+            </div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
-            <HelpSvg />
+          <div className="pro_top_wrap__logo">
+            <HelpSvg default_={true} />
           </div>
-          <div className="arte_">
-            <div className="_text_">Help</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="_logo_">
-            <FeedSvg />
-          </div>
-          <div className="arte_">
-            <div className="_text_">Send feedback</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Help</div>
           </div>
         </div>
         <div className={wrapper_x}>
-          <div className="_logo_">
+          <div className="pro_top_wrap__logo">
+            <FeedSvg default_={true} />
+          </div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">Send feedback</div>
+          </div>
+        </div>
+        <div className={wrapper_x}>
+          <div className="pro_top_wrap__logo">
             <KeyboardSvg />
           </div>
-          <div className="arte_">
-            <div className="_text_">Keyboard shortcuts</div>
+          <div className="pro_top_wrap__text_wrap">
+            <div className="pro_top_wrap__text_wrap__txt">
+              Keyboard shortcuts
+            </div>
           </div>
         </div>
-        <div className={line}></div>
-        <div className="wrapper_y">
+        <div
+          style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
+          className={line}
+        ></div>
+        <div className="pro_bottom_wrap">
           <div
             onClick={() => handleShowSemiDrop("RestrictDrop")}
             className={arte_}
           >
-            <div className="s_text">
+            <div className="pro_bottom_wrap__text_wrap--res">
               {`Restricted Mode: ${restrict.isRestrict ? "On" : "Off"}`}
             </div>
             <div className="arrow_">

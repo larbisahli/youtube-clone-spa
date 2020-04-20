@@ -1,12 +1,12 @@
 import React from "react";
-import "./svg_style_scvi.scss";
+import "./sass/svg_style_scvi.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
 const CheckedSvg = React.memo(() => {
   return (
-    <div className="icon_container_x">
-      <svg className="icon_x_" viewBox="0 0 24 24" focusable={false}>
+    <div className="ytb_svg_x">
+      <svg className="ytb_svg_x__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill="#3ea6ff"

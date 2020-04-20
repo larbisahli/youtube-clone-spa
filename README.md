@@ -38,6 +38,7 @@ Working Prototype: https://larbisahli-youtube-clone.netlify.com/
 3. Using React Router.
 4. Using node-sass.
 5. Handling YouTuve v3 API requests with React axios.
+6. using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML and SASS.
 
 ---
 

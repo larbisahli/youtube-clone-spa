@@ -1,5 +1,5 @@
 import React, { useReducer, createContext } from "react";
-import { moveUp, moveDown } from "../config";
+import { moveUp, moveDown } from "../utils/utils";
 
 export const WLVContext = createContext();
 

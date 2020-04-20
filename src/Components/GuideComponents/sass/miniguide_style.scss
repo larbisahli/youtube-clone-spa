@@ -1,6 +1,6 @@
-@import '../../config_style.scss';
+@import '../../../config_style.scss';
 
-.guidewrapper {
+.miniguide {
 
     position: fixed;
     left: 0;
@@ -8,13 +8,13 @@
     bottom: 0;
     font-size: 1.05em;
 
-    &-dark {
+    &--dark {
         // Dark Theme
         background-color: lighten(colors(Nav-background-Dark), .8%);
-        color: #a3a3a3;
+        color: #aaa;
     }
 
-    &-light {
+    &--light {
         // Light Theme
         background-color: darken(colors(Nav-background-Light), .4%);
         color: #3a3a3a;
@@ -35,7 +35,10 @@
         color: inherit;
     }
 
-    .hx_guide {
+    // ---
+
+    &__btn_wrapper {
+
         @include display-flex();
         @include justifyContent-center();
         @include alignItems-center;
@@ -49,7 +52,7 @@
         color: inherit;
 
 
-        &-dark {
+        &--dark {
             // Dark Theme
 
             &:hover {
@@ -61,7 +64,7 @@
                 background-color: lighten(colors(Theme-hover-Dark), 2%);
             }
 
-            &-active {
+            &--active {
                 color: #fff !important;
 
                 &:hover {
@@ -75,7 +78,7 @@
             }
         }
 
-        &-light {
+        &--light {
 
             // Light Theme
             &:hover {
@@ -87,7 +90,7 @@
                 background-color: darken(colors(Theme-hover-Light), 2%);
             }
 
-            &-active {
+            &--active {
                 color: #d40000 !important;
 
                 // Light Theme
@@ -101,13 +104,17 @@
                 }
             }
         }
+    }
 
-        .icon_hx_guide {
-            @include display-flex();
-        }
+    // ---
 
-        .text_guide_h {
-            padding-top: 5px;
-        }
+    &__icon_wrap {
+        @include display-flex();
+    }
+
+    // ---
+
+    &__text_wrap {
+        padding-top: 5px;
     }
 }

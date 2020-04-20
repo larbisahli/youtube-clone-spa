@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import "./svg_style_scnni.scss";
+import "./sass/svg_style_scnni.scss";
 import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // SVG path COPIED FROM YOUTUBE
 
@@ -21,10 +21,10 @@ const BellSvg = React.memo(() => {
   return (
     <button
       id="bex"
-      className={`icon_container titleB titleB-${ReturnTheme(Theme)}`}
+      className={`ytb_svg titleB titleB--${ReturnTheme(Theme)}`}
       onClick={HundleClick}
     >
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+      <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
             fill={Theme ? "#fff" : "#606060"}
@@ -33,9 +33,9 @@ const BellSvg = React.memo(() => {
         </g>
       </svg>
       <div
-        className={
-          "effect" + (fade ? (Theme ? " action-dark" : " action-light") : "")
-        }
+        className={`ytb_svg__effect ${
+          fade ? `ytb_svg__action--${ReturnTheme(Theme)}` : ""
+        }`}
       ></div>
     </button>
   );

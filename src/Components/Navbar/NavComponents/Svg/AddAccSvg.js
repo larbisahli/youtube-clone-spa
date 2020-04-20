@@ -1,14 +1,14 @@
 import React from "react";
-import "./svg_style_scnni.scss";
+import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
 const AddAccSvg = React.memo(() => {
   return (
-    <div className="icon_container">
+    <div className="ytb_svg">
       <svg
         data-id="apx"
-        className="icon_"
+        className="ytb_svg__wrapper"
         viewBox="0 0 24 24"
         focusable={false}
       >

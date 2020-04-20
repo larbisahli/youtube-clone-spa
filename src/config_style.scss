@@ -2,14 +2,15 @@
 /////////////////
 
 
-$colors: (Theme-hover-Dark: #484848,
-  Theme-hover-Light: #f0f0f0,
-  Nav-background-Dark:#282828,
+$colors: ( //
+  Theme-hover-Dark: #4e4e4ef2,
+  Theme-hover-Light: #ecececf2,
+  Nav-background-Dark:#262626fa,
   Nav-background-Light:#fffffffa,
   general-background-Dark: #1f1f1f,
   general-background-Light: #e6d9d9,
   border-color-Dark:#363636,
-  border-color-Light:#e9e9e9,
+  border-color-Light:#0000001a,
   VidTitle_Dark_Color: #fafafa,
   VidTitle_Light_Color: #212121,
   ChTitle_Dark_Color: #b3b3b3,
@@ -23,6 +24,7 @@ $colors: (Theme-hover-Dark: #484848,
   subBtn_bg:#c00,
 );
 
+// #181818
 
 @function colors($color) {
   @return map-get($colors, $color);
@@ -84,12 +86,24 @@ $colors: (Theme-hover-Dark: #484848,
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #dbdbdb;
+    background: #d6d6d6;
     background-clip: padding-box;
     border: 0;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: #d4d4d4;
+  }
+}
+
+.line {
+  height: 1px;
+
+  &--dark {
+    background-color: colors(border-color-Dark);
+  }
+
+  &--light {
+    background-color: colors(border-color-Light);
   }
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
-import "./rvccontainer_style.scss";
+import "./sass/rvccontainer_style.scss";
 import { Link } from "react-router-dom";
-import { TextReducer, numberWithCommas, ReturnTheme } from "../../config";
+import { TextReducer, numberWithCommas, ReturnTheme } from "../../utils/utils";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { PlaySvg } from "./Svg";
 import { PlayListSvg } from "../GuideComponents/Svg";
@@ -46,16 +46,20 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   const Fetch_Data = (id, index) => {
     GetVideoDetails(id).then((res) => {
       if (res) {
-        document.getElementById(
-          `${id}-${index}-itemCount`
-        ).textContent = numberWithCommas(
-          res[1].data.items[0].contentDetails.itemCount
-        );
+        const itemCount = document.getElementById(`${id}-${index}-itemCount`);
+        if (itemCount) {
+          itemCount.textContent = numberWithCommas(
+            res[1].data.items[0].contentDetails.itemCount
+          );
+        }
 
         res[0].data.items.map((res, i) => {
-          return (document.getElementById(
-            `${id}-${index}-items-${i}`
-          ).textContent = res.snippet.title);
+          const item = document.getElementById(`${id}-${index}-items-${i}`);
+          if (item) {
+            return (item.textContent = res.snippet.title);
+          } else {
+            return null;
+          }
         });
       }
     });
@@ -64,84 +68,92 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   const HandlePLImg = useCallback((skeleton_id, index) => {
     // BackgroundColor can be red and you can use it as video duration with the width value.
 
-    document.getElementById(`${skeleton_id}-${index}`).style.backgroundColor =
-      "transparent";
-    document.getElementById(`${skeleton_id}-${index}`).style.height = "auto";
+    const PLImgIdElement = document.getElementById(`${skeleton_id}-${index}`);
+    if (PLImgIdElement) {
+      PLImgIdElement.style.backgroundColor = "transparent";
+      PLImgIdElement.style.height = "auto";
+    }
   }, []);
 
   return (
     <div className="item_section">
-      <div className="rv_container">
-        <div className="rv_thumbnail_container">
-          <Link to={`/watch/${item.playlistId}`} className="rv_vid_link_wrap">
+      <div className="item_wrap">
+        <div className="item_wrap__thumbnail">
+          <Link
+            to={`/watch/${item.playlistId}`}
+            className="item_wrap__thumbnail__video"
+          >
             <div
               id={`hplaylistCha-${index}`}
-              className={`rv_v_thumb rv_v_thumb-${ReturnTheme(Theme)}`}
+              className={`rv_video_thumb rv_video_thumb--${ReturnTheme(Theme)}`}
             >
               <img
                 onLoad={() => HandlePLImg("hplaylistCha", index)}
                 src={item.thumbnail}
                 alt="thumbnail"
-                className="rv_v_img"
+                className="rv_video_thumb__img"
               />
             </div>
           </Link>
 
           {/* --------------------------- */}
 
-          <div className="playlist_thu_con playlist_thu_con-rr">
-            <div className="play_items_rv">
+          <div className="item_wrap__thumbnail__playlist item_wrap__thumbnail__playlist--rr">
+            <div className="play_items_bg">
               <div
                 id={`${item.playlistId}-${index}-itemCount`}
-                className="v_num_rv"
+                className="pl_count"
               >
                 {Fetch_Data(item.playlistId, index)}
               </div>
               <PlayListSvg color={"#fff"} />
             </div>
           </div>
-          <div className="playlist_thu_con playlist_thu_con-pp">
-            <div className="plall_rv">
+          <div className="item_wrap__thumbnail__playlist item_wrap__thumbnail__playlist--pp">
+            <div className="play_all">
               <PlaySvg />
-              <span className="plall_txt">Play all</span>
+              <span>Play all</span>
             </div>
           </div>
         </div>
-        <div className="search_text_wrapper">
-          <div className="search_header">
-            <div className="search_wrap">
-              <h3 className="search_header_title">
+        {/* ------------- body -------------- */}
+        <div className="item_wrap__body">
+          <div className="item_wrap__body__container">
+            <div className="item_wrap__body__text_wrap">
+              <div className="rv_results_header">
                 <Link
                   to={`watch/${item.playlistId}`}
-                  className={`search_title_h search_title_h-${ReturnTheme(
+                  className={`rv_results_header__title rv_results_header__title--${ReturnTheme(
                     Theme
                   )}`}
                 >
                   {TextReducer(item.title, 56)}
                 </Link>
-              </h3>
-              <div className="search_cv_details search_cv_details-playlist">
+              </div>
+              <div className="rv_results_details rv_results_details--playlist">
                 <Link
                   data-scontent={item.channelTitle}
-                  className={`rvch_title rvch_title-${ReturnTheme(Theme)}`}
+                  className={`rv_results_details__ch_title rv_results_details__ch_title--${ReturnTheme(
+                    Theme
+                  )}`}
                   to={`/channel/${item.channelId}`}
                 >
                   {item.channelTitle}
                 </Link>
                 <div
                   id={`${item.playlistId}-${index}-items-0`}
-                  className={`playlist_items_rv playlist_items_rv-space playlist_items_rv-${ReturnTheme(
+                  className={`rv_results_details__playlist_items rv_results_details__playlist_items--space rv_results_details__playlist_items--${ReturnTheme(
                     Theme
                   )}`}
                 ></div>
                 <div
                   id={`${item.playlistId}-${index}-items-1`}
-                  className={`playlist_items_rv playlist_items_rv-${ReturnTheme(
+                  className={`rv_results_details__playlist_items rv_results_details__playlist_items--${ReturnTheme(
                     Theme
                   )}`}
                 ></div>
                 <button
-                  className={`playlist_txt_btn playlist_txt_btn-${ReturnTheme(
+                  className={`rv_results_details__playlist_txt_btn rv_results_details__playlist_txt_btn--${ReturnTheme(
                     Theme
                   )}`}
                 >

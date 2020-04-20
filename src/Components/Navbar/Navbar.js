@@ -31,7 +31,7 @@ import {
   RestrictDrop,
 } from "./NavComponents/DropDownComponents";
 import { NavContext, ThemeContext, GuideContext } from "../../Context";
-import { ReturnTheme } from "../../config";
+import { ReturnTheme } from "../../utils/utils";
 
 const From = React.memo(
   ({
@@ -64,11 +64,11 @@ const From = React.memo(
     };
 
     return (
-      <div className="searchContainer">
+      <div className="navigation_bar__search_container">
         <form className="form_container" onSubmit={HandleSubmit}>
           <div className="form_wrapper">
             <div
-              className={`input_wrapper input_wrapper-${ReturnTheme(Theme)} ${
+              className={`input_wrapper input_wrapper--${ReturnTheme(Theme)} ${
                 inputFocus ? "focus" : ""
               }`}
             >
@@ -94,9 +94,9 @@ const From = React.memo(
               />
             </div>
             <button
-              className={`btn_container titleS titleS-${ReturnTheme(
+              className={`btn_container titleS titleS--${ReturnTheme(
                 Theme
-              )} btn_container-${ReturnTheme(Theme)}`}
+              )} btn_container--${ReturnTheme(Theme)}`}
             >
               <SearchSvg Theme={Theme} />
             </button>
@@ -648,7 +648,7 @@ const Navbar = React.memo(() => {
   };
 
   return (
-    <div className={`NavContainer NavContainer-${ReturnTheme(Theme)}`}>
+    <div className={`navigation_bar navigation_bar--${ReturnTheme(Theme)}`}>
       {/* Helmet */}
       <Helmet>
         <title>
@@ -656,34 +656,47 @@ const Navbar = React.memo(() => {
             ? `(${NotiCount.notiCount}) YouTube-Clone`
             : "YouTube-Clone"}
         </title>
-        <meta name="description" content="Helmet application" />
+        <meta name="youtube clone home page most popular videos" content="Helmet application" />
       </Helmet>
       {/* NavBar */}
       {!isResponsive ? (
         <Fragment>
-          <div className="LeftContainer">
+          <div className="navigation_bar__left_container">
             <div
               onClick={() => {
                 setShowGuide((prev) => !prev);
               }}
-              className="menuIcon"
+              className="navigation_bar__menu_wrap"
             >
               <MenuSvg />
             </div>
-            <div title="YouTube Home" className="LogoContainer">
+            <div
+              title="YouTube Home"
+              className="navigation_bar__logo_container"
+            >
               <Link to="/">
                 <img
                   src={YoutubeLogo}
                   alt="Youtube-Clone"
-                  className="applogo"
+                  className="ytp_logo_svg"
                 />
               </Link>
               <Link to="/">
-                <div className={`LogoText LogoText-${ReturnTheme(Theme)}`}>
+                <div
+                  className={`ytp_logo_text ytp_logo_text--${ReturnTheme(
+                    Theme
+                  )}`}
+                >
                   YouTube
                 </div>
               </Link>
-              <div className="pointer">CLONE</div>
+              <div
+                className={`ytp_logo_pointer ytp_logo_pointer--${ReturnTheme(
+                  Theme
+                )}`}
+              >
+                CLONE
+              </div>
             </div>
           </div>
           {innerWidth > 700 ? (
@@ -705,17 +718,20 @@ const Navbar = React.memo(() => {
             />
           ) : (
             componentMounted && (
-              <button onClick={HandleRespOn} className="responsive_search_icon">
+              <button
+                onClick={HandleRespOn}
+                className="navigation_bar__responsive_form"
+              >
                 <ReSearchSvg />
               </button>
             )
           )}
 
-          <div className="RightContainer">
+          <div className="navigation_bar__right_container">
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleCamDrop}
-              className="icons_container"
+              className="navigation_bar__icons_container"
             >
               <CamSvg />
               <div style={{ display: dropHandler.ShowCamDrop ? "" : "none" }}>
@@ -725,12 +741,12 @@ const Navbar = React.memo(() => {
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleAppDrop}
-              className="icons_container"
+              className="navigation_bar__icons_container"
             >
               <AppSvg />
               <div
                 style={{ display: dropHandler.ShowAppDrop ? "" : "none" }}
-                className="drop"
+                className=""
               >
                 <AppDrop />
               </div>
@@ -738,12 +754,14 @@ const Navbar = React.memo(() => {
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleBellDrop}
-              className="icons_container"
+              className="navigation_bar__icons_container"
             >
               <BellSvg />
               <div
                 style={{ display: NotiCount.seen ? "" : "none" }}
-                className={`noti_count noti_count-${ReturnTheme(Theme)}`}
+                className={`navigation_bar__noti_count navigation_bar__noti_count--${ReturnTheme(
+                  Theme
+                )}`}
               >
                 {NotiCount.notiCount}
               </div>
@@ -752,11 +770,11 @@ const Navbar = React.memo(() => {
                 <Notification show={dropHandler.ShowBellDrop} />
               </div>
             </div>
-            <div className="profile_container">
+            <div className="navigation_bar__profile_container">
               <button
                 onKeyPress={HandlekeyPress}
                 onClick={HandleProfDrop}
-                className="prof_btn"
+                className="profile_btn"
               >
                 <img
                   id="prx"

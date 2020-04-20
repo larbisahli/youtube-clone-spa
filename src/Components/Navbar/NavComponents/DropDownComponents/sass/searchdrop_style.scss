@@ -1,4 +1,4 @@
-@import '../../../../config_style.scss';
+@import "../../../../../config_style.scss";
 
 .search_drop {
     color: #000;
@@ -11,7 +11,11 @@
     color: #222;
     line-height: 22px;
     overflow: hidden;
-    box-shadow: 1px 2px 5px rgba(85, 85, 85, 0.12);
+
+    //box-shadow: 1px 2px 5px rgba(85, 85, 85, 0.12);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    border-top: none;
 
     div:nth-child(1) {
         margin-top: 10px;
@@ -21,7 +25,7 @@
         margin-bottom: 10px;
     }
 
-    .sugge_holder {
+    &__block {
         @include display-flex();
         @include alignItems-center();
         @include justifyContent-center();
@@ -34,12 +38,13 @@
             background-color: rgb(238, 238, 238);
         }
 
-        .suggestion_list {
+        .suggestion_wrap {
 
             @include display-flex();
             @include alignItems-center();
             flex: 1;
             line-height: 100%;
+
 
             .Suggestion_text {
 
@@ -48,6 +53,7 @@
             }
 
             .hisText {
+                font-family: Roboto-Medium;
                 color: #52188c;
             }
 

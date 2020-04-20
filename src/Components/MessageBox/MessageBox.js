@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import "./messagebox_style.scss";
 import { RippleButton } from "../.";
-import { ReturnTheme } from "../../config";
+import { ReturnTheme } from "../../utils/utils";
 import { MessageBoxContext, ThemeContext, WLVContext } from "../../Context";
 
 const MessageBox = React.memo(() => {
@@ -39,16 +39,18 @@ const MessageBox = React.memo(() => {
   console.log("MessageBox :", MessageBox);
   return (
     <div
-      className={`message_box_container message_box_container-${
-        MessageBox.show ? "show" : "fade"
-      } message_box_container-${ReturnTheme(Theme)}`}
+      className={`message_box message_box--${
+        MessageBox.show ? "show" : "hide"
+      } message_box--${ReturnTheme(Theme)}`}
     >
-      <div className="em_wrapper">
-        <span className="box_message">{MessageBox.message}</span>
+      <div className="message_box__wrapper">
+        <span className="message_box__text">{MessageBox.message}</span>
         {MessageBox.btnMessage && (
           <RippleButton
             onclick={MessageBox.btnMessage !== "✔" ? HandleBtn : () => {}}
-            classname={`box_btn box_btn-${ReturnTheme(Theme)}`}
+            classname={`message_box__btn message_box__btn--${ReturnTheme(
+              Theme
+            )}`}
           >
             <span>{MessageBox.btnMessage}</span>
           </RippleButton>

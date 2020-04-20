@@ -18,7 +18,7 @@ import "./Sass/app_style.scss";
 
 function App() {
   return (
-    <div className="rootContainer">
+    <div className="root_container">
       <MessageBoxProvider>
         <QueueProvider>
           <GuideProvider>
@@ -33,7 +33,10 @@ function App() {
                       {/* HOME PAGE ROUTE */}
                       <Route path="/" exact component={Home} />
                       {/* RESULTS PAGE ROUTE*/}
-                      <Route path="/results/search=:id" component={Results} />
+                      <Route
+                        path="/results/search=:SearchValue"
+                        component={Results}
+                      />
                       {/* WLV PAGE ROUTE*/}
                       <Route path="/playlist/list=:id" exact component={WLV} />
                       {/* WATCH PAGE ROUTE */}

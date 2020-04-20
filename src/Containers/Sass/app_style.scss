@@ -1,17 +1,17 @@
 @import '../../config_style.scss';
 
-.rootContainer {
+.root_container {
     margin: 0;
     padding: 0;
     border: 0;
     background: transparent;
 
-    &-dark {
+    &--dark {
         // Dark Theme
         background-color: colors(general-background-Dark) !important;
     }
 
-    &-light {
+    &--light {
         // Light Theme
         background-color: colors(general-background-Light) !important;
     }

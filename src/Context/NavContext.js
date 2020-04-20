@@ -8,7 +8,7 @@ export const NavProvider = (props) => {
   // Feel free to extend this array.
   const [loca, setLoca] = useState([
     { loca: "Algeria", checked: false, id: uuidv4() },
-    { loca: "Canada", checked: false, id: uuidv4() },
+    { loca: "Canada", checked: true, id: uuidv4() },
     { loca: "Finland", checked: false, id: uuidv4() },
     { loca: "France", checked: false, id: uuidv4() },
     { loca: "Greece", checked: false, id: uuidv4() },
@@ -19,7 +19,7 @@ export const NavProvider = (props) => {
     { loca: "Israel", checked: false, id: uuidv4() },
     { loca: "Italy", checked: false, id: uuidv4() },
     { loca: "Japan", checked: false, id: uuidv4() },
-    { loca: "Morocco", checked: true, id: uuidv4() },
+    { loca: "Morocco", checked: false, id: uuidv4() },
     { loca: "Netherlands", checked: false, id: uuidv4() },
     { loca: "New Zealand", checked: false, id: uuidv4() },
     { loca: "Singapore", checked: false, id: uuidv4() },

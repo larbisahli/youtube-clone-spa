@@ -1,5 +1,5 @@
 import React from "react";
-import "./searchdrop_style.scss";
+import "./sass/searchdrop_style.scss";
 
 // Using Memo to prevent event handler of resizing to re-render this component
 // with the help of useCallback to prevent functions
@@ -11,7 +11,7 @@ const SearchDropSuggestion = React.memo(
     suggestions,
     searchIsActive,
     RemoveHandleClick,
-    HandleSelect
+    HandleSelect,
   }) => {
     return (
       <div
@@ -20,10 +20,10 @@ const SearchDropSuggestion = React.memo(
         style={{ display: ShowSearchDrop ? "" : "none" }}
       >
         {suggestions.map((s, index) => (
-          <div key={index} className="sugge_holder">
+          <div key={index} className="search_drop__block">
             <li
               onClick={() => HandleSelect(s.suggestion)}
-              className="suggestion_list"
+              className="suggestion_wrap"
             >
               {s.removed ? (
                 <div id="plholder" className="placeHolder">

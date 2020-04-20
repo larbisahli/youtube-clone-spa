@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from "react";
-import "./sa_style.scss";
+import "./sass/semidrop_style.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
 import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -31,33 +31,35 @@ const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="loca_drop"
-      className={`semiDrop_container semiDrop_container-${ReturnTheme(
+      className={`semiDrop semiDrop--${ReturnTheme(Theme)} scroll-${ReturnTheme(
         Theme
-      )} scroll-${ReturnTheme(Theme)}`}
+      )}`}
     >
-      <div className="sa_wrapper">
-        <button onClick={handleGoBackDrop} className="sa_arrow">
+      <div className="semiDrop__header">
+        <button onClick={handleGoBackDrop} className="semiDrop__header__arrow">
           <BackArrowSvg isCurrent={isCurrent} />
         </button>
-        <div className="sa_text">Choose your language</div>
+        <div className="semiDrop__header__text">Choose your language</div>
       </div>
-      <div className={`line line-${ReturnTheme(Theme)}`}></div>
-      <div className="main_wrapper overflow">
+      <div
+        className={`semiDrop__line semiDrop__line--${ReturnTheme(Theme)}`}
+      ></div>
+      <div className="semiDrop__main_wrapper semiDrop__overflow">
         {loca.map((loca, index) => {
           return (
             <div
               key={index}
               onClick={() => HandleClick(loca.id)}
-              className={`sa_lang sa_lang-${ReturnTheme(Theme)}`}
+              className={`lang_drop lang_drop--${ReturnTheme(Theme)}`}
             >
-              <div className="_xch">
+              <div className="lang_drop__check_area">
                 <CheckedSvg
                   color={
                     loca.checked ? (Theme ? "#fff" : "#333") : "transparent"
                   }
                 />
               </div>
-              <div className="x_lang">{loca.loca}</div>
+              <span>{loca.loca}</span>
             </div>
           );
         })}

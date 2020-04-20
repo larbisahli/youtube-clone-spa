@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./drop_style.scss";
+import "./sass/drop_style.scss";
 import {
   YouTubeTvSvg,
   YouTubeMusicSvg,
@@ -7,7 +7,7 @@ import {
   YouTubeNormalSvg,
 } from "../Svg";
 import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -17,14 +17,18 @@ const AppDrop = React.memo(() => {
   const Theme = YtTheme.isDarkTheme;
 
   // Preventing from repeating computed logic
-  const app_text = `app_text app_text-${ReturnTheme(Theme)}`;
-  const line_ = `line_ap line_ap-${ReturnTheme(Theme)}`;
+  const app_text = `nav_drop_container__text nav_drop_container__text--${ReturnTheme(
+    Theme
+  )}`;
+  const line_ = `nav_drop_container__line nav_drop_container__line--${ReturnTheme(
+    Theme
+  )}`;
 
   return (
     <div
-      className={`app_container app-position app_container-${
-        Theme ? "dark" : "light"
-      }`}
+      className={`nav_drop_container position--app_drop nav_drop_container--${ReturnTheme(
+        Theme
+      )}`}
     >
       <a
         href="https://tv.youtube.com/welcome/"
@@ -32,10 +36,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icondr">
+        <div className="icon_wrap">
           <YouTubeTvSvg />
         </div>
-        <div className="textdr">YouTube TV</div>
+        <div className="text_wrap">YouTube TV</div>
       </a>
       <div className={line_}></div>
       <a
@@ -44,10 +48,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icondr">
+        <div className="icon_wrap">
           <YouTubeMusicSvg />
         </div>
-        <div className="textdr">YouTube Music</div>
+        <div className="text_wrap">YouTube Music</div>
       </a>
       <a
         href="https://www.youtube.com/kids/"
@@ -55,10 +59,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icondr">
+        <div className="icon_wrap">
           <YouTubeKidsSvg />
         </div>
-        <div className="textdr">YouTube Kids</div>
+        <div className="text_wrap">YouTube Kids</div>
       </a>
       <div className={line_}></div>
       <a
@@ -67,10 +71,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icondr">
+        <div className="icon_wrap">
           <YouTubeNormalSvg />
         </div>
-        <div className="textdr">Creator Academy</div>
+        <div className="text_wrap">Creator Academy</div>
       </a>
       <a
         href="https://artists.youtube.com/"
@@ -78,10 +82,10 @@ const AppDrop = React.memo(() => {
         rel="noopener noreferrer"
         className={app_text}
       >
-        <div className="icondr">
+        <div className="icon_wrap">
           <YouTubeNormalSvg />
         </div>
-        <div className="textdr">YouTube for Artists</div>
+        <div className="text_wrap">YouTube for Artists</div>
       </a>
     </div>
   );

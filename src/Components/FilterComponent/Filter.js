@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext } from "react";
 import { XSvg } from "../../Containers/Svg";
-import { ReturnTheme } from "../../config";
+import { ReturnTheme } from "../../utils/utils";
 import { ThemeContext } from "../../Context";
 
 const RemoveSvg = React.memo(({ WhoActive, text }) => {
@@ -9,7 +9,7 @@ const RemoveSvg = React.memo(({ WhoActive, text }) => {
   const Theme = YtTheme.isDarkTheme;
 
   return WhoActive === text ? (
-    <div className="x_icon">
+    <div className="filter__x_icon">
       <XSvg Theme={Theme} />
     </div>
   ) : (
@@ -19,8 +19,8 @@ const RemoveSvg = React.memo(({ WhoActive, text }) => {
 
 const activeClass = (WhoActive, classtext, Theme) => {
   return (
-    `fcc_text fcc_text-${ReturnTheme(Theme)}` +
-    (WhoActive === classtext ? ` active-${ReturnTheme(Theme)}` : "")
+    `filter__text_area filter__text_area--${ReturnTheme(Theme)}` +
+    (WhoActive === classtext ? ` active--${ReturnTheme(Theme)}` : "")
   );
 };
 
@@ -53,21 +53,23 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
     [setFilterState, setWhoActive, WhoActive, FilterState]
   );
 
-  const fccHtxt = `fcc_header_text fcc_header_text-${ReturnTheme(Theme)}`;
+  const filterTxTHeader = `filter__text_header filter__text_header--${ReturnTheme(
+    Theme
+  )}`;
 
-  const fccline = `fcc_line fcc_line-${ReturnTheme(Theme)}`;
+  const filterLine = `line line--${ReturnTheme(Theme)}`;
 
   return (
     <div
-      className="filter_content_container"
+      className="filter"
       style={{
         maxHeight: ShowFilterDrop ? "450px" : "0px",
       }}
     >
-      <div className="fcc_wrapper">
-        <div className="fcc_text_container">
-          <h4 className={fccHtxt}>TYPE</h4>
-          <div className={fccline}></div>
+      <div className="filter__container">
+        <div className="filter__text_wrapper">
+          <h4 className={filterTxTHeader}>TYPE</h4>
+          <div className={filterLine}></div>
           <div
             onClick={() => {
               HandleSelection("type", "video", "video");
@@ -100,9 +102,9 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="playlist" />
           </div>
         </div>
-        <div className="fcc_text_container">
-          <h4 className={fccHtxt}>DURATION</h4>
-          <div className={fccline}></div>
+        <div className="filter__text_wrapper">
+          <h4 className={filterTxTHeader}>DURATION</h4>
+          <div className={filterLine}></div>
           <div
             onClick={() => {
               HandleSelection("videoDuration", "any", "vda-any");
@@ -133,9 +135,9 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="l-20" />
           </div>
         </div>
-        <div className="fcc_text_container">
-          <h4 className={fccHtxt}>FEATURES</h4>
-          <div className={fccline}></div>
+        <div className="filter__text_wrapper">
+          <h4 className={filterTxTHeader}>FEATURES</h4>
+          <div className={filterLine}></div>
           <div
             onClick={() => {
               HandleSelection("videoDefinition", "any", "vdf-any");
@@ -183,9 +185,9 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="3d" />
           </div>
         </div>
-        <div className="fcc_text_container">
-          <h4 className={fccHtxt}>SORT BY</h4>
-          <div className={fccline}></div>
+        <div className="filter__text_wrapper">
+          <h4 className={filterTxTHeader}>SORT BY</h4>
+          <div className={filterLine}></div>
           <div
             onClick={() => {
               HandleSelection("order", "relevance", "relevance");

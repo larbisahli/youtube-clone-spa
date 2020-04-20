@@ -15,14 +15,15 @@ import {
   UrlLocationContext,
   GuideContext,
 } from "../Context";
-import { UrlLocation, ReturnTheme } from "../config";
+import { Helmet } from "react-helmet";
+import { UrlLocation, ReturnTheme } from "../utils/utils";
 import { useParams } from "react-router";
 
 let SearchArray = [];
 
 const Results = React.memo(() => {
   // Get Route Param
-  let { id } = useParams();
+  let { SearchValue } = useParams();
 
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
@@ -37,17 +38,18 @@ const Results = React.memo(() => {
   const [FilterState, setFilterState] = useState();
 
   // Message Box Context
+
   const [, setMessageBox] = useContext(MessageBoxContext);
 
   // Guide Context
+
   const { guide } = useContext(GuideContext);
   const [ShowGuide] = guide;
 
   useEffect(() => {
-    if (document.getElementById("hvc") != null) {
-      document.getElementById("hvc").style.marginLeft = ShowGuide
-        ? "240px"
-        : "72px";
+    const pageManager = document.getElementById("page-manager");
+    if (pageManager) {
+      pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
     }
   }, []);
 
@@ -70,17 +72,17 @@ const Results = React.memo(() => {
     if (FilterState !== undefined) {
       if (!("defaultType" in FilterState)) {
         Search(
-          id,
+          SearchValue,
           Object.keys(FilterState)[0],
           FilterState[Object.keys(FilterState)[0]]
         );
       } else {
-        Search(id);
+        Search(SearchValue);
       }
     } else {
-      Search(id);
+      Search(SearchValue);
     }
-  }, [id, FilterState]);
+  }, [SearchValue, FilterState]);
 
   // ===========================
   //           SEARCH
@@ -182,16 +184,32 @@ const Results = React.memo(() => {
     [HandleClosingMessageBox, setMessageBox]
   );
 
+  console.log("SearchValue :", SearchValue);
+
   return (
-    <div id="hvc" className="results_container">
-      <div className="results_contentwrapper">
+    <div id="page-manager" className="results_container">
+      {/* Helmet */}
+      <Helmet>
+        <title>{`${SearchValue} - youtube`}</title>
+        <meta
+          name={`youtube search ${SearchValue}`}
+          content="Helmet application"
+        />
+      </Helmet>
+      <div className="results_content">
         {/* FILTER AREA */}
-        <RippleButton onclick={handleFilterClick} classname="header_container">
+        <RippleButton
+          onclick={handleFilterClick}
+          classname="results_header_container"
+        >
           <div className="header_wrapper">
-            <div className="header_icon">
-              <FilterSvg Theme={Theme} />
-            </div>
-            <span className={`header_text header_text-${ReturnTheme(Theme)}`}>
+            <FilterSvg Theme={Theme} />
+
+            <span
+              className={`header_wrapper__text header_wrapper__text--${ReturnTheme(
+                Theme
+              )}`}
+            >
               filter
             </span>
           </div>
@@ -204,7 +222,7 @@ const Results = React.memo(() => {
         />
 
         {/* END FILTER AREA */}
-        <div className={`r_line r_line-${ReturnTheme(Theme)}`}></div>
+        <div className={`line line--${ReturnTheme(Theme)}`}></div>
         <div className="results_section_list">
           {SearchResult.map((item, index) => {
             return item.videoId ? (
@@ -220,6 +238,7 @@ const Results = React.memo(() => {
                 index={index}
                 item={item}
                 HandleShowMessageBox={HandleShowMessageBox}
+                FilterState={FilterState}
               />
             ) : (
               <ResultPlaylistContainer key={index} index={index} item={item} />

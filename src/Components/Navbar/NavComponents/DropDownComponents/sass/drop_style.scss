@@ -1,14 +1,15 @@
-@import "../../../../config_style.scss";
+@import "../../../../../config_style.scss";
 
-.app_container {
+.nav_drop_container {
+
     @include display-flex();
     position: absolute;
     flex-flow: column nowrap;
     padding: 8px 0;
     top: 55px;
-    z-index: 3;
+    z-index: 10;
 
-    &-dark {
+    &--dark {
         // Dark Theme
         border-bottom: 1px solid colors(border-color-Dark);
         border-left: 1px solid colors(border-color-Dark);
@@ -16,7 +17,7 @@
         background-color: colors(Nav-background-Dark);
     }
 
-    &-light {
+    &--light {
         // Light Theme
         border-bottom: 1px solid colors(border-color-Light);
         border-left: 1px solid colors(border-color-Light);
@@ -25,7 +26,7 @@
     }
 
 
-    .app_text {
+    &__text {
         @include display-flex();
         @include alignItems-center();
         justify-content: flex-start;
@@ -33,7 +34,7 @@
         cursor: pointer;
         text-decoration: none;
 
-        &-dark {
+        &--dark {
             // Dark Theme
             color: #fff;
 
@@ -43,7 +44,7 @@
             }
         }
 
-        &-light {
+        &--light {
             // Ligth Theme
             color: #212121;
 
@@ -53,26 +54,26 @@
             }
         }
 
-        .icondr {
+        .icon_wrap {
             margin-right: 7px
         }
 
-        .textdr {
+        .text_wrap {
             font-size: 0.95rem;
             font-weight: 400;
         }
     }
 
-    .line_ap {
+    &__line {
         margin: 5px 0;
 
-        &-dark {
+        &--dark {
             // Dark Theme
             background-color: colors(border-color-Dark);
             height: 2px;
         }
 
-        &-light {
+        &--light {
             // Light Theme
             background-color: colors(border-color-Light);
             height: 1px;
@@ -80,10 +81,12 @@
     }
 }
 
-.cam-position {
-    right: 50px;
-}
+.position {
+    &--cam_drop {
+        right: 50px;
+    }
 
-.app-position {
-    right: 130px;
+    &--app_drop {
+        right: 130px;
+    }
 }

@@ -3,7 +3,7 @@ import "./queue_style.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
 import { ThemeContext, QueueContext, MessageBoxContext } from "../../Context";
-import { HandleDuration, TextReducer, ReturnTheme } from "../../config";
+import { HandleDuration, TextReducer, ReturnTheme } from "../../utils/utils";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
@@ -20,7 +20,7 @@ import {
   StopVideo,
 } from "../VideoPlayerComponent/VideoPlayer";
 
-const PLitems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
+const PlayListItems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
   // Queue Context
   const { QueueState } = useContext(QueueContext);
   const [, QueueListDispatch] = QueueState;
@@ -47,47 +47,55 @@ const PLitems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
           videoId: plv.videoId,
         })
       }
-      className={`ytp_playlist_v_con ytp_playlist_v_con-${ReturnTheme(Theme)} ${
+      className={`ytb_miniplayer__plv_container ytb_miniplayer__plv_container--${ReturnTheme(
+        Theme
+      )} ${
         CurrentPlayingVidIndex() === plv.index
-          ? `ytp_current_playing_v-${ReturnTheme(Theme)}`
+          ? `ytb_vis_playing--${ReturnTheme(Theme)}`
           : ""
       }`}
     >
-      <div className="ytp_playlist_svg_area">
-        {plv.playing ? <div className="ytp_playing">▶</div> : <DRSvg />}
+      <div className="ytb_playbtn_area">
+        {plv.playing ? (
+          <div className="ytb_playbtn_area__playing">▶</div>
+        ) : (
+          <div className="ytb_playbtn_area__drag">
+            <DRSvg />
+          </div>
+        )}
       </div>
-      <div className="ytp_playlist_plh_con">
-        <div className="ytp_playlist_thumbnail">
+      <div className="ytb_video_wrapper">
+        <div className="ytb_video_wrapper__thumbnail">
           <div className="">
             <img
               width="100"
-              className="ytp_playlist_img_thumb"
+              className="ytb_plvt_img"
               src={plv.thumbnail}
               alt=""
             />
           </div>
-          <div className="ytp_playlist_ab">{HandleDuration(plv.duration)}</div>
+          <div className="ytb_plv_duration">{HandleDuration(plv.duration)}</div>
         </div>
-        <div className="ytp_playlist_header_con">
-          <div className="ytp_playlist_header_wrap">
-            <div className="ytp_playlist_pl_title">
+        <div className="ytb_video_wrapper__body_container">
+          <div className="ytb_plv_header_wrap">
+            <div className="ytb_plv_header_wrap__title">
               {TextReducer(plv.title, 40)}
             </div>
             <div
-              className={`ytp_playlist_pl_chtitle ytp_playlist_pl_chtitle-${ReturnTheme(
+              className={`ytb_plv_header_wrap__chtitle ytb_plv_header_wrap__chtitle--${ReturnTheme(
                 Theme
               )}`}
             >
               {plv.channelTitle}
             </div>
           </div>
-          <div className="ytp_playlist_del">
+          <div className="ytb_plv_del_btn_container">
             <div
               onClick={() => HandleDelClick(plv.videoId, plv.index)}
-              className={`ytp_playlist_delbtn ytp_playlist_delbtn-${ReturnTheme(
+              className={`ytb_plv_del_btn ytb_plv_del_btn--${ReturnTheme(
                 Theme
               )} ${
-                CurrentPlayingVidIndex() === plv.index ? "ytp_delbtn_not" : ""
+                CurrentPlayingVidIndex() === plv.index ? "ytb_delbtn_not" : ""
               }`}
             >
               <TrashSvg />
@@ -323,16 +331,14 @@ const Queue = React.memo(() => {
           ShowQueue ? (ShowList ? "0" : "285px") : "575px"
         }, 0)`,
       }}
-      className={`ytp_miniplayer_container ytp_miniplayer_container-${ReturnTheme(
-        Theme
-      )}`}
+      className={`ytb_miniplayer ytb_miniplayer--${ReturnTheme(Theme)}`}
     >
       <div
-        className={`ytp_miniplayer_wrapper ytp_miniplayer_wrapper-${ReturnTheme(
+        className={`ytb_miniplayer__wrapper ytb_miniplayer__wrapper--${ReturnTheme(
           Theme
         )}`}
       >
-        <div className="ytp_video_miniplayer_con">
+        <div className="ytb_miniplayer__video_container">
           {/* Video Iframe */}
 
           <VideoPlayer
@@ -342,7 +348,7 @@ const Queue = React.memo(() => {
             onPlayerStateChange={onPlayerStateChange}
             onPlayerError={onPlayerError}
           />
-
+          {/* <div className="ytb_pp_btn ytb_pp_btn-bg"></div> */}
           <div
             onClick={() =>
               QueueListDispatch({
@@ -350,7 +356,7 @@ const Queue = React.memo(() => {
                 index: HandleVideoIndex(),
               })
             }
-            className="ytp_pp_btn ytp_pp_btn-prev"
+            className="ytb_inner_btn ytb_inner_btn--prev"
           >
             <PrevBtnSvg />
           </div>
@@ -361,44 +367,49 @@ const Queue = React.memo(() => {
                 index: HandleVideoIndex(),
               })
             }
-            className="ytp_pp_btn ytp_pp_btn-next"
+            className="ytb_inner_btn ytb_inner_btn--next"
           >
             <NextBtnSvg />
           </div>
-          <div className="ytp_pp_btn ytp_pp_btn-expandbtn">
+          <div className="ytb_inner_btn ytb_inner_btn--expandbtn">
             <ExpandSvg />
           </div>
           <div
             onClick={HandleCloseQueue}
-            className="ytp_pp_btn ytp_pp_btn-closebtn"
+            className="ytb_inner_btn ytb_inner_btn--closebtn"
           >
             <CloseBtnSvg />
           </div>
 
           {ShowPlayBtn ? (
-            <div onClick={PlayVid} className="ytp_pp_btn ytp_pp_btn-mid">
+            <div onClick={PlayVid} className="ytb_inner_btn ytb_inner_btn--mid">
               <PlayBtnSvg />
             </div>
           ) : (
-            <div onClick={PauseVid} className="ytp_pp_btn ytp_pp_btn-mid">
+            <div
+              onClick={PauseVid}
+              className="ytb_inner_btn ytb_inner_btn--mid"
+            >
               <PauseBtnSvg />
             </div>
           )}
 
-          <div className="ytp_playbtn"></div>
+          <div className="ytb_playbtn"></div>
         </div>
         <div
-          className={`ytp_heading_miniplayer_con ytp_heading_miniplayer_con-${ReturnTheme(
+          className={`ytb_miniplayer__header_container ytb_miniplayer__header_container--${ReturnTheme(
             Theme
           )}`}
         >
-          <div className="ytp_heading_wrap">
-            <div className="ytp_title">
-              <span>{TextReducer(HandleVidPlayingTitle(), 40)}</span>
+          <div className="ytb_header_wrap">
+            <div className="ytb_header_wrap__title">
+              <span>{TextReducer(HandleVidPlayingTitle(), 50)}</span>
             </div>
             <div
               onClick={() => setShowList((value) => !value)}
-              className={`ytp_stat ytp_stat-${ReturnTheme(Theme)}`}
+              className={`ytb_header_wrap__qcounter ytb_header_wrap__qcounter--${ReturnTheme(
+                Theme
+              )}`}
             >
               <div>Queue</div>
               <span>•</span>
@@ -409,25 +420,29 @@ const Queue = React.memo(() => {
           </div>
           <div
             onClick={() => setShowList((value) => !value)}
-            className="ytp_show_more_svg"
+            className="ytb_arrow_btn"
           >
-            <div className={`ytp_smv_btn ytp_smv_btn-${ReturnTheme(Theme)}`}>
+            <div
+              className={`ytb_arrow_btn__btnwrap ytb_arrow_btn__btnwrap--${ReturnTheme(
+                Theme
+              )}`}
+            >
               {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
             </div>
           </div>
         </div>
         {/* PLAYLIST CONTAINER */}
         <div
-          className={`ytp_playlist_miniplayer_con ytp_playlist_miniplayer_con-${ReturnTheme(
+          className={`ytb_miniplayer__playlist_container ytb_miniplayer__playlist_container--${ReturnTheme(
             Theme
           )}`}
         >
           <div
-            className={`ytp_playlist_panel ytp_playlist_panel-${ReturnTheme(
+            className={`ytb_playlist_panel ytb_playlist_panel--${ReturnTheme(
               Theme
             )}`}
           >
-            <div className="ytp_playlist_panel_head">
+            <div className="ytb_playlist_panel__txt_wrap">
               <AddPlayListSvg />
 
               <span>save</span>
@@ -435,13 +450,13 @@ const Queue = React.memo(() => {
           </div>
           {/* PLAYLIST ITEMS */}
           <div
-            className={`ytp_playlist_items_con ytp_playlist_items_con-${ReturnTheme(
+            className={`ytb_playlist_items ytb_playlist_items--${ReturnTheme(
               Theme
             )}`}
           >
             {QueueList.map((plv, index) => {
               return (
-                <PLitems
+                <PlayListItems
                   plv={plv}
                   key={index}
                   CurrentPlayingVidIndex={CurrentPlayingVidIndex}

@@ -1,12 +1,12 @@
 import React from "react";
-import "./svg_style_sci.scss";
+import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
 const DRSvg = React.memo(({ Theme }) => {
   return (
-    <div className="icon_container_y">
-      <svg className="icon_y_" viewBox="0 0 48 48" focusable={false}>
+    <div className="ytb_svg_y">
+      <svg className="ytb_svg_y__wrapper" viewBox="0 0 48 48" focusable={false}>
         <g>
           <path
             fill={Theme ? "#aaa" : "#6e6e6e"}

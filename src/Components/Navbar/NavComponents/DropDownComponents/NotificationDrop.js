@@ -1,87 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./notificationdrop_style.scss";
+import "./sass/notificationdrop_style.scss";
+import "./sass/loadingspinner_style.scss";
 import { SettingsSvg, DotsSvg } from "../Svg";
-import "./loadingspinner_style.scss";
 import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
-
-const fake_noti = [
-  {
-    seen: false,
-    proImage:
-      "https://lh3.googleusercontent.com/-LcNXUMfV4lY/AAAAAAAAAAI/AAAAAAAAAAA/W6OZ-aBXx9c/s96-c-mo/photo.jpg",
-    text: "Ben Eater uploaded: Subroutine call, now with RAM",
-    time: "23 hours ago",
-    thumbnail: "https://i.ytimg.com/vi/omI0MrTWiMU/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: false,
-    proImage:
-      "https://lh6.googleusercontent.com/-OsgBxXITFdg/AAAAAAAAAAI/AAAAAAAAAAA/gDaUV_aSb2Q/s96-c-mo/photo.jpg",
-    text: "Traversy Media uploaded: Sass Crash Course",
-    time: "1 day ago",
-    thumbnail: "https://i.ytimg.com/vi/nu5mdN2JIwM/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: true,
-    proImage:
-      "https://lh5.googleusercontent.com/-FQU6W_hrGWw/AAAAAAAAAAI/AAAAAAAAAAA/LplmQYovgug/s96-c-mo/photo.jpg",
-    text:
-      "Dapp University uploaded: How to build a dApp with ZERO gas fees (Gas Station Network Tutorial)",
-    time: "2 days ago",
-    thumbnail: "https://i.ytimg.com/vi/r7zOcgYul8k/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: true,
-    proImage:
-      "https://lh5.googleusercontent.com/-bWUaHwGz7To/AAAAAAAAAAI/AAAAAAAAAAA/xEUD6X5iT2Y/s96-c-mo/photo.jpg",
-    text:
-      "freeCodeCamp.org uploaded: Functional Programming in Java - Full Course",
-    time: "4 days ago",
-    thumbnail: "https://i.ytimg.com/vi/rPSL1alFIjI/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: false,
-    proImage:
-      "https://lh4.googleusercontent.com/-s6PgRDss0XQ/AAAAAAAAAAI/AAAAAAAAAAA/fb7pMinwZh8/s96-c-mo/photo.jpg",
-    text:
-      "Corey Schafer uploaded: Python Pandas Tutorial (Part 9): Cleaning Data - Casting Datatypes and Handling Missing Values",
-    time: "6 days ago",
-    thumbnail: "https://i.ytimg.com/vi/KdmPHEnPJPs/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: false,
-    proImage:
-      "https://lh3.googleusercontent.com/-QGhAvSy7npM/AAAAAAAAAAI/AAAAAAAAAAA/Uom6Bs6gR9Y/s96-c-mo/photo.jpg",
-    text: "Linus Tech Tips is live: I WAS RIGHT!! - WAN Show Feb 21, 2020",
-    time: "1 week ago",
-    thumbnail: "https://i.ytimg.com/vi/7Wm7sEn8Mc8/hqdefault_live.jpg",
-    video_id: "",
-  },
-  {
-    seen: true,
-    proImage:
-      "https://lh5.googleusercontent.com/-FQU6W_hrGWw/AAAAAAAAAAI/AAAAAAAAAAA/LplmQYovgug/s96-c-mo/photo.jpg",
-    text: "Ben Eater uploaded: What is a stack and how does it work?",
-    time: "3 weeks ago",
-    thumbnail: "https://i.ytimg.com/vi/OS5hIC2Zado/hqdefault.jpg",
-    video_id: "",
-  },
-  {
-    seen: true,
-    proImage:
-      "https://lh3.googleusercontent.com/-LcNXUMfV4lY/AAAAAAAAAAI/AAAAAAAAAAA/W6OZ-aBXx9c/s96-c-mo/photo.jpg",
-    text: "Ben Eater uploaded: Subroutine call, now with RAM",
-    time: "1 month ago",
-    thumbnail: "https://i.ytimg.com/vi/xBjQVxVxOxc/hqdefault.jpg",
-    video_id: "",
-  },
-];
+import { ReturnTheme } from "../../../../utils/utils";
+import { fake_notifications } from "./dummyData";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -102,7 +25,7 @@ const Notification = React.memo(({ show }) => {
 
     // Only load if the component is mounted
     if (show) {
-      setNotifictions(fake_noti);
+      setNotifictions(fake_notifications);
     }
 
     return () => {
@@ -115,25 +38,27 @@ const Notification = React.memo(({ show }) => {
   return (
     <div
       id="noti_drop"
-      className={`noti_Container noti_Container-${ReturnTheme(Theme)}`}
+      className={`notification notification--${ReturnTheme(Theme)}`}
     >
-      <div className="noti_title_holder">
-        <div className="noti_text">Notifications</div>
+      <div className="notification__header">
+        <div className="notification__header__text">Notifications</div>
         <a
           href="https://www.youtube.com/account_notifications"
           target="_blank"
           rel="noopener noreferrer"
-          className="noti_setting_icon _SS"
+          className="notification__header__setting_icon"
+          // _SS
         >
           <SettingsSvg />
         </a>
       </div>
-      <div className={`nt_line nt_line-${ReturnTheme(Theme)}`}></div>
+      <div
+        style={{ margin: "5px 0" }}
+        className={`line line--${ReturnTheme(Theme)}`}
+      ></div>
       {/*------------ Mapping ------------*/}
       <div
-        className={
-          "notifications_container" + (!isLoading ? " noti_spinner" : "")
-        }
+        className={"notification__body" + (!isLoading ? " noti_spinner" : "")}
       >
         {!isLoading ? (
           <div className="lds-ring">
@@ -147,48 +72,53 @@ const Notification = React.memo(({ show }) => {
             return (
               <div
                 key={index}
-                className={`n_wrapper n_wrapper-${ReturnTheme(Theme)}`}
+                className={`noti_block noti_block--${ReturnTheme(Theme)}`}
               >
-                <div className="dot_container">
+                <div className="noti_block__dot">
                   <div
-                    className={
-                      "n_dot" +
-                      (noti.seen
-                        ? " t_dot"
-                        : Theme
-                        ? " f_dot_dark"
-                        : " f_dot_light")
-                    }
+                    className={`dot dot--${
+                      noti.seen ? "transparent" : ReturnTheme(Theme)
+                    }`}
                   ></div>
                 </div>
-                <div className={`n_propic n_propic-${ReturnTheme(Theme)}`}>
-                  <img className="img_n" src={noti.proImage} alt="" />
+                <div
+                  className={`noti_block__thumb noti_block__thumb--${ReturnTheme(
+                    Theme
+                  )}`}
+                >
+                  <img
+                    className="noti_block__thumb__img"
+                    src={noti.proImage}
+                    alt=""
+                  />
                 </div>
-                <div className="n_textArea">
-                  <div className="text_nt">{noti.text}</div>
-                  <div className="date_nt">{noti.time}</div>
+                <div className="noti_block__text_wrap">
+                  <div className="noti_block__text_wrap__title">
+                    {noti.text}
+                  </div>
+                  <div className="noti_block__text_wrap__date">{noti.time}</div>
                 </div>
-                <div className="thumbnail_container">
-                  <div className="thumbnail_wrapper">
+                <div className="noti_block__thumbnail">
+                  <div className="noti_block__thumbnail__wrapper">
                     <div
-                      className={`bg_cover  bg_cover-top  bg_cover-top-${ReturnTheme(
+                      className={`noti_bg_cover noti_bg_cover--top noti_bg_cover--top--${ReturnTheme(
                         Theme
                       )}`}
                     ></div>
                     <img
-                      className="n_img"
+                      className="noti_thumb_img"
                       width="90"
                       src={noti.thumbnail}
                       alt="thumbnail"
                     />
                     <div
-                      className={`bg_cover  bg_cover-bottom  bg_cover-bottom-${ReturnTheme(
+                      className={`noti_bg_cover noti_bg_cover--bottom noti_bg_cover--bottom--${ReturnTheme(
                         Theme
                       )}`}
                     ></div>
                   </div>
                 </div>
-                <div className="n_sd">
+                <div className="noti_block__btn">
                   <DotsSvg />
                 </div>
               </div>

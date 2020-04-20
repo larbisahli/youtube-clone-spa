@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from "react";
-import "./sa_style.scss";
+import "./sass/semidrop_style.scss";
 import { BackArrowSvg, CheckedSvg, AddAccSvg, SOSvg } from "../Svg";
 import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -33,21 +33,21 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
     acc,
   ]);
 
-  const sa_acc = `sa_acc sa_acc-${ReturnTheme(Theme)}`;
+  const sa_acc = `sa_acc_wrap sa_acc_wrap--${ReturnTheme(Theme)}`;
 
   return (
     <div
       id="switch_acc_drop"
-      className={`semiDrop_container semiDrop_container-${ReturnTheme(Theme)}`}
+      className={`semiDrop semiDrop--${ReturnTheme(Theme)}`}
     >
-      <div className="sa_wrapper">
-        <button onClick={handleGoBackDrop} className="sa_arrow">
+      <div className="semiDrop__header">
+        <button onClick={handleGoBackDrop} className="semiDrop__header__arrow">
           <BackArrowSvg isCurrent={isCurrent} />
         </button>
-        <div className="sa_text">Accounts</div>
+        <div className="semiDrop__header__text">Accounts</div>
       </div>
-      <div className="line_"></div>
-      <div className="main_wrapper">
+      <div className={`line line--${ReturnTheme(Theme)}`}></div>
+      <div className="semiDrop__main_wrapper">
         <div className="sa_email">{IsCurrentAccount.email}</div>
         {acc.map((acc, index) => {
           return (
@@ -56,24 +56,28 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
               key={index}
               className={sa_acc}
             >
-              <div className="sa_img">
+              <div className="sa_thumb">
                 <img
-                  className="sap"
+                  className="sa_thumb__img"
                   height="40"
                   width="40"
                   src={acc.img}
                   alt="_avatar_"
                 />
               </div>
-              <div className="ssa_tr">
-                <div className="sa_t">
-                  <div className="sa_name">{acc.name}</div>
-                  <div className={`sa_sub sa_sub-${ReturnTheme(Theme)}`}>
+              <div className="sa_body">
+                <div className="sa_body__wrap">
+                  <div className="sa_body__wrap__name">{acc.name}</div>
+                  <div
+                    className={`sa_body__wrap__subs sa_body__wrap__subs--${ReturnTheme(
+                      Theme
+                    )}`}
+                  >
                     {acc.subs} subscribers
                   </div>
                 </div>
                 <div
-                  className="sa_checked"
+                  className="sa_body__check_area"
                   style={{ display: acc.isCurrent ? "" : "none" }}
                 >
                   <CheckedSvg isCurrent={isCurrent} />
@@ -83,19 +87,22 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
           );
         })}
       </div>
-      <div className={`line line-${ReturnTheme(Theme)}`}></div>
-      <div className="main_wrapper btmpad">
+      <div
+        style={{ margin: "5px 0" }}
+        className={`line line--${ReturnTheme(Theme)}`}
+      ></div>
+      <div className="semiDrop__main_wrapper semiDrop__btmpad">
         <div className={sa_acc}>
-          <div className="ad_icon">
+          <div className="btmpad_icon">
             <AddAccSvg />
           </div>
-          <div className="ad_text">Add account</div>
+          <div className="btmpad_text">Add account</div>
         </div>
         <div className={sa_acc}>
-          <div className="ad_icon">
+          <div className="btmpad_icon">
             <SOSvg />
           </div>
-          <div className="ad_text">Sign out</div>
+          <div className="btmpad_text">Sign out</div>
         </div>
       </div>
     </div>

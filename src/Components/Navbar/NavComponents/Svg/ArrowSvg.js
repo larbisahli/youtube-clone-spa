@@ -1,15 +1,14 @@
 import React from "react";
-import "./svg_style_scnni.scss";
+import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
 const ArrowSvg = React.memo(() => {
   return (
-    <div className="icon_container">
-      <svg className="icon_" viewBox="0 0 24 24" focusable={false}>
+    <div className="ytb_svg">
+      <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
-            className="fill"
             fill="#909090"
             d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
           ></path>

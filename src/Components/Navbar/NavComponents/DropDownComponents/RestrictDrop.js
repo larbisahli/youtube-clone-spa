@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useContext } from "react";
-import "./sa_style.scss";
+import "./sass/semidrop_style.scss";
 import { BackArrowSvg } from "../Svg";
 import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../config";
+import { ReturnTheme } from "../../../../utils/utils";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -38,40 +38,42 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="restrictmode_drop"
-      className={`semiDrop_container semiDrop_container-${ReturnTheme(Theme)}`}
+      className={`semiDrop semiDrop--${ReturnTheme(Theme)}`}
     >
-      <div className="sa_wrapper">
-        <button onClick={handleGoBackDrop} className="sa_arrow">
+      <div className="semiDrop__header">
+        <button onClick={handleGoBackDrop} className="semiDrop__header__arrow">
           <BackArrowSvg isCurrent={isCurrent} />
         </button>
-        <div className="sa_text">Restricted Mode</div>
+        <div className="semiDrop__header__text">Restricted Mode</div>
       </div>
-      <div className={`line line-${ReturnTheme(Theme)}`}></div>
-      <div className="main_wrapper">
-        <div className="th_text">
+      <div className={`line line--${ReturnTheme(Theme)}`}></div>
+      <div className="semiDrop__main_wrapper">
+        <div className="theme_text">
           This helps hide potentially mature videos. No filter is 100% accurate.
         </div>
-        <div className="th_text">
+        <div className="theme_text">
           This setting only applies to this browser.
         </div>
-        <div className={`th_container th_container-${ReturnTheme(Theme)}`}>
+        <div
+          className={`theme_container theme_container--${ReturnTheme(Theme)}`}
+        >
           <div className="tc_text">ACTIVATE RESTRICTED MODE</div>
 
-          <label className={`switch-wrap switch-wrap-${ReturnTheme(Theme)}`}>
+          <label className={`switch switch--${ReturnTheme(Theme)}`}>
             <input
               type="checkbox"
-              className="toggle"
+              className="switch__toggle"
               checked={restrict.isRestrict}
               onChange={handleCheckboxChange}
             />
-            <span className="switch" onClick={HundleClick}>
+            <span className="switch__switch_btn" onClick={HundleClick}>
               <div
                 className={
                   "circle" +
                   (fade
                     ? restrict.isRestrict
-                      ? " circle-on"
-                      : " circle-off"
+                      ? " circle--on"
+                      : " circle--off"
                     : "")
                 }
               ></div>

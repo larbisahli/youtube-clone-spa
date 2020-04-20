@@ -13,7 +13,7 @@ export const getMostPopularVideos = async () => {
   const result = await YouTubeAPI.get("videos", {
     params: {
       part: "snippet,statistics,contentDetails",
-      maxResults: 5,
+      maxResults: 8,
       chart: "mostPopular",
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
     },

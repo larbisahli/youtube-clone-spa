@@ -60,20 +60,18 @@ export const ReturnTheme = (Theme) => {
 
 export const UrlLocation = (home = false) => {
   const url = window.location.href;
-  if (url.includes("/trending/")) {
+  if (url.search("/trending/") > -1) {
     return "trending";
-  } else if (url.includes("/subscriptions/")) {
+  } else if (url.search("/subscriptions/") > -1) {
     return "subscriptions";
-  } else if (url.includes("/library/")) {
+  } else if (url.search("/library/") > -1) {
     return "library";
-  } else if (url.includes("/history/")) {
+  } else if (url.search("/history/") > -1) {
     return "history";
-  } else if (url.includes("/watchlater/")) {
-    return "watchlater";
+  } else if (url.search("/list=WL") > -1) {
+    return "WL";
   } else if (home) {
     return "home";
-  } else if (url.includes("/wlv/WL")) {
-    return "WL";
   } else {
     return false;
   }

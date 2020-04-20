@@ -1,4 +1,4 @@
-@import "../../../../config_style.scss";
+@import "../../../../../config_style.scss";
 
 .scroll {
 
@@ -14,7 +14,7 @@
 }
 
 
-.semiDrop_container {
+.semiDrop {
     @include display-flex();
     position: absolute;
     flex-flow: column nowrap;
@@ -27,7 +27,7 @@
     max-height: 500px;
     width: 280px;
 
-    &-dark {
+    &--dark {
         // Dark Theme
         color: #fff;
         border-bottom: 1px solid colors(border-color-Dark);
@@ -36,7 +36,7 @@
         background-color: colors(Nav-background-Dark);
     }
 
-    &-light {
+    &--light {
         // Light Theme
         color: #212121;
         border-bottom: 1px solid colors(border-color-Light);
@@ -45,109 +45,105 @@
         background-color: colors(Nav-background-Light);
     }
 
-    .line {
-        height: 1px;
-        margin: 5px 0;
+    // ---
 
-        &-dark {
-            // Dark Theme
-            background-color: colors(border-color-Dark);
-        }
-
-        &-light {
-            // Light Theme
-            background-color: colors(border-color-Light);
-
-        }
-    }
-
-    .sa_wrapper {
+    &__header {
         @include display-flex();
         @include alignItems-center();
         justify-content: flex-start;
         padding: 2px 0;
         text-decoration: none;
+        font-family: Roboto-Medium;
 
-        .sa_arrow {
+        &__arrow {
             margin: 5px 10px;
         }
 
-        .sa_text {
+        &__text {
             font-size: 1.55em;
         }
     }
 
-    .overflow {
+    // ---
+
+    &__overflow {
         overflow-y: scroll;
         overflow-x: hidden;
     }
 
-    .btmpad {
+    // ---
+
+    &__btmpad {
         margin-bottom: 7px;
     }
 
-    .main_wrapper {
+    // ---
+
+    &__main_wrapper {
         display: block;
 
         .sa_email {
             margin: 15px 10px;
             font-size: 1.25em;
+            font-family: Roboto-Medium;
         }
 
-        .sa_acc {
+        .sa_acc_wrap {
             @include display-flex();
             @include alignItems-center();
             cursor: pointer;
 
-            &-dark {
+            &--dark {
                 &:hover {
                     // Dark Theme
                     background-color: colors(Theme-hover-Dark);
                 }
             }
 
-            &-light {
+            &--light {
+
                 &:hover {
                     // Light Theme
                     background-color: colors(Theme-hover-Light)
                 }
             }
 
-            .sa_img {
+            .sa_thumb {
                 margin: 5px 10px;
 
-                .sap {
+                &__img {
                     border-radius: 50%;
                 }
             }
 
-            .ssa_tr {
+            .sa_body {
                 @include display-flex();
                 @include alignItems-center();
                 width: 100%;
                 margin-right: 15px;
                 justify-content: space-between;
 
-                .sa_checked {
+                &__check_area {
                     align-self: stretch;
                 }
 
-                .sa_t {
+                &__wrap {
 
-                    .sa_name {
-                        font-size: 1.3em;
+                    &__name {
+                        font-size: 1.25em;
                         padding-bottom: 2px;
+                        font-family: Roboto-Medium;
                     }
 
-                    .sa_sub {
+                    &__subs {
                         font-size: 1.25em;
 
-                        &-dark {
+                        &--dark {
                             // Dark Theme
                             color: #979797;
                         }
 
-                        &-light {
+                        &--light {
                             // Light Theme
                             color: #575757;
                         }
@@ -155,66 +151,65 @@
                 }
             }
 
-            .ad_icon {
+            .btmpad_icon {
                 padding: 9px;
             }
 
-            .ad_text {
+            .btmpad_text {
                 font-size: 1.25em;
             }
-
-
-
         }
 
+        // ---
 
-        .sa_lang {
+        .lang_drop {
             @include display-flex();
             @include alignItems-center();
             cursor: pointer;
             padding: 10px 15px;
             font-size: 1.4em;
 
-            &-dark {
+            &--dark {
                 &:hover {
                     // Dark Theme
                     background-color: colors(Theme-hover-Dark);
                 }
             }
 
-            &-light {
+            &--light {
                 &:hover {
                     // Light Theme
                     background-color: colors(Theme-hover-Light)
                 }
             }
 
-            ._xch {
+            &__check_area {
                 padding-right: 15px;
             }
 
         }
 
-        .th_text {
+        .theme_text {
             font-size: 1.4em;
             padding: 15px 10px 5px 10px;
+
         }
 
-        .th_container {
+        .theme_container {
             @include display-flex();
             @include alignItems-center();
             justify-content: space-between;
-            font-size: 1.35em;
+            font-size: 1.4em;
             padding: 10px 20px 15px 10px;
-            font-weight: 600;
+            font-family: Roboto-Medium;
             text-transform: uppercase;
 
-            &-dark {
+            &--dark {
                 // Dark Theme
                 color: #979797;
             }
 
-            &-light {
+            &--light {
                 // Light Theme
                 color: #606060;
             }
@@ -222,22 +217,22 @@
 
             // ===== Toggle ====
 
-            .switch-wrap {
+            .switch {
                 width: 35px;
                 height: 15px;
                 border-radius: 50px;
 
-                &-dark {
+                &--dark {
                     // Dark Theme
                     background: #444;
                 }
 
-                &-light {
+                &--light {
                     // Light Theme
                     background: #e2e2e2;
                 }
 
-                .toggle {
+                &__toggle {
                     position: absolute;
                     opacity: 0;
                     width: 0px;
@@ -245,7 +240,7 @@
 
 
                     &:checked {
-                        +.switch {
+                        +.switch__switch_btn {
                             grid-template-columns: 1fr 1fr 0fr;
 
                             &::after {
@@ -256,7 +251,7 @@
                 }
 
 
-                .switch {
+                &__switch_btn {
                     height: 100%;
                     display: grid;
                     grid-template-columns: 0fr 1fr 1fr;
@@ -284,13 +279,13 @@
                         height: 40px;
                         border-radius: 50%;
 
-                        &-on {
+                        &--on {
                             transform: translate(6px, -10px);
                             background-color: #90909050;
 
                         }
 
-                        &-off {
+                        &--off {
                             transform: translate(-10px, -10px);
                             background-color: #90909050;
 

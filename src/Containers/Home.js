@@ -9,7 +9,7 @@ import {
   ThemeContext,
   GuideContext,
 } from "../Context";
-import { UrlLocation, ReturnTheme } from "../config";
+import { UrlLocation, ReturnTheme } from "../utils/utils";
 
 // Creating a global variable to hold all api data
 // and then store it in a state to only render once.
@@ -35,10 +35,9 @@ const Home = React.memo(() => {
   const [ShowGuide] = guide;
 
   useEffect(() => {
-    if (document.getElementById("hvc") != null) {
-      document.getElementById("hvc").style.marginLeft = ShowGuide
-        ? "240px"
-        : "72px";
+    const pageManager = document.getElementById("page-manager");
+    if (pageManager) {
+      pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
     }
   }, []);
 
@@ -142,14 +141,14 @@ const Home = React.memo(() => {
   );
 
   return (
-    <div id="hvc" className="home_container">
-      <div className="hcontentwrap">
-        <div className="home_title_container">
-          <span className={`home_title home_title-${ReturnTheme(Theme)}`}>
+    <div id="page-manager" className="home_container">
+      <div className="home_content">
+        <div className="home_content__title_wrapper">
+          <span className={`home_title home_title--${ReturnTheme(Theme)}`}>
             Most Popular
           </span>
         </div>
-        <div className="homevideowrapper">
+        <div className="home_content__video_wrapper">
           {isLoading
             ? [...Array(8)].map((e, i) => {
                 return <HomeSkeleton key={i} />;

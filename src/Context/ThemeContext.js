@@ -5,7 +5,7 @@ export const ThemeContext = createContext();
 export const ThemeProvider = (props) => {
   // Theme state
   const [YtTheme, setYtTheme] = useState({
-    isDarkTheme: true,
+    isDarkTheme: false,
   });
 
   const generalBackgroundDark = "#1f1f1f";

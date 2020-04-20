@@ -1,8 +1,8 @@
 @import '../../config_style.scss';
 
 
-.NavContainer {
-    // see config.scss for mixin
+.navigation_bar {
+    // see config_style.scss for mixin
     position: fixed;
     top: 0;
     right: 0;
@@ -14,87 +14,105 @@
     justify-content: space-between;
     z-index: 10;
 
-    &-dark {
+    &--dark {
         // Dark Theme
         background: colors(Nav-background-Dark);
     }
 
-    &-light {
+    &--light {
         // Light Theme
         background: colors(Nav-background-Light);
     }
 
-    // =================
-    //   LeftContainer
-    // =================
+    // ==========================
+    //       LeftContainer
+    // ==========================
 
-    .LeftContainer {
+    &__left_container {
+
         @include display-flex();
         @include alignItems-center();
         width: 200px;
 
-        .menuIcon {
-            padding: 8px;
-        }
-
-        .LogoContainer {
-            @include display-flex();
-            @include alignItems-center();
-            margin: 0;
-            padding: 16px;
-            width: auto;
-            height: 24px;
-            cursor: auto;
-
-
-            a {
-                @include display-flex();
-                text-decoration: none;
-            }
-
-            .applogo {
-                height: auto;
-                width: 26px;
-            }
-
-            .LogoText {
-                @include display-flex();
-                @include alignItems-center();
-                @include justifyContent-center();
-                padding: 3px;
-                font-family: 'Oswald';
-                font-size: 17px;
-                margin-bottom: 1px;
-
-                &-dark {
-                    // Dark Theme
-                    color: #fff;
-                }
-
-                &-light {
-                    // Light Theme
-                    color: #000;
-                }
-            }
-
-            .pointer {
-                @include display-flex();
-                justify-content: flex-start;
-                align-items: flex-start;
-                color: #aaa;
-                font-size: 10px;
-                font-family: 'Oswald';
-                height: 100%;
-            }
-        }
-
     }
 
-    // =================
-    //  searchContainer
-    // =================
+    // ---
 
-    .searchContainer {
+    &__menu_wrap {
+
+        padding: 8px;
+    }
+
+    // ---
+
+    &__logo_container {
+
+        @include display-flex();
+        @include alignItems-center();
+        margin: 0;
+        padding: 16px;
+        width: auto;
+        height: 24px;
+        cursor: auto;
+
+
+        a {
+            @include display-flex();
+            text-decoration: none;
+        }
+
+        .ytp_logo_svg {
+            height: auto;
+            width: 26px;
+        }
+
+        .ytp_logo_text {
+
+            @include display-flex();
+            @include alignItems-center();
+            @include justifyContent-center();
+            font-family: Oswald-SemiBold;
+            font-size: 1.75em;
+            margin-bottom: 1px;
+            letter-spacing: -0.5px;
+            padding: 3px;
+
+            &--dark {
+                // Dark Theme
+                color: #fff;
+            }
+
+            &--light {
+                // Light Theme
+                color: #000;
+            }
+        }
+
+        .ytp_logo_pointer {
+
+            @include display-flex();
+            justify-content: flex-start;
+            align-items: flex-start;
+            font-size: .85em;
+            font-family: Roboto-Medium;
+            height: 100%;
+
+
+            &--dark {
+                color: #b6b6b6;
+            }
+
+            &--light {
+                color: #606060ee;
+            }
+        }
+    }
+
+    // ==========================
+    //      searchContainer
+    // ==========================
+
+    &__search_container {
         @include display-flex();
         @include alignItems-center();
         @include justifyContent-center();
@@ -120,19 +138,20 @@
                     padding: 2px 6px;
                     flex: 1;
 
-                    &-dark {
+                    &--dark {
                         // Dark Theme
                         background-color: #121212;
                         border: 1px solid colors(border-color-Dark);
+
                         border-right: none;
                         color: #fff;
                     }
 
 
-                    &-light {
+                    &--light {
                         // Light Theme
                         background-color: transparent;
-                        border: 1px solid colors(border-color-Light);
+                        border: 1px solid #ccc;
                         border-right: none;
                         color: #000;
                     }
@@ -170,27 +189,27 @@
                     margin: 0;
                     height: inherit;
 
-                    &-dark {
+                    &--dark {
                         // Dark Theme
                         border: 1px solid colors(border-color-Dark);
                         background-color: #ffffff14;
                     }
 
-                    &-light {
+                    &--light {
                         // Light Theme
-                        border: 1px solid colors(border-color-Light);
+                        border: 1px solid #ccc;
                         background-color: #f8f8f8;
                     }
 
                     // fill is a class name in Search_icon.js
                     &:hover .fill {
 
-                        &-dark {
+                        &--dark {
                             // Dark Threme
                             fill: #ffffffcc;
                         }
 
-                        &-light {
+                        &--light {
                             // Light Theme
                             fill: #000;
                         }
@@ -200,7 +219,7 @@
         }
     }
 
-    .responsive_search_icon {
+    &__responsive_form {
         @include display-flex();
         justify-content: flex-end;
         width: 100%;
@@ -211,67 +230,74 @@
     //  RightContainer
     // =================
 
-    .RightContainer {
+    &__right_container {
         @include display-flex();
         @include alignItems-center();
         @include justifyContent-center();
         width: 200px;
+    }
 
-        .icons_container {
+    // ---
+
+    &__icons_container {
+        @include display-flex();
+        @include alignItems-center();
+        @include justifyContent-center();
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+    }
+
+    // ---
+
+    &__noti_count {
+        position: absolute;
+        align-self: flex-start;
+        z-index: 2;
+        margin: 3px 0px 0px 10px;
+
+        &--dark {
+            background-color: #c00;
+            box-shadow: 0px 0px 0px 1px colors(Nav-background-Dark);
+        }
+
+        &--light {
+            background-color: #e93838;
+            box-shadow: 0px 0px 0px 1px colors(Nav-background-Light);
+        }
+
+        color: #fff;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        line-height: 18px;
+        font-size: 10px;
+        text-align: center;
+        cursor: pointer;
+
+    }
+
+    // ---
+
+    &__profile_container {
+
+        .profile_btn {
+
             @include display-flex();
             @include alignItems-center();
             @include justifyContent-center();
-            width: 40px;
+            width: 60px;
             height: 40px;
-            margin-right: 8px;
 
-            .noti_count {
-                position: absolute;
-                align-self: flex-start;
-                z-index: 2;
-                margin: 3px 0px 0px 10px;
-
-                &-dark {
-                    background-color: #c00;
-                    box-shadow: 0px 0px 0px 1px colors(Nav-background-Dark);
-                }
-
-                &-light {
-                    background-color: rgb(233, 56, 56);
-                    box-shadow: 0px 0px 0px 1px colors(Nav-background-Light);
-                }
-
-                color: #fff;
-                width: 18px;
-                height: 18px;
-                border-radius: 50%;
-                line-height: 18px;
-                font-size: 10px;
-                text-align: center;
-                cursor: pointer;
-
+            &:active .profile_img {
+                border: 2px solid #3ea6ff;
             }
-        }
 
-        .profile_container {
-            .prof_btn {
-
-                @include display-flex();
-                @include alignItems-center();
-                @include justifyContent-center();
-                width: 60px;
-                height: 40px;
-
-                &:active .profile_img {
-                    border: 2px solid #3ea6ff;
-                }
-
-
-                .profile_img {
-                    border: 2px solid transparent;
-                    border-radius: 50%;
-                }
+            .profile_img {
+                border: 2px solid transparent;
+                border-radius: 50%;
             }
         }
     }
+
 }
