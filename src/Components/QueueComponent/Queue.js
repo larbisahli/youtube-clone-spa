@@ -1,9 +1,9 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import "./queue_style.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
 import { ThemeContext, QueueContext, MessageBoxContext } from "../../Context";
-import { HandleDuration, TextReducer, ReturnTheme } from "../../utils/utils";
+import { HandleDuration, TextReducer, ReturnTheme } from "../../utils";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
@@ -12,13 +12,17 @@ import {
   NextBtnSvg,
   PrevBtnSvg,
 } from "./Svg";
-import { VideoPlayer } from "../.";
+import { VideoPlayer } from "../ComponentsUtils";
 import {
   PauseVideo,
   PlayVideo,
-  //getCurrentTime,
+  getCurrentTime,
   StopVideo,
-} from "../VideoPlayerComponent/VideoPlayer";
+  //ForceDestroyIframe,
+  DestroyIframe,
+} from "../ComponentsUtils/VideoPlayer";
+import { useHistory } from "react-router-dom";
+import { LazyLoad } from "../ComponentsUtils";
 
 const PlayListItems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
   // Queue Context
@@ -126,6 +130,9 @@ const Queue = React.memo(() => {
   // Message Box Context
   const [, setMessageBox] = useContext(MessageBoxContext);
 
+  //
+  const [VideoLoaded, setVideoLoaded] = useState(false);
+
   // =======================================
   // Get the videoId if the {playing : true}
   // =======================================
@@ -207,12 +214,13 @@ const Queue = React.memo(() => {
   // ======================
 
   const HandleCloseQueue = useCallback(() => {
+    // Clean Up
+    StopVideo();
     setShowQueue(() => false);
+    DestroyIframe();
     QueueListDispatch({
       type: "removeAll",
     });
-    // Clean Up
-    StopVideo();
   }, [QueueListDispatch, setShowQueue]);
 
   // ============================
@@ -235,6 +243,7 @@ const Queue = React.memo(() => {
           break;
         case 3:
           setShowPlayBtn(() => false);
+          setVideoLoaded(true);
           break;
         case 5:
           setShowPlayBtn(() => true);
@@ -321,152 +330,177 @@ const Queue = React.memo(() => {
     [setMessageBox, HandleClosingMessageBox]
   );
 
-  //console.log("queue :", getCurrentTime());
+  //
+  let history = useHistory();
+
+  const handleExpandBtn = () => {
+    let t = 0;
+    if (getCurrentTime()) {
+      t = getCurrentTime();
+    }
+    setShowQueue(() => false);
+    history.push(`/watch?v=${HandlePlayingVideo()}&t=${Math.floor(t)}&list=q`);
+    DestroyIframe();
+  };
 
   return (
-    <div
-      style={{
-        // 225px + 285px + 65px = 575px
-        transform: `translate3d(0, ${
-          ShowQueue ? (ShowList ? "0" : "285px") : "575px"
-        }, 0)`,
-      }}
-      className={`ytb_miniplayer ytb_miniplayer--${ReturnTheme(Theme)}`}
-    >
+    <LazyLoad render={ShowQueue}>
       <div
-        className={`ytb_miniplayer__wrapper ytb_miniplayer__wrapper--${ReturnTheme(
-          Theme
-        )}`}
+        style={{
+          // 225px + 285px + 65px = 575px
+          transform: `translate3d(0, ${
+            ShowQueue ? (ShowList ? "0" : "285px") : "575px"
+          }, 0)`,
+        }}
+        className={`ytb_miniplayer ytb_miniplayer--${ReturnTheme(Theme)}`}
       >
-        <div className="ytb_miniplayer__video_container">
-          {/* Video Iframe */}
-
-          <VideoPlayer
-            PlayerId="mini-Player"
-            check={ShowQueue}
-            HandlePlayingVideo={HandlePlayingVideo}
-            onPlayerStateChange={onPlayerStateChange}
-            onPlayerError={onPlayerError}
-          />
-          {/* <div className="ytb_pp_btn ytb_pp_btn-bg"></div> */}
-          <div
-            onClick={() =>
-              QueueListDispatch({
-                type: "play_prev",
-                index: HandleVideoIndex(),
-              })
-            }
-            className="ytb_inner_btn ytb_inner_btn--prev"
-          >
-            <PrevBtnSvg />
-          </div>
-          <div
-            onClick={() =>
-              QueueListDispatch({
-                type: "play_next",
-                index: HandleVideoIndex(),
-              })
-            }
-            className="ytb_inner_btn ytb_inner_btn--next"
-          >
-            <NextBtnSvg />
-          </div>
-          <div className="ytb_inner_btn ytb_inner_btn--expandbtn">
-            <ExpandSvg />
-          </div>
-          <div
-            onClick={HandleCloseQueue}
-            className="ytb_inner_btn ytb_inner_btn--closebtn"
-          >
-            <CloseBtnSvg />
-          </div>
-
-          {ShowPlayBtn ? (
-            <div onClick={PlayVid} className="ytb_inner_btn ytb_inner_btn--mid">
-              <PlayBtnSvg />
-            </div>
-          ) : (
-            <div
-              onClick={PauseVid}
-              className="ytb_inner_btn ytb_inner_btn--mid"
-            >
-              <PauseBtnSvg />
-            </div>
-          )}
-
-          <div className="ytb_playbtn"></div>
-        </div>
         <div
-          className={`ytb_miniplayer__header_container ytb_miniplayer__header_container--${ReturnTheme(
+          className={`ytb_miniplayer__wrapper ytb_miniplayer__wrapper--${ReturnTheme(
             Theme
           )}`}
         >
-          <div className="ytb_header_wrap">
-            <div className="ytb_header_wrap__title">
-              <span>{TextReducer(HandleVidPlayingTitle(), 50)}</span>
+          <div id="q-player" className="ytb_miniplayer__video_container">
+            {/* Video Iframe */}
+
+            <div
+              className={`miniplayer miniplayer--${
+                VideoLoaded ? "visible" : "hidden"
+              }`}
+            >
+              <VideoPlayer
+                PlayerId="mini-player"
+                check={ShowQueue}
+                HandlePlayingVideo={HandlePlayingVideo}
+                onPlayerStateChange={onPlayerStateChange}
+                onPlayerError={onPlayerError}
+              />
+            </div>
+            {/* <div className="ytb_pp_btn ytb_pp_btn-bg"></div> */}
+            <div
+              onClick={() =>
+                QueueListDispatch({
+                  type: "play_prev",
+                  index: HandleVideoIndex(),
+                })
+              }
+              className="ytb_inner_btn ytb_inner_btn--prev"
+            >
+              <PrevBtnSvg />
+            </div>
+            <div
+              onClick={() =>
+                QueueListDispatch({
+                  type: "play_next",
+                  index: HandleVideoIndex(),
+                })
+              }
+              className="ytb_inner_btn ytb_inner_btn--next"
+            >
+              <NextBtnSvg />
+            </div>
+            <div
+              onClick={handleExpandBtn}
+              className="ytb_inner_btn ytb_inner_btn--expandbtn"
+            >
+              <ExpandSvg />
+            </div>
+            <div
+              onClick={HandleCloseQueue}
+              className="ytb_inner_btn ytb_inner_btn--closebtn"
+            >
+              <CloseBtnSvg />
+            </div>
+
+            {ShowPlayBtn ? (
+              <div
+                onClick={PlayVid}
+                className="ytb_inner_btn ytb_inner_btn--mid"
+              >
+                <PlayBtnSvg />
+              </div>
+            ) : (
+              <div
+                onClick={PauseVid}
+                className="ytb_inner_btn ytb_inner_btn--mid"
+              >
+                <PauseBtnSvg />
+              </div>
+            )}
+
+            <div className="ytb_playbtn"></div>
+          </div>
+          <div
+            className={`ytb_miniplayer__header_container ytb_miniplayer__header_container--${ReturnTheme(
+              Theme
+            )}`}
+          >
+            <div className="ytb_header_wrap">
+              <div className="ytb_header_wrap__title">
+                <span>{TextReducer(HandleVidPlayingTitle(), 50)}</span>
+              </div>
+              <div
+                onClick={() => setShowList((value) => !value)}
+                className={`ytb_header_wrap__qcounter ytb_header_wrap__qcounter--${ReturnTheme(
+                  Theme
+                )}`}
+              >
+                <div>Queue</div>
+                <span>•</span>
+                <div>{`${
+                  QueueList.length === 0 ? 0 : CurrentPlayingVidIndex() + 1
+                } / ${QueueList.length}`}</div>
+              </div>
             </div>
             <div
               onClick={() => setShowList((value) => !value)}
-              className={`ytb_header_wrap__qcounter ytb_header_wrap__qcounter--${ReturnTheme(
-                Theme
-              )}`}
+              className="ytb_arrow_btn"
             >
-              <div>Queue</div>
-              <span>•</span>
-              <div>{`${
-                QueueList.length === 0 ? 0 : CurrentPlayingVidIndex() + 1
-              } / ${QueueList.length}`}</div>
+              <div
+                className={`ytb_arrow_btn__btnwrap ytb_arrow_btn__btnwrap--${ReturnTheme(
+                  Theme
+                )}`}
+              >
+                {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
+              </div>
             </div>
           </div>
+          {/* PLAYLIST CONTAINER */}
           <div
-            onClick={() => setShowList((value) => !value)}
-            className="ytb_arrow_btn"
+            className={`ytb_miniplayer__playlist_container ytb_miniplayer__playlist_container--${ReturnTheme(
+              Theme
+            )}`}
           >
             <div
-              className={`ytb_arrow_btn__btnwrap ytb_arrow_btn__btnwrap--${ReturnTheme(
+              className={`ytb_playlist_panel ytb_playlist_panel--${ReturnTheme(
                 Theme
               )}`}
             >
-              {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
-            </div>
-          </div>
-        </div>
-        {/* PLAYLIST CONTAINER */}
-        <div
-          className={`ytb_miniplayer__playlist_container ytb_miniplayer__playlist_container--${ReturnTheme(
-            Theme
-          )}`}
-        >
-          <div
-            className={`ytb_playlist_panel ytb_playlist_panel--${ReturnTheme(
-              Theme
-            )}`}
-          >
-            <div className="ytb_playlist_panel__txt_wrap">
-              <AddPlayListSvg />
+              <div className="ytb_playlist_panel__txt_wrap">
+                <AddPlayListSvg />
 
-              <span>save</span>
+                <span>save</span>
+              </div>
             </div>
-          </div>
-          {/* PLAYLIST ITEMS */}
-          <div
-            className={`ytb_playlist_items ytb_playlist_items--${ReturnTheme(
-              Theme
-            )}`}
-          >
-            {QueueList.map((plv, index) => {
-              return (
-                <PlayListItems
-                  plv={plv}
-                  key={index}
-                  CurrentPlayingVidIndex={CurrentPlayingVidIndex}
-                />
-              );
-            })}
+            {/* PLAYLIST ITEMS */}
+            <div
+              className={`ytb_playlist_items ytb_playlist_items--${ReturnTheme(
+                Theme
+              )}`}
+            >
+              {QueueList.map((plv, index) => {
+                return (
+                  <PlayListItems
+                    plv={plv}
+                    key={index}
+                    CurrentPlayingVidIndex={CurrentPlayingVidIndex}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </LazyLoad>
   );
 });
 

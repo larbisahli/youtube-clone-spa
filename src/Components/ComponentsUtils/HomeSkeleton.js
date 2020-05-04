@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import "./homeskeleton_style.scss";
+import "./sass/homeskeleton_style.scss";
 import { ThemeContext } from "../../Context";
-import { ReturnTheme } from "../../utils/utils";
+import { ReturnTheme } from "../../utils";
 
 const HomeSkeleton = React.memo(() => {
   // Theme context
@@ -10,6 +10,11 @@ const HomeSkeleton = React.memo(() => {
 
   return (
     <div className="video_skeleton">
+      {/* Loader */}
+      <div className="load_border">
+        <div className="loader"></div>
+      </div>
+      {/*  */}
       <div
         className={`video_skeleton__thumb video_skeleton__thumb--${ReturnTheme(
           Theme

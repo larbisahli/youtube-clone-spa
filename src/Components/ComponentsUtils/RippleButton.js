@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useContext } from "react";
-import "./ripplebutton_style.scss";
-import { ReturnTheme } from "../../utils/utils";
+import "./sass/ripplebutton_style.scss";
+import { ReturnTheme } from "../../utils";
 import { ThemeContext } from "../../Context";
 
 const RippleButton = React.memo(({ children, onclick, classname }) => {

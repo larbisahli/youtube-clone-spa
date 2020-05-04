@@ -8,21 +8,11 @@ import {
   MessageBoxContext,
   ThemeContext,
   GuideContext,
+  ApiContext,
 } from "../Context";
-import { UrlLocation, ReturnTheme } from "../utils/utils";
-
-// Creating a global variable to hold all api data
-// and then store it in a state to only render once.
-
-let PopularVideosArray = [];
+import { UrlLocation, ReturnTheme } from "../utils";
 
 const Home = React.memo(() => {
-  // Loading State
-  const [isLoading, setIsLoading] = useState(true);
-
-  // API Collector State
-  const [PopularVideos, setPopularVideos] = useState([]);
-
   // Theme context
   const [YtTheme] = useContext(ThemeContext);
   const Theme = YtTheme.isDarkTheme;
@@ -31,8 +21,10 @@ const Home = React.memo(() => {
   const [, setMessageBox] = useContext(MessageBoxContext);
 
   // Guide Context
-  const { guide } = useContext(GuideContext);
-  const [ShowGuide] = guide;
+  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
+  //
+
+  const [PopularVideos, isLoading, errorMessage] = useContext(ApiContext);
 
   useEffect(() => {
     const pageManager = document.getElementById("page-manager");
@@ -49,54 +41,32 @@ const Home = React.memo(() => {
   );
 
   useEffect(() => {
+    //
+    if (window.innerWidth > 810) {
+      HundleShowGuide(true);
+    }
     // home location set to true
     const UrlLoc = UrlLocation(true);
     if (UrlLoc !== UrlLocationState) {
       setUrlLocationState(() => UrlLoc);
     }
-  }, [UrlLocationState, setUrlLocationState]);
+  }, [UrlLocationState, setUrlLocationState, HundleShowGuide]);
 
   // ===========================
   //  FETCH MOST POPULAR VIDEOS
   // ===========================
   useEffect(() => {
-    setIsLoading(true);
-    getMostPopularVideos()
-      .then((data) => {
-        data.items.map((res) => {
-          return (PopularVideosArray = [
-            ...PopularVideosArray,
-            {
-              thumbnail:
-                "maxres" in res.snippet.thumbnails
-                  ? res.snippet.thumbnails.maxres.url
-                  : res.snippet.thumbnails.medium.url,
-              channelTitle: res.snippet.channelTitle,
-              channelId: res.snippet.channelId,
-              videoId: res.id,
-              publishedAt: res.snippet.publishedAt,
-              viewCount: res.statistics.viewCount,
-              title: res.snippet.localized.title,
-              duration: res.contentDetails.duration,
-            },
-          ]);
-        });
-
-        setPopularVideos([...PopularVideosArray], setIsLoading(false));
-        PopularVideosArray = [];
-      })
-      .catch((err) => {
-        // Error Setup
-        setMessageBox({
-          show: true,
-          message: `${err}`,
-          btnMessage: "dismiss",
-          MassageFrom: "error",
-          id: "",
-        });
-        setIsLoading(true);
+    // Error Setup
+    if (errorMessage) {
+      setMessageBox({
+        show: true,
+        message: `${errorMessage}`,
+        btnMessage: "dismiss",
+        MassageFrom: "error",
+        id: "",
       });
-  }, []);
+    }
+  }, [errorMessage, setMessageBox]);
 
   // ====================================
   //           Error Handling

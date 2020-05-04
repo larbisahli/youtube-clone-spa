@@ -7,7 +7,7 @@ import {
   ViewsNumFormatter,
   HandleDuration,
   ReturnTheme,
-} from "../../utils/utils";
+} from "../../utils";
 import Moment from "react-moment";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";

@@ -2,11 +2,12 @@ import React, { useContext, useCallback } from "react";
 import "./sass/semidrop_style.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
 import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils/utils";
+import { ReturnTheme } from "../../../../utils";
+import { LazyLoad } from "../../../ComponentsUtils";
 
 // Using Memo to prevent unnecessary re-renders
 
-const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
+const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
   // Navbar context
   const { locaState } = useContext(NavContext);
   const [loca, setLoca] = locaState;
@@ -31,39 +32,45 @@ const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="loca_drop"
+      style={{ display: show ? "" : "none" }}
       className={`semiDrop semiDrop--${ReturnTheme(Theme)} scroll-${ReturnTheme(
         Theme
       )}`}
     >
-      <div className="semiDrop__header">
-        <button onClick={handleGoBackDrop} className="semiDrop__header__arrow">
-          <BackArrowSvg isCurrent={isCurrent} />
-        </button>
-        <div className="semiDrop__header__text">Choose your language</div>
-      </div>
-      <div
-        className={`semiDrop__line semiDrop__line--${ReturnTheme(Theme)}`}
-      ></div>
-      <div className="semiDrop__main_wrapper semiDrop__overflow">
-        {loca.map((loca, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => HandleClick(loca.id)}
-              className={`lang_drop lang_drop--${ReturnTheme(Theme)}`}
-            >
-              <div className="lang_drop__check_area">
-                <CheckedSvg
-                  color={
-                    loca.checked ? (Theme ? "#fff" : "#333") : "transparent"
-                  }
-                />
+      <LazyLoad render={show}>
+        <div className="semiDrop__header">
+          <button
+            onClick={handleGoBackDrop}
+            className="semiDrop__header__arrow"
+          >
+            <BackArrowSvg isCurrent={isCurrent} />
+          </button>
+          <div className="semiDrop__header__text">Choose your language</div>
+        </div>
+        <div
+          className={`semiDrop__line semiDrop__line--${ReturnTheme(Theme)}`}
+        ></div>
+        <div className="semiDrop__main_wrapper semiDrop__overflow">
+          {loca.map((loca, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => HandleClick(loca.id)}
+                className={`lang_drop lang_drop--${ReturnTheme(Theme)}`}
+              >
+                <div className="lang_drop__check_area">
+                  <CheckedSvg
+                    color={
+                      loca.checked ? (Theme ? "#fff" : "#333") : "transparent"
+                    }
+                  />
+                </div>
+                <span>{loca.loca}</span>
               </div>
-              <span>{loca.loca}</span>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </LazyLoad>
     </div>
   );
 });

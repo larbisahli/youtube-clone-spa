@@ -3,12 +3,12 @@ import { SearchRequest } from "../Components/api/YoutubeApi";
 import "./Sass/results_style.scss";
 import { FilterSvg } from "./Svg";
 import {
-  RippleButton,
   ResultVideoContainer,
   ResultChannelContainer,
   ResultPlaylistContainer,
   Filter,
 } from "../Components";
+import { RippleButton } from "../Components/ComponentsUtils";
 import {
   MessageBoxContext,
   ThemeContext,
@@ -16,15 +16,12 @@ import {
   GuideContext,
 } from "../Context";
 import { Helmet } from "react-helmet";
-import { UrlLocation, ReturnTheme } from "../utils/utils";
-import { useParams } from "react-router";
+import { UrlLocation, ReturnTheme } from "../utils";
+import { useLocation } from "react-router";
 
 let SearchArray = [];
 
 const Results = React.memo(() => {
-  // Get Route Param
-  let { SearchValue } = useParams();
-
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
 
@@ -33,18 +30,14 @@ const Results = React.memo(() => {
   const Theme = YtTheme.isDarkTheme;
 
   // Filter drop state
-
   const [ShowFilterDrop, setShowFilterDrop] = useState(false);
   const [FilterState, setFilterState] = useState();
 
   // Message Box Context
-
   const [, setMessageBox] = useContext(MessageBoxContext);
 
   // Guide Context
-
-  const { guide } = useContext(GuideContext);
-  const [ShowGuide] = guide;
+  const [ShowGuide] = useContext(GuideContext);
 
   useEffect(() => {
     const pageManager = document.getElementById("page-manager");
@@ -53,6 +46,15 @@ const Results = React.memo(() => {
     }
   }, []);
 
+  // A custom hook that builds on useLocation to parse
+  // the query string for you.
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  let query = useQuery();
+
+  let SearchValue = query.get("search_query");
   // ===========================
   //  Handle Location Context
   // ===========================

@@ -12,7 +12,7 @@ import {
 } from "./Svg";
 import { Helmet } from "react-helmet";
 import { DotsSvg } from "../Components/Navbar/NavComponents/Svg";
-import { RippleButton } from "../Components";
+import { RippleButton } from "../Components/ComponentsUtils";
 import {
   ThemeContext,
   WLVContext,
@@ -25,7 +25,7 @@ import {
   ReturnTheme,
   TextReducer,
   UrlLocation,
-} from "../utils/utils";
+} from "../utils";
 
 const WLV = React.memo(() => {
   // WLV Context

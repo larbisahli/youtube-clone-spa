@@ -26,7 +26,7 @@ import {
 import { SettingsSvg, HelpSvg, FeedSvg } from "../Navbar/NavComponents/Svg";
 import { Link } from "react-router-dom";
 import { GuideContext, ThemeContext, UrlLocationContext } from "../../Context";
-import { ReturnTheme } from "../../utils/utils";
+import { ReturnTheme } from "../../utils";
 import { PlayList, FrontSubscriptions, Subscriptions } from "./dummyData";
 
 // sort by {isLive: true} to show live channels first in the list
@@ -55,10 +55,11 @@ const Guide = React.memo(() => {
   // UrlLocation context
   const [UrlLocationState] = useContext(UrlLocationContext);
 
+  // check is the current page is /watch/
+  const isWatchPage = UrlLocationState === "watch";
+
   // Guide Context
-  const { winSize, guide } = useContext(GuideContext);
-  const [windowSize] = winSize;
-  const [ShowGuide, setShowGuide] = guide;
+  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
 
   // ===========================
   //  Handle Show More Or Less
@@ -85,12 +86,12 @@ const Guide = React.memo(() => {
 
       if (GUIDENODE) {
         if (GUIDENODE.isSameNode(event.target)) {
-          setShowGuide(false);
+          HundleShowGuide(false);
           GUIDENODE.removeEventListener("click", HandleCloseGuide);
         }
       }
     },
-    [setShowGuide]
+    [HundleShowGuide]
   );
 
   useEffect(() => {
@@ -103,54 +104,68 @@ const Guide = React.memo(() => {
       pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
     }
 
+    if (isWatchPage) {
+      GUIDENODE.style.width = "100%";
+    }
+
     if (GUIDENODE) {
-      if (!ShowGuide && window.innerWidth <= 810 && ShowGuide !== null) {
-        // for watch page
-        //GUIDENODE.style.display = "block";
+      if (!ShowGuide && (window.innerWidth <= 810 || isWatchPage)) {
+        //
 
         GUIDENODE.style.transform = `translateX(-100%)`;
-        GUIDENODE.style.display = "";
+        GUIDENODE.style.display = "block";
         GUIDENODE.addEventListener("click", HandleCloseGuide);
 
         //
-      } else if (ShowGuide && window.innerWidth <= 810) {
+      } else if (ShowGuide && (window.innerWidth <= 810 || isWatchPage)) {
         //
 
         GUIDENODE.style.transform = `translateX(0%)`;
-        GUIDENODE.style.display = "";
+        GUIDENODE.style.display = "block";
         GUIDENODE.addEventListener("click", HandleCloseGuide);
 
         //
-      } else if (!ShowGuide && window.innerWidth >= 810) {
+      } else if (!ShowGuide && window.innerWidth >= 810 && !isWatchPage) {
         GUIDENODE.style.display = "none";
-      } else if (ShowGuide && window.innerWidth >= 810) {
+      } else if (ShowGuide && window.innerWidth >= 810 && !isWatchPage) {
         GUIDENODE.style.display = "block";
       }
     }
-  }, [ShowGuide, HandleCloseGuide, windowSize]);
+
+    return () => {
+      // clean up
+      GUIDENODE.style.width = "";
+    };
+  }, [ShowGuide, HandleCloseGuide, isWatchPage]);
 
   //
   const ReturnbgBlack = () => {
-    if (ShowGuide === null) {
+    if (window.innerWidth > 810 && !isWatchPage) {
       return "none";
-    } else if (ShowGuide && windowSize < 810) {
+    } else if (ShowGuide && window.innerWidth < 810) {
       return "block";
-    } else if (!ShowGuide && windowSize < 810) {
+    } else if (!ShowGuide && window.innerWidth < 810) {
       return "none";
-    } else if ((ShowGuide || !ShowGuide) && windowSize > 810) {
+    } else if (
+      (ShowGuide || !ShowGuide) &&
+      window.innerWidth > 810 &&
+      !isWatchPage
+    ) {
+      return "none";
+    } else if (ShowGuide && window.innerWidth > 810 && isWatchPage) {
+      return "block";
+    } else if (!ShowGuide && window.innerWidth > 810 && isWatchPage) {
+      return "none";
+    } else {
       return "none";
     }
   };
 
   //
   const ReturnGuideDisplay = () => {
-    if (windowSize < 810 && ShowGuide === null) {
-      return "none";
-    } else if (windowSize > 810 && ShowGuide === null) {
+    if (ShowGuide) {
       return "block";
-    } else if (ShowGuide) {
-      return "block";
-    } else if (ShowGuide) {
+    } else if (!ShowGuide) {
       return "none";
     }
   };

@@ -1,4 +1,4 @@
-@import '../../../config_style.scss';
+@import '../../../sass/config_style.scss';
 
 
 .home_video_container {
@@ -6,7 +6,7 @@
     margin-left: calc(16px / 2);
     margin-right: calc(16px / 2);
     width: calc(100% /(4) - 16px);
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     cursor: pointer;
 
 
@@ -16,12 +16,10 @@
 
     @media screen and (max-width: 1000px) {
         width: calc(100% /(2) - 16px);
-
     }
 
-    @media screen and (max-width: 750px) {
+    @media screen and (max-width: 650px) {
         width: calc(100% - 16px);
-
     }
 
     &:hover .hvc_wrapper>.hvc_wrapper__body_container>.vh_dot_btn {
@@ -40,32 +38,56 @@
         @include display-flex();
         flex-flow: column nowrap;
 
-        // ---
-
         &__thumbnail {
 
             position: relative;
             width: 100%;
+            height: auto;
+
+            &--dark {
+                background-color: colors(Skeleton_Dark_color);
+            }
+
+            &--light {
+                background-color: colors(Skeleton_Light_color);
+            }
+
+            // Aspect Ratio Box 16:9:
+            // youtube uses the international standard format of digital television HDTV Full HD and SD TV.
+            &::before {
+                display: block;
+                content: "";
+                z-index: -1;
+                width: 100%;
+                padding-top: 56.25%; // 9/16*100%
+            }
 
             .video_thumbnail {
+
                 outline: none;
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
 
                 &__img_wrapper {
 
                     width: 100%;
-                    height: 140px;
-
-                    &--dark {
-                        background-color: colors(Skeleton_Dark_color);
-                    }
-
-                    &--light {
-                        background-color: colors(Skeleton_Light_color);
-                    }
+                    height: auto;
 
                     &__img {
+
                         width: 100%;
                         height: auto;
+                        transition: opacity 300ms;
+
+                        &--visible {
+                            opacity: 1;
+                        }
+
+                        &--hidden {
+                            opacity: 0;
+                        }
                     }
                 }
             }
@@ -170,6 +192,7 @@
         // ---
 
         &__body_container {
+
             @include display-flex();
             position: relative;
 
@@ -234,16 +257,15 @@
             .vh_text_area {
                 display: block;
                 padding-right: 24px;
-                font-size: 1.4em;
+                font-size: 1rem;
 
 
                 &__vid_title {
 
                     text-decoration: none;
                     font-family: Roboto-Medium;
-                    font-size: 1.01em;
+                    font-size: .9em; // 2%
 
-                    //font-weight: 600;
 
                     &--dark {
                         // Dark Theme
@@ -265,6 +287,7 @@
                 &__ch_title {
                     text-decoration: none;
                     position: relative;
+                    font-size: .9em;
 
                     &::before {
                         position: absolute;
@@ -272,7 +295,7 @@
                         display: none;
                         text-align: center;
                         padding: 8px;
-                        font-size: .9em;
+                        font-size: .92em;
                         border-radius: 2px;
                         @include transform(translateX(-50%));
                         top: calc(-100% - 25px);
@@ -319,6 +342,7 @@
                 &__duration {
 
                     padding-top: 1px;
+                    font-size: .9em;
 
                     &--dark {
                         color: colors(Duration_Dark_Color);
@@ -340,3 +364,25 @@
         }
     }
 }
+
+// // calculate the approximate height
+// // 2*8 = 16 is the margin-left of home_video_container
+// // 4 is how many video containers in the page view
+
+// height: calc(((100vw - (240 + (2 * 24))) / 4 - 16) * 56.249%);
+
+// @media screen and (max-width: 1340px) {
+//     height: calc(((100vw - (240 + (2 * 24))) / 3 - 16) * 56.249%);
+// }
+
+// @media screen and (max-width: 1000px) {
+//     height: calc(((100vw - (240 + (2 * 24))) / 2 - 16) * 56.249%);
+// }
+
+// @media screen and (max-width: 810px) {
+//     height: calc(((100vw - (2 * 24)) / 2 - 16) * 56.249%);
+// }
+
+// @media screen and (max-width: 650px) {
+//     height: calc(((100vw - (2 * 24)) - 16) * 56.249%);
+// }

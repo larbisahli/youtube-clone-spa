@@ -31,7 +31,7 @@ import {
   RestrictDrop,
 } from "./NavComponents/DropDownComponents";
 import { NavContext, ThemeContext, GuideContext } from "../../Context";
-import { ReturnTheme } from "../../utils/utils";
+import { ReturnTheme } from "../../utils";
 
 const From = React.memo(
   ({
@@ -184,9 +184,7 @@ const Navbar = React.memo(() => {
   });
 
   // Guide Context
-  const { winSize, guide } = useContext(GuideContext);
-  const [, setWindowSize] = winSize;
-  const [, setShowGuide] = guide;
+  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
 
   let history = useHistory();
 
@@ -199,7 +197,7 @@ const Navbar = React.memo(() => {
       event.preventDefault();
 
       if (searchValue !== "") {
-        history.push(`/results/search=${searchValue}`);
+        history.push(`/results?search_query=${searchValue}`);
       }
     },
     [history, searchValue]
@@ -212,7 +210,7 @@ const Navbar = React.memo(() => {
   const HandleSelect = useCallback(
     (select) => {
       if (select !== "") {
-        history.push(`/results/search=${select}`);
+        history.push(`/results?search_query=${select}`);
       }
     },
     [history]
@@ -245,11 +243,11 @@ const Navbar = React.memo(() => {
       // for guide
 
       if (window.innerWidth > 810) {
-        setWindowSize(811);
+        HundleShowGuide(true, false);
       }
 
       if (window.innerWidth < 810) {
-        setWindowSize(809);
+        HundleShowGuide(false);
       }
     };
 
@@ -648,7 +646,7 @@ const Navbar = React.memo(() => {
   };
 
   return (
-    <div className={`navigation_bar navigation_bar--${ReturnTheme(Theme)}`}>
+    <nav className={`navigation_bar navigation_bar--${ReturnTheme(Theme)}`}>
       {/* Helmet */}
       <Helmet>
         <title>
@@ -656,7 +654,10 @@ const Navbar = React.memo(() => {
             ? `(${NotiCount.notiCount}) YouTube-Clone`
             : "YouTube-Clone"}
         </title>
-        <meta name="youtube clone home page most popular videos" content="Helmet application" />
+        <meta
+          name="youtube clone home page most popular videos"
+          content="Helmet application"
+        />
       </Helmet>
       {/* NavBar */}
       {!isResponsive ? (
@@ -664,7 +665,7 @@ const Navbar = React.memo(() => {
           <div className="navigation_bar__left_container">
             <div
               onClick={() => {
-                setShowGuide((prev) => !prev);
+                HundleShowGuide(!ShowGuide);
               }}
               className="navigation_bar__menu_wrap"
             >
@@ -734,9 +735,7 @@ const Navbar = React.memo(() => {
               className="navigation_bar__icons_container"
             >
               <CamSvg />
-              <div style={{ display: dropHandler.ShowCamDrop ? "" : "none" }}>
-                <CamDrop />
-              </div>
+              <CamDrop show={dropHandler.ShowCamDrop} />
             </div>
             <div
               onKeyPress={HandlekeyPress}
@@ -744,12 +743,7 @@ const Navbar = React.memo(() => {
               className="navigation_bar__icons_container"
             >
               <AppSvg />
-              <div
-                style={{ display: dropHandler.ShowAppDrop ? "" : "none" }}
-                className=""
-              >
-                <AppDrop />
-              </div>
+              <AppDrop show={dropHandler.ShowAppDrop} />
             </div>
             <div
               onKeyPress={HandlekeyPress}
@@ -765,10 +759,7 @@ const Navbar = React.memo(() => {
               >
                 {NotiCount.notiCount}
               </div>
-
-              <div style={{ display: dropHandler.ShowBellDrop ? "" : "none" }}>
-                <Notification show={dropHandler.ShowBellDrop} />
-              </div>
+              <Notification show={dropHandler.ShowBellDrop} />
             </div>
             <div className="navigation_bar__profile_container">
               <button
@@ -785,27 +776,34 @@ const Navbar = React.memo(() => {
                   alt="Avatar"
                 />
               </button>
-              <div style={{ display: dropHandler.ShowProfDrop ? "" : "none" }}>
-                <ProfileDrop
-                  handleGoBackDrop={HandleGoBack}
-                  handleShowSemiDrop={HandleShowSemiDrop}
-                />
-              </div>
-              <div style={{ display: semiDrop.SADrop ? "" : "none" }}>
-                <SADrop handleGoBackDrop={HandleGoBack} />
-              </div>
-              <div style={{ display: semiDrop.LangDrop ? "" : "none" }}>
-                <LangDrop handleGoBackDrop={HandleGoBack} />
-              </div>
-              <div style={{ display: semiDrop.ThemeDrop ? "" : "none" }}>
-                <ThemeDrop handleGoBackDrop={HandleGoBack} />
-              </div>
-              <div style={{ display: semiDrop.RestrictDrop ? "" : "none" }}>
-                <RestrictDrop handleGoBackDrop={HandleGoBack} />
-              </div>
-              <div style={{ display: semiDrop.LocaDrop ? "" : "none" }}>
-                <LocaDrop handleGoBackDrop={HandleGoBack} />
-              </div>
+
+              <ProfileDrop
+                handleGoBackDrop={HandleGoBack}
+                handleShowSemiDrop={HandleShowSemiDrop}
+                show={dropHandler.ShowProfDrop}
+              />
+
+              <SADrop handleGoBackDrop={HandleGoBack} show={semiDrop.SADrop} />
+
+              <LangDrop
+                handleGoBackDrop={HandleGoBack}
+                show={semiDrop.LangDrop}
+              />
+
+              <ThemeDrop
+                handleGoBackDrop={HandleGoBack}
+                show={semiDrop.ThemeDrop}
+              />
+
+              <RestrictDrop
+                handleGoBackDrop={HandleGoBack}
+                show={semiDrop.RestrictDrop}
+              />
+
+              <LocaDrop
+                handleGoBackDrop={HandleGoBack}
+                show={semiDrop.LocaDrop}
+              />
             </div>
           </div>
         </Fragment>
@@ -832,7 +830,7 @@ const Navbar = React.memo(() => {
           />
         </Fragment>
       )}
-    </div>
+    </nav>
   );
 });
 

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
 import "./sass/miniguide_style.scss";
 import { Link } from "react-router-dom";
-import { ReturnTheme } from "../../utils/utils";
+import { ReturnTheme } from "../../utils";
 import { UrlLocationContext, ThemeContext } from "../../Context";
 
 const MiniGuide = React.memo(() => {
@@ -16,8 +16,20 @@ const MiniGuide = React.memo(() => {
     Theme
   )}`;
 
+  const ReturnDisplay = () => {
+    if (UrlLocationState) {
+      console.log("UrlLocationState :>> ", UrlLocationState);
+      return UrlLocationState === "watch" ? "none" : "block";
+    } else {
+      return "none";
+    }
+  };
+  console.log(' UrlLocationState === "watch" :>> ', ReturnDisplay());
   return (
-    <div className={`miniguide miniguide--${ReturnTheme(Theme)}`}>
+    <div
+      style={{ display: ReturnDisplay() }}
+      className={`miniguide miniguide--${ReturnTheme(Theme)}`}
+    >
       <Link
         to="/"
         className={`${hx_guide}${

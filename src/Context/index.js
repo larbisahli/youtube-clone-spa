@@ -5,3 +5,4 @@ export { QueueProvider, QueueContext } from "./QueueContext";
 export { ThemeProvider, ThemeContext } from "./ThemeContext";
 export { UrlLocationProvider, UrlLocationContext } from "./UrlLocationContext";
 export { WLVProvider, WLVContext } from "./WLVContext";
+export { ApiProvider, ApiContext } from "./ApiContext";

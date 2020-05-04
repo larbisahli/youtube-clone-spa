@@ -6,7 +6,7 @@ import {
   ViewsNumFormatter,
   numberWithCommas,
   ReturnTheme,
-} from "../../utils/utils";
+} from "../../utils";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { SubBellSvg } from "./Svg";
 import { ThemeContext } from "../../Context";

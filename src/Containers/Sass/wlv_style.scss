@@ -1,8 +1,7 @@
-@import "../../config_style.scss";
+@import "../../sass/config_style.scss";
 
 .wvl {
 
-    margin-left: 240px;
     display: flex;
     height: calc(100vh - 56px);
 
@@ -57,6 +56,7 @@
 
             padding: 24px 32px;
             overflow: hidden;
+
 
             @media screen and (max-width: 810px) {
                 display: flex;
@@ -290,6 +290,7 @@
             flex-flow: column nowrap;
 
 
+
             .wl_sort_con {
 
                 padding: 16px 0 8px 36px;
@@ -330,7 +331,7 @@
                 align-items: center;
                 position: relative;
                 cursor: pointer;
-                min-width: 0;
+
 
                 &--dark {
 

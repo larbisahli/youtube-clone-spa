@@ -2,11 +2,12 @@ import React, { useState, useCallback, useContext } from "react";
 import "./sass/semidrop_style.scss";
 import { BackArrowSvg } from "../Svg";
 import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils/utils";
+import { ReturnTheme } from "../../../../utils";
+import { LazyLoad } from "../../../ComponentsUtils";
 
 // Using Memo to prevent unnecessary re-renders
 
-const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
+const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
   const [fade, setFade] = useState(false);
   // Navbar context
   const { restrictState } = useContext(NavContext);
@@ -38,49 +39,56 @@ const RestrictDrop = React.memo(({ handleGoBackDrop, isCurrent }) => {
   return (
     <div
       id="restrictmode_drop"
+      style={{ display: show ? "" : "none" }}
       className={`semiDrop semiDrop--${ReturnTheme(Theme)}`}
     >
-      <div className="semiDrop__header">
-        <button onClick={handleGoBackDrop} className="semiDrop__header__arrow">
-          <BackArrowSvg isCurrent={isCurrent} />
-        </button>
-        <div className="semiDrop__header__text">Restricted Mode</div>
-      </div>
-      <div className={`line line--${ReturnTheme(Theme)}`}></div>
-      <div className="semiDrop__main_wrapper">
-        <div className="theme_text">
-          This helps hide potentially mature videos. No filter is 100% accurate.
+      <LazyLoad render={show}>
+        <div className="semiDrop__header">
+          <button
+            onClick={handleGoBackDrop}
+            className="semiDrop__header__arrow"
+          >
+            <BackArrowSvg isCurrent={isCurrent} />
+          </button>
+          <div className="semiDrop__header__text">Restricted Mode</div>
         </div>
-        <div className="theme_text">
-          This setting only applies to this browser.
-        </div>
-        <div
-          className={`theme_container theme_container--${ReturnTheme(Theme)}`}
-        >
-          <div className="tc_text">ACTIVATE RESTRICTED MODE</div>
+        <div className={`line line--${ReturnTheme(Theme)}`}></div>
+        <div className="semiDrop__main_wrapper">
+          <div className="theme_text">
+            This helps hide potentially mature videos. No filter is 100%
+            accurate.
+          </div>
+          <div className="theme_text">
+            This setting only applies to this browser.
+          </div>
+          <div
+            className={`theme_container theme_container--${ReturnTheme(Theme)}`}
+          >
+            <div className="tc_text">ACTIVATE RESTRICTED MODE</div>
 
-          <label className={`switch switch--${ReturnTheme(Theme)}`}>
-            <input
-              type="checkbox"
-              className="switch__toggle"
-              checked={restrict.isRestrict}
-              onChange={handleCheckboxChange}
-            />
-            <span className="switch__switch_btn" onClick={HundleClick}>
-              <div
-                className={
-                  "circle" +
-                  (fade
-                    ? restrict.isRestrict
-                      ? " circle--on"
-                      : " circle--off"
-                    : "")
-                }
-              ></div>
-            </span>
-          </label>
+            <label className={`switch switch--${ReturnTheme(Theme)}`}>
+              <input
+                type="checkbox"
+                className="switch__toggle"
+                checked={restrict.isRestrict}
+                onChange={handleCheckboxChange}
+              />
+              <span className="switch__switch_btn" onClick={HundleClick}>
+                <div
+                  className={
+                    "circle" +
+                    (fade
+                      ? restrict.isRestrict
+                        ? " circle--on"
+                        : " circle--off"
+                      : "")
+                  }
+                ></div>
+              </span>
+            </label>
+          </div>
         </div>
-      </div>
+      </LazyLoad>
     </div>
   );
 });

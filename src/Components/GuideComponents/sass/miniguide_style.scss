@@ -1,4 +1,4 @@
-@import '../../../config_style.scss';
+@import '../../../sass/config_style.scss';
 
 .miniguide {
 
@@ -22,7 +22,7 @@
 
 
     @media screen and (max-width: 810px) {
-        display: none;
+        display: none !important;
     }
 
     a:active {

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./sass/svg_style_scnni.scss";
 import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils/utils";
+import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 

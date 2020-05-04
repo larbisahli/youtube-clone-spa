@@ -1,0 +1,36 @@
+.notfound_container {
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    &__img {
+        padding-bottom: 20px;
+        width: auto;
+        height: auto;
+    }
+
+    &__text {
+
+        font-size: 1.5em;
+        font-family: Roboto-Medium;
+        display: flex;
+        flex-flow: column nowrap;
+        text-align: center;
+
+        &--dark {
+            color: #fff;
+        }
+
+        &--light {
+            color: #000;
+        }
+
+    }
+
+}

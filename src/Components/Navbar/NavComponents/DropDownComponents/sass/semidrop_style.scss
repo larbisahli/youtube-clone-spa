@@ -1,4 +1,4 @@
-@import "../../../../../config_style.scss";
+@import "../../../../../sass/config_style.scss";
 
 .scroll {
 
@@ -25,6 +25,7 @@
     box-sizing: border-box;
     max-width: 480px;
     max-height: 500px;
+    min-height: 200px;
     width: 280px;
 
     &--dark {

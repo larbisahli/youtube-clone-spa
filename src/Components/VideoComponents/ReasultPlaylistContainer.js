@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import "./sass/rvccontainer_style.scss";
 import { Link } from "react-router-dom";
-import { TextReducer, numberWithCommas, ReturnTheme } from "../../utils/utils";
+import { TextReducer, numberWithCommas, ReturnTheme } from "../../utils";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { PlaySvg } from "./Svg";
 import { PlayListSvg } from "../GuideComponents/Svg";

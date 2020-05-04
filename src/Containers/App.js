@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Navbar, Guide, MiniGuide, Queue, MessageBox } from "../Components";
 import {
@@ -8,13 +8,19 @@ import {
   WLVProvider,
   UrlLocationProvider,
   NavProvider,
+  ApiProvider,
 } from "../Context";
-import Results from "./Results";
 import Home from "./Home";
-import WLV from "./WLV";
-import Watch from "./Watch";
-import Channel from "./Channel";
 import "./Sass/app_style.scss";
+
+// dynamic import: means executed when the code runs
+const Results = lazy(() => import("./Results"));
+const WLV = lazy(() => import("./WLV"));
+const Watch = lazy(() => import("./Watch"));
+const Channel = lazy(() => import("./Channel"));
+const NotFound = lazy(() => import("./NotFound"));
+// react lazy :
+// every route in rendered in advance do we use react lazy to load them on need.
 
 function App() {
   return (
@@ -28,28 +34,69 @@ function App() {
               {/* PAGES */}
               <UrlLocationProvider>
                 <WLVProvider>
-                  <div className="page_container">
-                    <Switch>
-                      {/* HOME PAGE ROUTE */}
-                      <Route path="/" exact component={Home} />
-                      {/* RESULTS PAGE ROUTE*/}
-                      <Route
-                        path="/results/search=:SearchValue"
-                        component={Results}
-                      />
-                      {/* WLV PAGE ROUTE*/}
-                      <Route path="/playlist/list=:id" exact component={WLV} />
-                      {/* WATCH PAGE ROUTE */}
-                      <Route path="/watch/v=:id" exact component={Watch} />
-                      {/* CHANNEL PAGE ROUTE */}
-                      <Route path="/channel/:id" exact component={Channel} />
-                    </Switch>
-                  </div>
-                  {/* GUIDE */}
-                  <MiniGuide />
-                  <Guide />
-                  {/* MESSAGE BOX */}
-                  <MessageBox />
+                  <ApiProvider>
+                    <div className="page_container">
+                      <Switch>
+                        {/* HOME PAGE ROUTE */}
+
+                        <Route path="/" exact component={Home} />
+
+                        {/* RESULTS PAGE ROUTE*/}
+                        <Route
+                          path="/results"
+                          render={() => (
+                            <Suspense fallback={<div></div>}>
+                              <Results />
+                            </Suspense>
+                          )}
+                        />
+                        {/* WLV PAGE ROUTE*/}
+                        <Route
+                          path="/playlist/list=:id"
+                          exact
+                          render={() => (
+                            <Suspense fallback={<div></div>}>
+                              <WLV />
+                            </Suspense>
+                          )}
+                        />
+                        {/* WATCH PAGE ROUTE */}
+                        <Route
+                          //path="/watch/v=:VideoId/"
+                          path="/watch"
+                          exact
+                          render={() => (
+                            <Suspense fallback={<div></div>}>
+                              <Watch />
+                            </Suspense>
+                          )}
+                        />
+                        {/* CHANNEL PAGE ROUTE */}
+                        <Route
+                          path="/channel/:id"
+                          exact
+                          render={() => (
+                            <Suspense fallback={<div></div>}>
+                              <Channel />
+                            </Suspense>
+                          )}
+                        />
+                        {/* 404 */}
+                        <Route
+                          render={() => (
+                            <Suspense fallback={<div></div>}>
+                              <NotFound />
+                            </Suspense>
+                          )}
+                        />
+                      </Switch>
+                    </div>
+                    {/* GUIDE */}
+                    <MiniGuide />
+                    <Guide />
+                    {/* MESSAGE BOX */}
+                    <MessageBox />
+                  </ApiProvider>
                 </WLVProvider>
               </UrlLocationProvider>
             </NavProvider>

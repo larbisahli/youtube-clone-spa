@@ -1,4 +1,4 @@
-@import '../../config_style.scss';
+@import '../../sass/config_style.scss';
 
 .root_container {
     margin: 0;
@@ -19,4 +19,8 @@
     .page_container {
         margin-top: 56px;
     }
+}
+
+#page-manager {
+    margin-left: 240px;
 }

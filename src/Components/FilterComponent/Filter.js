@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext } from "react";
 import { XSvg } from "../../Containers/Svg";
-import { ReturnTheme } from "../../utils/utils";
+import { ReturnTheme } from "../../utils";
 import { ThemeContext } from "../../Context";
 
 const RemoveSvg = React.memo(({ WhoActive, text }) => {

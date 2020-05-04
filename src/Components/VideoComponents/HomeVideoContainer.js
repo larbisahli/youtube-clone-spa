@@ -8,8 +8,8 @@ import {
   HandleDuration,
   TextReducer,
   ReturnTheme,
-} from "../../utils/utils";
-import { Link } from "react-router-dom";
+} from "../../utils";
+import { Link, useHistory } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
 import { WLVContext, ThemeContext, QueueContext } from "../../Context";
 
@@ -28,13 +28,18 @@ const HomeVideoContainer = React.memo(
     const [ShowQueue, setShowQueue] = ShowQueueState;
     const [QueueList, QueueListDispatch] = QueueState;
 
+    // image isload state
+    const [imageLoaded, setImageLoaded] = useState(false);
+
     //
     const [Isplaying, setIsplayingNow] = useState([]);
+
+    //
+    let history = useHistory();
 
     // ======================================
     // Check if a video is already in wl list
     // ======================================
-
     const [IswatchLater, setIsWatchLater] = useState(
       WatchLaterList.some((wl) => wl.videoId === PopularVideo.videoId)
     );
@@ -161,16 +166,6 @@ const HomeVideoContainer = React.memo(
       ]
     );
 
-    const HandleImg = useCallback((skeleton_id, index) => {
-      // BackgroundColor can be red and you can use it as video duration with the width value.
-
-      const imgIdElement = document.getElementById(`${skeleton_id}-${index}`);
-      if (imgIdElement) {
-        imgIdElement.style.backgroundColor = "transparent";
-        imgIdElement.style.height = "auto";
-      }
-    }, []);
-
     // ===============================================
     //   Check if the video is playing now on queue
     // ===============================================
@@ -194,28 +189,59 @@ const HomeVideoContainer = React.memo(
       }
     }, [QueueList, IsplayingNow]);
 
+    // ======================
+    //  redirect with params
+    // ======================
+
+    const HandleLink = useCallback(() => {
+      if (ShowQueue) {
+        HandleQueueClick(
+          PopularVideo.title,
+          PopularVideo.duration,
+          PopularVideo.videoId,
+          PopularVideo.channelTitle,
+          PopularVideo.channelId,
+          PopularVideo.thumbnail,
+          IsQueue
+        );
+        QueueListDispatch({
+          type: "play",
+          videoId: PopularVideo.videoId,
+        });
+      } else {
+        history.push(`/watch?v=${PopularVideo.videoId}`);
+      }
+    }, [
+      PopularVideo,
+      history,
+      HandleQueueClick,
+      ShowQueue,
+      IsQueue,
+      QueueListDispatch,
+    ]);
+
     return (
       <div className="home_video_container">
         <div className="hvc_wrapper">
-          <div className="hvc_wrapper__thumbnail">
-            <Link
-              to={`/watch/${PopularVideo.videoId}`}
-              className="video_thumbnail"
-            >
-              <div
-                id={`hvideoImg-${index}`}
-                className={`video_thumbnail__img_wrapper video_thumbnail__img_wrapper--${ReturnTheme(
-                  Theme
-                )}`}
-              >
+          <div
+            className={`hvc_wrapper__thumbnail hvc_wrapper__thumbnail--${ReturnTheme(
+              Theme
+            )}`}
+          >
+            <div className="video_thumbnail" onClick={HandleLink}>
+              <div className="video_thumbnail__img_wrapper">
                 <img
-                  className="video_thumbnail__img_wrapper__img"
-                  onLoad={() => HandleImg("hvideoImg", index)}
+                  className={`video_thumbnail__img_wrapper__img video_thumbnail__img_wrapper__img--${
+                    imageLoaded ? "visible" : "hidden"
+                  }`}
+                  onLoad={() => {
+                    setImageLoaded(true);
+                  }}
                   src={PopularVideo.thumbnail}
                   alt=""
                 />
               </div>
-            </Link>
+            </div>
             {ShowQueue && Isplaying === PopularVideo.videoId && (
               <div className="vh_inner_btn vh_inner_btn--playing">
                 Now playing
@@ -288,15 +314,11 @@ const HomeVideoContainer = React.memo(
                 to={`/channel/${PopularVideo.channelId}`}
                 className="vh_ch_thumbnail__wrap"
               >
-                <div
-                  id={`hvideoCha-${index}`}
-                  className={`ch_skltn ch_skltn--${ReturnTheme(Theme)}`}
-                >
+                <div className={`ch_skltn ch_skltn--${ReturnTheme(Theme)}`}>
                   <img
                     // making sure the id is unique
                     className="ch_skltn__img"
                     id={`${PopularVideo.channelId}_${index}`}
-                    onLoad={() => HandleImg("hvideoCha", index)}
                     src=""
                     alt=""
                   />
@@ -305,8 +327,8 @@ const HomeVideoContainer = React.memo(
               </Link>
             </div>
             <div className="vh_text_area">
-              <Link
-                to={`/watch/${PopularVideo.videoId}`}
+              <div
+                onClick={HandleLink}
                 className={`vh_text_area__vid_title vh_text_area__vid_title--${ReturnTheme(
                   Theme
                 )}`}
@@ -317,7 +339,7 @@ const HomeVideoContainer = React.memo(
                 >
                   {TextReducer(PopularVideo.title, 56)}
                 </div>
-              </Link>
+              </div>
               <Link
                 data-content={PopularVideo.channelTitle}
                 className={`vh_text_area__ch_title vh_text_area__ch_title--${ReturnTheme(

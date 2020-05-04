@@ -1,4 +1,48 @@
-@import '../../config_style.scss';
+@import '../../../sass//config_style.scss';
+
+.load_border {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #c5c4c4;
+
+
+    .loader {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: red;
+        border-right: 1px solid #e01616;
+        animation-name: fake_load;
+        animation-duration: 650ms;
+        box-sizing: border-box;
+    }
+
+    @keyframes fake_load {
+        0% {
+            width: 10%;
+        }
+
+        25% {
+            width: 25%;
+        }
+
+        50% {
+            width: 50%;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+}
 
 
 .video_skeleton {
@@ -15,13 +59,21 @@
         width: calc(100% /(2) - 16px);
     }
 
-    @media screen and (max-width: 750px) {
+    @media screen and (max-width: 650px) {
         width: calc(100% - 16px);
     }
 
     &__thumb {
         width: 100%;
-        height: 150px;
+        height: auto;
+
+        &::before {
+            display: block;
+            content: "";
+            z-index: 1;
+            width: 100%;
+            padding-top: 56.25%;
+        }
 
         &--dark {
             background-color: colors(Skeleton_Dark_color);

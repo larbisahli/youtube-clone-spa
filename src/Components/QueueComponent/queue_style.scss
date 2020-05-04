@@ -1,4 +1,4 @@
-@import '../../config_style.scss';
+@import '../../sass/config_style.scss';
 
 $miniplayer-width: 400px;
 $miniplayer-height: 225px;
@@ -55,6 +55,7 @@ $miniplayer-header-width:64px;
 
     // --- 
 
+
     &__video_container {
 
         width: $miniplayer-width;
@@ -64,12 +65,28 @@ $miniplayer-header-width:64px;
         flex: none;
 
 
+        .miniplayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            &--visible {
+                opacity: 1;
+            }
+
+            &--hidden {
+                opacity: 0;
+            }
+
+        }
+
         &:hover>.ytb_inner_btn {
             display: flex;
         }
 
         .ytb_inner_btn {
-
             position: absolute;
             display: none;
             cursor: pointer;
@@ -138,7 +155,6 @@ $miniplayer-header-width:64px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-
 
         &--dark {
             // Dark Theme

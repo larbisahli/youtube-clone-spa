@@ -1,14 +1,18 @@
-@import '../../config_style.scss';
+@import '../../sass/config_style.scss';
+
 
 .home_container {
-    margin-left: 240px;
 
     @media screen and (max-width: 810px) {
         margin-left: 0px !important;
     }
 
-    @media screen and (max-width: 750px) {
-        margin: 0px 35px !important;
+    @media screen and (max-width: 650px) {
+        margin: 0px 45px !important;
+    }
+
+    @media screen and (max-width: 550px) {
+        margin: 0px 25px !important;
     }
 
     .home_content {

@@ -1,5 +1,6 @@
 import React from "react";
 import "./sass/searchdrop_style.scss";
+import { LazyLoad } from "../../../ComponentsUtils";
 
 // Using Memo to prevent event handler of resizing to re-render this component
 // with the help of useCallback to prevent functions
@@ -19,37 +20,39 @@ const SearchDropSuggestion = React.memo(
         className="search_drop"
         style={{ display: ShowSearchDrop ? "" : "none" }}
       >
-        {suggestions.map((s, index) => (
-          <div key={index} className="search_drop__block">
-            <li
-              onClick={() => HandleSelect(s.suggestion)}
-              className="suggestion_wrap"
-            >
-              {s.removed ? (
-                <div id="plholder" className="placeHolder">
-                  Suggestion removed
-                </div>
-              ) : (
+        <LazyLoad render={ShowSearchDrop}>
+          {suggestions.map((s, index) => (
+            <div key={index} className="search_drop__block">
+              <li
+                onClick={() => HandleSelect(s.suggestion)}
+                className="suggestion_wrap"
+              >
+                {s.removed ? (
+                  <div id="plholder" className="placeHolder">
+                    Suggestion removed
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "Suggestion_text" + (searchIsActive ? "" : " hisText")
+                    }
+                  >
+                    {s.suggestion}
+                  </div>
+                )}
+              </li>
+              {!searchIsActive && s.suggestion && (
                 <div
-                  className={
-                    "Suggestion_text" + (searchIsActive ? "" : " hisText")
-                  }
+                  id="rembtnsd"
+                  onClick={() => RemoveHandleClick(s.id)}
+                  className="Suggestion_remove"
                 >
-                  {s.suggestion}
+                  Remove
                 </div>
               )}
-            </li>
-            {!searchIsActive && s.suggestion && (
-              <div
-                id="rembtnsd"
-                onClick={() => RemoveHandleClick(s.id)}
-                className="Suggestion_remove"
-              >
-                Remove
-              </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </LazyLoad>
       </div>
     );
   }

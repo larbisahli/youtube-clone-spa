@@ -17,7 +17,8 @@ import {
   LocaSvg,
 } from "../Svg";
 import { NavContext, ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils/utils";
+import { ReturnTheme } from "../../../../utils";
+import { LazyLoad } from "../../../ComponentsUtils";
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -35,7 +36,7 @@ const Language = React.memo(({ lang }) => {
   );
 });
 
-const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
+const ProfileDrop = React.memo(({ handleShowSemiDrop, show }) => {
   // Navbar context
   const { locaState, langState, accountState, restrictState } = useContext(
     NavContext
@@ -61,6 +62,7 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
   return (
     <div
       id="profile_drop"
+      style={{ display: show ? "" : "none" }}
       className={`pro_menu pro_menu--${ReturnTheme(Theme)}`}
     >
       <div className="pro_menu__header">
@@ -86,167 +88,171 @@ const ProfileDrop = React.memo(({ handleShowSemiDrop }) => {
         </div>
       </div>
       <div className={`line line--${ReturnTheme(Theme)}`}></div>
-      <div className="pro_menu__body">
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <AvatarSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Your channel</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <SSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Paid memberships</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <YSSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">YouTube Studio</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <SASvg />
-          </div>
-          <div
-            onClick={() => handleShowSemiDrop("SADrop")}
-            className="pro_top_wrap__text_wrap"
-          >
-            <div className="pro_top_wrap__text_wrap__txt">Switch account</div>
+      <LazyLoad render={show}>
+        <div className="pro_menu__body">
+          <div className={wrapper_x}>
             <div className="pro_top_wrap__logo">
-              <ArrowSvg />
+              <AvatarSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">Your channel</div>
             </div>
           </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <SOSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Sign out</div>
-          </div>
-        </div>
-        <div
-          style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
-          className={line}
-        ></div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <TSvg />
-          </div>
-          <div
-            onClick={() => handleShowSemiDrop("ThemeDrop")}
-            className="pro_top_wrap__text_wrap"
-          >
-            <div className="pro_top_wrap__text_wrap__txt">{`Dark theme: ${
-              Theme ? "On" : "Off"
-            }`}</div>
+          <div className={wrapper_x}>
             <div className="pro_top_wrap__logo">
-              <ArrowSvg />
+              <SSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">
+                Paid memberships
+              </div>
             </div>
           </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <LangSvg />
-          </div>
-          <div
-            onClick={() => handleShowSemiDrop("LangDrop")}
-            className="pro_top_wrap__text_wrap"
-          >
-            <div className="pro_top_wrap__text_wrap__txt">
-              Language: <Language lang={lang} />
-            </div>
+          <div className={wrapper_x}>
             <div className="pro_top_wrap__logo">
-              <ArrowSvg />
+              <YSSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">YouTube Studio</div>
             </div>
           </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <LocaSvg />
-          </div>
-          <div
-            onClick={() => handleShowSemiDrop("LocaDrop")}
-            className="pro_top_wrap__text_wrap"
-          >
-            <div className="pro_top_wrap__text_wrap__txt">
-              Location <Location loca={loca} />
-            </div>
+          <div className={wrapper_x}>
             <div className="pro_top_wrap__logo">
-              <ArrowSvg />
+              <SASvg />
+            </div>
+            <div
+              onClick={() => handleShowSemiDrop("SADrop")}
+              className="pro_top_wrap__text_wrap"
+            >
+              <div className="pro_top_wrap__text_wrap__txt">Switch account</div>
+              <div className="pro_top_wrap__logo">
+                <ArrowSvg />
+              </div>
             </div>
           </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <SettingsSvg default_={true} />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Settings</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <DataSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">
-              Your data in YouTube
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <SOSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">Sign out</div>
             </div>
           </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <HelpSvg default_={true} />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Help</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <FeedSvg default_={true} />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">Send feedback</div>
-          </div>
-        </div>
-        <div className={wrapper_x}>
-          <div className="pro_top_wrap__logo">
-            <KeyboardSvg />
-          </div>
-          <div className="pro_top_wrap__text_wrap">
-            <div className="pro_top_wrap__text_wrap__txt">
-              Keyboard shortcuts
-            </div>
-          </div>
-        </div>
-        <div
-          style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
-          className={line}
-        ></div>
-        <div className="pro_bottom_wrap">
           <div
-            onClick={() => handleShowSemiDrop("RestrictDrop")}
-            className={arte_}
-          >
-            <div className="pro_bottom_wrap__text_wrap--res">
-              {`Restricted Mode: ${restrict.isRestrict ? "On" : "Off"}`}
+            style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
+            className={line}
+          ></div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <TSvg />
             </div>
-            <div className="arrow_">
-              <ArrowSvg />
+            <div
+              onClick={() => handleShowSemiDrop("ThemeDrop")}
+              className="pro_top_wrap__text_wrap"
+            >
+              <div className="pro_top_wrap__text_wrap__txt">{`Dark theme: ${
+                Theme ? "On" : "Off"
+              }`}</div>
+              <div className="pro_top_wrap__logo">
+                <ArrowSvg />
+              </div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <LangSvg />
+            </div>
+            <div
+              onClick={() => handleShowSemiDrop("LangDrop")}
+              className="pro_top_wrap__text_wrap"
+            >
+              <div className="pro_top_wrap__text_wrap__txt">
+                Language: <Language lang={lang} />
+              </div>
+              <div className="pro_top_wrap__logo">
+                <ArrowSvg />
+              </div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <LocaSvg />
+            </div>
+            <div
+              onClick={() => handleShowSemiDrop("LocaDrop")}
+              className="pro_top_wrap__text_wrap"
+            >
+              <div className="pro_top_wrap__text_wrap__txt">
+                Location <Location loca={loca} />
+              </div>
+              <div className="pro_top_wrap__logo">
+                <ArrowSvg />
+              </div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <SettingsSvg default_={true} />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">Settings</div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <DataSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">
+                Your data in YouTube
+              </div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <HelpSvg default_={true} />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">Help</div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <FeedSvg default_={true} />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">Send feedback</div>
+            </div>
+          </div>
+          <div className={wrapper_x}>
+            <div className="pro_top_wrap__logo">
+              <KeyboardSvg />
+            </div>
+            <div className="pro_top_wrap__text_wrap">
+              <div className="pro_top_wrap__text_wrap__txt">
+                Keyboard shortcuts
+              </div>
+            </div>
+          </div>
+          <div
+            style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
+            className={line}
+          ></div>
+          <div className="pro_bottom_wrap">
+            <div
+              onClick={() => handleShowSemiDrop("RestrictDrop")}
+              className={arte_}
+            >
+              <div className="pro_bottom_wrap__text_wrap--res">
+                {`Restricted Mode: ${restrict.isRestrict ? "On" : "Off"}`}
+              </div>
+              <div className="arrow_">
+                <ArrowSvg />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </LazyLoad>
     </div>
   );
 });

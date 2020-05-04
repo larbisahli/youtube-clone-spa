@@ -1,4 +1,4 @@
-@import "../../../config_style.scss";
+@import "../../../sass/config_style.scss";
 
 .bg_guide {
   position: absolute;
@@ -16,17 +16,22 @@
 .guide {
 
   position: fixed;
-  top: 56px;
+  top: 56px; // nav height
   left: 0;
   bottom: 0;
   height: calc(100% - 56px);
   box-sizing: border-box;
   background-color: transparent;
   z-index: 5;
+  transition-property: transform;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+
+  // shorthand property transition:
+  // transition: transform 250ms ease-in-out 1s;
 
   @media screen and (max-width: 810px) {
     width: 100%;
-    transition-duration: 150ms;
   }
 
   // move svg to the right on hover
@@ -83,7 +88,7 @@
     @include display-flex();
     justify-content: flex-start;
     flex-flow: column nowrap;
-    font-size: 1.4em;
+    font-size: .88rem;
     padding-top: 10px;
     overflow: hidden;
 

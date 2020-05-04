@@ -1,7 +1,7 @@
-@import '../../config_style.scss';
+@import '../../sass/config_style.scss';
 
 .results_container {
-    margin-left: 240px;
+
     max-width: 862px;
 
     @media screen and (max-width: 810px) {

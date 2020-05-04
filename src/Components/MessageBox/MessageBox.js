@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import "./messagebox_style.scss";
-import { RippleButton } from "../.";
-import { ReturnTheme } from "../../utils/utils";
+import { RippleButton } from "../ComponentsUtils";
+import { ReturnTheme } from "../../utils";
 import { MessageBoxContext, ThemeContext, WLVContext } from "../../Context";
 
 const MessageBox = React.memo(() => {

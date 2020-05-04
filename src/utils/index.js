@@ -60,6 +60,7 @@ export const ReturnTheme = (Theme) => {
 
 export const UrlLocation = (home = false) => {
   const url = window.location.href;
+
   if (url.search("/trending/") > -1) {
     return "trending";
   } else if (url.search("/subscriptions/") > -1) {
@@ -70,6 +71,8 @@ export const UrlLocation = (home = false) => {
     return "history";
   } else if (url.search("/list=WL") > -1) {
     return "WL";
+  } else if (url.search("/watch?") > -1) {
+    return "watch";
   } else if (home) {
     return "home";
   } else {
