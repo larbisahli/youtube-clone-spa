@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const SearchSvg = React.memo(({ Theme }) => {
+const SearchSvg = memo(({ Theme }) => {
   return (
     <div
       style={{ width: "20px", height: "20px", opacity: "0.6" }}

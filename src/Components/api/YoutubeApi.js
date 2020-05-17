@@ -10,7 +10,7 @@ export const YouTubeAPI = axios.create({
 // ===========================
 
 export const getMostPopularVideos = async () => {
-  const result = await YouTubeAPI.get("videos", {
+  const result = await YouTubeAPI.get("videoss", {
     params: {
       part: "snippet,statistics,contentDetails",
       maxResults: 8,

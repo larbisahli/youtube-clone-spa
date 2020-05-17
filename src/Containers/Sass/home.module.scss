@@ -1,0 +1,58 @@
+@import '../../sass/config.scss';
+
+
+.container {
+
+    @media screen and (max-width: 810px) {
+        margin-left: 0px !important;
+    }
+
+    .content {
+        margin: 0 24px 0 24px;
+
+
+
+        @media screen and (max-width: 890px) {
+            margin: 0 40px;
+
+        }
+
+        @media screen and (max-width: 670px) {
+            margin: 0;
+
+        }
+
+        @media screen and (max-width: 520px) {
+            margin: 0 40px;
+
+        }
+
+
+        .video_wrapper {
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 15px;
+        }
+
+        .title_wrapper {
+
+            padding-top: 36px;
+            padding-left: calc(16px / 2);
+
+
+            .title {
+
+                font-size: 2em;
+                font-family: Roboto-Medium;
+
+                &--dark {
+                    color: #fff;
+                }
+
+                &--light {
+                    color: #212121;
+                }
+            }
+        }
+    }
+}

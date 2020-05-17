@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scvi.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const CheckedSvg = React.memo(() => {
+const CheckedSvg = memo(() => {
   return (
     <div className="ytb_svg_x">
       <svg className="ytb_svg_x__wrapper" viewBox="0 0 24 24" focusable={false}>

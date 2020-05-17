@@ -1,64 +1,52 @@
-import React, { useContext, useCallback } from "react";
-import "./sass/semidrop_style.scss";
+import React, { memo } from "react";
+import style from "./sass/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
-import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils";
+import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
+import { useSelector, useDispatch } from "react-redux";
+import { SwitchLocationAction } from "../../../../redux";
 
 // Using Memo to prevent unnecessary re-renders
 
-const LocaDrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
-  // Navbar context
-  const { locaState } = useContext(NavContext);
-  const [loca, setLoca] = locaState;
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const LocaDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
+  // location
+  const loca = useSelector((state) => state.Navbar.location);
 
-  const HandleClick = useCallback(
-    (id) => {
-      setLoca([
-        ...loca.map((loca) => {
-          loca.checked = false;
-          if (loca.id === id) {
-            loca.checked = true;
-          }
-          return loca;
-        }),
-      ]);
-    },
-    [loca, setLoca]
-  );
+  //  dispatch
+  const dispatch = useDispatch();
+
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
+
+  const HandleClick = (id) => {
+    dispatch(SwitchLocationAction(id));
+  };
+
   return (
     <div
       id="loca_drop"
       style={{ display: show ? "" : "none" }}
-      className={`semiDrop semiDrop--${ReturnTheme(Theme)} scroll-${ReturnTheme(
-        Theme
-      )}`}
+      className={`${GetClassName(style, "container", Theme)} ${
+        style[`scroll--${ReturnTheme(Theme)}`]
+      }`}
     >
       <LazyLoad render={show}>
-        <div className="semiDrop__header">
-          <button
-            onClick={handleGoBackDrop}
-            className="semiDrop__header__arrow"
-          >
+        <div className={style.header}>
+          <button onClick={handleGoBackDrop} className={style.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
           </button>
-          <div className="semiDrop__header__text">Choose your language</div>
+          <div className={style.header__text}>Choose your language</div>
         </div>
-        <div
-          className={`semiDrop__line semiDrop__line--${ReturnTheme(Theme)}`}
-        ></div>
-        <div className="semiDrop__main_wrapper semiDrop__overflow">
+        <div className={`line line--${ReturnTheme(Theme)}`}></div>
+        <div className={`${style.mainbody} ${style.overflow}`}>
           {loca.map((loca, index) => {
             return (
               <div
                 key={index}
                 onClick={() => HandleClick(loca.id)}
-                className={`lang_drop lang_drop--${ReturnTheme(Theme)}`}
+                className={GetClassName(style, "lang", Theme)}
               >
-                <div className="lang_drop__check_area">
+                <div className={style.lang__check}>
                   <CheckedSvg
                     color={
                       loca.checked ? (Theme ? "#fff" : "#333") : "transparent"

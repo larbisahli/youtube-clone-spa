@@ -1,68 +1,55 @@
-import React, { Fragment, useState, useContext, useCallback } from "react";
-import "./sass/rvccontainer_style.scss";
+import React, { Fragment, useState, memo, useCallback } from "react";
+import style from "./sass/rv.module.scss";
 import { Link } from "react-router-dom";
 import {
   TextReducer,
   ViewsNumFormatter,
   numberWithCommas,
   ReturnTheme,
+  GetClassName,
 } from "../../utils";
-import { YouTubeAPI } from "../api/YoutubeApi";
 import { SubBellSvg } from "./Svg";
-import { ThemeContext } from "../../Context";
+import { useSelector } from "react-redux";
+import { useFetch } from "../hooks/useFetch";
 
-const ResultChannelContainer = React.memo(
+const ResultChannelContainer = memo(
   ({ item, index, HandleShowMessageBox, FilterState }) => {
     // sub btn state
     const [subed, setSubed] = useState(false);
 
-    // Theme context
-    const [YtTheme] = useContext(ThemeContext);
-    const Theme = YtTheme.isDarkTheme;
+    // Theme
+    const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-    // =========================
-    //  FETCH CHANNEL DETAILS
-    // =========================
-    const GetChannelsDetails = async (id) => {
-      return await new Promise((resolve) => {
-        YouTubeAPI.get("channels", {
-          params: {
-            part: "statistics",
-            key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id,
-          },
-        }).then((res) => {
-          resolve(res);
-        });
-      });
-    };
+    // =================================
+    //     FETCH CHANNELS SNIPPET
+    // =================================
+
+    const snippet = useFetch(item.channelId, "channels", "statistics");
 
     const Fetch_Data = (id, index) => {
-      GetChannelsDetails(id).then((res) => {
-        if (res.data.items.length >= 1) {
-          const vidcount = res.data.items[0].statistics.videoCount;
-          const subcount = res.data.items[0].statistics.subscriberCount;
+      if (snippet) {
+        const totalVideoIdElement = document.getElementById(
+          `${id}-${index}-totalvideo`
+        );
+        const subsIdElement = document.getElementById(
+          `${id}-${index}-subscribers`
+        );
 
-          const totalVideoIdElement = document.getElementById(
-            `${id}-${index}-totalvideo`
-          );
-          const subsIdElement = document.getElementById(
-            `${id}-${index}-subscribers`
-          );
+        if (totalVideoIdElement && Object.keys(snippet).length !== 0) {
+          const vidcount = snippet.statistics.videoCount;
 
-          if (totalVideoIdElement) {
-            totalVideoIdElement.textContent = `${numberWithCommas(vidcount)} ${
-              vidcount > 1 ? "videos" : "video"
-            } `;
-          }
-
-          if (subsIdElement) {
-            subsIdElement.textContent = `${ViewsNumFormatter(subcount)} ${
-              subcount > 1 ? "subscribers" : "subscriber"
-            }`;
-          }
+          totalVideoIdElement.textContent = `${numberWithCommas(vidcount)} ${
+            vidcount > 1 ? "videos" : "video"
+          } `;
         }
-      });
+
+        if (subsIdElement && Object.keys(snippet).length !== 0) {
+          const subcount = snippet.statistics.subscriberCount;
+          subsIdElement.textContent = `${ViewsNumFormatter(subcount)} ${
+            subcount > 1 ? "subscribers" : "subscriber"
+          }`;
+        }
+      }
     };
 
     const IsNotChannel = () => {
@@ -84,62 +71,54 @@ const ResultChannelContainer = React.memo(
 
     return (
       <Fragment>
-        <div className="item_section">
-          <div className="item_wrap">
-            <div className="item_wrap__thumbnail">
-              <Link
-                to={`/watch/${item.videoId}`}
-                className="item_wrap__thumbnail__channel"
-              >
-                <div
-                  className={`rv_ch_thumb rv_ch_thumb--${ReturnTheme(Theme)}`}
-                >
+        <div className={style.item_section}>
+          <div className={style.item_wrap}>
+            <div className={style.thumbnail}>
+              <Link to={`/watch/${item.videoId}`} className={style.channel}>
+                <div className={GetClassName(style, "ch_thumb", Theme)}>
                   <img
                     src={item.thumbnail}
                     alt=""
-                    className="rv_ch_thumb__img"
+                    className={style.ch_thumb__img}
                   />
                 </div>
               </Link>
             </div>
             {/* -------------body------------- */}
-            <div className="item_wrap__channel_wrap">
-              <div className="item_wrap__channel_wrap__header">
-                <div className="item_wrap__body__text_wrap">
-                  <div className="rv_results_header">
+            <div className={style.channel_wrap}>
+              <div className={style.channel_wrap__header}>
+                <div className={style.body__text_wrap}>
+                  <div className={style.results_header}>
                     <Link
                       to={`watch/${item.videoId}`}
-                      className={`rv_results_header__title rv_results_header__title--${ReturnTheme(
+                      className={GetClassName(
+                        style,
+                        "results_header__title",
                         Theme
-                      )}`}
+                      )}
                     >
                       {item.title}
                     </Link>
                   </div>
-                  <div
-                    style={{ paddingTop: "10px" }}
-                    className="rv_results_details"
-                  >
+                  <div style={{ paddingTop: "10px" }} className={style.details}>
                     <div
                       data-scontent={item.channelTitle}
-                      className={`rv_results_details__ch_title rv_results_details__ch_title--${ReturnTheme(
+                      className={GetClassName(
+                        style,
+                        "details__ch_title",
                         Theme
-                      )}`}
+                      )}
                       id={`${item.channelId}-${index}-subscribers`}
                     >
                       {Fetch_Data(item.channelId, index)}
                     </div>
                     <div
-                      className={`rv_results_details__ch_dot rv_results_details__ch_dot--${ReturnTheme(
-                        Theme
-                      )}`}
+                      className={GetClassName(style, "details__ch_dot", Theme)}
                     >
                       •
                     </div>
                     <div
-                      className={`rv_results_details__sv_tt rv_results_details__sv_tt--${ReturnTheme(
-                        Theme
-                      )}`}
+                      className={GetClassName(style, "details__sv_tt", Theme)}
                     >
                       <span
                         id={`${item.channelId}-${index}-totalvideo`}
@@ -149,38 +128,27 @@ const ResultChannelContainer = React.memo(
                   </div>
                 </div>
                 <div
-                  className={`item_wrap__details item_wrap__details--${ReturnTheme(
-                    Theme
-                  )}`}
+                  className={GetClassName(style, "item_wrap__details", Theme)}
                 >
                   {TextReducer(item.description, 121)}
                 </div>
               </div>
-              <div className="channel_subbtn_container">
+              <div className={style.subbtn}>
                 {subed ? (
                   <Fragment>
-                    <div
-                      onClick={HandleSub}
-                      className="channel_subbtn_container__subed"
-                    >
+                    <div onClick={HandleSub} className={style.subbtn__subed}>
                       <span
-                        className={`span_subed span_subed--${ReturnTheme(
-                          Theme
-                        )}`}
+                        className={GetClassName(style, "span_subed", Theme)}
                       >
                         SUBSCRIBED
                       </span>
-                      <div className="subbell">
+                      <div className={style.subbell}>
                         <SubBellSvg />
                       </div>
                     </div>
-                    <div className="rv_bell_icon"></div>
                   </Fragment>
                 ) : (
-                  <div
-                    onClick={HandleSub}
-                    className="channel_subbtn_container__sub"
-                  >
+                  <div onClick={HandleSub} className={style.subbtn__sub}>
                     <span>SUBSCRIBE</span>
                   </div>
                 )}
@@ -191,13 +159,11 @@ const ResultChannelContainer = React.memo(
         {IsNotChannel() && (
           <Fragment>
             <div
-              className={`cha_uniq--line line line--${ReturnTheme(Theme)}`}
-            ></div>
-            <div
-              className={`cha_uniq--title cha_uniq--title--${ReturnTheme(
+              className={`${style.cha_uniq__line} line line--${ReturnTheme(
                 Theme
               )}`}
-            >
+            ></div>
+            <div className={GetClassName(style, "cha_uniq__title", Theme)}>
               Latest from {item.channelTitle}
             </div>
           </Fragment>

@@ -1,9 +1,9 @@
-import React, { useCallback, useState, useContext } from "react";
-import "./sass/ripplebutton_style.scss";
-import { ReturnTheme } from "../../utils";
-import { ThemeContext } from "../../Context";
+import React, { useCallback, useState, memo } from "react";
+import style from "./sass/ripplebutton.module.scss";
+import { GetClassName } from "../../utils";
+import { useSelector } from "react-redux";
 
-const RippleButton = React.memo(({ children, onclick, classname }) => {
+const RippleButton = memo(({ children, onclick, classname }) => {
   // Coordinates State
   const [{ y, x, show }, setRipple] = useState({
     y: 0,
@@ -11,9 +11,8 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
     show: false,
   });
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   // ====================
   //    Handle Ripple
@@ -39,19 +38,19 @@ const RippleButton = React.memo(({ children, onclick, classname }) => {
         x: 0,
         show: false,
       });
-    }, 900);
+    }, 500);
   }, []);
 
   return (
     <button
       onMouseDown={HandleRipple}
       onClick={onclick}
-      className={`${classname} ripple_button`}
+      className={`${classname} ${style.container}`}
     >
-      <div className="ripple_button__wrap">
+      <div className={style.wrap}>
         {show && (
           <div
-            className={`circle circle--${ReturnTheme(Theme)}`}
+            className={GetClassName(style, "circle", Theme)}
             style={{ top: `${y}px`, left: `${x}px` }}
           ></div>
         )}

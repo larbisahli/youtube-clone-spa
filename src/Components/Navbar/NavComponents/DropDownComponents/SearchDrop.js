@@ -1,12 +1,12 @@
-import React from "react";
-import "./sass/searchdrop_style.scss";
+import React, { memo } from "react";
+import style from "./sass/searchdrop.module.scss";
 import { LazyLoad } from "../../../ComponentsUtils";
 
 // Using Memo to prevent event handler of resizing to re-render this component
 // with the help of useCallback to prevent functions
 // [RemoveHandleClick, HandleSelect] from re-creation.
 
-const SearchDropSuggestion = React.memo(
+const SearchDropSuggestion = memo(
   ({
     ShowSearchDrop,
     suggestions,
@@ -17,24 +17,25 @@ const SearchDropSuggestion = React.memo(
     return (
       <div
         id="sdrop"
-        className="search_drop"
+        className={style.container}
         style={{ display: ShowSearchDrop ? "" : "none" }}
       >
         <LazyLoad render={ShowSearchDrop}>
           {suggestions.map((s, index) => (
-            <div key={index} className="search_drop__block">
+            <div key={index} className={style.block}>
               <li
                 onClick={() => HandleSelect(s.suggestion)}
-                className="suggestion_wrap"
+                className={style.wrapper}
               >
                 {s.removed ? (
-                  <div id="plholder" className="placeHolder">
+                  <div id="plholder" className={style.wrapper__ph}>
                     Suggestion removed
                   </div>
                 ) : (
                   <div
                     className={
-                      "Suggestion_text" + (searchIsActive ? "" : " hisText")
+                      style.wrapper__text +
+                      (searchIsActive ? "" : ` ${style.wrapper__atxt}`)
                     }
                   >
                     {s.suggestion}
@@ -45,7 +46,7 @@ const SearchDropSuggestion = React.memo(
                 <div
                   id="rembtnsd"
                   onClick={() => RemoveHandleClick(s.id)}
-                  className="Suggestion_remove"
+                  className={style.remove}
                 >
                   Remove
                 </div>

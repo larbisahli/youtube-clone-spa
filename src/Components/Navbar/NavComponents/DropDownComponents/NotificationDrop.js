@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
-import "./sass/notificationdrop_style.scss";
+import React, { useState, useEffect, memo } from "react";
+import style from "./sass/notification.module.scss";
 import { SettingsSvg, DotsSvg } from "../Svg";
-import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils";
+import { useSelector } from "react-redux";
+import { ReturnTheme, GetClassName } from "../../../../utils";
 import { fake_notifications } from "./dummyData";
 import { LazyLoad, Spinner } from "../../../ComponentsUtils";
 
 // Using Memo to prevent unnecessary re-renders
 
-const Notification = React.memo(({ show }) => {
+const Notification = memo(({ show }) => {
   // Notification State
   const [notifications, setNotifictions] = useState([]);
   const [{ isLoading }, setIsLoading] = useState({ isLoading: false });
-  // Theme constext
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   useEffect(() => {
     // Simulating loading time
@@ -39,16 +38,16 @@ const Notification = React.memo(({ show }) => {
     <div
       id="noti_drop"
       style={{ display: show ? "" : "none" }}
-      className={`notification notification--${ReturnTheme(Theme)}`}
+      className={GetClassName(style, "container", Theme)}
     >
       <LazyLoad render={show}>
-        <div className="notification__header">
-          <div className="notification__header__text">Notifications</div>
+        <div className={style.header}>
+          <div className={style.header__text}>Notifications</div>
           <a
             href="https://www.youtube.com/account_notifications"
             target="_blank"
             rel="noopener noreferrer"
-            className="notification__header__setting_icon"
+            className={style.header__icon}
             // _SS
           >
             <SettingsSvg />
@@ -59,9 +58,7 @@ const Notification = React.memo(({ show }) => {
           className={`line line--${ReturnTheme(Theme)}`}
         ></div>
         {/*------------ Mapping ------------*/}
-        <div
-          className={"notification__body" + (!isLoading ? " noti_spinner" : "")}
-        >
+        <div className={style.body + (!isLoading ? ` ${style.spinner}` : "")}>
           {!isLoading ? (
             <Spinner />
           ) : (
@@ -69,55 +66,51 @@ const Notification = React.memo(({ show }) => {
               return (
                 <div
                   key={index}
-                  className={`noti_block noti_block--${ReturnTheme(Theme)}`}
+                  className={GetClassName(style, "block", Theme)}
                 >
-                  <div className="noti_block__dot">
+                  <div className={style.unread}>
                     <div
-                      className={`dot dot--${
-                        noti.seen ? "transparent" : ReturnTheme(Theme)
+                      className={`${style.dot} ${
+                        style[
+                          `dot--${
+                            noti.seen ? "transparent" : ReturnTheme(Theme)
+                          }`
+                        ]
                       }`}
                     ></div>
                   </div>
-                  <div
-                    className={`noti_block__thumb noti_block__thumb--${ReturnTheme(
-                      Theme
-                    )}`}
-                  >
+                  <div className={GetClassName(style, "pronail", Theme)}>
                     <img
-                      className="noti_block__thumb__img"
+                      className={style.pronail__img}
                       src={noti.proImage}
                       alt=""
                     />
                   </div>
-                  <div className="noti_block__text_wrap">
-                    <div className="noti_block__text_wrap__title">
-                      {noti.text}
-                    </div>
-                    <div className="noti_block__text_wrap__date">
-                      {noti.time}
-                    </div>
+                  <div className={style.textcon}>
+                    <div className={style.textcon__title}>{noti.text}</div>
+                    <div className={style.textcon__date}>{noti.time}</div>
                   </div>
-                  <div className="noti_block__thumbnail">
-                    <div className="noti_block__thumbnail__wrapper">
+                  <div className={style.thumbnail}>
+                    <div className={style.wrapper}>
                       <div
-                        className={`noti_bg_cover noti_bg_cover--top noti_bg_cover--top--${ReturnTheme(
-                          Theme
-                        )}`}
+                        className={`${style.cover} ${style["cover--top"]} ${
+                          style[`cover--top--${ReturnTheme(Theme)}`]
+                        }`}
                       ></div>
                       <img
-                        className="noti_thumb_img"
+                        className={style.thumb_img}
                         width="90"
                         src={noti.thumbnail}
                         alt="thumbnail"
                       />
                       <div
-                        className={`noti_bg_cover noti_bg_cover--bottom noti_bg_cover--bottom--${ReturnTheme(
-                          Theme
-                        )}`}
+                        className={`${style.cover} ${style["cover--bottom"]} ${
+                          style[`cover--bottom--${ReturnTheme(Theme)}`]
+                        }`}
                       ></div>
                     </div>
                   </div>
-                  <div className="noti_block__btn">
+                  <div className={style.btn}>
                     <DotsSvg />
                   </div>
                 </div>

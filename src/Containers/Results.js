@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useCallback, useEffect, useState, memo } from "react";
 import { SearchRequest } from "../Components/api/YoutubeApi";
-import "./Sass/results_style.scss";
+import style from "./Sass/results.module.scss";
 import { FilterSvg } from "./Svg";
 import {
   ResultVideoContainer,
@@ -9,40 +9,42 @@ import {
   Filter,
 } from "../Components";
 import { RippleButton } from "../Components/ComponentsUtils";
-import {
-  MessageBoxContext,
-  ThemeContext,
-  UrlLocationContext,
-  GuideContext,
-} from "../Context";
-import { Helmet } from "react-helmet";
-import { UrlLocation, ReturnTheme } from "../utils";
+import { Head } from "../Components/ComponentsUtils";
+import { PageLocation, ReturnTheme, GetClassName } from "../utils";
 import { useLocation } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SetMessageAction,
+  CloseMessageAction,
+  SetUrlLocationAction,
+} from "../redux";
 
 let SearchArray = [];
 
-const Results = React.memo(() => {
+const Results = memo(() => {
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   // Filter drop state
   const [ShowFilterDrop, setShowFilterDrop] = useState(false);
   const [FilterState, setFilterState] = useState();
 
-  // Message Box Context
-  const [, setMessageBox] = useContext(MessageBoxContext);
+  // urlLocation
+  const UrlLocation = useSelector((state) => state.Guide.UrlLocation);
 
-  // Guide Context
-  const [ShowGuide] = useContext(GuideContext);
+  // Guide
+  const showGuide = useSelector((state) => state.Guide.showGuide);
+
+  // dispatch
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const pageManager = document.getElementById("page-manager");
     if (pageManager) {
-      pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
+      pageManager.style.marginLeft = showGuide ? "240px" : "72px";
     }
   }, []);
 
@@ -55,18 +57,12 @@ const Results = React.memo(() => {
   let query = useQuery();
 
   let SearchValue = query.get("search_query");
-  // ===========================
-  //  Handle Location Context
-  // ===========================
-  const [UrlLocationState, setUrlLocationState] = useContext(
-    UrlLocationContext
-  );
 
   useEffect(() => {
-    // home location set to true
-    const UrlLoc = UrlLocation(false);
-    if (UrlLoc !== UrlLocationState) {
-      setUrlLocationState(() => UrlLoc);
+    // set location for guide
+    const UrlLoc = PageLocation();
+    if (UrlLoc !== UrlLocation) {
+      dispatch(SetUrlLocationAction(UrlLoc));
     }
   }, []);
 
@@ -120,13 +116,14 @@ const Results = React.memo(() => {
       })
       .catch((err) => {
         // Error Setup
-        setMessageBox({
-          show: true,
-          message: `${err}`,
-          btnMessage: "dismiss",
-          MassageFrom: "error",
-          id: "",
-        });
+        dispatch(
+          SetMessageAction({
+            message: `${err}`,
+            btnText: "dismiss",
+            from: "error",
+            id: "",
+          })
+        );
       });
   };
 
@@ -140,16 +137,8 @@ const Results = React.memo(() => {
 
   // Closing Message box
   const HandleClosingMessageBox = useCallback(() => {
-    setMessageBox((pre) => {
-      return {
-        show: false,
-        message: pre.message,
-        btnMessage: pre.btnMessage,
-        MassageFrom: "",
-        id: "",
-      };
-    });
-  }, [setMessageBox]);
+    dispatch(CloseMessageAction());
+  }, [dispatch]);
 
   // Show Message box
   const HandleShowMessageBox = useCallback(
@@ -162,56 +151,52 @@ const Results = React.memo(() => {
           btnMsg = !state ? "UNDO" : "";
         }
 
-        setMessageBox({
-          show: true,
-          message: msg,
-          btnMessage: btnMsg,
-          MassageFrom: MassageFrom,
-          id: id,
-        });
+        dispatch(
+          SetMessageAction({
+            message: msg,
+            btnText: btnMsg,
+            from: MassageFrom,
+            id: id,
+          })
+        );
       } else {
-        setMessageBox({
-          show: true,
-          message: !state ? "Subscription added" : "Subscription removed",
-          btnMessage: "",
-          MassageFrom: "",
-          id: "",
-        });
+        dispatch(
+          SetMessageAction({
+            message: !state ? "Subscription added" : "Subscription removed",
+            btnText: "",
+            from: "",
+            id: "",
+          })
+        );
       }
 
       setTimeout(() => {
         HandleClosingMessageBox();
       }, 4000);
     },
-    [HandleClosingMessageBox, setMessageBox]
+    [HandleClosingMessageBox, dispatch]
   );
 
-  console.log("SearchValue :", SearchValue);
-
   return (
-    <div id="page-manager" className="results_container">
+    <div id="page-manager" className={style.container}>
       {/* Helmet */}
-      <Helmet>
+      <Head>
         <title>{`${SearchValue} - youtube`}</title>
         <meta
           name={`youtube search ${SearchValue}`}
           content="Helmet application"
         />
-      </Helmet>
-      <div className="results_content">
+      </Head>
+      <div className={style.content}>
         {/* FILTER AREA */}
         <RippleButton
           onclick={handleFilterClick}
-          classname="results_header_container"
+          classname={style.header_container}
         >
-          <div className="header_wrapper">
+          <div className={style.header_wrapper}>
             <FilterSvg Theme={Theme} />
 
-            <span
-              className={`header_wrapper__text header_wrapper__text--${ReturnTheme(
-                Theme
-              )}`}
-            >
+            <span className={GetClassName(style, "btntext", Theme)}>
               filter
             </span>
           </div>
@@ -225,7 +210,7 @@ const Results = React.memo(() => {
 
         {/* END FILTER AREA */}
         <div className={`line line--${ReturnTheme(Theme)}`}></div>
-        <div className="results_section_list">
+        <div className={style.section_list}>
           {SearchResult.map((item, index) => {
             return item.videoId ? (
               <ResultVideoContainer

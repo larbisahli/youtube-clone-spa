@@ -1,17 +1,16 @@
-import React, { useContext, useCallback } from "react";
-import "./sass/rvccontainer_style.scss";
+import React, { useCallback, memo } from "react";
+import style from "./sass/rv.module.scss";
 import { Link } from "react-router-dom";
-import { TextReducer, numberWithCommas, ReturnTheme } from "../../utils";
+import { TextReducer, numberWithCommas, GetClassName } from "../../utils";
 import { YouTubeAPI } from "../api/YoutubeApi";
 import { PlaySvg } from "./Svg";
 import { PlayListSvg } from "../GuideComponents/Svg";
 import axios from "axios";
-import { ThemeContext } from "../../Context";
+import { useSelector } from "react-redux";
 
-const ResultPlaylistContainer = React.memo(({ item, index }) => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const ResultPlaylistContainer = memo(({ item, index }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   // =========================
   //  FETCH VIDEOS DETAILS
@@ -36,9 +35,8 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
             },
           }),
         ])
-        .then((responseArr) => {
-          // this will be executed only when all requests are complete
-          resolve(responseArr);
+        .then((response) => {
+          resolve(response);
         });
     });
   };
@@ -66,8 +64,6 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   };
 
   const HandlePLImg = useCallback((skeleton_id, index) => {
-    // BackgroundColor can be red and you can use it as video duration with the width value.
-
     const PLImgIdElement = document.getElementById(`${skeleton_id}-${index}`);
     if (PLImgIdElement) {
       PLImgIdElement.style.backgroundColor = "transparent";
@@ -76,89 +72,83 @@ const ResultPlaylistContainer = React.memo(({ item, index }) => {
   }, []);
 
   return (
-    <div className="item_section">
-      <div className="item_wrap">
-        <div className="item_wrap__thumbnail">
-          <Link
-            to={`/watch/${item.playlistId}`}
-            className="item_wrap__thumbnail__video"
-          >
+    <div className={style.item_section}>
+      <div className={style.item_wrap}>
+        <div className={style.thumbnail}>
+          <Link to={`/watch/${item.playlistId}`} className={style.video}>
             <div
               id={`hplaylistCha-${index}`}
-              className={`rv_video_thumb rv_video_thumb--${ReturnTheme(Theme)}`}
+              className={GetClassName(style, "vid_thumb", Theme)}
             >
               <img
                 onLoad={() => HandlePLImg("hplaylistCha", index)}
                 src={item.thumbnail}
                 alt="thumbnail"
-                className="rv_video_thumb__img"
+                className={style.vid_thumb__img}
               />
             </div>
           </Link>
 
           {/* --------------------------- */}
 
-          <div className="item_wrap__thumbnail__playlist item_wrap__thumbnail__playlist--rr">
-            <div className="play_items_bg">
+          <div className={`${style.playlist} ${style["playlist--rr"]}`}>
+            <div className={style.play_items_bg}>
               <div
                 id={`${item.playlistId}-${index}-itemCount`}
-                className="pl_count"
+                className={style.play_items_bg__count}
               >
                 {Fetch_Data(item.playlistId, index)}
               </div>
               <PlayListSvg color={"#fff"} />
             </div>
           </div>
-          <div className="item_wrap__thumbnail__playlist item_wrap__thumbnail__playlist--pp">
-            <div className="play_all">
+          <div className={`${style.playlist} ${style["playlist--pp"]}`}>
+            <div className={style.play_all}>
               <PlaySvg />
               <span>Play all</span>
             </div>
           </div>
         </div>
         {/* ------------- body -------------- */}
-        <div className="item_wrap__body">
-          <div className="item_wrap__body__container">
-            <div className="item_wrap__body__text_wrap">
-              <div className="rv_results_header">
+        <div className={style.body}>
+          <div className={style.body__container}>
+            <div className={style.body__text_wrap}>
+              <div className={style.results_header}>
                 <Link
                   to={`watch/${item.playlistId}`}
-                  className={`rv_results_header__title rv_results_header__title--${ReturnTheme(
+                  className={GetClassName(
+                    style,
+                    "results_header__title",
                     Theme
-                  )}`}
+                  )}
                 >
                   {TextReducer(item.title, 56)}
                 </Link>
               </div>
-              <div className="rv_results_details rv_results_details--playlist">
+              <div className={`${style.details} ${style["details--playlist"]}`}>
                 <Link
                   data-scontent={item.channelTitle}
-                  className={`rv_results_details__ch_title rv_results_details__ch_title--${ReturnTheme(
-                    Theme
-                  )}`}
+                  className={GetClassName(style, "details__ch_title", Theme)}
                   to={`/channel/${item.channelId}`}
                 >
                   {item.channelTitle}
                 </Link>
                 <div
                   id={`${item.playlistId}-${index}-items-0`}
-                  className={`rv_results_details__playlist_items rv_results_details__playlist_items--space rv_results_details__playlist_items--${ReturnTheme(
-                    Theme
-                  )}`}
+                  className={`${style.playlist__items} ${
+                    style["details__items--space"]
+                  } ${GetClassName(style, "details__items", Theme)}`}
                 ></div>
                 <div
                   id={`${item.playlistId}-${index}-items-1`}
-                  className={`rv_results_details__playlist_items rv_results_details__playlist_items--${ReturnTheme(
-                    Theme
-                  )}`}
+                  className={GetClassName(style, "details__items", Theme)}
                 ></div>
-                <button
-                  className={`rv_results_details__playlist_txt_btn rv_results_details__playlist_txt_btn--${ReturnTheme(
-                    Theme
-                  )}`}
+                <Link
+                  to={`playlist?list=${item.playlistId}`}
+                  className={GetClassName(style, "details__txtbtn", Theme)}
                 >
                   View full playlist
-                </button>
+                </Link>
               </div>
             </div>
           </div>

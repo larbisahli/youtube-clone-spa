@@ -19,13 +19,14 @@ Working Prototype: https://youtube-klonos.netlify.app
    - Watch page
    - Channel page
    - Watch later page
+   - Liked videos page
    - History page
    - Library page
-   - Liked videos page
 3. Cloning YouTube Queue.
-4. Adding, removing and sorting videos from watch later list and Queue.
-5. Cloning YouTube filtering and get playlists, channels, and videos on results page.
-6. Cloning all the Navigation bar Features:
+4. Adding, removing and sorting and playing videos from watch later list, liked videos list and Queue.
+5. Cloning YouTube filter bropdown and get playlists, channels, and videos on results page.
+6. You can view a playlist on result's page (VIEW FULL PLAYLIST) link button.
+7. Cloning all the Navigation bar Features:
    - Dropdowns
    - Autosuggestion Dropdown
    - Ability to remove suggestions
@@ -33,12 +34,13 @@ Working Prototype: https://youtube-klonos.netlify.app
 
 ### About React Framework
 
-1. State Management using context api.
+1. State Management using Redux.
 2. Using React Helmet.
 3. Using React Router.
 4. Using node-sass.
-5. Handling YouTuve v3 API requests with React axios.
-6. Using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML and SASS.
+5. Using module with scss.
+6. Handling YouTuve v3 API requests with React axios and Redux thunk.
+7. Using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML and SASS.
 
 ---
 

@@ -1,78 +1,68 @@
-import React, { useContext } from "react";
+import React, { memo } from "react";
 import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
-import "./sass/miniguide_style.scss";
+import style from "./sass/miniguide.module.scss";
 import { Link } from "react-router-dom";
-import { ReturnTheme } from "../../utils";
-import { UrlLocationContext, ThemeContext } from "../../Context";
+import { ReturnTheme, GetClassName } from "../../utils";
+import { useSelector } from "react-redux";
 
-const MiniGuide = React.memo(() => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const MiniGuide = memo(() => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  const [UrlLocationState] = useContext(UrlLocationContext);
+  // urlLocation
+  const UrlLocation = useSelector((state) => state.Guide.urlLocation);
 
-  const hx_guide = `miniguide__btn_wrapper miniguide__btn_wrapper--${ReturnTheme(
-    Theme
-  )}`;
+  //  check is the current page
+  const CheckUrlLocation = (value) => {
+    return UrlLocation === value;
+  };
+
+  const btn_wrapper = (value) => {
+    return `${style.btn_wrapper} ${
+      style[
+        `btn_wrapper--${ReturnTheme(Theme)}${
+          UrlLocation === value ? "--active" : ""
+        }`
+      ]
+    }`;
+  };
 
   const ReturnDisplay = () => {
-    if (UrlLocationState) {
-      console.log("UrlLocationState :>> ", UrlLocationState);
-      return UrlLocationState === "watch" ? "none" : "block";
+    if (UrlLocation) {
+      return CheckUrlLocation("watch") ? "none" : "block";
     } else {
       return "none";
     }
   };
-  console.log(' UrlLocationState === "watch" :>> ', ReturnDisplay());
+
   return (
     <div
       style={{ display: ReturnDisplay() }}
-      className={`miniguide miniguide--${ReturnTheme(Theme)}`}
+      className={GetClassName(style, "container", Theme)}
     >
-      <Link
-        to="/"
-        className={`${hx_guide}${
-          UrlLocationState === "home" ? "--active" : ""
-        }`}
-      >
-        <div className="miniguide__icon_wrap">
-          <HomeSvg changeColor={UrlLocationState === "home"} />
+      <Link to="/" className={btn_wrapper("home")}>
+        <div className={style.icon_wrap}>
+          <HomeSvg changeColor={CheckUrlLocation("home")} />
         </div>
-        <div className="miniguide__text_wrap">Home</div>
+        <div className={style.text_wrap}>Home</div>
       </Link>
-      <Link
-        to="/trending/"
-        className={`${hx_guide}${
-          UrlLocationState === "trending" ? "--active" : ""
-        }`}
-      >
-        <div className="miniguide__icon_wrap">
-          <TrendingSvg changeColor={UrlLocationState === "trending"} />
+      <Link to="/trending/" className={btn_wrapper("trending")}>
+        <div className={style.icon_wrap}>
+          <TrendingSvg changeColor={CheckUrlLocation("trending")} />
         </div>
-        <div className="miniguide__text_wrap">Trending</div>
+        <div className={style.text_wrap}>Trending</div>
       </Link>
-      <Link
-        to="/subscriptions/"
-        className={`${hx_guide}${
-          UrlLocationState === "subscriptions" ? "--active" : ""
-        }`}
-      >
-        <div className="miniguide__icon_wrap">
-          <SubscriptionSvg changeColor={UrlLocationState === "subscriptions"} />
+      <Link to="/subscriptions/" className={btn_wrapper("subscriptions")}>
+        <div className={style.icon_wrap}>
+          <SubscriptionSvg changeColor={CheckUrlLocation("subscriptions")} />
         </div>
-        <div className="miniguide__text_wrap">Subscriptions</div>
+        <div className={style.text_wrap}>Subscriptions</div>
       </Link>
-      <Link
-        to="/library/"
-        className={`${hx_guide}${
-          UrlLocationState === "library" ? "--active" : ""
-        }`}
-      >
-        <div className="miniguide__icon_wrap">
-          <LibrarySvg changeColor={UrlLocationState === "library"} />
+      <Link to="/library/" className={btn_wrapper("library")}>
+        <div className={style.icon_wrap}>
+          <LibrarySvg changeColor={CheckUrlLocation("library")} />
         </div>
-        <div className="miniguide__text_wrap">Library</div>
+        <div className={style.text_wrap}>Library</div>
       </Link>
     </div>
   );

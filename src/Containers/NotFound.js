@@ -1,33 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import imageError from "../Images/image-ytp-404.png";
-import "./Sass/notfound_style.scss";
-import { UrlLocation, ReturnTheme } from "../utils";
-import { GuideContext, ThemeContext } from "../Context";
+import style from "./Sass/notfound.module.scss";
+import { GetClassName } from "../utils";
+import { useSelector } from "react-redux";
 
 const NotFound = () => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
-  //
-  const [, HundleShowGuide] = useContext(GuideContext);
-
-  console.log("ReturnTheme() :>> ", ReturnTheme());
-  useEffect(() => {
-    if (!UrlLocation()) {
-      HundleShowGuide(false);
-    }
-  }, []);
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   return (
-    <div className="notfound_container">
-      <div className="notfound_container__img">
+    <div className={style.container}>
+      <div className={style.img}>
         <img src={imageError} alt="img" />
       </div>
-      <div
-        className={`notfound_container__text notfound_container__text--${ReturnTheme(
-          Theme
-        )}`}
-      >
+      <div className={GetClassName(style, "text", Theme)}>
         <span>This page isn't available. Sorry about that.</span>
         <span>Try searching for something else.</span>
       </div>

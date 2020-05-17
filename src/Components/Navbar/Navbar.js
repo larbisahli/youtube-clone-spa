@@ -1,14 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  Fragment,
-  useContext,
-} from "react";
-import "./navbar_style.scss";
+import React, { useState, useEffect, useCallback, Fragment, memo } from "react";
+import style from "./navbar.module.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
 import { Link, useHistory } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Head, RippleButton } from "../ComponentsUtils";
 import {
   CamSvg,
   MenuSvg,
@@ -30,10 +24,17 @@ import {
   LocaDrop,
   RestrictDrop,
 } from "./NavComponents/DropDownComponents";
-import { NavContext, ThemeContext, GuideContext } from "../../Context";
-import { ReturnTheme } from "../../utils";
+import { ReturnTheme, PageLocation, GetClassName } from "../../utils";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  NotiCountAction,
+  ShowGuideAction,
+  SetGuideModeAction,
+  HideGuideAction,
+  ToggleGuideAction,
+} from "../../redux";
 
-const From = React.memo(
+const From = memo(
   ({
     ShowSearchDrop,
     suggestions,
@@ -64,16 +65,16 @@ const From = React.memo(
     };
 
     return (
-      <div className="navigation_bar__search_container">
-        <form className="form_container" onSubmit={HandleSubmit}>
-          <div className="form_wrapper">
+      <div className={style.search_container}>
+        <form className={style.form_container} onSubmit={HandleSubmit}>
+          <div className={style.form_wrapper}>
             <div
-              className={`input_wrapper input_wrapper--${ReturnTheme(Theme)} ${
+              className={`${GetClassName(style, "input_wrapper", Theme)} ${
                 inputFocus ? "focus" : ""
               }`}
             >
               <input
-                className="search_input"
+                className={style.search_input}
                 type="text"
                 name="search"
                 value={searchValue}
@@ -94,9 +95,9 @@ const From = React.memo(
               />
             </div>
             <button
-              className={`btn_container titleS titleS--${ReturnTheme(
+              className={`${style.btn_container} titleS titleS--${ReturnTheme(
                 Theme
-              )} btn_container--${ReturnTheme(Theme)}`}
+              )} ${GetClassName(style, "btn_container", Theme)}`}
             >
               <SearchSvg Theme={Theme} />
             </button>
@@ -110,23 +111,28 @@ const From = React.memo(
 // Global variable for semiDrops
 let isInSemiDrop = false;
 
-const Navbar = React.memo(() => {
-  // ==> Context
-  const { accountState, notiCountState } = useContext(NavContext);
-  const [acc] = accountState;
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
-  const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
-    acc,
-  ]);
+const Navbar = memo(() => {
+  //  Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  const [NotiCount, setNotiCount] = notiCountState;
+  //  navbar
+  const NotiCount = useSelector((state) => state.Navbar.notiCount);
+  const accounts = useSelector((state) => state.Navbar.accounts);
+
+  // Guide
+  const showGuide = useSelector((state) => state.Guide.showGuide);
+  const guideMode = useSelector((state) => state.Guide.guideMode);
+
+  //  dispatch
+  const dispatch = useDispatch();
+
+  // select the current active account
+  const IsCurrentAccount = accounts.filter((acc) => acc.isCurrent)[0];
 
   // ==> Input focus state
   const [{ inputFocus }, setInputFocus] = useState({ inputFocus: false });
 
   // FAKE SUGGESTIONS
-  // ==> Input suggestions state
   // you can use setSuggestions here if you have the api for autocomplete. (~˘▾˘)~
   const [suggestions] = useState([
     { suggestion: "Traversy Media", id: 1 },
@@ -183,9 +189,6 @@ const Navbar = React.memo(() => {
     searchValue: "",
   });
 
-  // Guide Context
-  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
-
   let history = useHistory();
 
   // ==========================
@@ -240,14 +243,20 @@ const Navbar = React.memo(() => {
         });
       }
 
-      // for guide
+      // for Guide
 
-      if (window.innerWidth > 810) {
-        HundleShowGuide(true, false);
+      if (window.innerWidth < 1340 && guideMode === 1) {
+        console.log("showGuide :>> ", showGuide, window.innerWidth);
+        //HundleShowGuide(true, false);
+        dispatch(HideGuideAction());
+        dispatch(SetGuideModeAction(2));
       }
 
-      if (window.innerWidth < 810) {
-        HundleShowGuide(false);
+      if (window.innerWidth > 1340) {
+        if (PageLocation() !== "watch") {
+          dispatch(ShowGuideAction());
+          dispatch(SetGuideModeAction(1));
+        }
       }
     };
 
@@ -452,7 +461,11 @@ const Navbar = React.memo(() => {
       !dropHandler.ShowBellDrop &&
       !dropHandler.ShowProfDrop
     ) {
-      setNotiCount((prev) => ({ notiCount: prev.notiCount, seen: false }));
+      // Notification count remover
+      if (NotiCount.seen) {
+        dispatch(NotiCountAction());
+      }
+
       setDropHandler(
         {
           ...dropHandler,
@@ -497,21 +510,24 @@ const Navbar = React.memo(() => {
       LocaDrop: false,
       RestrictDrop: false,
     });
-  }, [setSemiDrop, dropHandler]);
 
-  const HandleShowSemiDrop = useCallback(
-    (value) => {
-      setDropHandler({
-        ...dropHandler,
-        ShowProfDrop: false,
-      });
-      setSemiDrop({
-        ...semiDrop,
-        [value]: true,
-      });
-    },
-    [semiDrop, dropHandler]
-  );
+    // you should not put dropHandler in the useCallback dependencies array
+    // because it will re-render semi-dropdowns
+  }, []);
+
+  const HandleShowSemiDrop = useCallback((value) => {
+    setDropHandler({
+      ...dropHandler,
+      ShowProfDrop: false,
+    });
+    setSemiDrop({
+      ...semiDrop,
+      [value]: true,
+    });
+    // you should not put dropHandler or semiDrop in the useCallback dependencies array
+    // because it will re-render profile-drop if you click on another drop.
+    // it is unnecessary
+  }, []);
 
   // =============================
   //  Handle close icons dropdown
@@ -646,56 +662,47 @@ const Navbar = React.memo(() => {
   };
 
   return (
-    <nav className={`navigation_bar navigation_bar--${ReturnTheme(Theme)}`}>
+    <nav className={GetClassName(style, "container", Theme)}>
       {/* Helmet */}
-      <Helmet>
+      <Head>
         <title>
           {NotiCount.seen
-            ? `(${NotiCount.notiCount}) YouTube-Clone`
+            ? `(${NotiCount.count}) YouTube-Clone`
             : "YouTube-Clone"}
         </title>
         <meta
           name="youtube clone home page most popular videos"
           content="Helmet application"
         />
-      </Helmet>
+      </Head>
       {/* NavBar */}
       {!isResponsive ? (
         <Fragment>
-          <div className="navigation_bar__left_container">
+          <div className={style.left_container}>
             <div
               onClick={() => {
-                HundleShowGuide(!ShowGuide);
+                dispatch(ToggleGuideAction());
               }}
-              className="navigation_bar__menu_wrap"
+              className={style.menu_wrap}
             >
-              <MenuSvg />
+              <RippleButton onclick={() => {}} classname={style.btnpad}>
+                <MenuSvg />
+              </RippleButton>
             </div>
-            <div
-              title="YouTube Home"
-              className="navigation_bar__logo_container"
-            >
+            <div title="YouTube Home" className={style.logo_container}>
               <Link to="/">
                 <img
                   src={YoutubeLogo}
                   alt="Youtube-Clone"
-                  className="ytp_logo_svg"
+                  className={style.ytp_logo}
                 />
               </Link>
               <Link to="/">
-                <div
-                  className={`ytp_logo_text ytp_logo_text--${ReturnTheme(
-                    Theme
-                  )}`}
-                >
+                <div className={GetClassName(style, "logo_text", Theme)}>
                   YouTube
                 </div>
               </Link>
-              <div
-                className={`ytp_logo_pointer ytp_logo_pointer--${ReturnTheme(
-                  Theme
-                )}`}
-              >
+              <div className={GetClassName(style, "logo_pointer", Theme)}>
                 CLONE
               </div>
             </div>
@@ -719,57 +726,62 @@ const Navbar = React.memo(() => {
             />
           ) : (
             componentMounted && (
-              <button
-                onClick={HandleRespOn}
-                className="navigation_bar__responsive_form"
-              >
+              <button onClick={HandleRespOn} className={style.responsive_form}>
                 <ReSearchSvg />
               </button>
             )
           )}
 
-          <div className="navigation_bar__right_container">
+          <div className={style.right_container}>
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleCamDrop}
-              className="navigation_bar__icons_container"
+              className={style.icons_container}
             >
-              <CamSvg />
+              <RippleButton onclick={() => {}} classname={style.btnpad}>
+                <CamSvg />
+              </RippleButton>
+
               <CamDrop show={dropHandler.ShowCamDrop} />
             </div>
+
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleAppDrop}
-              className="navigation_bar__icons_container"
+              className={style.icons_container}
             >
-              <AppSvg />
+              <RippleButton onclick={() => {}} classname={style.btnpad}>
+                <AppSvg />
+              </RippleButton>
               <AppDrop show={dropHandler.ShowAppDrop} />
             </div>
+
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleBellDrop}
-              className="navigation_bar__icons_container"
+              className={style.icons_container}
             >
-              <BellSvg />
               <div
                 style={{ display: NotiCount.seen ? "" : "none" }}
-                className={`navigation_bar__noti_count navigation_bar__noti_count--${ReturnTheme(
-                  Theme
-                )}`}
+                className={GetClassName(style, "noti_count", Theme)}
               >
-                {NotiCount.notiCount}
+                {NotiCount.count}
               </div>
+              <RippleButton onclick={() => {}} classname={style.btnpad}>
+                <BellSvg />
+              </RippleButton>
+
               <Notification show={dropHandler.ShowBellDrop} />
             </div>
-            <div className="navigation_bar__profile_container">
+            <div className={style.profile_container}>
               <button
                 onKeyPress={HandlekeyPress}
                 onClick={HandleProfDrop}
-                className="profile_btn"
+                className={style.profile_btn}
               >
                 <img
                   id="prx"
-                  className="profile_img"
+                  className={style.pronail}
                   src={IsCurrentAccount.img}
                   height="32"
                   width="32"
@@ -778,7 +790,6 @@ const Navbar = React.memo(() => {
               </button>
 
               <ProfileDrop
-                handleGoBackDrop={HandleGoBack}
                 handleShowSemiDrop={HandleShowSemiDrop}
                 show={dropHandler.ShowProfDrop}
               />

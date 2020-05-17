@@ -1,0 +1,109 @@
+//////////////////
+/////////////////
+
+
+$colors: ( //
+  Theme-hover-Dark: #4e4e4ef2,
+  Theme-hover-Light: #ecececf2,
+  Nav-background-Dark:#262626fa,
+  Nav-background-Light:#fffffffa,
+  general-background-Dark: #1f1f1f,
+  general-background-Light: #e6d9d9,
+  border-color-Dark:#363636,
+  border-color-Light:#0000001a,
+  VidTitle_Dark_Color: #fafafa,
+  VidTitle_Light_Color: #212121,
+  ChTitle_Dark_Color: #b3b3b3,
+  ChTitle_Light_Color:#616161,
+  Duration_Dark_Color:#b1b1b1,
+  Duration_Light_Color: #5f5f5f,
+  Skeleton_Dark_color: #38383898,
+  Skeleton_Light_color: #e2e2e298,
+  subedBtn_bg_Dark:#2e2e2e,
+  subedBtn_bg_Light:#cfcfcf,
+  subBtn_bg:#c00,
+);
+
+// #181818
+
+@function colors($color) {
+  @return map-get($colors, $color);
+}
+
+@mixin High-resolution {
+  @media (min-width: 1440px) {
+    padding-right: calc((100vw - 1440px) / 2 + 24px);
+    padding-left: calc((100vw - 1440px) / 2 + 24px);
+  }
+}
+
+@mixin display-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin alignItems-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+}
+
+@mixin justifyContent-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+
+%scroll-Dark {
+  ::-webkit-scrollbar {
+    width: 0.60em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #535353;
+    background-clip: padding-box;
+    border: 0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5e5e5e;
+  }
+}
+
+%scroll-Light {
+  ::-webkit-scrollbar {
+    width: 0.60em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #d6d6d6;
+    background-clip: padding-box;
+    border: 0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d4d4d4;
+  }
+}
+
+.line {
+  height: 1px;
+
+  &--dark {
+    background-color: colors(border-color-Dark);
+  }
+
+  &--light {
+    background-color: colors(border-color-Light);
+  }
+}

@@ -1,11 +1,5 @@
-import React, {
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-  Fragment,
-} from "react";
-import "./sass/guide_style.scss";
+import React, { useState, useCallback, useEffect, Fragment, memo } from "react";
+import style from "./sass/guide.module.scss";
 import {
   HomeSvg,
   TrendingSvg,
@@ -25,9 +19,10 @@ import {
 } from "./Svg";
 import { SettingsSvg, HelpSvg, FeedSvg } from "../Navbar/NavComponents/Svg";
 import { Link } from "react-router-dom";
-import { GuideContext, ThemeContext, UrlLocationContext } from "../../Context";
-import { ReturnTheme } from "../../utils";
+import { GetClassName, ReturnTheme } from "../../utils";
 import { PlayList, FrontSubscriptions, Subscriptions } from "./dummyData";
+import { useSelector, useDispatch } from "react-redux";
+import { HideGuideAction } from "../../redux";
 
 // sort by {isLive: true} to show live channels first in the list
 FrontSubscriptions.sort((x, y) => {
@@ -41,25 +36,31 @@ Subscriptions.sort((x, y) => {
   return a > b ? 1 : a < b ? -1 : 0;
 });
 
-const Guide = React.memo(() => {
+const Guide = memo(() => {
   // Show more State
   const [IsShowMore, setIsShowMore] = useState(false);
 
   // Subscription Show More State
   const [SubIsShowMore, setSubIsShowMore] = useState(false);
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  // UrlLocation context
-  const [UrlLocationState] = useContext(UrlLocationContext);
+  // Guide
+  const showGuide = useSelector((state) => state.Guide.showGuide);
+  const guideMode = useSelector((state) => state.Guide.guideMode);
+  const UrlLocation = useSelector((state) => state.Guide.urlLocation);
 
-  // check is the current page is /watch/
-  const isWatchPage = UrlLocationState === "watch";
+  // dispatch
+  const dispatch = useDispatch();
 
-  // Guide Context
-  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
+  //  check is the current page
+  const CheckUrlLocation = useCallback(
+    (value) => {
+      return UrlLocation === value;
+    },
+    [UrlLocation]
+  );
 
   // ===========================
   //  Handle Show More Or Less
@@ -69,15 +70,11 @@ const Guide = React.memo(() => {
     setIsShowMore(!IsShowMore);
   }, [setIsShowMore, IsShowMore]);
 
+  //
+
   const HandleSubscriptionShowMoreOrLess = useCallback(() => {
     setSubIsShowMore(!SubIsShowMore);
   }, [setSubIsShowMore, SubIsShowMore]);
-
-  const line_guide = `guide__line guide__line--${ReturnTheme(Theme)}`;
-
-  const content_wrapper = `guide__content_wrapper guide__content_wrapper--${ReturnTheme(
-    Theme
-  )}`;
 
   // Handle Close
   const HandleCloseGuide = useCallback(
@@ -86,12 +83,12 @@ const Guide = React.memo(() => {
 
       if (GUIDENODE) {
         if (GUIDENODE.isSameNode(event.target)) {
-          HundleShowGuide(false);
+          dispatch(HideGuideAction());
           GUIDENODE.removeEventListener("click", HandleCloseGuide);
         }
       }
     },
-    [HundleShowGuide]
+    [dispatch]
   );
 
   useEffect(() => {
@@ -100,34 +97,47 @@ const Guide = React.memo(() => {
     const pageManager = document.getElementById("page-manager");
     const GUIDENODE = document.getElementById("GuideG");
 
-    if (pageManager) {
-      pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
+    if (pageManager && guideMode === 1) {
+      pageManager.style.marginLeft = showGuide ? "240px" : "72px";
     }
 
-    if (isWatchPage) {
+    // in case we want to showGuide when the page width is less than 1340
+    if (pageManager) {
+      if (
+        parseInt(pageManager.style.marginLeft, 10) >= 240 &&
+        guideMode === 2
+      ) {
+        pageManager.style.marginLeft = showGuide ? "240px" : "72px";
+      }
+    }
+
+    if (guideMode === 2) {
       GUIDENODE.style.width = "100%";
     }
 
     if (GUIDENODE) {
-      if (!ShowGuide && (window.innerWidth <= 810 || isWatchPage)) {
+      // (window.innerWidth <= 810 || isWatchPage)
+      if (!showGuide && guideMode === 2) {
         //
 
         GUIDENODE.style.transform = `translateX(-100%)`;
         GUIDENODE.style.display = "block";
         GUIDENODE.addEventListener("click", HandleCloseGuide);
 
-        //
-      } else if (ShowGuide && (window.innerWidth <= 810 || isWatchPage)) {
+        //(window.innerWidth <= 810 || isWatchPage)
+      } else if (showGuide && guideMode === 2) {
         //
 
         GUIDENODE.style.transform = `translateX(0%)`;
         GUIDENODE.style.display = "block";
         GUIDENODE.addEventListener("click", HandleCloseGuide);
 
-        //
-      } else if (!ShowGuide && window.innerWidth >= 810 && !isWatchPage) {
+        //window.innerWidth >= 810 && !isWatchPage
+      } else if (!showGuide && guideMode === 1) {
         GUIDENODE.style.display = "none";
-      } else if (ShowGuide && window.innerWidth >= 810 && !isWatchPage) {
+
+        // window.innerWidth >= 810 && !isWatchPage
+      } else if (showGuide && guideMode === 1) {
         GUIDENODE.style.display = "block";
       }
     }
@@ -136,25 +146,19 @@ const Guide = React.memo(() => {
       // clean up
       GUIDENODE.style.width = "";
     };
-  }, [ShowGuide, HandleCloseGuide, isWatchPage]);
+  }, [showGuide, HandleCloseGuide, CheckUrlLocation, guideMode]);
 
   //
   const ReturnbgBlack = () => {
-    if (window.innerWidth > 810 && !isWatchPage) {
+    if (window.innerWidth > 1340 && guideMode === 1) {
       return "none";
-    } else if (ShowGuide && window.innerWidth < 810) {
+    } else if (showGuide && window.innerWidth < 1340 && guideMode === 1) {
       return "block";
-    } else if (!ShowGuide && window.innerWidth < 810) {
+    } else if (!showGuide && window.innerWidth < 1340 && guideMode === 1) {
       return "none";
-    } else if (
-      (ShowGuide || !ShowGuide) &&
-      window.innerWidth > 810 &&
-      !isWatchPage
-    ) {
-      return "none";
-    } else if (ShowGuide && window.innerWidth > 810 && isWatchPage) {
+    } else if (showGuide && guideMode === 2) {
       return "block";
-    } else if (!ShowGuide && window.innerWidth > 810 && isWatchPage) {
+    } else if (!showGuide && guideMode === 2) {
       return "none";
     } else {
       return "none";
@@ -163,148 +167,149 @@ const Guide = React.memo(() => {
 
   //
   const ReturnGuideDisplay = () => {
-    if (ShowGuide) {
+    if (showGuide) {
       return "block";
-    } else if (!ShowGuide) {
+    } else if (!showGuide) {
       return "none";
     }
   };
 
+  const HideGuideOnClick = () => {
+    if (guideMode === 2 && showGuide) {
+      dispatch(HideGuideAction());
+    }
+  };
+
+  const content_wrapper = (value = "") => {
+    return `${style.content_wrapper} ${
+      style[
+        `content_wrapper--${ReturnTheme(Theme)}${
+          UrlLocation === value ? "--active" : ""
+        }`
+      ]
+    }`;
+  };
+
+  const line = GetClassName(style, "line", Theme);
+
   return (
     <Fragment>
       <div
-        className="bg_guide"
-        // ShowGuide can be true or null
+        className={style.bg}
         style={{
           display: ReturnbgBlack(),
         }}
       ></div>
       <div
         id="GuideG"
-        className="guide"
+        className={style.container}
         style={{ display: ReturnGuideDisplay() }}
       >
-        <div
-          className={`guide__container guide__container--${ReturnTheme(Theme)}`}
-        >
-          <div className="guide__content_container">
+        <div className={GetClassName(style, "wrapper", Theme)}>
+          <div className={style.content_container}>
             {/*--------------------*/}
             <Link
               to="/"
               title="Home"
-              className={`${content_wrapper}${
-                UrlLocationState === "home" ? "--active" : ""
-              }`}
+              onClick={HideGuideOnClick}
+              className={content_wrapper("home")}
             >
-              <div className="guide__content_logo">
-                <HomeSvg changeColor={UrlLocationState === "home"} />
+              <div className={style.content_icon}>
+                <HomeSvg changeColor={UrlLocation === "home"} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Home</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Home</div>
               </div>
             </Link>
             {/*--*/}
-            <div
-              title="Trending"
-              className={`${content_wrapper}${
-                UrlLocationState === "trending" ? "--active" : ""
-              }`}
-            >
-              <div className="guide__content_logo">
-                <TrendingSvg changeColor={UrlLocationState === "trending"} />
+            <div title="Trending" className={content_wrapper("trending")}>
+              <div className={style.content_icon}>
+                <TrendingSvg changeColor={UrlLocation === "trending"} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Trending</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Trending</div>
               </div>
             </div>
             {/*--*/}
             <div
               title="Subscriptions"
-              className={`${content_wrapper}${
-                UrlLocationState === "subscriptions" ? "--active" : ""
-              }`}
+              className={content_wrapper("subscriptions")}
             >
-              <div className="guide__content_logo">
+              <div className={style.content_icon}>
                 <SubscriptionSvg
-                  changeColor={UrlLocationState === "subscriptions"}
+                  changeColor={UrlLocation === "subscriptions"}
                 />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Subscriptions</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Subscriptions</div>
               </div>
             </div>
-            <div className={line_guide}></div>
+            <div className={line}></div>
             {/*--------------------*/}
-            <div
-              title="Library"
-              className={`${content_wrapper}${
-                UrlLocationState === "library" ? "--active" : ""
-              }`}
-            >
-              <div className="guide__content_logo">
-                <LibrarySvg changeColor={UrlLocationState === "library"} />
+            <div title="Library" className={content_wrapper("library")}>
+              <div className={style.content_icon}>
+                <LibrarySvg changeColor={UrlLocation === "library"} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Library</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Library</div>
               </div>
             </div>
             {/*--*/}
-            <div
-              title="History"
-              className={`${content_wrapper}${
-                UrlLocationState === "history" ? "--active" : ""
-              }`}
-            >
-              <div className="guide__content_logo">
-                <HistorySvg changeColor={UrlLocationState === "history"} />
+            <div title="History" className={content_wrapper("history")}>
+              <div className={style.content_icon}>
+                <HistorySvg changeColor={CheckUrlLocation("history")} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">History</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>History</div>
               </div>
             </div>
             {/*--*/}
-            <div title="Your videos" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Your videos" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <VideoSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Your videos</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Your videos</div>
               </div>
             </div>
             {/*--*/}
             <Link
-              to="/playlist/list=WL"
+              to="/playlist?list=WL"
               title="Watch later"
-              className={`${content_wrapper}${
-                UrlLocationState === "WL" ? "--active" : ""
-              }`}
+              onClick={HideGuideOnClick}
+              className={content_wrapper("WL")}
             >
-              <div className="guide__content_logo">
-                <WatchLaterSvg changeColor={UrlLocationState === "WL"} />
+              <div className={style.content_icon}>
+                <WatchLaterSvg changeColor={CheckUrlLocation("WL")} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Watch later</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Watch later</div>
               </div>
             </Link>
             {/*--*/}
-            <div title="Liked videos" className={content_wrapper}>
-              <div className="guide__content_logo">
-                <LikeSvg />
+            <Link
+              to="/playlist?list=LV"
+              onClick={HideGuideOnClick}
+              title="Liked videos"
+              className={content_wrapper("LV")}
+            >
+              <div className={style.content_icon}>
+                <LikeSvg changeColor={CheckUrlLocation("LV")} />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Liked videos</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Liked videos</div>
               </div>
-            </div>
+            </Link>
             {/* <== START SHOW MORE AREA ==> */}
             {IsShowMore &&
               PlayList.map((play, index) => {
                 return (
-                  <div title={play} key={index} className={content_wrapper}>
-                    <div className="guide__content_logo">
+                  <div title={play} key={index} className={content_wrapper()}>
+                    <div className={style.content_icon}>
                       <PlayListSvg />
                     </div>
-                    <div className="guide__text_container">
-                      <div className="text_wrap">{play}</div>
+                    <div className={style.text_container}>
+                      <div className={style.text_wrap}>{play}</div>
                     </div>
                   </div>
                 );
@@ -313,25 +318,21 @@ const Guide = React.memo(() => {
             <div
               title={`Show ${IsShowMore ? "less" : "more"}`}
               onClick={HandleShowMoreOrLess}
-              className={content_wrapper}
+              className={content_wrapper()}
             >
-              <div className="guide__content_logo">
+              <div className={style.content_icon}>
                 {IsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>
                   {`Show ${IsShowMore ? "less" : "more"}`}
                 </div>
               </div>
             </div>
             {/* <== END SHOW MORE AREA ==> */}
-            <div className={line_guide}></div>
+            <div className={line}></div>
             {/* <== START SUBSCRIPTIONS AREA ==> */}
-            <div
-              className={`guide__subtitle guide__subtitle--${ReturnTheme(
-                Theme
-              )}`}
-            >
+            <div className={GetClassName(style, "subtitle", Theme)}>
               SUBSCRIPTIONS
             </div>
             {/* --- FrontSubscriptions --- */}
@@ -340,28 +341,28 @@ const Guide = React.memo(() => {
                 <div
                   key={index}
                   title={FrontSub.name}
-                  className={content_wrapper}
+                  className={content_wrapper()}
                 >
-                  <div className="guide__content_logo">
+                  <div className={style.content_icon}>
                     <img
-                      className={`guide__content_img guide__content_img--${ReturnTheme(
-                        Theme
-                      )}`}
+                      className={GetClassName(style, "pronail", Theme)}
                       height="24"
                       width="24"
                       src={FrontSub.img}
                       alt=""
                     />
                   </div>
-                  <div className="guide__text_container">
-                    <div className="text_wrap">{FrontSub.name}</div>
+                  <div className={style.text_container}>
+                    <div className={style.text_wrap}>{FrontSub.name}</div>
                   </div>
-                  <div className="guide__svg_noti">
-                    <LiveSvg
-                      isLive={FrontSub.isLive}
-                      notiExist={FrontSub.notiExist}
-                      Theme={Theme}
-                    />
+                  <div className={style.notisvg}>
+                    <div className={style.svg_con}>
+                      <LiveSvg
+                        isLive={FrontSub.isLive}
+                        notiExist={FrontSub.notiExist}
+                        Theme={Theme}
+                      />
+                    </div>
                   </div>
                 </div>
               );
@@ -374,23 +375,21 @@ const Guide = React.memo(() => {
                   <div
                     key={index}
                     title={FrontSub.name}
-                    className={content_wrapper}
+                    className={content_wrapper()}
                   >
-                    <div className="guide__content_logo">
+                    <div className={style.content_icon}>
                       <img
-                        className={`guide__content_img guide__content_img--${ReturnTheme(
-                          Theme
-                        )}`}
+                        className={GetClassName(style, "thumbnail", Theme)}
                         height="24"
                         width="24"
                         src={FrontSub.img}
                         alt=""
                       />
                     </div>
-                    <div className="guide__text_container">
-                      <div className="text_wrap">{FrontSub.name}</div>
+                    <div className={style.text_container}>
+                      <div className={style.text_wrap}>{FrontSub.name}</div>
                     </div>
-                    <div className="guide__svg_noti">
+                    <div className={style.notisvg}>
                       <LiveSvg
                         isLive={FrontSub.isLive}
                         notiExist={FrontSub.notiExist}
@@ -404,13 +403,13 @@ const Guide = React.memo(() => {
             <div
               title={`Show ${SubIsShowMore ? "less" : "more"}`}
               onClick={HandleSubscriptionShowMoreOrLess}
-              className={content_wrapper}
+              className={content_wrapper()}
             >
-              <div className="guide__content_logo">
+              <div className={style.content_icon}>
                 {SubIsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>
                   {`Show ${
                     SubIsShowMore ? "less" : `${Subscriptions.length} more`
                   }`}
@@ -419,85 +418,77 @@ const Guide = React.memo(() => {
             </div>
 
             {/* <== END SUBSCRIPTIONS AREA ==> */}
-            <div className={line_guide}></div>
+            <div className={line}></div>
             {/* <== START MORE FROM YOUTUBE AREA ==> */}
-            <div
-              className={`guide__subtitle guide__subtitle--${ReturnTheme(
-                Theme
-              )}`}
-            >
+            <div className={GetClassName(style, "subtitle", Theme)}>
               MORE FROM YOUTUBE
             </div>
-            <div title="Gaming" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Gaming" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <GamingSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Gaming</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Gaming</div>
               </div>
             </div>
-            <div title="Live" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Live" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <LiveDefaultSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Live</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Live</div>
               </div>
             </div>
             {/* <== END MORE FROM YOUTUBE AREA ==> */}
-            <div className={line_guide}></div>
-            <div title="Settings" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div className={line}></div>
+            <div title="Settings" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <SettingsSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Settings</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Settings</div>
               </div>
             </div>
-            <div title="Report history" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Report history" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <FlagSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Report history</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Report history</div>
               </div>
             </div>
-            <div title="Help" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Help" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <HelpSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Help</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Help</div>
               </div>
             </div>
-            <div title="Send feedback" className={content_wrapper}>
-              <div className="guide__content_logo">
+            <div title="Send feedback" className={content_wrapper()}>
+              <div className={style.content_icon}>
                 <FeedSvg />
               </div>
-              <div className="guide__text_container">
-                <div className="text_wrap">Send feedback</div>
+              <div className={style.text_container}>
+                <div className={style.text_wrap}>Send feedback</div>
               </div>
             </div>
             {/* <== ABOUT AREA ==> */}
-            <div className={line_guide}></div>
-            <div
-              className={`guide__about_wrapper guide__about_wrapper--${ReturnTheme(
-                Theme
-              )}`}
-            >
-              <div className="abt_tx">
+            <div className={line}></div>
+            <div className={GetClassName(style, "about", Theme)}>
+              <div className={style.txt}>
                 Cloning YouTube with pure sass, Javascript and React Framework
                 2020.
               </div>
-              <div className="abt_tx">
-                Author: <span className="abt_tx--name">Larbi Sahli</span>
+              <div className={style.txt}>
+                Author: <span className={style["txt--name"]}>Larbi Sahli</span>
               </div>
-              <div className="abt_tx">
+              <div className={style.txt}>
                 Source code:{" "}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`abt_lt abt_lt--${ReturnTheme(Theme)}`}
+                  className={GetClassName(style, "tt", Theme)}
                   href="https://github.com/larbisahli/youtube-clone"
                 >
                   YouTube-Clone
@@ -506,11 +497,11 @@ const Guide = React.memo(() => {
               <div
                 target="_blank"
                 rel="noopener noreferrer"
-                className="abt_tx abt_tx--x"
+                className={`${style.txt} ${style["txt--x"]}`}
               >
                 GitHub:{" "}
                 <a
-                  className={`abt_lt abt_lt--${ReturnTheme(Theme)}`}
+                  className={GetClassName(style, "tt", Theme)}
                   href="https://github.com/larbisahli"
                 >
                   larbisahli

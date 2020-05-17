@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const AddAccSvg = React.memo(() => {
+const AddAccSvg = memo(() => {
   return (
     <div className="ytb_svg">
       <svg

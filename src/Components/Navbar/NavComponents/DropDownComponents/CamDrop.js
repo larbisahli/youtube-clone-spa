@@ -1,26 +1,23 @@
-import React, { useContext } from "react";
-import "./sass/drop_style.scss";
+import React, { memo } from "react";
+import style from "./sass/btndrop.module.scss";
 import { UploadSvg, GoLiveSvg } from "../Svg";
-import { ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils";
+import { useSelector } from "react-redux";
+import { GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
 // Using Memo to prevent unnecessary re-renders
 
-const CamDrop = React.memo(({ show }) => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const CamDrop = memo(({ show }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  const app_text = `nav_drop_container__text nav_drop_container__text--${ReturnTheme(
-    Theme
-  )}`;
+  const app_text = GetClassName(style, "textcon", Theme);
 
   return (
     <div
       style={{ display: show ? "" : "none" }}
-      className={`nav_drop_container position--cam_drop nav_drop_container--${ReturnTheme(
-        Theme
-      )}`}
+      className={`${GetClassName(style, "container", Theme)} ${
+        style["position--cam_drop"]
+      }`}
     >
       <LazyLoad render={show}>
         <a
@@ -29,10 +26,10 @@ const CamDrop = React.memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className="icon_wrap">
+          <div className={style.icon_wrap}>
             <UploadSvg />
           </div>
-          <div className="text_wrap">Upload video</div>
+          <div className={style.text_wrap}>Upload video</div>
         </a>
         <a
           href="https://studio.youtube.com/channel/"
@@ -40,10 +37,10 @@ const CamDrop = React.memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className="icon_wrap">
+          <div className={style.icon_wrap}>
             <GoLiveSvg />
           </div>
-          <div className="text_wrap">Go live</div>
+          <div className={style.text_wrap}>Go live</div>
         </a>
       </LazyLoad>
     </div>

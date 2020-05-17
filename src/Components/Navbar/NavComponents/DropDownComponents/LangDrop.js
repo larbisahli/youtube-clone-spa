@@ -1,60 +1,50 @@
-import React, { useContext } from "react";
-import "./sass/semidrop_style.scss";
+import React, { memo } from "react";
+import style from "./sass/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
-import { NavContext, ThemeContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils";
+import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
+import { useSelector, useDispatch } from "react-redux";
+import { SwitchLangAction } from "../../../../redux";
 
 // Using Memo to prevent unnecessary re-renders
 
-const LangDrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
-  // Navbar context
-  const { langState } = useContext(NavContext);
-  const [lang, setLang] = langState;
+const LangDrop = memo(({ handleGoBackDrop, show }) => {
+  // lang
+  const lang = useSelector((state) => state.Navbar.language);
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  //  dispatch
+  const dispatch = useDispatch();
+
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   const HandleClick = (id) => {
-    setLang([
-      ...lang.map((lang) => {
-        lang.checked = false;
-        if (lang.id === id) {
-          lang.checked = true;
-        }
-        return lang;
-      }),
-    ]);
+    dispatch(SwitchLangAction(id));
   };
+
   return (
     <div
       id="lang_drop"
       style={{ display: show ? "" : "none" }}
-      className={`semiDrop semiDrop--${ReturnTheme(Theme)}`}
+      className={GetClassName(style, "container", Theme)}
     >
       <LazyLoad render={show}>
-        <div className="semiDrop__header">
-          <button
-            onClick={handleGoBackDrop}
-            className="semiDrop__header__arrow"
-          >
-            <BackArrowSvg isCurrent={isCurrent} />
+        <div className={style.header}>
+          <button onClick={handleGoBackDrop} className={style.header__arrow}>
+            <BackArrowSvg />
           </button>
-          <div className="semiDrop__header__text">Choose your language</div>
+          <div className={style.header__text}>Choose your language</div>
         </div>
-        <div
-          className={`semiDrop__line semiDrop__line--${ReturnTheme(Theme)}`}
-        ></div>
-        <div className="semiDrop__main_wrapper">
+        <div className={`line line--${ReturnTheme(Theme)}`}></div>
+        <div className={style.mainbody}>
           {lang.map((lang, index) => {
             return (
               <div
                 key={index}
                 onClick={() => HandleClick(lang.id)}
-                className={`lang_drop lang_drop--${ReturnTheme(Theme)}`}
+                className={GetClassName(style, "lang", Theme)}
               >
-                <div className="lang_drop__check_area">
+                <div className={style.lang__check}>
                   <CheckedSvg
                     color={
                       lang.checked ? (Theme ? "#fff" : "#333") : "transparent"

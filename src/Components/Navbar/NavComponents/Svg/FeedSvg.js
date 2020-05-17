@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scnni.scss";
-import { ThemeContext } from "../../../../Context";
+import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const FeedSvg = React.memo(({ default_ = false }) => {
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const FeedSvg = memo(({ default_ = false }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
+
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>

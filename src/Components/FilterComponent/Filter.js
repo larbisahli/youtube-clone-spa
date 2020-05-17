@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { XSvg } from "../../Containers/Svg";
-import { ReturnTheme } from "../../utils";
-import { ThemeContext } from "../../Context";
+import { ReturnTheme, GetClassName } from "../../utils";
+import { useSelector } from "react-redux";
+import style from "../../Containers/Sass/results.module.scss";
 
-const RemoveSvg = React.memo(({ WhoActive, text }) => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const RemoveSvg = memo(({ WhoActive, text }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   return WhoActive === text ? (
-    <div className="filter__x_icon">
+    <div className={style.filter__icon}>
       <XSvg Theme={Theme} />
     </div>
   ) : (
@@ -17,20 +17,12 @@ const RemoveSvg = React.memo(({ WhoActive, text }) => {
   );
 });
 
-const activeClass = (WhoActive, classtext, Theme) => {
-  return (
-    `filter__text_area filter__text_area--${ReturnTheme(Theme)}` +
-    (WhoActive === classtext ? ` active--${ReturnTheme(Theme)}` : "")
-  );
-};
-
-const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
+const Filter = memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
   // Active btn State
   const [WhoActive, setWhoActive] = useState("");
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   // Handle Selection
   const HandleSelection = useCallback(
@@ -53,21 +45,26 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
     [setFilterState, setWhoActive, WhoActive, FilterState]
   );
 
-  const filterTxTHeader = `filter__text_header filter__text_header--${ReturnTheme(
-    Theme
-  )}`;
+  //
+  const activeClass = (WhoActive, classtext, Theme) => {
+    return `${GetClassName(style, "filter__text_area", Theme)} ${
+      WhoActive === classtext ? `${style[`active--${ReturnTheme(Theme)}`]}` : ""
+    }`;
+  };
+
+  const filterTxTHeader = GetClassName(style, "filter__text_header", Theme);
 
   const filterLine = `line line--${ReturnTheme(Theme)}`;
 
   return (
     <div
-      className="filter"
+      className={style.filter}
       style={{
         maxHeight: ShowFilterDrop ? "450px" : "0px",
       }}
     >
-      <div className="filter__container">
-        <div className="filter__text_wrapper">
+      <div className={style.filter__container}>
+        <div className={style.filter__text_wrapper}>
           <h4 className={filterTxTHeader}>TYPE</h4>
           <div className={filterLine}></div>
           <div
@@ -102,7 +99,7 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="playlist" />
           </div>
         </div>
-        <div className="filter__text_wrapper">
+        <div className={style.filter__text_wrapper}>
           <h4 className={filterTxTHeader}>DURATION</h4>
           <div className={filterLine}></div>
           <div
@@ -135,7 +132,7 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="l-20" />
           </div>
         </div>
-        <div className="filter__text_wrapper">
+        <div className={style.filter__text_wrapper}>
           <h4 className={filterTxTHeader}>FEATURES</h4>
           <div className={filterLine}></div>
           <div
@@ -185,7 +182,7 @@ const Filter = React.memo(({ ShowFilterDrop, setFilterState, FilterState }) => {
             <RemoveSvg WhoActive={WhoActive} text="3d" />
           </div>
         </div>
-        <div className="filter__text_wrapper">
+        <div className={style.filter__text_wrapper}>
           <h4 className={filterTxTHeader}>SORT BY</h4>
           <div className={filterLine}></div>
           <div

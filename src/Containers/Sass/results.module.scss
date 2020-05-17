@@ -1,0 +1,157 @@
+@import '../../sass/config.scss';
+
+.container {
+
+    max-width: 862px;
+
+    @media screen and (max-width: 810px) {
+        margin-left: 0px !important;
+    }
+
+
+    .content {
+
+        margin: 0 24px 0 24px;
+
+        @media screen and (min-width: 1440px) {
+            margin-left: 75px !important;
+        }
+
+        .header_container {
+
+            margin-top: 16px;
+
+            &:hover>.header_wrapper>.header_wrapper__text--dark {
+                color: #fff !important;
+            }
+
+            &:hover>.header_wrapper>.header_wrapper__text--light {
+                color: #333 !important;
+            }
+
+            .header_wrapper {
+
+                display: flex;
+                color: #fff;
+                align-items: center;
+                width: 100px;
+                padding: 10px 5px;
+                cursor: pointer;
+                border-radius: 2px;
+
+                .btntext {
+                    margin-left: 8px;
+                    font-size: .93rem;
+                    font-family: Roboto-Medium;
+                    text-transform: uppercase;
+
+                    &--dark {
+                        // Dark Theme
+                        color: #c0c0c0;
+                    }
+
+                    &--light {
+                        // Dark Theme
+                        color: #606060;
+                    }
+                }
+            }
+        }
+
+        .section_list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+
+        // ================ FILTER ================
+
+        .filter {
+            position: relative;
+            overflow: hidden;
+            transition-property: max-height;
+            transition-duration: .3s;
+            transition-timing-function: linear;
+
+            &__container {
+                display: flex;
+                flex-flow: row nowrap;
+            }
+
+            &__text_wrapper {
+                padding-right: 32px;
+                width: 100%;
+                margin-bottom: 32px;
+
+                &:nth-child(4) {
+                    padding-right: 0;
+                }
+            }
+
+            &__text_header {
+
+                margin: 5px 0;
+                padding: 15px 0 5px 0;
+                font-size: 1.25em;
+                text-transform: uppercase;
+
+                &--dark {
+                    // Dark Theme
+                    color: colors(VidTitle_Dark_Color);
+                }
+
+                &--light {
+                    // Light Theme
+                    color: colors(VidTitle_Light_Color);
+                }
+            }
+
+            &__text_area {
+
+                font-size: 1.4em;
+                cursor: pointer;
+                padding: 15px 0 0;
+                margin: 5px 0;
+                display: flex;
+                align-items: center;
+
+
+                &--dark {
+                    // Dark Theme
+                    color: #b9b8b8;
+                }
+
+                &--light {
+                    // Light Theme
+                    color: #818181;
+                }
+            }
+
+            &__icon {
+                padding-left: 10px;
+                cursor: pointer;
+
+                &>:global(.ytb_svg_y) {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+
+            .active {
+
+                &--dark {
+                    // Dark Theme
+                    font-family: Roboto-Medium;
+                    color: #fff !important;
+                }
+
+                &--light {
+                    // Light Theme
+                    font-family: Roboto-Medium;
+                    color: #000 !important;
+                }
+            }
+        }
+    }
+}

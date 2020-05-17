@@ -1,90 +1,76 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import "./Sass/home_style.scss";
+import React, { useEffect, memo, useCallback } from "react";
+import style from "./Sass/home.module.scss";
 import { HomeVideoContainer } from "../Components";
-import { getMostPopularVideos } from "../Components/api/YoutubeApi";
 import { HomeSkeleton } from "../Components";
+import { PageLocation, GetClassName } from "../utils";
+import { useSelector, useDispatch } from "react-redux";
 import {
-  UrlLocationContext,
-  MessageBoxContext,
-  ThemeContext,
-  GuideContext,
-  ApiContext,
-} from "../Context";
-import { UrlLocation, ReturnTheme } from "../utils";
+  SetMessageAction,
+  CloseMessageAction,
+  SetUrlLocationAction,
+} from "../redux";
 
-const Home = React.memo(() => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const Home = memo(() => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  // Message Box Context
-  const [, setMessageBox] = useContext(MessageBoxContext);
+  // urlLocation
+  const UrlLocation = useSelector((state) => state.Guide.UrlLocation);
 
-  // Guide Context
-  const [ShowGuide, HundleShowGuide] = useContext(GuideContext);
-  //
+  // Guide
+  const showGuide = useSelector((state) => state.Guide.showGuide);
 
-  const [PopularVideos, isLoading, errorMessage] = useContext(ApiContext);
+  // fetch data
+  const PopularVideos = useSelector((state) => state.VideosRequest.items);
+  const Loading = useSelector((state) => state.VideosRequest.loading);
+  const errorMessage = useSelector((state) => state.VideosRequest.error);
+
+  // dispatch
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const pageManager = document.getElementById("page-manager");
     if (pageManager) {
-      pageManager.style.marginLeft = ShowGuide ? "240px" : "72px";
+      pageManager.style.marginLeft = showGuide ? "240px" : "72px";
     }
   }, []);
 
-  // ===========================
-  //  Handle Location Context
-  // ===========================
-  const [UrlLocationState, setUrlLocationState] = useContext(
-    UrlLocationContext
-  );
+  //
 
   useEffect(() => {
-    //
-    if (window.innerWidth > 810) {
-      HundleShowGuide(true);
-    }
     // home location set to true
-    const UrlLoc = UrlLocation(true);
-    if (UrlLoc !== UrlLocationState) {
-      setUrlLocationState(() => UrlLoc);
+    const UrlLoc = PageLocation(true);
+    if (UrlLoc !== UrlLocation) {
+      dispatch(SetUrlLocationAction(UrlLoc));
     }
-  }, [UrlLocationState, setUrlLocationState, HundleShowGuide]);
+  }, [dispatch, UrlLocation]);
 
   // ===========================
   //  FETCH MOST POPULAR VIDEOS
   // ===========================
+
   useEffect(() => {
     // Error Setup
+    console.log("errorMessage :>> ", errorMessage);
     if (errorMessage) {
-      setMessageBox({
-        show: true,
-        message: `${errorMessage}`,
-        btnMessage: "dismiss",
-        MassageFrom: "error",
-        id: "",
-      });
+      dispatch(
+        SetMessageAction({
+          message: `${errorMessage}`,
+          btnText: "dismiss",
+          from: "error",
+          id: "",
+        })
+      );
     }
-  }, [errorMessage, setMessageBox]);
+  }, [errorMessage, dispatch]);
 
   // ====================================
   //           Error Handling
   // ====================================
 
   const HandleClosingMessageBox = useCallback(() => {
-    // Just to make sure isError will not change to false by any chance before doing some logic if true
-
-    setMessageBox((pre) => {
-      return {
-        show: false,
-        message: pre.message,
-        btnMessage: pre.btnMessage,
-        MassageFrom: "",
-        id: "",
-      };
-    });
-  }, [setMessageBox]);
+    dispatch(CloseMessageAction());
+  }, [dispatch]);
 
   const HandleShowMessageBox = useCallback(
     (MassageFrom, state, id = "") => {
@@ -95,31 +81,32 @@ const Home = React.memo(() => {
         btnMsg = !state ? "UNDO" : "";
       }
 
-      setMessageBox({
-        show: true,
-        message: msg,
-        btnMessage: btnMsg,
-        MassageFrom: MassageFrom,
-        id: id,
-      });
+      dispatch(
+        SetMessageAction({
+          message: msg,
+          btnText: btnMsg,
+          from: MassageFrom,
+          id: id,
+        })
+      );
 
       setTimeout(() => {
         HandleClosingMessageBox();
       }, 4000);
     },
-    [HandleClosingMessageBox, setMessageBox]
+    [HandleClosingMessageBox, dispatch]
   );
 
   return (
-    <div id="page-manager" className="home_container">
-      <div className="home_content">
-        <div className="home_content__title_wrapper">
-          <span className={`home_title home_title--${ReturnTheme(Theme)}`}>
+    <div id="page-manager" className={style.container}>
+      <div className={style.content}>
+        <div className={style.title_wrapper}>
+          <span className={GetClassName(style, "title", Theme)}>
             Most Popular
           </span>
         </div>
-        <div className="home_content__video_wrapper">
-          {isLoading
+        <div className={style.video_wrapper}>
+          {Loading
             ? [...Array(8)].map((e, i) => {
                 return <HomeSkeleton key={i} />;
               })

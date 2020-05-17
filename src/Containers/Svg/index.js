@@ -7,3 +7,5 @@ export { default as AddPlayListSvg } from "./AddPlayListSvg";
 export { default as TrashSvg } from "./TrashSvg";
 export { default as MoveUpSvg } from "./MoveUpSvg";
 export { default as MoveDownSvg } from "./MoveDownSvg";
+export { default as Like } from "./Like";
+export { default as DisLike } from "./DisLike";

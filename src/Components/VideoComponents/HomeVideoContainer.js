@@ -1,32 +1,46 @@
-import React, { useCallback, useState, useContext, useEffect } from "react";
-import "./sass/hvcontainer_style.scss";
+import React, { useCallback, useState, useEffect, memo } from "react";
+import style from "./sass/hv.module.scss";
 import Moment from "react-moment";
-import { YouTubeAPI } from "../api/YoutubeApi";
 import { DotsSvg } from "../Navbar/NavComponents/Svg";
 import {
   ViewsNumFormatter,
   HandleDuration,
   TextReducer,
-  ReturnTheme,
+  GetClassName,
 } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
-import { WLVContext, ThemeContext, QueueContext } from "../../Context";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  RemoveOneQueueAction,
+  PlayQueueAction,
+  ADDInQueueAction,
+  SetMessageAction,
+  ShowQueueAction,
+  CloseMessageAction,
+  Wl_RemoveOneAtion,
+  Wl_AddAction,
+  HideGuideAction,
+  SetGuideModeAction,
+  SetUrlLocationAction,
+  HideQueueAction,
+} from "../../redux";
+import { useFetch } from "../hooks/useFetch";
 
-const HomeVideoContainer = React.memo(
+const HomeVideoContainer = memo(
   ({ PopularVideo, index, HandleShowMessageBox }) => {
-    // Theme context
-    const [YtTheme] = useContext(ThemeContext);
-    const Theme = YtTheme.isDarkTheme;
+    // Theme
+    const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-    // WLV Context
-    const { WatchLaterState } = useContext(WLVContext);
-    const [WatchLaterList, WLdispatch] = WatchLaterState;
+    // WLV
+    const WatchLater = useSelector((state) => state.WLV.WL);
 
-    // Queue Context
-    const { QueueState, ShowQueueState } = useContext(QueueContext);
-    const [ShowQueue, setShowQueue] = ShowQueueState;
-    const [QueueList, QueueListDispatch] = QueueState;
+    // Queue
+    const ShowQueue = useSelector((state) => state.DisplayQueue);
+    const QueueList = useSelector((state) => state.QueueList);
+
+    // dispatch
+    const dispatch = useDispatch();
 
     // image isload state
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -41,7 +55,7 @@ const HomeVideoContainer = React.memo(
     // Check if a video is already in wl list
     // ======================================
     const [IswatchLater, setIsWatchLater] = useState(
-      WatchLaterList.some((wl) => wl.videoId === PopularVideo.videoId)
+      WatchLater.some((wl) => wl.videoId === PopularVideo.videoId)
     );
 
     // =========================================
@@ -51,36 +65,22 @@ const HomeVideoContainer = React.memo(
       QueueList.some((que) => que.videoId === PopularVideo.videoId)
     );
 
-    // =========================
-    //  FETCH CHANNELS SNIPPET
-    // =========================
+    // =================================
+    //     FETCH CHANNELS SNIPPET
+    // =================================
 
-    const GetChannelsthumbnail = async (id) => {
-      return await new Promise((resolve) => {
-        YouTubeAPI.get("channels", {
-          params: {
-            part: "snippet",
-            key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id,
-          },
-        }).then((res) => {
-          resolve(res);
-        });
-      });
-    };
+    const snippet = useFetch(PopularVideo.channelId, "channels", "snippet");
 
     // =========================
     //  fetching for thumbnails
     // =========================
+    console.log("snippet :>> ", snippet);
 
     const Fetch_Data = (id, index) => {
-      GetChannelsthumbnail(id).then((res) => {
-        const imgThumbIdElement = document.getElementById(`${id}_${index}`);
-        if (imgThumbIdElement) {
-          imgThumbIdElement.src =
-            res.data.items[0].snippet.thumbnails.medium.url;
-        }
-      });
+      const imgThumbIdElement = document.getElementById(`${id}_${index}`);
+      if (imgThumbIdElement && Object.keys(snippet).length !== 0) {
+        imgThumbIdElement.src = snippet.snippet.thumbnails.medium.url;
+      }
     };
 
     // =========================
@@ -101,20 +101,21 @@ const HomeVideoContainer = React.memo(
         HandleShowMessageBox("wl", IswatchLater, videoId);
 
         if (IswatchLater_) {
-          WLdispatch({ type: "removeOne", videoId });
+          dispatch(Wl_RemoveOneAtion(videoId));
         } else {
-          WLdispatch({
-            type: "add",
-            title,
-            duration,
-            videoId,
-            channelTitle,
-            channelId,
-            thumbnail,
-          });
+          dispatch(
+            Wl_AddAction({
+              title,
+              duration,
+              videoId,
+              channelTitle,
+              channelId,
+              thumbnail,
+            })
+          );
         }
       },
-      [IswatchLater, HandleShowMessageBox, WLdispatch]
+      [IswatchLater, HandleShowMessageBox, dispatch]
     );
 
     // =========================
@@ -122,49 +123,84 @@ const HomeVideoContainer = React.memo(
     // =========================
 
     const HandleQueueClick = useCallback(
-      (
-        title,
-        duration,
-        videoId,
-        channelTitle,
-        channelId,
-        thumbnail,
-        IsQueue_
-      ) => {
+      (title, duration, videoId, channelTitle, channelId, thumbnail) => {
         setIsQueue(!IsQueue);
-        //HandleShowMessageBox(IsQueue);
 
         if (!ShowQueue) {
-          setShowQueue(true);
+          dispatch(ShowQueueAction());
         }
 
         const playing = QueueList.length === 0;
 
-        if (IsQueue_) {
-          QueueListDispatch({ type: "removeOne", videoId });
+        if (IsQueue) {
+          dispatch(RemoveOneQueueAction(videoId));
+
+          // --- MessageBox
+
+          if (QueueList.length - 1 === 0 && ShowQueue) {
+            dispatch(HideQueueAction());
+
+            dispatch(
+              SetMessageAction({
+                message: "Close Queue",
+                btnText: "",
+                from: "queue",
+                id: "",
+              })
+            );
+            setTimeout(() => {
+              dispatch(CloseMessageAction());
+            }, 2000);
+          } else {
+            dispatch(
+              SetMessageAction({
+                message: "Removed from Queue",
+                btnText: "",
+                from: "queue",
+                id: "",
+              })
+            );
+            setTimeout(() => {
+              dispatch(CloseMessageAction());
+            }, 2000);
+          }
         } else {
-          QueueListDispatch({
-            type: "add",
-            title,
-            duration,
-            videoId,
-            channelTitle,
-            channelId,
-            thumbnail,
-            playing,
-            index: QueueList.length,
-          });
+          dispatch(
+            ADDInQueueAction({
+              title,
+              duration,
+              videoId,
+              channelTitle,
+              channelId,
+              thumbnail,
+              playing,
+              index: QueueList.length,
+            })
+          );
+          // --- MessageBox
+
+          dispatch(
+            SetMessageAction({
+              message: "Video added to queue",
+              btnText: "",
+              from: "queue",
+              id: "",
+            })
+          );
+          setTimeout(() => {
+            dispatch(CloseMessageAction());
+          }, 2000);
         }
       },
-      [
-        IsQueue,
-        //HandleShowMessageBox,
-        QueueList,
-        QueueListDispatch,
-        ShowQueue,
-        setShowQueue,
-      ]
+      [IsQueue, dispatch, QueueList, ShowQueue]
     );
+
+    useEffect(() => {
+      // clean up
+      if (!ShowQueue) {
+        setIsQueue(false);
+      }
+    }, [ShowQueue]);
 
     // ===============================================
     //   Check if the video is playing now on queue
@@ -201,38 +237,54 @@ const HomeVideoContainer = React.memo(
           PopularVideo.videoId,
           PopularVideo.channelTitle,
           PopularVideo.channelId,
-          PopularVideo.thumbnail,
-          IsQueue
+          PopularVideo.thumbnail
         );
-        QueueListDispatch({
-          type: "play",
-          videoId: PopularVideo.videoId,
-        });
+        dispatch(PlayQueueAction(PopularVideo.videoId));
       } else {
+        // for a smooth guide transition
+        dispatch(HideGuideAction());
+        dispatch(SetGuideModeAction(2));
+        dispatch(SetUrlLocationAction("watch"));
         history.push(`/watch?v=${PopularVideo.videoId}`);
       }
-    }, [
-      PopularVideo,
-      history,
-      HandleQueueClick,
-      ShowQueue,
-      IsQueue,
-      QueueListDispatch,
-    ]);
+    }, [PopularVideo, history, HandleQueueClick, ShowQueue, dispatch]);
+
+    // Slider HandleHoverIn
+
+    const HandleHoverIn = (value) => {
+      const slider = document.getElementById(`slider-${value}-${index}`);
+
+      if (slider) {
+        slider.style.position = "relative";
+        slider.style.zIndex = "1";
+        slider.style.transform = "translateX(0px)";
+      }
+    };
+
+    // Slider HandleHoverOut
+
+    const HandleHoverOut = (value) => {
+      const slider = document.getElementById(`slider-${value}-${index}`);
+
+      if (slider) {
+        slider.style.zIndex = "0";
+        slider.style.transform = "translateX(135px)";
+        setTimeout(() => {
+          slider.style.position = "absolute";
+          // Note: transition: transform 0.35s ease-in-out;
+        }, 350);
+      }
+    };
 
     return (
-      <div className="home_video_container">
-        <div className="hvc_wrapper">
-          <div
-            className={`hvc_wrapper__thumbnail hvc_wrapper__thumbnail--${ReturnTheme(
-              Theme
-            )}`}
-          >
-            <div className="video_thumbnail" onClick={HandleLink}>
-              <div className="video_thumbnail__img_wrapper">
+      <div className={style.hvcontainer}>
+        <div className={style.wrapper}>
+          <div className={GetClassName(style, "thumbnail_container", Theme)}>
+            <div className={style.thumbnail} onClick={HandleLink}>
+              <div className={style.thumbnail__wrapper}>
                 <img
-                  className={`video_thumbnail__img_wrapper__img video_thumbnail__img_wrapper__img--${
-                    imageLoaded ? "visible" : "hidden"
+                  className={`${style.img} ${
+                    style[`img--${imageLoaded ? "visible" : "hidden"}`]
                   }`}
                   onLoad={() => {
                     setImageLoaded(true);
@@ -243,12 +295,14 @@ const HomeVideoContainer = React.memo(
               </div>
             </div>
             {ShowQueue && Isplaying === PopularVideo.videoId && (
-              <div className="vh_inner_btn vh_inner_btn--playing">
+              <div
+                className={`${style.innerbtn} ${style["innerbtn--playing"]}`}
+              >
                 Now playing
               </div>
             )}
 
-            <div className="vh_inner_btn vh_inner_btn--duration">
+            <div className={`${style.innerbtn} ${style["innerbtn--duration"]}`}>
               {HandleDuration(PopularVideo.duration)}
             </div>
             <button
@@ -263,22 +317,21 @@ const HomeVideoContainer = React.memo(
                   IswatchLater
                 )
               }
-              className="vh_inner_btn vh_inner_btn--clock"
+              className={`${style.innerbtn} ${style["innerbtn--clock"]}`}
             >
-              <div className="vh_inner_btn__btn_area">
-                {IswatchLater ? (
-                  <div className="hv_checked_icon">
-                    <CheckedSvg />
-                  </div>
-                ) : (
-                  <TimeSvg />
-                )}
+              <div
+                onMouseEnter={() => HandleHoverIn("wl")}
+                onMouseLeave={() => HandleHoverOut("wl")}
+                className={style.innerbtn__btn_area}
+              >
+                {IswatchLater ? <CheckedSvg /> : <TimeSvg />}
               </div>
-              <div className="vh_inner_btn__slider_txt">
+
+              <div id={`slider-wl-${index}`} className={style.innerbtn__slider}>
                 {IswatchLater ? (
-                  <div className="vh_checked_txt">added</div>
+                  <div className={style.checked_txt}>added</div>
                 ) : (
-                  <div className="vh_normal_txt">watch later</div>
+                  <div className={style.normal_txt}>watch later</div>
                 )}
               </div>
             </button>
@@ -290,34 +343,38 @@ const HomeVideoContainer = React.memo(
                   PopularVideo.videoId,
                   PopularVideo.channelTitle,
                   PopularVideo.channelId,
-                  PopularVideo.thumbnail,
-                  IsQueue
+                  PopularVideo.thumbnail
                 )
               }
-              className="vh_inner_btn vh_inner_btn--queue"
+              className={`${style.innerbtn} ${style["innerbtn--queue"]}`}
             >
-              <div className="vh_inner_btn__btn_area">
+              <div
+                onMouseEnter={() => HandleHoverIn("q")}
+                onMouseLeave={() => HandleHoverOut("q")}
+                className={style.innerbtn__btn_area}
+              >
                 {ShowQueue && IsQueue ? <CheckedSvg /> : <QueueSvg />}
               </div>
-              <div className="vh_inner_btn__slider_txt">
+
+              <div id={`slider-q-${index}`} className={style.innerbtn__slider}>
                 {ShowQueue && IsQueue ? (
-                  <div className="vh_checked_txt">added</div>
+                  <div className={style.checked_txt}>added</div>
                 ) : (
-                  <div className="vh_normal_txt">add to queue</div>
+                  <div className={style.normal_txt}>add to queue</div>
                 )}
               </div>
             </button>
           </div>
-          <div className="hvc_wrapper__body_container">
-            <div className="vh_ch_thumbnail">
+          <div className={style.body_container}>
+            <div className={style.pronail}>
               <Link
                 to={`/channel/${PopularVideo.channelId}`}
-                className="vh_ch_thumbnail__wrap"
+                className={style.pronail__wrap}
               >
-                <div className={`ch_skltn ch_skltn--${ReturnTheme(Theme)}`}>
+                <div className={GetClassName(style, "skltn", Theme)}>
                   <img
                     // making sure the id is unique
-                    className="ch_skltn__img"
+                    className={style.skltn__img}
                     id={`${PopularVideo.channelId}_${index}`}
                     src=""
                     alt=""
@@ -326,35 +383,27 @@ const HomeVideoContainer = React.memo(
                 </div>
               </Link>
             </div>
-            <div className="vh_text_area">
+            <div className={style.text_area}>
               <div
                 onClick={HandleLink}
-                className={`vh_text_area__vid_title vh_text_area__vid_title--${ReturnTheme(
-                  Theme
-                )}`}
+                className={GetClassName(style, "titlewrap", Theme)}
               >
                 <div
                   title={PopularVideo.title}
-                  className="vh_text_area__vid_title__title"
+                  className={style.titlewrap__title}
                 >
                   {TextReducer(PopularVideo.title, 56)}
                 </div>
               </div>
               <Link
                 data-content={PopularVideo.channelTitle}
-                className={`vh_text_area__ch_title vh_text_area__ch_title--${ReturnTheme(
-                  Theme
-                )}`}
+                className={GetClassName(style, "ch_titlewrap", Theme)}
                 to={`/channel/${PopularVideo.channelId}`}
               >
                 {PopularVideo.channelTitle}
               </Link>
-              <div
-                className={`vh_text_area__duration vh_text_area__duration--${ReturnTheme(
-                  Theme
-                )}`}
-              >
-                <span className="vid_view_num">{`${ViewsNumFormatter(
+              <div className={GetClassName(style, "duration", Theme)}>
+                <span className={style.views}>{`${ViewsNumFormatter(
                   PopularVideo.viewCount
                 )} views`}</span>
                 <span>
@@ -362,7 +411,7 @@ const HomeVideoContainer = React.memo(
                 </span>
               </div>
             </div>
-            <div className={`vh_dot_btn vh_dot_btn--${ReturnTheme(Theme)}`}>
+            <div className={GetClassName(style, "dots", Theme)}>
               <DotsSvg />
             </div>
           </div>

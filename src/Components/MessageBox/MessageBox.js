@@ -1,58 +1,61 @@
-import React, { useContext, useCallback } from "react";
-import "./messagebox_style.scss";
+import React, { useCallback, memo } from "react";
+import style from "./messagebox.module.scss";
 import { RippleButton } from "../ComponentsUtils";
-import { ReturnTheme } from "../../utils";
-import { MessageBoxContext, ThemeContext, WLVContext } from "../../Context";
+import { GetClassName } from "../../utils";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SetMessageAction,
+  CloseMessageAction,
+  Wl_RemoveOneAtion,
+  Lv_RemoveOneAtion,
+} from "../../redux";
 
-const MessageBox = React.memo(() => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const MessageBox = memo(() => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  // Message Box Context
-  const [MessageBox, setMessageBox] = useContext(MessageBoxContext);
+  // Message Box
+  const MessageBox = useSelector((state) => state.MessageBox);
 
-  // WLV Context
-  const { WatchLaterState } = useContext(WLVContext);
-  const [, WLdispatch] = WatchLaterState;
+  // dispatch
+  const dispatch = useDispatch();
 
   // HandleBtn
   const HandleBtn = useCallback(() => {
-    if (MessageBox.MassageFrom === "wl") {
-      WLdispatch({ type: "removeOne", videoId: MessageBox.id });
-      setMessageBox((pre) => {
-        return {
-          show: pre.show,
-          message: "Removed from Watch later",
-          btnMessage: "✔",
-          MassageFrom: "",
-          id: "",
-        };
-      });
-    } else if (MessageBox.MassageFrom === "error") {
-      setMessageBox((msg) => {
-        return { ...msg, show: false };
-      });
-    }
-  }, [MessageBox, WLdispatch, setMessageBox]);
+    if (MessageBox.from === "wl") {
+      // -----
+      // from ?
+      dispatch(Wl_RemoveOneAtion(MessageBox.id));
 
-  console.log("MessageBox :", MessageBox);
+      // -----
+
+      dispatch(
+        SetMessageAction({
+          message: "Removed from Watch later",
+          btnText: "✔",
+          from: "",
+          id: "",
+        })
+      );
+    } else if (MessageBox.from === "error") {
+      dispatch(CloseMessageAction());
+    }
+  }, [MessageBox, dispatch]);
+
   return (
     <div
-      className={`message_box message_box--${
-        MessageBox.show ? "show" : "hide"
-      } message_box--${ReturnTheme(Theme)}`}
+      className={`${GetClassName(style, "container", Theme)} ${
+        style[`container--${MessageBox.show ? "show" : "hide"}`]
+      }`}
     >
-      <div className="message_box__wrapper">
-        <span className="message_box__text">{MessageBox.message}</span>
-        {MessageBox.btnMessage && (
+      <div className={style.wrapper}>
+        <span className={style.textcon}>{MessageBox.message}</span>
+        {MessageBox.btnText && (
           <RippleButton
-            onclick={MessageBox.btnMessage !== "✔" ? HandleBtn : () => {}}
-            classname={`message_box__btn message_box__btn--${ReturnTheme(
-              Theme
-            )}`}
+            onclick={MessageBox.btnText !== "✔" ? HandleBtn : () => {}}
+            classname={GetClassName(style, "btn", Theme)}
           >
-            <span>{MessageBox.btnMessage}</span>
+            <span>{MessageBox.btnText}</span>
           </RippleButton>
         )}
       </div>

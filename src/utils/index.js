@@ -21,24 +21,26 @@ export const ViewsNumFormatter = (num) => {
 export const HandleDuration = (d) => {
   let H, M, S, X;
 
-  if (d.includes("PT")) {
-    const HasH = d.split("PT")[1].includes("H");
-    const HasM = d.split("PT")[1].includes("M");
-    const HasS = d.split("PT")[1].includes("S");
+  if (d) {
+    if (d.includes("PT")) {
+      const HasH = d.split("PT")[1].includes("H");
+      const HasM = d.split("PT")[1].includes("M");
+      const HasS = d.split("PT")[1].includes("S");
 
-    [H, X] = HasH ? d.split("PT")[1].split("H") : d.split("PT");
+      [H, X] = HasH ? d.split("PT")[1].split("H") : d.split("PT");
 
-    if (HasM) {
-      [M, X] = X.split("M");
+      if (HasM) {
+        [M, X] = X.split("M");
+      }
+
+      S = HasS ? X.split("S")[0] : 0;
+
+      return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
+        HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
+      }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
+    } else {
+      return d;
     }
-
-    S = HasS ? X.split("S")[0] : 0;
-
-    return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
-      HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
-    }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
-  } else {
-    return d;
   }
 };
 
@@ -54,11 +56,7 @@ export const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const ReturnTheme = (Theme) => {
-  return Theme ? "dark" : "light";
-};
-
-export const UrlLocation = (home = false) => {
+export const PageLocation = (home = false) => {
   const url = window.location.href;
 
   if (url.search("/trending/") > -1) {
@@ -69,14 +67,18 @@ export const UrlLocation = (home = false) => {
     return "library";
   } else if (url.search("/history/") > -1) {
     return "history";
-  } else if (url.search("/list=WL") > -1) {
+  } else if (url.search("/results?") > -1) {
+    return "results";
+  } else if (url.search("list=WL") > -1) {
     return "WL";
+  } else if (url.search("list=LV") > -1) {
+    return "LV";
   } else if (url.search("/watch?") > -1) {
     return "watch";
   } else if (home) {
     return "home";
   } else {
-    return false;
+    return "?";
   }
 };
 
@@ -104,4 +106,12 @@ export const moveUp = (array, index) => {
     let p3 = array.slice(index + 1, array.length);
     return p1.concat(p2, p3);
   }
+};
+
+export const ReturnTheme = (Theme) => {
+  return Theme ? "dark" : "light";
+};
+
+export const GetClassName = (style, classname, theme) => {
+  return `${style[classname]} ${style[`${classname}--${ReturnTheme(theme)}`]}`;
 };

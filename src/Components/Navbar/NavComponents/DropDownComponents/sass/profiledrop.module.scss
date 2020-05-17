@@ -1,0 +1,189 @@
+@import "../../../../../sass/config.scss";
+
+.container {
+
+    @include display-flex();
+    position: absolute;
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 10px;
+    right: 75px;
+    z-index: 2;
+    outline: none;
+    box-sizing: border-box;
+    // max-width: 300px;
+    // max-height: 600px;
+    height: 600px;
+    width: 300px;
+
+
+    &--dark {
+        // Dark Theme
+        color: #fff;
+        border-bottom: 1px solid colors(border-color-Dark);
+        border-left: 1px solid colors(border-color-Dark);
+        border-right: 1px solid colors(border-color-Dark);
+        background-color: colors(Nav-background-Dark);
+        @extend %scroll-Dark;
+
+    }
+
+
+    &--light {
+        // Light Theme
+        color: #212121;
+        border-bottom: 1px solid colors(border-color-Light);
+        border-left: 1px solid colors(border-color-Light);
+        border-right: 1px solid colors(border-color-Light);
+        background-color: colors(Nav-background-Light);
+        @extend %scroll-Light;
+
+    }
+
+    // ---
+
+    .header {
+
+        @include display-flex();
+        align-items: stretch;
+        justify-content: stretch;
+        margin: 15px 0px 5px 15px;
+        height: 75px;
+
+        .pronail {
+
+            margin-right: 15px;
+
+            &__img {
+                border-radius: 50%;
+            }
+        }
+
+        .txtwrap {
+
+            font-size: 1.3em;
+            display: block;
+            font-family: Roboto-Medium;
+
+            &__name {
+                font-size: 1.3em;
+                padding-bottom: 1px;
+            }
+
+            &__email {
+                font-family: Roboto-Regular;
+                font-size: 1.02em;
+            }
+
+            &__blue_text {
+
+                padding: 10px 0;
+                font-size: 1.1em;
+                cursor: pointer;
+                font-family: Roboto-Regular;
+
+                &--dark {
+                    color: #3ea6ff;
+                }
+
+                &--light {
+                    color: #065fd4;
+                }
+            }
+        }
+    }
+
+    // ---
+
+    .body {
+
+        @include display-flex();
+        @include justifyContent-center();
+        flex-flow: column nowrap;
+        font-size: 1.4em;
+        padding-top: 160px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+
+        .block_wrapper {
+
+            @include display-flex();
+            @include justifyContent-center();
+            @include alignItems-center;
+            cursor: pointer;
+
+            &--dark {
+                &:hover {
+                    // Dark Theme
+                    background-color: colors(Theme-hover-Dark);
+                }
+            }
+
+            &--light {
+                &:hover {
+                    // Light Theme
+                    background-color: colors(Theme-hover-Light)
+                }
+            }
+
+
+            &__logo {
+                margin: 10px 10px 10px 15px;
+            }
+
+            .txtwrap {
+
+                @include display-flex();
+                @include alignItems-center();
+                justify-content: space-between;
+                flex: 1;
+
+                &__txt {
+                    @include display-flex();
+                    @include justifyContent-center();
+                    @include alignItems-center;
+
+                    &--lang {
+                        padding-left: 5px;
+                    }
+                }
+            }
+        }
+
+        .bottom_wrapper {
+
+            display: block;
+            padding: 5px 0;
+
+            .text_wrap {
+                @include display-flex();
+                @include alignItems-center();
+                justify-content: space-between;
+                padding: 10px 15px;
+                cursor: pointer;
+
+                &--dark {
+                    &:hover {
+                        // Dark Theme
+                        background-color: colors(Theme-hover-Dark);
+                    }
+                }
+
+                &--light {
+                    &:hover {
+                        // Light Theme
+                        background-color: colors(Theme-hover-Light)
+                    }
+                }
+
+                &--res {
+                    @include display-flex();
+                    @include justifyContent-center();
+                    @include alignItems-center;
+                    color: #929292;
+                }
+            }
+        }
+    }
+}

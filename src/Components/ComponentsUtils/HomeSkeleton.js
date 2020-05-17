@@ -1,40 +1,23 @@
-import React, { useContext } from "react";
-import "./sass/homeskeleton_style.scss";
-import { ThemeContext } from "../../Context";
-import { ReturnTheme } from "../../utils";
+import React, { memo } from "react";
+import style from "./sass/homeskeleton.module.scss";
+import { useSelector } from "react-redux";
+import { GetClassName } from "../../utils";
 
-const HomeSkeleton = React.memo(() => {
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
-
+const HomeSkeleton = memo(() => {
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
   return (
-    <div className="video_skeleton">
+    <div className={style.container}>
       {/* Loader */}
-      <div className="load_border">
-        <div className="loader"></div>
+      <div className={style.progressbar}>
+        <div className={style.loader}></div>
       </div>
       {/*  */}
-      <div
-        className={`video_skeleton__thumb video_skeleton__thumb--${ReturnTheme(
-          Theme
-        )}`}
-      ></div>
-      <div className="video_skeleton__bottom">
-        <div
-          className={`video_skeleton__bottom__img video_skeleton__bottom__img--${ReturnTheme(
-            Theme
-          )}`}
-        ></div>
-        <div className="video_skeleton__bottom__txt">
-          <div
-            className={`skeleton_title skeleton_title--${ReturnTheme(Theme)}`}
-          ></div>
-          <div
-            className={`skeleton_title_x skeleton_title_x--${ReturnTheme(
-              Theme
-            )}`}
-          ></div>
+      <div className={GetClassName(style, "thumbnail", Theme)}></div>
+      <div className={style.body}>
+        <div className={GetClassName(style, "body__img", Theme)}></div>
+        <div className={style.body__txt}>
+          <div className={GetClassName(style, "title1", Theme)}></div>
+          <div className={GetClassName(style, "title2", Theme)}></div>
         </div>
       </div>
     </div>

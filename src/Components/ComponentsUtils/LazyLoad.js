@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 
-const LazyLoad = React.memo(({ children, render }) => {
+const LazyLoad = memo(({ children, render }) => {
   // ==================================
   // Seen, render only on demand once.
   // ==================================

@@ -1,157 +1,186 @@
-import React, { useState, useContext, useCallback } from "react";
-import "./sass/rvccontainer_style.scss";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback, memo } from "react";
+import style from "./sass/rv.module.scss";
+import { Link, useHistory } from "react-router-dom";
 import { DotsSvg } from "../Navbar/NavComponents/Svg";
 import {
   TextReducer,
   ViewsNumFormatter,
   HandleDuration,
-  ReturnTheme,
+  GetClassName,
 } from "../../utils";
 import Moment from "react-moment";
-import { YouTubeAPI } from "../api/YoutubeApi";
 import { TimeSvg, QueueSvg, CheckedSvg } from "./Svg";
-import { WLVContext, ThemeContext, QueueContext } from "../../Context";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  RemoveOneQueueAction,
+  ADDInQueueAction,
+  ShowQueueAction,
+  Wl_RemoveOneAtion,
+  Wl_AddAction,
+  HideQueueAction,
+  CloseMessageAction,
+  SetMessageAction,
+  PlayQueueAction,
+  HideGuideAction,
+  SetGuideModeAction,
+  SetUrlLocationAction,
+} from "../../redux";
+import { useFetch } from "../hooks/useFetch";
 
-const ResultVideoContainer = React.memo(
-  ({ item, index, HandleShowMessageBox }) => {
-    // Theme context
-    const [YtTheme] = useContext(ThemeContext);
-    const Theme = YtTheme.isDarkTheme;
+const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-    // WLV Context
-    const { WatchLaterState } = useContext(WLVContext);
-    const [WatchLaterList, WLdispatch] = WatchLaterState;
+  // WLV
+  const WatchLater = useSelector((state) => state.WLV.WL);
 
-    // Queue Context
-    const { QueueState, ShowQueueState } = useContext(QueueContext);
-    const [ShowQueue, setShowQueue] = ShowQueueState;
-    const [QueueList, QueueListDispatch] = QueueState;
+  // Queue
+  const ShowQueue = useSelector((state) => state.DisplayQueue);
+  const QueueList = useSelector((state) => state.QueueList);
 
-    // ======================================
-    // Check if a video is already in wl list
-    // ======================================
+  // dispatch
+  const dispatch = useDispatch();
 
-    const [IswatchLater, setIsWatchLater] = useState(
-      WatchLaterList.some((wl) => wl.videoId === item.videoId)
-    );
+  //
+  let history = useHistory();
 
-    // =========================================
-    // Check if a video is already in queue list
-    // =========================================
-    const [IsQueue, setIsQueue] = useState(
-      QueueList.some((que) => que.videoId === item.videoId)
-    );
+  // ======================================
+  // Check if a video is already in wl list
+  // ======================================
 
-    // =========================
-    //  FETCH VIDEOS DETAILS
-    // =========================
-    const GetVideoDetails = async (id) => {
-      return await new Promise((resolve) => {
-        YouTubeAPI.get("videos", {
-          params: {
-            part: "contentDetails,statistics",
-            key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            id: id,
-          },
-        }).then((res) => {
-          resolve(res);
-        });
-      });
-    };
+  const [IswatchLater, setIsWatchLater] = useState(
+    WatchLater.some((wl) => wl.videoId === item.videoId)
+  );
 
-    // =================================
-    // fetch video duration and viewer
-    // =================================
+  // =========================================
+  // Check if a video is already in queue list
+  // =========================================
+  const [IsQueue, setIsQueue] = useState(
+    QueueList.some((que) => que.videoId === item.videoId)
+  );
 
-    const Fetch_Data = (id, index) => {
-      GetVideoDetails(id).then((res) => {
-        if (res.data.items.length >= 1) {
-          const durationIdElement = document.getElementById(
-            `${id}-${index}-duration`
-          );
+  // =================================
+  //  Fetch video duration and viewer
+  // =================================
 
-          const viewCountIdElement = document.getElementById(
-            `${id}-${index}-viewcount`
-          );
+  const snippet = useFetch(item.videoId, "videos", "contentDetails,statistics");
 
-          if (durationIdElement) {
-            durationIdElement.textContent = HandleDuration(
-              res.data.items[0].contentDetails.duration
-            );
-          }
+  const Fetch_Data = (id, index) => {
+    if (Object.keys(snippet).length !== 0) {
+      const durationIdElement = document.getElementById(
+        `${id}-${index}-duration`
+      );
 
-          if (viewCountIdElement) {
-            viewCountIdElement.textContent = `${ViewsNumFormatter(
-              res.data.items[0].statistics.viewCount
-            )} views`;
-          }
-        }
-      });
-    };
+      const viewCountIdElement = document.getElementById(
+        `${id}-${index}-viewcount`
+      );
 
-    // =========================
-    //  Handle Watch Later btn
-    // =========================
+      if (durationIdElement) {
+        durationIdElement.textContent = HandleDuration(
+          snippet.contentDetails.duration
+        );
+      }
 
-    const HandleWLClick = useCallback(
-      (
-        title,
-        duration,
-        videoId,
-        channelTitle,
-        channelId,
-        thumbnail,
-        IswatchLater_
-      ) => {
-        setIsWatchLater(!IswatchLater);
-        HandleShowMessageBox("wl", IswatchLater, item.videoId);
+      if (viewCountIdElement) {
+        viewCountIdElement.textContent = `${ViewsNumFormatter(
+          snippet.statistics.viewCount
+        )} views`;
+      }
+    }
+  };
 
-        if (IswatchLater_) {
-          WLdispatch({ type: "removeOne", videoId });
-        } else {
-          WLdispatch({
-            type: "add",
+  // =========================
+  //  Handle Watch Later btn
+  // =========================
+
+  const HandleWLClick = useCallback(
+    (
+      title,
+      duration,
+      videoId,
+      channelTitle,
+      channelId,
+      thumbnail,
+      IswatchLater_
+    ) => {
+      setIsWatchLater(!IswatchLater);
+      HandleShowMessageBox("wl", IswatchLater, item.videoId);
+
+      if (IswatchLater_) {
+        dispatch(Wl_RemoveOneAtion(videoId));
+      } else {
+        dispatch(
+          Wl_AddAction({
             title,
             duration,
             videoId,
             channelTitle,
             channelId,
             thumbnail,
-          });
-        }
-      },
-      [IswatchLater, HandleShowMessageBox, item, WLdispatch]
-    );
+          })
+        );
+      }
+    },
+    [IswatchLater, HandleShowMessageBox, item, dispatch]
+  );
 
-    // =========================
-    //    Handle Queue btn
-    // =========================
+  // =========================
+  //    Handle Queue btn
+  // =========================
 
-    const HandleQueueClick = useCallback(
-      (
-        title,
-        duration,
-        videoId,
-        channelTitle,
-        channelId,
-        thumbnail,
-        IsQueue_
-      ) => {
-        setIsQueue(!IsQueue);
-        //HandleShowMessageBox(IsQueue);
+  const HandleQueueClick = useCallback(
+    (
+      title,
+      duration,
+      videoId,
+      channelTitle,
+      channelId,
+      thumbnail,
+      IsQueue_
+    ) => {
+      setIsQueue(!IsQueue);
 
-        if (!ShowQueue) {
-          setShowQueue(true);
-        }
+      if (!ShowQueue) {
+        dispatch(ShowQueueAction());
+      }
 
-        const playing = QueueList.length === 0;
+      const playing = QueueList.length === 0;
 
-        if (IsQueue_) {
-          QueueListDispatch({ type: "removeOne", videoId });
+      if (IsQueue_) {
+        dispatch(RemoveOneQueueAction(videoId));
+
+        // --- MessageBox
+
+        if (QueueList.length - 1 === 0 && ShowQueue) {
+          dispatch(HideQueueAction());
+
+          dispatch(
+            SetMessageAction({
+              message: "Close Queue",
+              btnText: "",
+              from: "queue",
+              id: "",
+            })
+          );
+          setTimeout(() => {
+            dispatch(CloseMessageAction());
+          }, 2000);
         } else {
-          QueueListDispatch({
-            type: "add",
+          dispatch(
+            SetMessageAction({
+              message: "Removed from Queue",
+              btnText: "",
+              from: "queue",
+              id: "",
+            })
+          );
+          setTimeout(() => {
+            dispatch(CloseMessageAction());
+          }, 2000);
+        }
+      } else {
+        dispatch(
+          ADDInQueueAction({
             title,
             duration,
             videoId,
@@ -160,171 +189,240 @@ const ResultVideoContainer = React.memo(
             thumbnail,
             playing,
             index: QueueList.length,
-          });
-        }
-      },
-      [
-        IsQueue,
-        //HandleShowMessageBox,
-        QueueList,
-        QueueListDispatch,
-        ShowQueue,
-        setShowQueue,
-      ]
-    );
+          })
+        );
 
-    const HandleRImg = useCallback((skeleton_id, index) => {
-      // BackgroundColor can be red and you can use it as video duration with the width.
+        // --- MessageBox
 
-      const imgTIdElement = document.getElementById(`${skeleton_id}-${index}`);
-      if (imgTIdElement) {
-        imgTIdElement.style.backgroundColor = "transparent";
-        imgTIdElement.style.height = "auto";
+        dispatch(
+          SetMessageAction({
+            message: "Video added to queue",
+            btnText: "",
+            from: "queue",
+            id: "",
+          })
+        );
+        setTimeout(() => {
+          dispatch(CloseMessageAction());
+        }, 2000);
       }
-    }, []);
+    },
+    [IsQueue, QueueList, dispatch, ShowQueue]
+  );
 
-    return (
-      <div className="item_section">
-        <div className="item_wrap">
-          <div className="item_wrap__thumbnail">
-            <Link
-              to={`/watch/${item.videoId}`}
-              className="item_wrap__thumbnail__video"
-            >
-              <div
-                id={`hresultCha-${index}`}
-                className={`rv_video_thumb rv_video_thumb--${ReturnTheme(
-                  Theme
-                )}`}
-              >
-                <img
-                  onLoad={() => HandleRImg("hresultCha", index)}
-                  src={item.thumbnail}
-                  alt=""
-                  className="rv_video_thumb__img"
-                />
-              </div>
-            </Link>
-            {/* -------------head svg-------------- */}
+  const HandleRImg = useCallback((skeleton_id, index) => {
+    // BackgroundColor can be red and you can use it as video duration with the width.
+
+    const imgTIdElement = document.getElementById(`${skeleton_id}-${index}`);
+    if (imgTIdElement) {
+      imgTIdElement.style.backgroundColor = "transparent";
+      imgTIdElement.style.height = "auto";
+    }
+  }, []);
+
+  // ======================
+  //  redirect with params
+  // ======================
+
+  const HandleLink = useCallback(() => {
+    if (ShowQueue) {
+      const exist = QueueList.filter((obj) => {
+        return obj.videoId === item.videoId;
+      });
+
+      if (exist.length === 0) {
+        HandleQueueClick(
+          item.title,
+          snippet.contentDetails.duration,
+          item.videoId,
+          item.channelTitle,
+          item.channelId,
+          item.thumbnail
+        );
+        dispatch(PlayQueueAction(item.videoId));
+      }
+    } else {
+      // for a smooth guide transition
+      dispatch(HideGuideAction());
+      dispatch(SetGuideModeAction(2));
+      dispatch(SetUrlLocationAction("watch"));
+      history.push(`/watch?v=${item.videoId}`);
+    }
+  }, [
+    item,
+    history,
+    snippet,
+    HandleQueueClick,
+    ShowQueue,
+    dispatch,
+    QueueList,
+  ]);
+
+  // Slider HandleHoverIn
+
+  const HandleHoverIn = (value) => {
+    const slider = document.getElementById(`slider-${value}-${index}`);
+
+    if (slider) {
+      slider.style.position = "relative";
+      slider.style.zIndex = "1";
+      slider.style.transform = "translateX(0px)";
+    }
+  };
+
+  // Slider HandleHoverOut
+
+  const HandleHoverOut = (value) => {
+    const slider = document.getElementById(`slider-${value}-${index}`);
+
+    if (slider) {
+      slider.style.zIndex = "0";
+      slider.style.transform = "translateX(135px)";
+      setTimeout(() => {
+        slider.style.position = "absolute";
+        // Note: transition: transform 0.35s ease-in-out;
+      }, 350);
+    }
+  };
+
+  return (
+    <div className={style.item_section}>
+      <div className={style.item_wrap}>
+        <div className={style.thumbnail}>
+          <div onClick={HandleLink} className={style.video}>
             <div
-              id={`${item.videoId}-${index}-duration`}
-              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--duration"
+              id={`hresultCha-${index}`}
+              className={GetClassName(style, "vid_thumb", Theme)}
             >
-              {Fetch_Data(item.videoId, index)}
+              <img
+                onLoad={() => HandleRImg("hresultCha", index)}
+                src={item.thumbnail}
+                alt=""
+                className={style.vid_thumb__img}
+              />
             </div>
-            <button
-              onClick={() =>
-                HandleWLClick(
-                  item.title,
-                  document.getElementById(`${item.videoId}-${index}-duration`)
-                    .innerHTML,
-                  item.videoId,
-                  item.channelTitle,
-                  item.channelId,
-                  item.thumbnail,
-                  IswatchLater
-                )
-              }
-              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--clock"
-            >
-              <div className="rv_icon_btn">
-                {IswatchLater ? (
-                  <div className="rv_icon_btn__check">
-                    <CheckedSvg />
-                  </div>
-                ) : (
-                  <TimeSvg />
-                )}
-              </div>
-              <div className="rv_slider">
-                {IswatchLater ? (
-                  <div className="rv_slider__check">added</div>
-                ) : (
-                  <div className="rv_slider__normal">watch later</div>
-                )}
-              </div>
-            </button>
-            <button
-              onClick={() =>
-                HandleQueueClick(
-                  item.title,
-                  document.getElementById(`${item.videoId}-${index}-duration`)
-                    .innerHTML,
-                  item.videoId,
-                  item.channelTitle,
-                  item.channelId,
-                  item.thumbnail,
-                  IsQueue
-                )
-              }
-              className="item_wrap__thumbnail__inner_btn item_wrap__thumbnail__inner_btn--queue"
-            >
-              <div className="rv_icon_btn">
-                {IsQueue ? <CheckedSvg /> : <QueueSvg />}
-              </div>
-              <div className="rv_slider">
-                {IsQueue ? (
-                  <div className="rv_slider__check">added</div>
-                ) : (
-                  <div className="rv_slider__text">add to queue</div>
-                )}
-              </div>
-            </button>
-            {/* -------------body-------------- */}
           </div>
-          <div className="item_wrap__body">
-            <div className="item_wrap__body__container">
-              <div className="item_wrap__body__text_wrap">
-                <div className="rv_results_header">
-                  <Link
-                    to={`watch/${item.videoId}`}
-                    className={`rv_results_header__title rv_results_header__title--${ReturnTheme(
-                      Theme
-                    )}`}
-                  >
-                    {TextReducer(item.title, 56)}
-                  </Link>
+          {/* -------------head svg-------------- */}
+          <div
+            id={`${item.videoId}-${index}-duration`}
+            className={`${style.inner_btn} ${style["inner_btn--duration"]}`}
+          >
+            {Fetch_Data(item.videoId, index)}
+          </div>
+          <button
+            onClick={() =>
+              HandleWLClick(
+                item.title,
+                document.getElementById(`${item.videoId}-${index}-duration`)
+                  .innerHTML,
+                item.videoId,
+                item.channelTitle,
+                item.channelId,
+                item.thumbnail,
+                IswatchLater
+              )
+            }
+            className={`${style.inner_btn} ${style["inner_btn--clock"]}`}
+          >
+            <div
+              onMouseEnter={() => HandleHoverIn("wl")}
+              onMouseLeave={() => HandleHoverOut("wl")}
+              className={style.icon_btn}
+            >
+              {IswatchLater ? (
+                <div className={style.icon_btn__check}>
+                  <CheckedSvg />
                 </div>
+              ) : (
+                <TimeSvg />
+              )}
+            </div>
+            <div id={`slider-wl-${index}`} className={style.slider}>
+              {IswatchLater ? (
+                <div className={style.slider__check}>added</div>
+              ) : (
+                <div className={style.slider__normal}>watch later</div>
+              )}
+            </div>
+          </button>
+          <button
+            onClick={() =>
+              HandleQueueClick(
+                item.title,
+                document.getElementById(`${item.videoId}-${index}-duration`)
+                  .innerHTML,
+                item.videoId,
+                item.channelTitle,
+                item.channelId,
+                item.thumbnail,
+                IsQueue
+              )
+            }
+            className={`${style.inner_btn} ${style["inner_btn--queue"]}`}
+          >
+            <div
+              onMouseEnter={() => HandleHoverIn("q")}
+              onMouseLeave={() => HandleHoverOut("q")}
+              className={style.icon_btn}
+            >
+              {IsQueue ? <CheckedSvg /> : <QueueSvg />}
+            </div>
+            <div id={`slider-q-${index}`} className={style.slider}>
+              {IsQueue ? (
+                <div className={style.slider__check}>added</div>
+              ) : (
+                <div className={style.slider__text}>add to queue</div>
+              )}
+            </div>
+          </button>
+          {/* -------------body-------------- */}
+        </div>
+        <div className={style.body}>
+          <div className={style.body__container}>
+            <div className={style.body__text_wrap}>
+              <div className={style.results_header}>
                 <div
-                  className={`rv_results_details rv_results_details--${ReturnTheme(
+                  onClick={HandleLink}
+                  className={GetClassName(
+                    style,
+                    "results_header__title",
                     Theme
-                  )}`}
+                  )}
                 >
-                  <Link
-                    data-scontent={item.channelTitle}
-                    className={`rv_results_details__ch_title rv_results_details__ch_title--${ReturnTheme(
-                      Theme
-                    )}`}
-                    to={`/channel/${item.channelId}`}
-                  >
-                    {item.channelTitle}
-                  </Link>
-                  <div className="rv_results_details__ch_dot">•</div>
-                  <div className="rv_results_details__sv_tt">
-                    <span id={`${item.videoId}-${index}-viewcount`}></span>
-                    <div className="rv_results_details__ch_dot">•</div>
-                    <span>
-                      <Moment fromNow>{item.publishedAt}</Moment>
-                    </span>
-                  </div>
+                  {TextReducer(item.title, 56)}
                 </div>
               </div>
-              <div className="item_wrap__body__container__menu">
-                <DotsSvg />
+              <div className={GetClassName(style, "details", Theme)}>
+                <Link
+                  data-scontent={item.channelTitle}
+                  className={GetClassName(style, "details__ch_title", Theme)}
+                  to={`/channel/${item.channelId}`}
+                >
+                  {item.channelTitle}
+                </Link>
+                <div className={style.details__ch_dot}>•</div>
+                <div className={style.details__sv_tt}>
+                  <span id={`${item.videoId}-${index}-viewcount`}></span>
+                  <div className={style.details__ch_dot}>•</div>
+                  <span>
+                    <Moment fromNow>{item.publishedAt}</Moment>
+                  </span>
+                </div>
               </div>
             </div>
             <div
-              className={`item_wrap__details item_wrap__details--${ReturnTheme(
-                Theme
-              )}`}
+              className={GetClassName(style, "body__container__menu", Theme)}
             >
-              {TextReducer(item.description, 121)}
+              <DotsSvg />
             </div>
+          </div>
+          <div className={GetClassName(style, "item_wrap__details", Theme)}>
+            {TextReducer(item.description, 121)}
           </div>
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 export default ResultVideoContainer;

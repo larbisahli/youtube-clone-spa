@@ -1,29 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scnni.scss";
-import { ThemeContext } from "../../../../Context";
+import { useSelector } from "react-redux";
 import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 
-const AppSvg = React.memo(() => {
-  const [fade, setFade] = useState(false);
-
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
-
-  const HundleClick = () => {
-    setFade(true);
-    setTimeout(() => {
-      setFade(false);
-    }, 300);
-  };
+const AppSvg = memo(() => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   return (
-    <button
-      id="apx"
-      className={`ytb_svg titleA titleA--${ReturnTheme(Theme)}`}
-      onClick={HundleClick}
-    >
+    <div id="apx" className={`ytb_svg titleA titleA--${ReturnTheme(Theme)}`}>
       <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
         <g>
           <path
@@ -32,12 +19,7 @@ const AppSvg = React.memo(() => {
           ></path>
         </g>
       </svg>
-      <div
-        className={`ytb_svg__effect ${
-          fade ? `ytb_svg__action--${ReturnTheme(Theme)}` : ""
-        }`}
-      ></div>
-    </button>
+    </div>
   );
 });
 

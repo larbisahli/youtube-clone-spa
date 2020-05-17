@@ -1,11 +1,11 @@
-@import '../../../../sass/config_style.scss';
+@import '../../../../sass/config.scss';
 
 .ytb_svg_x {
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 
     &__wrapper {
         height: 24px;

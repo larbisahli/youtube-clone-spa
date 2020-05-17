@@ -1,91 +1,79 @@
-import React, { useContext, useCallback } from "react";
-import "./sass/semidrop_style.scss";
+import React, { memo } from "react";
+import style from "./sass/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg, AddAccSvg, SOSvg } from "../Svg";
-import { ThemeContext, NavContext } from "../../../../Context";
-import { ReturnTheme } from "../../../../utils";
+import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
-// Using Memo to prevent unnecessary re-renders
+import { useSelector, useDispatch } from "react-redux";
+import { SwitchAccAction } from "../../../../redux";
 
-const SADrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
-  // Navbar context
-  const { accountState } = useContext(NavContext);
-  const [acc, setAcc] = accountState;
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+// Using memo to prevent unnecessary re-renders
 
-  const HandleProChange = useCallback(
-    (id) => {
-      setAcc([
-        ...acc.map((acc) => {
-          acc.isCurrent = false;
-          if (acc.accId === id) {
-            acc.isCurrent = !acc.isCurrent;
-          }
-          return acc;
-        }),
-      ]);
-    },
-    [acc, setAcc]
-  );
+const SADrop = memo(({ handleGoBackDrop, show }) => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
+  // accounts
+  const accounts = useSelector((state) => state.Navbar.accounts);
 
-  const IsCurrentAccount = useCallback(acc.filter((acc) => acc.isCurrent)[0], [
-    acc,
-  ]);
+  // select the current active account
+  const IsCurrentAccount = accounts.filter((acc) => acc.isCurrent)[0];
 
-  const sa_acc = `sa_acc_wrap sa_acc_wrap--${ReturnTheme(Theme)}`;
+  // ==========
+  //  dispatch
+  // ==========
+  const dispatch = useDispatch();
+
+  const HandleProChange = (id) => {
+    dispatch(SwitchAccAction(id));
+  };
+
+  const acc_wrap = GetClassName(style, "acc_wrap", Theme);
 
   return (
     <div
       id="switch_acc_drop"
       style={{ display: show ? "" : "none" }}
-      className={`semiDrop semiDrop--${ReturnTheme(Theme)}`}
+      className={GetClassName(style, "container", Theme)}
     >
       <LazyLoad render={show}>
-        <div className="semiDrop__header">
-          <button
-            onClick={handleGoBackDrop}
-            className="semiDrop__header__arrow"
-          >
-            <BackArrowSvg isCurrent={isCurrent} />
+        <div className={style.header}>
+          <button onClick={handleGoBackDrop} className={style.header__arrow}>
+            <BackArrowSvg />
           </button>
-          <div className="semiDrop__header__text">Accounts</div>
+          <div className={style.header__text}>Accounts</div>
         </div>
         <div className={`line line--${ReturnTheme(Theme)}`}></div>
-        <div className="semiDrop__main_wrapper">
-          <div className="sa_email">{IsCurrentAccount.email}</div>
-          {acc.map((acc, index) => {
+        <div className={style.mainbody}>
+          <div className={style.email_area}>{IsCurrentAccount.email}</div>
+          {accounts.map((acc, index) => {
             return (
               <div
                 onClick={() => HandleProChange(acc.accId)}
                 key={index}
-                className={sa_acc}
+                className={acc_wrap}
               >
-                <div className="sa_thumb">
+                <div className={style.pronail}>
                   <img
-                    className="sa_thumb__img"
+                    className={style.pronail__img}
                     height="40"
                     width="40"
                     src={acc.img}
                     alt="_avatar_"
                   />
                 </div>
-                <div className="sa_body">
-                  <div className="sa_body__wrap">
-                    <div className="sa_body__wrap__name">{acc.name}</div>
+                <div className={style.sa_body}>
+                  <div className={style.sa_wrap}>
+                    <div className={style.sa_wrap__name}>{acc.name}</div>
                     <div
-                      className={`sa_body__wrap__subs sa_body__wrap__subs--${ReturnTheme(
-                        Theme
-                      )}`}
+                      className={GetClassName(style, "sa_wrap__subs", Theme)}
                     >
                       {acc.subs} subscribers
                     </div>
                   </div>
                   <div
-                    className="sa_body__check_area"
+                    className={style.check_area}
                     style={{ display: acc.isCurrent ? "" : "none" }}
                   >
-                    <CheckedSvg isCurrent={isCurrent} />
+                    <CheckedSvg />
                   </div>
                 </div>
               </div>
@@ -96,18 +84,18 @@ const SADrop = React.memo(({ handleGoBackDrop, isCurrent, show }) => {
           style={{ margin: "5px 0" }}
           className={`line line--${ReturnTheme(Theme)}`}
         ></div>
-        <div className="semiDrop__main_wrapper semiDrop__btmpad">
-          <div className={sa_acc}>
-            <div className="btmpad_icon">
+        <div className={`${style.mainbody} ${style.btmpad}`}>
+          <div className={acc_wrap}>
+            <div className={style.btmpad_icon}>
               <AddAccSvg />
             </div>
-            <div className="btmpad_text">Add account</div>
+            <div className={style.btmpad_text}>Add account</div>
           </div>
-          <div className={sa_acc}>
-            <div className="btmpad_icon">
+          <div className={acc_wrap}>
+            <div className={style.btmpad_icon}>
               <SOSvg />
             </div>
-            <div className="btmpad_text">Sign out</div>
+            <div className={style.btmpad_text}>Sign out</div>
           </div>
         </div>
       </LazyLoad>

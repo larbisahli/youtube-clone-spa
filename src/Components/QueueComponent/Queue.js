@@ -1,9 +1,13 @@
-import React, { useContext, useState, useCallback, useEffect } from "react";
-import "./queue_style.scss";
+import React, { useState, useCallback, memo } from "react";
+import style from "./queue.module.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
-import { ThemeContext, QueueContext, MessageBoxContext } from "../../Context";
-import { HandleDuration, TextReducer, ReturnTheme } from "../../utils";
+import {
+  HandleDuration,
+  TextReducer,
+  ReturnTheme,
+  GetClassName,
+} from "../../utils";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
@@ -12,110 +16,130 @@ import {
   NextBtnSvg,
   PrevBtnSvg,
 } from "./Svg";
-import { VideoPlayer } from "../ComponentsUtils";
 import {
+  VideoPlayer,
   PauseVideo,
   PlayVideo,
   getCurrentTime,
   StopVideo,
-  //ForceDestroyIframe,
   DestroyIframe,
-} from "../ComponentsUtils/VideoPlayer";
+  LazyLoad,
+} from "../ComponentsUtils";
 import { useHistory } from "react-router-dom";
-import { LazyLoad } from "../ComponentsUtils";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  RemoveOneQueueAction,
+  PlayQueueAction,
+  RemoveAllQueueAction,
+  PlayNextQueueAction,
+  PlayPrevQueueAction,
+  HideQueueAction,
+  CloseMessageAction,
+  SetMessageAction,
+  HideGuideAction,
+  SetGuideModeAction,
+  SetUrlLocationAction,
+} from "../../redux";
 
-const PlayListItems = React.memo(({ plv, CurrentPlayingVidIndex }) => {
-  // Queue Context
-  const { QueueState } = useContext(QueueContext);
-  const [, QueueListDispatch] = QueueState;
+const PlayListItems = memo(
+  ({ plv, CurrentPlayingVidIndex, HandleClosingMessageBox }) => {
+    // Theme
+    const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+    // dispatch
+    const dispatch = useDispatch();
 
-  // ===============
-  //  Handle Delete
-  // ===============
-  const HandleDelClick = useCallback(
-    (videoId) => {
-      QueueListDispatch({ type: "removeOne", videoId });
-    },
-    [QueueListDispatch]
-  );
+    //  Handle Delete
+    const HandleDelClick = useCallback(
+      (videoId) => {
+        //
+        dispatch(RemoveOneQueueAction(videoId));
+        //
+        dispatch(
+          SetMessageAction({
+            message: "Removed from Queue",
+            btnText: "",
+            from: "",
+            id: "",
+          })
+        );
 
-  return (
-    <div
-      onClick={() =>
-        QueueListDispatch({
-          type: "play",
-          videoId: plv.videoId,
-        })
-      }
-      className={`ytb_miniplayer__plv_container ytb_miniplayer__plv_container--${ReturnTheme(
-        Theme
-      )} ${
-        CurrentPlayingVidIndex() === plv.index
-          ? `ytb_vis_playing--${ReturnTheme(Theme)}`
-          : ""
-      }`}
-    >
-      <div className="ytb_playbtn_area">
-        {plv.playing ? (
-          <div className="ytb_playbtn_area__playing">▶</div>
-        ) : (
-          <div className="ytb_playbtn_area__drag">
-            <DRSvg />
-          </div>
-        )}
-      </div>
-      <div className="ytb_video_wrapper">
-        <div className="ytb_video_wrapper__thumbnail">
-          <div className="">
-            <img
-              width="100"
-              className="ytb_plvt_img"
-              src={plv.thumbnail}
-              alt=""
-            />
-          </div>
-          <div className="ytb_plv_duration">{HandleDuration(plv.duration)}</div>
+        setTimeout(() => {
+          HandleClosingMessageBox();
+        }, 4000);
+      },
+      [dispatch, HandleClosingMessageBox]
+    );
+
+    return (
+      <div
+        onClick={() => dispatch(PlayQueueAction(plv.videoId))}
+        className={`${GetClassName(style, "block", Theme)} ${
+          CurrentPlayingVidIndex() === plv.index
+            ? style[`isplaying--${ReturnTheme(Theme)}`]
+            : ""
+        }`}
+      >
+        <div className={style.playbtn}>
+          {plv.playing ? (
+            <div className={style.playbtn__playing}>▶</div>
+          ) : (
+            <div className={style.playbtn__drag}>
+              <DRSvg />
+            </div>
+          )}
         </div>
-        <div className="ytb_video_wrapper__body_container">
-          <div className="ytb_plv_header_wrap">
-            <div className="ytb_plv_header_wrap__title">
-              {TextReducer(plv.title, 40)}
+        <div className={style.itemwrap}>
+          <div className={style.thumbnail}>
+            <div>
+              <img
+                width="100"
+                className={style.thumbnail__img}
+                src={plv.thumbnail}
+                alt=""
+              />
             </div>
-            <div
-              className={`ytb_plv_header_wrap__chtitle ytb_plv_header_wrap__chtitle--${ReturnTheme(
-                Theme
-              )}`}
-            >
-              {plv.channelTitle}
+            <div className={style.thumbnail__duration}>
+              {HandleDuration(plv.duration)}
             </div>
           </div>
-          <div className="ytb_plv_del_btn_container">
-            <div
-              onClick={() => HandleDelClick(plv.videoId, plv.index)}
-              className={`ytb_plv_del_btn ytb_plv_del_btn--${ReturnTheme(
-                Theme
-              )} ${
-                CurrentPlayingVidIndex() === plv.index ? "ytb_delbtn_not" : ""
-              }`}
-            >
-              <TrashSvg />
+          <div className={style.body_container}>
+            <div className={style.text_area}>
+              <div className={style.text_area__title}>
+                {TextReducer(plv.title, 40)}
+              </div>
+              <div className={GetClassName(style, "text_area__chtitle", Theme)}>
+                {plv.channelTitle}
+              </div>
+            </div>
+            <div className={style.btncon}>
+              <div
+                onClick={() => HandleDelClick(plv.videoId, plv.index)}
+                className={`${GetClassName(style, "btncon__del", Theme)} ${
+                  CurrentPlayingVidIndex() === plv.index
+                    ? style.btncon__hide
+                    : ""
+                }`}
+              >
+                <TrashSvg />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
-const Queue = React.memo(() => {
-  // Queue Context
-  const { QueueState, ShowQueueState } = useContext(QueueContext);
-  const [ShowQueue, setShowQueue] = ShowQueueState;
-  const [QueueList, QueueListDispatch] = QueueState;
+const Queue = memo(() => {
+  // Queue
+  const ShowQueue = useSelector((state) => state.DisplayQueue);
+  const QueueList = useSelector((state) => state.QueueList);
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
+
+  // dispatch
+  const dispatch = useDispatch();
 
   // Show Queue list State
   const [ShowList, setShowList] = useState(false);
@@ -123,19 +147,12 @@ const Queue = React.memo(() => {
   // Play Btn Toggle between pause and play State
   const [ShowPlayBtn, setShowPlayBtn] = useState(false);
 
-  // Theme context
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
-
-  // Message Box Context
-  const [, setMessageBox] = useContext(MessageBoxContext);
-
   //
   const [VideoLoaded, setVideoLoaded] = useState(false);
 
-  // =======================================
-  // Get the videoId if the {playing : true}
-  // =======================================
+  // ====================================================
+  // Get the videoId if the {playing : true} in QueueList
+  // ====================================================
 
   const HandlePlayingVideo = useCallback(() => {
     let vidId = "";
@@ -149,23 +166,21 @@ const Queue = React.memo(() => {
         vidId = vidId[0].videoId;
       } else {
         vidId = QueueList[0].videoId;
-        QueueListDispatch({
-          type: "play",
-          videoId: QueueList[0].videoId,
-        });
+        // play video
+        dispatch(PlayQueueAction(QueueList[0].videoId));
       }
     } else {
       return "";
     }
 
     return vidId;
-  }, [QueueList, QueueListDispatch]);
+  }, [QueueList, dispatch]);
 
-  // ===================================
+  // =====================================
   //  Get the current playing video title
-  // ===================================
+  // =====================================
 
-  const HandleVidPlayingTitle = useCallback(() => {
+  const HandlePlayingVidTitle = useCallback(() => {
     const plv = QueueList.filter((plv) => {
       return plv.videoId === HandlePlayingVideo();
     });
@@ -179,11 +194,11 @@ const Queue = React.memo(() => {
     }
   }, [HandlePlayingVideo, QueueList]);
 
-  // ==================================
-  // Get the index of the current video
-  // ==================================
+  // ===========================================
+  // Get the index of the current playing video
+  // ===========================================
 
-  const CurrentPlayingVidIndex = useCallback(() => {
+  const GetCurrentPlayingVidIndex = useCallback(() => {
     const plv = QueueList.filter((plv) => {
       return plv.videoId === HandlePlayingVideo();
     });
@@ -195,33 +210,18 @@ const Queue = React.memo(() => {
     }
   }, [HandlePlayingVideo, QueueList]);
 
-  // ==================================
-  // Video index for next or prev video
-  // ==================================
-
-  const HandleVideoIndex = useCallback(() => {
-    if (QueueList.length !== 0) {
-      return QueueList.filter((plv) => {
-        return plv.playing;
-      })[0].index;
-    } else {
-      return 0;
-    }
-  }, [QueueList]);
-
   // ======================
-  // Handle Closing Queue
+  //  Handle Closing Queue
   // ======================
 
   const HandleCloseQueue = useCallback(() => {
     // Clean Up
     StopVideo();
-    setShowQueue(() => false);
+    dispatch(HideQueueAction());
+
     DestroyIframe();
-    QueueListDispatch({
-      type: "removeAll",
-    });
-  }, [QueueListDispatch, setShowQueue]);
+    dispatch(RemoveAllQueueAction());
+  }, [dispatch]);
 
   // ============================
   //  Keep Track of Video clicks
@@ -229,14 +229,10 @@ const Queue = React.memo(() => {
 
   const onPlayerStateChange = useCallback(
     (event) => {
-      console.log("event.data :", event.data);
       switch (event.data) {
         case 0:
-          // play next video when the current video finished
-          QueueListDispatch({
-            type: "play_next",
-            index: HandleVideoIndex(),
-          });
+          // play next video when the current video has finished
+          dispatch(PlayNextQueueAction());
           break;
         case 1:
           setShowPlayBtn(() => false);
@@ -255,42 +251,34 @@ const Queue = React.memo(() => {
           break;
       }
     },
-    [QueueListDispatch, HandleVideoIndex]
+    [dispatch]
   );
 
   // ===================
   // Handle Pause Video
   // ===================
 
-  const PauseVid = useCallback(() => {
+  const PauseVid = () => {
     PauseVideo();
     setShowPlayBtn(() => true);
-  }, []);
+  };
 
   // ==================
   // Handle Play Video
   // ==================
 
-  const PlayVid = useCallback(() => {
+  const PlayVid = () => {
     PlayVideo();
     setShowPlayBtn(() => false);
-  }, []);
+  };
 
   // ======================
   //  Handle Error Message
   // ======================
 
   const HandleClosingMessageBox = useCallback(() => {
-    setMessageBox((pre) => {
-      return {
-        show: false,
-        message: pre.message,
-        btnMessage: pre.btnMessage,
-        MassageFrom: "",
-        id: "",
-      };
-    });
-  }, [setMessageBox]);
+    dispatch(CloseMessageAction());
+  }, [dispatch]);
 
   const onPlayerError = useCallback(
     (event) => {
@@ -298,26 +286,28 @@ const Queue = React.memo(() => {
         case 2:
           break;
         case 100:
-          setMessageBox({
-            show: true,
-            message: "The video requested was not found",
-            btnMessage: "",
-            MassageFrom: "",
-            id: "",
-          });
+          dispatch(
+            SetMessageAction({
+              message: "The video requested was not found",
+              btnText: "",
+              from: "",
+              id: "",
+            })
+          );
 
           setTimeout(() => {
             HandleClosingMessageBox();
           }, 4000);
           break;
         case 150:
-          setMessageBox({
-            show: true,
-            message: "The Video owner does not allow embedded players",
-            btnMessage: "",
-            MassageFrom: "",
-            id: "",
-          });
+          dispatch(
+            SetMessageAction({
+              message: "The Video owner does not allow embedded players",
+              btnText: "",
+              from: "",
+              id: "",
+            })
+          );
 
           setTimeout(() => {
             HandleClosingMessageBox();
@@ -327,7 +317,7 @@ const Queue = React.memo(() => {
           break;
       }
     },
-    [setMessageBox, HandleClosingMessageBox]
+    [HandleClosingMessageBox, dispatch]
   );
 
   //
@@ -338,7 +328,13 @@ const Queue = React.memo(() => {
     if (getCurrentTime()) {
       t = getCurrentTime();
     }
-    setShowQueue(() => false);
+
+    dispatch(HideQueueAction());
+    // for a smooth guide transition
+    dispatch(HideGuideAction());
+    dispatch(SetGuideModeAction(2));
+    dispatch(SetUrlLocationAction("watch"));
+
     history.push(`/watch?v=${HandlePlayingVideo()}&t=${Math.floor(t)}&list=q`);
     DestroyIframe();
   };
@@ -352,19 +348,15 @@ const Queue = React.memo(() => {
             ShowQueue ? (ShowList ? "0" : "285px") : "575px"
           }, 0)`,
         }}
-        className={`ytb_miniplayer ytb_miniplayer--${ReturnTheme(Theme)}`}
+        className={GetClassName(style, "container", Theme)}
       >
-        <div
-          className={`ytb_miniplayer__wrapper ytb_miniplayer__wrapper--${ReturnTheme(
-            Theme
-          )}`}
-        >
-          <div id="q-player" className="ytb_miniplayer__video_container">
+        <div className={GetClassName(style, "wrapper", Theme)}>
+          <div id="q-player" className={style.video_container}>
             {/* Video Iframe */}
 
             <div
-              className={`miniplayer miniplayer--${
-                VideoLoaded ? "visible" : "hidden"
+              className={`${style.miniplayer} ${
+                style[`miniplayer--${VideoLoaded ? "visible" : "hidden"}`]
               }`}
             >
               <VideoPlayer
@@ -375,38 +367,33 @@ const Queue = React.memo(() => {
                 onPlayerError={onPlayerError}
               />
             </div>
-            {/* <div className="ytb_pp_btn ytb_pp_btn-bg"></div> */}
+
             <div
-              onClick={() =>
-                QueueListDispatch({
-                  type: "play_prev",
-                  index: HandleVideoIndex(),
-                })
-              }
-              className="ytb_inner_btn ytb_inner_btn--prev"
+              onClick={() => {
+                dispatch(PlayPrevQueueAction());
+              }}
+              className={`${style.inner_btn} ${style["inner_btn--prev"]}`}
             >
               <PrevBtnSvg />
             </div>
+
             <div
-              onClick={() =>
-                QueueListDispatch({
-                  type: "play_next",
-                  index: HandleVideoIndex(),
-                })
-              }
-              className="ytb_inner_btn ytb_inner_btn--next"
+              onClick={() => {
+                dispatch(PlayNextQueueAction());
+              }}
+              className={`${style.inner_btn} ${style["inner_btn--next"]}`}
             >
               <NextBtnSvg />
             </div>
             <div
               onClick={handleExpandBtn}
-              className="ytb_inner_btn ytb_inner_btn--expandbtn"
+              className={`${style.inner_btn} ${style["inner_btn--expandbtn"]}`}
             >
               <ExpandSvg />
             </div>
             <div
               onClick={HandleCloseQueue}
-              className="ytb_inner_btn ytb_inner_btn--closebtn"
+              className={`${style.inner_btn} ${style["inner_btn--closebtn"]}`}
             >
               <CloseBtnSvg />
             </div>
@@ -414,14 +401,14 @@ const Queue = React.memo(() => {
             {ShowPlayBtn ? (
               <div
                 onClick={PlayVid}
-                className="ytb_inner_btn ytb_inner_btn--mid"
+                className={`${style.inner_btn} ${style["inner_btn--mid"]}`}
               >
                 <PlayBtnSvg />
               </div>
             ) : (
               <div
                 onClick={PauseVid}
-                className="ytb_inner_btn ytb_inner_btn--mid"
+                className={`${style.inner_btn} ${style["inner_btn--mid"]}`}
               >
                 <PauseBtnSvg />
               </div>
@@ -429,70 +416,49 @@ const Queue = React.memo(() => {
 
             <div className="ytb_playbtn"></div>
           </div>
-          <div
-            className={`ytb_miniplayer__header_container ytb_miniplayer__header_container--${ReturnTheme(
-              Theme
-            )}`}
-          >
-            <div className="ytb_header_wrap">
-              <div className="ytb_header_wrap__title">
-                <span>{TextReducer(HandleVidPlayingTitle(), 50)}</span>
+          <div className={GetClassName(style, "header", Theme)}>
+            <div className={style.header_wrap}>
+              <div className={style.header_wrap__title}>
+                <span>{TextReducer(HandlePlayingVidTitle(), 50)}</span>
               </div>
               <div
                 onClick={() => setShowList((value) => !value)}
-                className={`ytb_header_wrap__qcounter ytb_header_wrap__qcounter--${ReturnTheme(
-                  Theme
-                )}`}
+                className={GetClassName(style, "header_wrap__counter", Theme)}
               >
                 <div>Queue</div>
                 <span>•</span>
                 <div>{`${
-                  QueueList.length === 0 ? 0 : CurrentPlayingVidIndex() + 1
+                  QueueList.length === 0 ? 0 : GetCurrentPlayingVidIndex() + 1
                 } / ${QueueList.length}`}</div>
               </div>
             </div>
             <div
               onClick={() => setShowList((value) => !value)}
-              className="ytb_arrow_btn"
+              className={style.arrow_btn}
             >
-              <div
-                className={`ytb_arrow_btn__btnwrap ytb_arrow_btn__btnwrap--${ReturnTheme(
-                  Theme
-                )}`}
-              >
+              <div className={GetClassName(style, "arrow_btn__wrap", Theme)}>
                 {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
               </div>
             </div>
           </div>
           {/* PLAYLIST CONTAINER */}
-          <div
-            className={`ytb_miniplayer__playlist_container ytb_miniplayer__playlist_container--${ReturnTheme(
-              Theme
-            )}`}
-          >
-            <div
-              className={`ytb_playlist_panel ytb_playlist_panel--${ReturnTheme(
-                Theme
-              )}`}
-            >
-              <div className="ytb_playlist_panel__txt_wrap">
+          <div className={GetClassName(style, "playlist_container", Theme)}>
+            <div className={GetClassName(style, "panel", Theme)}>
+              <div className={style.panel__txtwrap}>
                 <AddPlayListSvg />
 
                 <span>save</span>
               </div>
             </div>
             {/* PLAYLIST ITEMS */}
-            <div
-              className={`ytb_playlist_items ytb_playlist_items--${ReturnTheme(
-                Theme
-              )}`}
-            >
+            <div className={GetClassName(style, "items", Theme)}>
               {QueueList.map((plv, index) => {
                 return (
                   <PlayListItems
                     plv={plv}
                     key={index}
-                    CurrentPlayingVidIndex={CurrentPlayingVidIndex}
+                    CurrentPlayingVidIndex={GetCurrentPlayingVidIndex}
+                    HandleClosingMessageBox={HandleClosingMessageBox}
                   />
                 );
               })}

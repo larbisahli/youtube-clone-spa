@@ -80,12 +80,10 @@ export const Seek = (t) => {
 export const DestroyIframe = () => {
   try {
     // Clean up iframe
-    console.log("----------START:destroy---------", player);
     player.stopVideo();
     player.destroy();
     // Clear out the reference to the destroyed player
     player = null;
-    console.log("----------END:destroy---------", player);
   } catch (error) {
     console.log("Destroy Error :>> ", error);
   }
@@ -132,7 +130,7 @@ const VideoPlayer = React.memo(
           } catch (error) {
             console.log("error :", error);
             setTimeout(function () {
-              // in case the first call didn't work
+              // in case the first call was late
               player.loadVideoById(HandlePlayingVideo());
             }, 500);
           }
@@ -160,9 +158,8 @@ const VideoPlayer = React.memo(
         // we can't use (iframe.contentDocument) If the iframe is cross-domain,
         // we will be blocked by the same-origin policy.
 
-        if (iframe_) {
+        if (iframe_ && YT.loaded) {
           if (iframe_.offsetHeight === 0 && check) {
-            //console.log("in check :>> ", check, PlayerId, player);
             loadVideo(YT, PlayerId, onPlayerStateChange, onPlayerError);
           }
 
@@ -175,7 +172,6 @@ const VideoPlayer = React.memo(
                 currentVideoId !== HandlePlayingVideo()
               ) {
                 try {
-                  //console.log("............ :>> ", player);
                   currentVideoId = HandlePlayingVideo();
                   player.loadVideoById(HandlePlayingVideo());
                 } catch (error) {
@@ -196,7 +192,7 @@ const VideoPlayer = React.memo(
     ]);
 
     if (CallCount > 30) {
-      //console.log("boooooooy");
+      console.log("END CALL reload:true ----------><>");
       clearInterval(intervalId);
       setCallCount(() => {
         return 0;

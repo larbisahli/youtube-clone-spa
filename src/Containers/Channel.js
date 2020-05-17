@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Channel = React.memo(() => {
+const Channel = memo(() => {
   return <div></div>;
 });
 

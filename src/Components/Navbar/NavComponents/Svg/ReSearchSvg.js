@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React, { memo } from "react";
 import "./sass/svg_style_scnni.scss";
-import { ThemeContext } from "../../../../Context";
+import { useSelector } from "react-redux";
 import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 
-const ReSearchSvg = React.memo(() => {
-  const [YtTheme] = useContext(ThemeContext);
-  const Theme = YtTheme.isDarkTheme;
+const ReSearchSvg = memo(() => {
+  // Theme
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
   return (
     <div className={`ytb_svg titleS titleS--${ReturnTheme(Theme)}`}>

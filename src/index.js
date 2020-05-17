@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./sass/index_style.scss";
+import "./sass/index.scss";
 import App from "./Containers/App";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider } from "./Context";
+import { Provider } from "react-redux";
+import { store } from "./redux";
 
 ReactDOM.render(
   <Router>
-    <ThemeProvider>
+    <Provider store={store}>
       <App />
-    </ThemeProvider>
+    </Provider>
   </Router>,
   document.getElementById("root")
 );
