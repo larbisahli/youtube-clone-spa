@@ -1,13 +1,13 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, memo, useState } from "react";
 
 let player;
+let intervalId;
 let currentVideoId = null;
 
 const loadVideo = (YT, PlayerId, onPlayerStateChange, onPlayerError) => {
   // the Player object is created uniquely based on the PlayerId
 
   player = new YT.Player(PlayerId, {
-    // videoId: videoId,
     height: "100%",
     width: "100%",
     playerVars: {
@@ -89,119 +89,133 @@ export const DestroyIframe = () => {
   }
 };
 
-let intervalId;
+const VideoPlayer = ({
+  check,
+  HandlePlayingVideo,
+  PlayerId,
+  onPlayerStateChange,
+  onPlayerError,
+}) => {
+  //
+  const [CallCount, setCallCount] = useState(0);
 
-const VideoPlayer = React.memo(
-  ({
+  // -----
+
+  useEffect(() => {
+    // - This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }, []);
+
+  console.log("<<=== count ===>>", CallCount);
+
+  // waitForIframe function --->
+
+  const waitForIframe = useCallback(() => {
+    const myIframe = document.getElementById(PlayerId);
+
+    setCallCount((prev) => {
+      return prev + 1;
+    });
+
+    // <--- IF NOT --->
+
+    myIframe.onload = function () {
+      try {
+        currentVideoId = HandlePlayingVideo();
+        player.loadVideoById(HandlePlayingVideo());
+        clearInterval(intervalId);
+      } catch (error) {
+        console.log("waitForIframe error :", error);
+      }
+    };
+
+    // <--- DO --->
+
+    if (myIframe) {
+      if (player) {
+        try {
+          currentVideoId = HandlePlayingVideo();
+          player.loadVideoById(HandlePlayingVideo());
+          clearInterval(intervalId);
+        } catch (error) {}
+      }
+    }
+  }, [HandlePlayingVideo, PlayerId]);
+
+  // creates an <iframe> --->
+
+  const youtubeReady = useCallback(() => {
+    const youtubeReady = new Promise((resolve) => {
+      if (window.YT) {
+        resolve(window.YT);
+      } else {
+        window.onYouTubeIframeAPIReady = () => {
+          resolve(window.YT);
+        };
+      }
+    });
+
+    return youtubeReady;
+  }, []);
+
+  useEffect(() => {
+    // - This function creates an <iframe> (and YouTube player) after the API code downloads.
+
+    youtubeReady().then((YT) => {
+      //
+      const iframe_ = document.getElementById(PlayerId);
+
+      // I used if(iframe.offsetHeight === 0) to find if the iframe loaded or not.
+      // we can't use (iframe.contentDocument) If the iframe is cross-domain,
+      // we will be blocked by the same-origin policy.
+
+      if (iframe_ && YT.loaded) {
+        if (iframe_.offsetHeight === 0 && check) {
+          loadVideo(YT, PlayerId, onPlayerStateChange, onPlayerError);
+        }
+
+        if (check) {
+          if (iframe_.offsetHeight === 0) {
+            intervalId = setInterval(waitForIframe, 500);
+          } else {
+            if (
+              currentVideoId === null ||
+              currentVideoId !== HandlePlayingVideo()
+            ) {
+              try {
+                currentVideoId = HandlePlayingVideo();
+                player.loadVideoById(HandlePlayingVideo());
+              } catch (error) {
+                console.log("error :", error);
+              }
+            }
+          }
+        }
+      }
+    });
+  }, [
     check,
     HandlePlayingVideo,
     PlayerId,
     onPlayerStateChange,
     onPlayerError,
-  }) => {
-    //
-    const [CallCount, setCallCount] = useState(0);
+    waitForIframe,
+    youtubeReady,
+  ]);
 
-    useEffect(() => {
-      // - This code loads the IFrame Player API code asynchronously.
-
-      var tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName("script")[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }, []);
-
-    console.log("count ===>> ", CallCount);
-
-    const waitForIframe = useCallback(() => {
-      const myIframe = document.getElementById(PlayerId);
-
-      setCallCount((prev) => {
-        return prev + 1;
-      });
-
-      if (myIframe) {
-        myIframe.onload = function () {
-          clearInterval(intervalId);
-
-          try {
-            currentVideoId = HandlePlayingVideo();
-            player.loadVideoById(HandlePlayingVideo());
-          } catch (error) {
-            console.log("error :", error);
-            setTimeout(function () {
-              // in case the first call was late
-              player.loadVideoById(HandlePlayingVideo());
-            }, 500);
-          }
-        };
-      }
-    }, [HandlePlayingVideo, PlayerId]);
-    useEffect(() => {
-      // - This function creates an <iframe> (and YouTube player) after the API code downloads.
-
-      const youtubeReady = new Promise((resolve) => {
-        if (!window.YT) {
-          window.onYouTubeIframeAPIReady = () => {
-            resolve(window.YT);
-          };
-        } else {
-          resolve(window.YT);
-        }
-      });
-
-      youtubeReady.then((YT) => {
-        //
-        const iframe_ = document.getElementById(PlayerId);
-
-        // I used if(iframe.offsetHeight === 0) to find if the iframe loaded or not.
-        // we can't use (iframe.contentDocument) If the iframe is cross-domain,
-        // we will be blocked by the same-origin policy.
-
-        if (iframe_ && YT.loaded) {
-          if (iframe_.offsetHeight === 0 && check) {
-            loadVideo(YT, PlayerId, onPlayerStateChange, onPlayerError);
-          }
-
-          if (check) {
-            if (iframe_.offsetHeight === 0) {
-              intervalId = setInterval(waitForIframe, 500);
-            } else {
-              if (
-                currentVideoId === null ||
-                currentVideoId !== HandlePlayingVideo()
-              ) {
-                try {
-                  currentVideoId = HandlePlayingVideo();
-                  player.loadVideoById(HandlePlayingVideo());
-                } catch (error) {
-                  console.log("error :", error);
-                }
-              }
-            }
-          }
-        }
-      });
-    }, [
-      check,
-      HandlePlayingVideo,
-      PlayerId,
-      onPlayerStateChange,
-      onPlayerError,
-      waitForIframe,
-    ]);
-
-    if (CallCount > 30) {
-      console.log("END CALL reload:true ----------><>");
-      clearInterval(intervalId);
-      setCallCount(() => {
-        return 0;
-      });
-      window.location.reload(true);
-    }
-
-    return <div id={PlayerId}></div>;
+  if (CallCount > 30) {
+    // Clear and wait in case slow connection
+    console.log("<><----- END API CALL -----><>");
+    clearInterval(intervalId);
+    setCallCount(() => {
+      return 0;
+    });
   }
-);
 
-export default VideoPlayer;
+  return <div id={PlayerId}></div>;
+};
+
+export default memo(VideoPlayer);

@@ -3,7 +3,7 @@ import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const SearchSvg = memo(({ Theme }) => {
+const SearchSvg = ({ Theme }) => {
   return (
     <div
       style={{ width: "20px", height: "20px", opacity: "0.6" }}
@@ -20,6 +20,6 @@ const SearchSvg = memo(({ Theme }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default SearchSvg;
+export default memo(SearchSvg);

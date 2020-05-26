@@ -3,7 +3,7 @@ import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const DRSvg = memo(({ Theme }) => {
+const DRSvg = ({ Theme }) => {
   return (
     <div className="ytb_svg_y">
       <svg className="ytb_svg_y__wrapper" viewBox="0 0 48 48" focusable={false}>
@@ -16,6 +16,6 @@ const DRSvg = memo(({ Theme }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default DRSvg;
+export default memo(DRSvg);

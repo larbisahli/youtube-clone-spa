@@ -1,3 +1,5 @@
+import classNames from "classnames/bind";
+
 export const ViewsNumFormatter = (num) => {
   let FormatNum = 0;
 
@@ -18,16 +20,16 @@ export const ViewsNumFormatter = (num) => {
   return FormatNum;
 };
 
-export const HandleDuration = (d) => {
+export const HandleDuration = (duration) => {
   let H, M, S, X;
 
-  if (d) {
-    if (d.includes("PT")) {
-      const HasH = d.split("PT")[1].includes("H");
-      const HasM = d.split("PT")[1].includes("M");
-      const HasS = d.split("PT")[1].includes("S");
+  if (duration) {
+    if (duration.includes("PT")) {
+      const HasH = duration.split("PT")[1].includes("H");
+      const HasM = duration.split("PT")[1].includes("M");
+      const HasS = duration.split("PT")[1].includes("S");
 
-      [H, X] = HasH ? d.split("PT")[1].split("H") : d.split("PT");
+      [H, X] = HasH ? duration.split("PT")[1].split("H") : duration.split("PT");
 
       if (HasM) {
         [M, X] = X.split("M");
@@ -39,17 +41,16 @@ export const HandleDuration = (d) => {
         HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
       }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
     } else {
-      return d;
+      return duration;
     }
   }
 };
 
 export const TextReducer = (text, num) => {
-  if (text.length > num) {
-    return text.substring(0, num) + "...";
-  } else {
-    return text;
-  }
+  //
+  if (text.length > num) return text.substring(0, num) + "...";
+
+  return text;
 };
 
 export const numberWithCommas = (x) => {
@@ -78,7 +79,7 @@ export const PageLocation = (home = false) => {
   } else if (home) {
     return "home";
   } else {
-    return "?";
+    return null;
   }
 };
 
@@ -97,21 +98,24 @@ export const moveDown = (array, index) => {
 };
 
 export const moveUp = (array, index) => {
-  if (0 === index) {
-    return array;
-  } else {
-    let p1 = array.slice(0, index - 1);
-    let pp = array.slice(index - 1, index + 1);
-    let p2 = [pp[1], pp[0]];
-    let p3 = array.slice(index + 1, array.length);
-    return p1.concat(p2, p3);
-  }
+  //
+  if (index === 0) return array;
+
+  let p1 = array.slice(0, index - 1);
+  let pp = array.slice(index - 1, index + 1);
+  let p2 = [pp[1], pp[0]];
+  let p3 = array.slice(index + 1, array.length);
+  return p1.concat(p2, p3);
 };
 
 export const ReturnTheme = (Theme) => {
   return Theme ? "dark" : "light";
 };
 
-export const GetClassName = (style, classname, theme) => {
-  return `${style[classname]} ${style[`${classname}--${ReturnTheme(theme)}`]}`;
+export const GetClassName = (styles, classname, theme) => {
+  let cx = classNames.bind(styles);
+
+  return cx(classname, { [`${classname}--${ReturnTheme(theme)}`]: true });
+
+  //return `${style[classname]} ${style[`${classname}--${ReturnTheme(theme)}`]}`;
 };

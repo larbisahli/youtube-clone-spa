@@ -6,17 +6,16 @@ import {
   SET_URLLOCATION,
   GUIDE_MODE,
 } from "../actionTypes";
+
 const UrlLoc = PageLocation(false);
 
 const isWatchPage = UrlLoc === "watch";
 
 const initialState = {
   showGuide: window.innerWidth > 1340 ? !isWatchPage : false,
-  urlLocation: false,
-  guideMode: 1,
+  urlLocation: UrlLoc,
+  guideMode: window.innerWidth > 1340 ? 1 : 2,
 };
-
-console.log("initialState :>> ", initialState);
 
 const GuideReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -49,16 +48,5 @@ const GuideReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-// const HundleShowGuide = useCallback(
-//     (bool, ShowOnResize = true) => {
-//       if (isWatchPage && ShowOnResize) {
-//         setShowGuide(bool);
-//       } else if (!isWatchPage) {
-//         setShowGuide(bool);
-//       }
-//     },
-//     [setShowGuide, isWatchPage]
-//   );
 
 export default GuideReducer;

@@ -1,14 +1,17 @@
 import React, { useState, useEffect, memo } from "react";
-import style from "./sass/notification.module.scss";
+import styles from "./sass/notification.module.scss";
 import { SettingsSvg, DotsSvg } from "../Svg";
 import { useSelector } from "react-redux";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { fake_notifications } from "./dummyData";
 import { LazyLoad, Spinner } from "../../../ComponentsUtils";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent unnecessary re-renders
 
-const Notification = memo(({ show }) => {
+const Notification = ({ show }) => {
   // Notification State
   const [notifications, setNotifictions] = useState([]);
   const [{ isLoading }, setIsLoading] = useState({ isLoading: false });
@@ -38,16 +41,16 @@ const Notification = memo(({ show }) => {
     <div
       id="noti_drop"
       style={{ display: show ? "" : "none" }}
-      className={GetClassName(style, "container", Theme)}
+      className={GetClassName(styles, "container", Theme)}
     >
       <LazyLoad render={show}>
-        <div className={style.header}>
-          <div className={style.header__text}>Notifications</div>
+        <div className={styles.header}>
+          <div className={styles.header__text}>Notifications</div>
           <a
             href="https://www.youtube.com/account_notifications"
             target="_blank"
             rel="noopener noreferrer"
-            className={style.header__icon}
+            className={styles.header__icon}
             // _SS
           >
             <SettingsSvg />
@@ -58,7 +61,7 @@ const Notification = memo(({ show }) => {
           className={`line line--${ReturnTheme(Theme)}`}
         ></div>
         {/*------------ Mapping ------------*/}
-        <div className={style.body + (!isLoading ? ` ${style.spinner}` : "")}>
+        <div className={cx("body", { spinner: !isLoading })}>
           {!isLoading ? (
             <Spinner />
           ) : (
@@ -66,51 +69,50 @@ const Notification = memo(({ show }) => {
               return (
                 <div
                   key={index}
-                  className={GetClassName(style, "block", Theme)}
+                  className={GetClassName(styles, "block", Theme)}
                 >
-                  <div className={style.unread}>
+                  <div className={styles.unread}>
                     <div
-                      className={`${style.dot} ${
-                        style[
-                          `dot--${
-                            noti.seen ? "transparent" : ReturnTheme(Theme)
-                          }`
-                        ]
-                      }`}
+                      className={cx("dot", {
+                        [`dot--${ReturnTheme(Theme)}`]: !noti.seen,
+                        [`dot--transparent`]: noti.seen,
+                      })}
                     ></div>
                   </div>
-                  <div className={GetClassName(style, "pronail", Theme)}>
+                  <div className={GetClassName(styles, "pronail", Theme)}>
                     <img
-                      className={style.pronail__img}
+                      className={styles.pronail__img}
                       src={noti.proImage}
                       alt=""
                     />
                   </div>
-                  <div className={style.textcon}>
-                    <div className={style.textcon__title}>{noti.text}</div>
-                    <div className={style.textcon__date}>{noti.time}</div>
+                  <div className={styles.textcon}>
+                    <div className={styles.textcon__title}>{noti.text}</div>
+                    <div className={styles.textcon__date}>{noti.time}</div>
                   </div>
-                  <div className={style.thumbnail}>
-                    <div className={style.wrapper}>
+                  <div className={styles.thumbnail}>
+                    <div className={styles.wrapper}>
                       <div
-                        className={`${style.cover} ${style["cover--top"]} ${
-                          style[`cover--top--${ReturnTheme(Theme)}`]
-                        }`}
+                        className={cx("cover", {
+                          "cover--top": true,
+                          [`cover--top--${ReturnTheme(Theme)}`]: true,
+                        })}
                       ></div>
                       <img
-                        className={style.thumb_img}
+                        className={styles.thumb_img}
                         width="90"
                         src={noti.thumbnail}
                         alt="thumbnail"
                       />
                       <div
-                        className={`${style.cover} ${style["cover--bottom"]} ${
-                          style[`cover--bottom--${ReturnTheme(Theme)}`]
-                        }`}
+                        className={cx("cover", {
+                          "cover--bottom": true,
+                          [`cover--bottom--${ReturnTheme(Theme)}`]: true,
+                        })}
                       ></div>
                     </div>
                   </div>
-                  <div className={style.btn}>
+                  <div className={styles.btn}>
                     <DotsSvg />
                   </div>
                 </div>
@@ -121,6 +123,6 @@ const Notification = memo(({ show }) => {
       </LazyLoad>
     </div>
   );
-});
+};
 
-export default Notification;
+export default memo(Notification);

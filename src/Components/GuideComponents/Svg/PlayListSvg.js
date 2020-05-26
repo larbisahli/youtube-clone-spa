@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const PlayListSvg = memo(({ color = false }) => {
+const PlayListSvg = ({ color = false }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -20,6 +20,6 @@ const PlayListSvg = memo(({ color = false }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default PlayListSvg;
+export default memo(PlayListSvg);

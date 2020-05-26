@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 
-const Channel = memo(() => {
+const Channel = () => {
   return <div></div>;
-});
+};
 
-export default Channel;
+export default memo(Channel);

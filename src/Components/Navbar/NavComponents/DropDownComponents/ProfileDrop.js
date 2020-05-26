@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import style from "./sass/profiledrop.module.scss";
+import styles from "./sass/profiledrop.module.scss";
 import {
   AvatarSvg,
   ArrowSvg,
@@ -19,6 +19,9 @@ import {
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
 import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent unnecessary re-renders
 
@@ -29,10 +32,10 @@ const Location = memo(({ loca }) => {
 
 const Language = memo(({ lang }) => {
   const Language_ = lang.filter((lang) => lang.checked);
-  return <div className={style["txtwrap__txt--lang"]}>{Language_[0].lang}</div>;
+  return <div className={cx("txtwrap__txt--lang")}>{Language_[0].lang}</div>;
 });
 
-const ProfileDrop = memo(({ handleShowSemiDrop, show }) => {
+const ProfileDrop = ({ handleShowSemiDrop, show }) => {
   //
   const lang = useSelector((state) => state.Navbar.language);
   const loca = useSelector((state) => state.Navbar.location);
@@ -43,80 +46,80 @@ const ProfileDrop = memo(({ handleShowSemiDrop, show }) => {
   const CurrentAccount = accounts.filter((acc) => acc.isCurrent)[0];
   //
   const line = `line line--${ReturnTheme(Theme)}`;
-  const block_wrapper = GetClassName(style, "block_wrapper", Theme);
-  const arte_ = GetClassName(style, "text_wrap", Theme);
+  const block_wrapper = GetClassName(styles, "block_wrapper", Theme);
+  const arte_ = GetClassName(styles, "text_wrap", Theme);
 
   return (
     <div
       id="profile_drop"
       style={{ display: show ? "" : "none" }}
-      className={GetClassName(style, "container", Theme)}
+      className={GetClassName(styles, "container", Theme)}
     >
-      <div className={style.header}>
-        <div className={style.pronail}>
+      <div className={styles.header}>
+        <div className={styles.pronail}>
           <img
-            className={style.pronail__img}
+            className={styles.pronail__img}
             src={CurrentAccount.img}
             height="40"
             width="40"
             alt="Avatar"
           />
         </div>
-        <div className={style.txtwrap}>
-          <div className={style.txtwrap__name}>{CurrentAccount.name}</div>
-          <div className={style.txtwrap__email}>{CurrentAccount.email}</div>
-          <div className={GetClassName(style, "txtwrap__blue_text", Theme)}>
+        <div className={styles.txtwrap}>
+          <div className={styles.txtwrap__name}>{CurrentAccount.name}</div>
+          <div className={styles.txtwrap__email}>{CurrentAccount.email}</div>
+          <div className={GetClassName(styles, "txtwrap__blue_text", Theme)}>
             Manage your Google Account
           </div>
         </div>
       </div>
       <div className={`line line--${ReturnTheme(Theme)}`}></div>
       <LazyLoad render={show}>
-        <div className={style.body}>
+        <div className={styles.body}>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <AvatarSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Your channel</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Your channel</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <SSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Paid memberships</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Paid memberships</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <YSSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>YouTube Studio</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>YouTube Studio</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <SASvg />
             </div>
             <div
               onClick={() => handleShowSemiDrop("SADrop")}
-              className={style.txtwrap}
+              className={styles.txtwrap}
             >
-              <div className={style.txtwrap__txt}>Switch account</div>
-              <div className={style.block_wrapper__logo}>
+              <div className={styles.txtwrap__txt}>Switch account</div>
+              <div className={styles.block_wrapper__logo}>
                 <ArrowSvg />
               </div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <SOSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Sign out</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Sign out</div>
             </div>
           </div>
           <div
@@ -124,103 +127,103 @@ const ProfileDrop = memo(({ handleShowSemiDrop, show }) => {
             className={line}
           ></div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <TSvg />
             </div>
             <div
               onClick={() => handleShowSemiDrop("ThemeDrop")}
-              className={style.txtwrap}
+              className={styles.txtwrap}
             >
-              <div className={style.txtwrap__txt}>{`Dark theme: ${
+              <div className={styles.txtwrap__txt}>{`Dark theme: ${
                 Theme ? "On" : "Off"
               }`}</div>
-              <div className={style.block_wrapper__logo}>
+              <div className={styles.block_wrapper__logo}>
                 <ArrowSvg />
               </div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <LangSvg />
             </div>
             <div
               onClick={() => handleShowSemiDrop("LangDrop")}
-              className={style.txtwrap}
+              className={styles.txtwrap}
             >
-              <div className={style.txtwrap__txt}>
+              <div className={styles.txtwrap__txt}>
                 Language: <Language lang={lang} />
               </div>
-              <div className={style.block_wrapper__logo}>
+              <div className={styles.block_wrapper__logo}>
                 <ArrowSvg />
               </div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <LocaSvg />
             </div>
             <div
               onClick={() => handleShowSemiDrop("LocaDrop")}
-              className={style.txtwrap}
+              className={styles.txtwrap}
             >
-              <div className={style.txtwrap__txt}>
+              <div className={styles.txtwrap__txt}>
                 Location <Location loca={loca} />
               </div>
-              <div className={style.block_wrapper__logo}>
+              <div className={styles.block_wrapper__logo}>
                 <ArrowSvg />
               </div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <SettingsSvg default_={true} />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Settings</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Settings</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <DataSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Your data in YouTube</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Your data in YouTube</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <HelpSvg default_={true} />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Help</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Help</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <FeedSvg default_={true} />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Send feedback</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Send feedback</div>
             </div>
           </div>
           <div className={block_wrapper}>
-            <div className={style.block_wrapper__logo}>
+            <div className={styles.block_wrapper__logo}>
               <KeyboardSvg />
             </div>
-            <div className={style.txtwrap}>
-              <div className={style.txtwrap__txt}>Keyboard shortcuts</div>
+            <div className={styles.txtwrap}>
+              <div className={styles.txtwrap__txt}>Keyboard shortcuts</div>
             </div>
           </div>
           <div
             style={{ margin: "5px 0", paddingTop: "1px", height: "2px" }}
             className={line}
           ></div>
-          <div className={style.bottom_wrapper}>
+          <div className={styles.bottom_wrapper}>
             <div
               onClick={() => handleShowSemiDrop("RestrictDrop")}
               className={arte_}
             >
-              <div className={style["text_wrap--res"]}>
+              <div className={cx("text_wrap--res")}>
                 {`Restricted Mode: ${restrict.isRestrict ? "On" : "Off"}`}
               </div>
               <div>
@@ -232,6 +235,6 @@ const ProfileDrop = memo(({ handleShowSemiDrop, show }) => {
       </LazyLoad>
     </div>
   );
-});
+};
 
-export default ProfileDrop;
+export default memo(ProfileDrop);

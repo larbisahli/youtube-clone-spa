@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 
-const LazyLoad = memo(({ children, render }) => {
+const LazyLoad = ({ children, render }) => {
   // ==================================
   // Seen, render only on demand once.
   // ==================================
@@ -16,6 +16,6 @@ const LazyLoad = memo(({ children, render }) => {
   return (
     Seen && React.Children.map(children, (child) => React.cloneElement(child))
   );
-});
+};
 
-export default LazyLoad;
+export default memo(LazyLoad);

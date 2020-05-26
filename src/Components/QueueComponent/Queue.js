@@ -1,13 +1,8 @@
 import React, { useState, useCallback, memo } from "react";
-import style from "./queue.module.scss";
+import styles from "./scss/queue.module.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
-import { AddPlayListSvg, DRSvg, TrashSvg } from "../../Containers/Svg";
-import {
-  HandleDuration,
-  TextReducer,
-  ReturnTheme,
-  GetClassName,
-} from "../../utils";
+import { AddPlayListSvg } from "../../Containers/Svg";
+import { TextReducer, GetClassName } from "../../utils";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
@@ -40,98 +35,12 @@ import {
   SetGuideModeAction,
   SetUrlLocationAction,
 } from "../../redux";
+import classNames from "classnames/bind";
+import { PlayItemsList } from "./PlayItemsList";
 
-const PlayListItems = memo(
-  ({ plv, CurrentPlayingVidIndex, HandleClosingMessageBox }) => {
-    // Theme
-    const Theme = useSelector((state) => state.Theme.isDarkTheme);
+let cx = classNames.bind(styles);
 
-    // dispatch
-    const dispatch = useDispatch();
-
-    //  Handle Delete
-    const HandleDelClick = useCallback(
-      (videoId) => {
-        //
-        dispatch(RemoveOneQueueAction(videoId));
-        //
-        dispatch(
-          SetMessageAction({
-            message: "Removed from Queue",
-            btnText: "",
-            from: "",
-            id: "",
-          })
-        );
-
-        setTimeout(() => {
-          HandleClosingMessageBox();
-        }, 4000);
-      },
-      [dispatch, HandleClosingMessageBox]
-    );
-
-    return (
-      <div
-        onClick={() => dispatch(PlayQueueAction(plv.videoId))}
-        className={`${GetClassName(style, "block", Theme)} ${
-          CurrentPlayingVidIndex() === plv.index
-            ? style[`isplaying--${ReturnTheme(Theme)}`]
-            : ""
-        }`}
-      >
-        <div className={style.playbtn}>
-          {plv.playing ? (
-            <div className={style.playbtn__playing}>▶</div>
-          ) : (
-            <div className={style.playbtn__drag}>
-              <DRSvg />
-            </div>
-          )}
-        </div>
-        <div className={style.itemwrap}>
-          <div className={style.thumbnail}>
-            <div>
-              <img
-                width="100"
-                className={style.thumbnail__img}
-                src={plv.thumbnail}
-                alt=""
-              />
-            </div>
-            <div className={style.thumbnail__duration}>
-              {HandleDuration(plv.duration)}
-            </div>
-          </div>
-          <div className={style.body_container}>
-            <div className={style.text_area}>
-              <div className={style.text_area__title}>
-                {TextReducer(plv.title, 40)}
-              </div>
-              <div className={GetClassName(style, "text_area__chtitle", Theme)}>
-                {plv.channelTitle}
-              </div>
-            </div>
-            <div className={style.btncon}>
-              <div
-                onClick={() => HandleDelClick(plv.videoId, plv.index)}
-                className={`${GetClassName(style, "btncon__del", Theme)} ${
-                  CurrentPlayingVidIndex() === plv.index
-                    ? style.btncon__hide
-                    : ""
-                }`}
-              >
-                <TrashSvg />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-);
-
-const Queue = memo(() => {
+const Queue = () => {
   // Queue
   const ShowQueue = useSelector((state) => state.DisplayQueue);
   const QueueList = useSelector((state) => state.QueueList);
@@ -339,6 +248,28 @@ const Queue = memo(() => {
     DestroyIframe();
   };
 
+  //  Handle Delete
+  const HandleDelClick = useCallback(
+    (videoId) => {
+      //
+      dispatch(RemoveOneQueueAction(videoId));
+      //
+      dispatch(
+        SetMessageAction({
+          message: "Removed from Queue",
+          btnText: "",
+          from: "",
+          id: "",
+        })
+      );
+
+      setTimeout(() => {
+        HandleClosingMessageBox();
+      }, 4000);
+    },
+    [dispatch, HandleClosingMessageBox]
+  );
+
   return (
     <LazyLoad render={ShowQueue}>
       <div
@@ -348,16 +279,17 @@ const Queue = memo(() => {
             ShowQueue ? (ShowList ? "0" : "285px") : "575px"
           }, 0)`,
         }}
-        className={GetClassName(style, "container", Theme)}
+        className={GetClassName(styles, "container", Theme)}
       >
-        <div className={GetClassName(style, "wrapper", Theme)}>
-          <div id="q-player" className={style.video_container}>
+        <div className={GetClassName(styles, "wrapper", Theme)}>
+          <div id="q-player" className={styles.video_container}>
             {/* Video Iframe */}
 
             <div
-              className={`${style.miniplayer} ${
-                style[`miniplayer--${VideoLoaded ? "visible" : "hidden"}`]
-              }`}
+              className={cx("miniplayer", {
+                "miniplayer--visible": VideoLoaded,
+                "miniplayer--hidden": !VideoLoaded,
+              })}
             >
               <VideoPlayer
                 PlayerId="mini-player"
@@ -372,7 +304,7 @@ const Queue = memo(() => {
               onClick={() => {
                 dispatch(PlayPrevQueueAction());
               }}
-              className={`${style.inner_btn} ${style["inner_btn--prev"]}`}
+              className={cx("inner_btn", "inner_btn--prev")}
             >
               <PrevBtnSvg />
             </div>
@@ -381,19 +313,19 @@ const Queue = memo(() => {
               onClick={() => {
                 dispatch(PlayNextQueueAction());
               }}
-              className={`${style.inner_btn} ${style["inner_btn--next"]}`}
+              className={cx("inner_btn", "inner_btn--next")}
             >
               <NextBtnSvg />
             </div>
             <div
               onClick={handleExpandBtn}
-              className={`${style.inner_btn} ${style["inner_btn--expandbtn"]}`}
+              className={cx("inner_btn", "inner_btn--expandbtn")}
             >
               <ExpandSvg />
             </div>
             <div
               onClick={HandleCloseQueue}
-              className={`${style.inner_btn} ${style["inner_btn--closebtn"]}`}
+              className={cx("inner_btn", "inner_btn--closebtn")}
             >
               <CloseBtnSvg />
             </div>
@@ -401,14 +333,14 @@ const Queue = memo(() => {
             {ShowPlayBtn ? (
               <div
                 onClick={PlayVid}
-                className={`${style.inner_btn} ${style["inner_btn--mid"]}`}
+                className={cx("inner_btn", "inner_btn--mid")}
               >
                 <PlayBtnSvg />
               </div>
             ) : (
               <div
                 onClick={PauseVid}
-                className={`${style.inner_btn} ${style["inner_btn--mid"]}`}
+                className={cx("inner_btn", "inner_btn--mid")}
               >
                 <PauseBtnSvg />
               </div>
@@ -416,14 +348,14 @@ const Queue = memo(() => {
 
             <div className="ytb_playbtn"></div>
           </div>
-          <div className={GetClassName(style, "header", Theme)}>
-            <div className={style.header_wrap}>
-              <div className={style.header_wrap__title}>
+          <div className={GetClassName(styles, "header", Theme)}>
+            <div className={styles.header_wrap}>
+              <div className={styles.header_wrap__title}>
                 <span>{TextReducer(HandlePlayingVidTitle(), 50)}</span>
               </div>
               <div
                 onClick={() => setShowList((value) => !value)}
-                className={GetClassName(style, "header_wrap__counter", Theme)}
+                className={GetClassName(styles, "header_wrap__counter", Theme)}
               >
                 <div>Queue</div>
                 <span>•</span>
@@ -434,31 +366,32 @@ const Queue = memo(() => {
             </div>
             <div
               onClick={() => setShowList((value) => !value)}
-              className={style.arrow_btn}
+              className={styles.arrow_btn}
             >
-              <div className={GetClassName(style, "arrow_btn__wrap", Theme)}>
+              <div className={GetClassName(styles, "arrow_btn__wrap", Theme)}>
                 {ShowList ? <DownArrowSvg /> : <UpArrowSvg />}
               </div>
             </div>
           </div>
           {/* PLAYLIST CONTAINER */}
-          <div className={GetClassName(style, "playlist_container", Theme)}>
-            <div className={GetClassName(style, "panel", Theme)}>
-              <div className={style.panel__txtwrap}>
+          <div className={GetClassName(styles, "playlist_container", Theme)}>
+            <div className={GetClassName(styles, "panel", Theme)}>
+              <div className={styles.panel__txtwrap}>
                 <AddPlayListSvg />
 
                 <span>save</span>
               </div>
             </div>
             {/* PLAYLIST ITEMS */}
-            <div className={GetClassName(style, "items", Theme)}>
+            <div className={GetClassName(styles, "items", Theme)}>
               {QueueList.map((plv, index) => {
                 return (
-                  <PlayListItems
+                  <PlayItemsList
                     plv={plv}
                     key={index}
                     CurrentPlayingVidIndex={GetCurrentPlayingVidIndex}
-                    HandleClosingMessageBox={HandleClosingMessageBox}
+                    HandleDelClick={HandleDelClick}
+                    isQueue={true}
                   />
                 );
               })}
@@ -468,6 +401,6 @@ const Queue = memo(() => {
       </div>
     </LazyLoad>
   );
-});
+};
 
-export default Queue;
+export default memo(Queue);

@@ -1,62 +1,62 @@
 import React, { memo } from "react";
-import style from "./sass/searchdrop.module.scss";
+import styles from "./sass/searchdrop.module.scss";
 import { LazyLoad } from "../../../ComponentsUtils";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent event handler of resizing to re-render this component
 // with the help of useCallback to prevent functions
 // [RemoveHandleClick, HandleSelect] from re-creation.
 
-const SearchDropSuggestion = memo(
-  ({
-    ShowSearchDrop,
-    suggestions,
-    searchIsActive,
-    RemoveHandleClick,
-    HandleSelect,
-  }) => {
-    return (
-      <div
-        id="sdrop"
-        className={style.container}
-        style={{ display: ShowSearchDrop ? "" : "none" }}
-      >
-        <LazyLoad render={ShowSearchDrop}>
-          {suggestions.map((s, index) => (
-            <div key={index} className={style.block}>
-              <li
-                onClick={() => HandleSelect(s.suggestion)}
-                className={style.wrapper}
-              >
-                {s.removed ? (
-                  <div id="plholder" className={style.wrapper__ph}>
-                    Suggestion removed
-                  </div>
-                ) : (
-                  <div
-                    className={
-                      style.wrapper__text +
-                      (searchIsActive ? "" : ` ${style.wrapper__atxt}`)
-                    }
-                  >
-                    {s.suggestion}
-                  </div>
-                )}
-              </li>
-              {!searchIsActive && s.suggestion && (
+const SearchDropSuggestion = ({
+  ShowSearchDrop,
+  suggestions,
+  searchIsActive,
+  RemoveHandleClick,
+  HandleSelect,
+}) => {
+  return (
+    <div
+      id="sdrop"
+      className={styles.container}
+      style={{ display: ShowSearchDrop ? "" : "none" }}
+    >
+      <LazyLoad render={ShowSearchDrop}>
+        {suggestions.map((s, index) => (
+          <div key={index} className={styles.block}>
+            <li
+              onClick={() => HandleSelect(s.suggestion)}
+              className={styles.wrapper}
+            >
+              {s.removed ? (
+                <div id="plholder" className={styles.wrapper__ph}>
+                  Suggestion removed
+                </div>
+              ) : (
                 <div
-                  id="rembtnsd"
-                  onClick={() => RemoveHandleClick(s.id)}
-                  className={style.remove}
+                  className={cx("wrapper__text", {
+                    wrapper__atxt: !searchIsActive,
+                  })}
                 >
-                  Remove
+                  {s.suggestion}
                 </div>
               )}
-            </div>
-          ))}
-        </LazyLoad>
-      </div>
-    );
-  }
-);
+            </li>
+            {!searchIsActive && s.suggestion && (
+              <div
+                id="rembtnsd"
+                onClick={() => RemoveHandleClick(s.id)}
+                className={styles.remove}
+              >
+                Remove
+              </div>
+            )}
+          </div>
+        ))}
+      </LazyLoad>
+    </div>
+  );
+};
 
-export default SearchDropSuggestion;
+export default memo(SearchDropSuggestion);

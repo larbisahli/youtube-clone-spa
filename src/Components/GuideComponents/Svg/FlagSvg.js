@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const FlagSvg = memo(() => {
+const FlagSvg = () => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -20,6 +20,6 @@ const FlagSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default FlagSvg;
+export default memo(FlagSvg);

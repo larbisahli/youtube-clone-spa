@@ -1,0 +1,197 @@
+@import '../../../sass/config.scss';
+
+
+.block {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    min-width: 0;
+    padding: 4px 8px 4px 0;
+
+    &--dark {
+
+        // Dark Theme
+        &:hover {
+            background-color: #292929;
+            box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
+        }
+    }
+
+    &--light {
+
+        // Light Theme
+        &:hover {
+            background-color: #ebebeb;
+            box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
+        }
+    }
+
+    &:hover>.itemwrap>.body_container>.btncon>.btncon__del {
+        display: block;
+    }
+
+    &:hover>.playbtn>.playbtn__drag>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
+        display: block;
+    }
+
+    .playbtn {
+
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        cursor: grab;
+
+        &__playing {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        &__drag {
+
+            :global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
+                display: none;
+            }
+        }
+    }
+
+    .itemwrap {
+        display: flex;
+        position: relative;
+        flex: 1;
+
+
+        .thumbnail {
+
+            position: relative;
+            height: auto;
+            width: 100px;
+
+
+            &__img {
+
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: none;
+                max-width: 100%;
+                border-radius: none;
+            }
+
+            &__duration {
+
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin: 1px;
+                border-radius: 2px;
+                letter-spacing: 0.5px;
+                font-size: 0.8rem;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 2px 4px;
+                line-height: 0.9rem;
+
+            }
+        }
+
+        .body_container {
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+
+
+            .text_area {
+                align-self: flex-start;
+                padding: 0 8px;
+
+
+                &__title {
+                    font-size: 1.3em;
+                    font-family: Roboto-Medium;
+                    padding-bottom: 5px;
+                }
+
+                &__chtitle {
+
+                    font-size: 1.25em;
+
+                    &--dark {
+                        // Dark Theme
+                        color: colors(ChTitle_Dark_Color);
+
+                        &:hover {
+                            //Theme
+                            color: #fff;
+                        }
+                    }
+
+                    &--light {
+                        // Ligth Theme
+                        color: colors(ChTitle_Light_Color);
+
+                        &:hover {
+                            //Theme
+                            color: #212121;
+                        }
+                    }
+                }
+            }
+
+            .btncon {
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: 25px;
+
+                &__hide {
+                    display: none !important;
+                }
+
+                &__del {
+                    position: absolute;
+                    right: 0;
+                    display: none;
+
+                    &--dark {
+
+                        // Dark Theme
+                        &:hover>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
+                            // Theme
+                            fill: #dbdbdb;
+                        }
+                    }
+
+                    &--light {
+
+                        // Light Theme
+                        &:hover>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
+                            // Theme
+                            fill: #333;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.isplaying {
+
+    &--dark {
+        // Dark Theme
+        background-color: #303030;
+    }
+
+    &--light {
+        // Ligth Theme
+        background-color: #e2e2e2;
+    }
+}

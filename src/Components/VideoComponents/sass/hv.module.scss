@@ -61,6 +61,8 @@
                 z-index: -1;
                 width: 100%;
                 padding-top: 56.25%; // 9/16*100%
+
+
             }
 
             .thumbnail {
@@ -76,18 +78,19 @@
                     width: 100%;
                     height: auto;
 
+
                     .img {
 
                         width: 100%;
                         height: auto;
                         transition: opacity 300ms;
 
-                        &--visible {
-                            opacity: 1;
+                        &--gs0 {
+                            filter: grayscale(0%) !important;
                         }
 
-                        &--hidden {
-                            opacity: 0;
+                        &--gs100 {
+                            filter: grayscale(100%) !important;
                         }
                     }
                 }

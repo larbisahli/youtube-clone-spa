@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const SubscriptionSvg = memo(({ changeColor }) => {
+const SubscriptionSvg = ({ changeColor }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -28,6 +28,6 @@ const SubscriptionSvg = memo(({ changeColor }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default SubscriptionSvg;
+export default memo(SubscriptionSvg);

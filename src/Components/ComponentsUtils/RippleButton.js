@@ -1,9 +1,9 @@
 import React, { useCallback, useState, memo } from "react";
-import style from "./sass/ripplebutton.module.scss";
+import styles from "./sass/ripplebutton.module.scss";
 import { GetClassName } from "../../utils";
 import { useSelector } from "react-redux";
 
-const RippleButton = memo(({ children, onclick, classname }) => {
+const RippleButton = ({ children, onclick, classname }) => {
   // Coordinates State
   const [{ y, x, show }, setRipple] = useState({
     y: 0,
@@ -45,12 +45,12 @@ const RippleButton = memo(({ children, onclick, classname }) => {
     <button
       onMouseDown={HandleRipple}
       onClick={onclick}
-      className={`${classname} ${style.container}`}
+      className={`${classname} ${styles.container}`}
     >
-      <div className={style.wrap}>
+      <div className={styles.wrap}>
         {show && (
           <div
-            className={GetClassName(style, "circle", Theme)}
+            className={GetClassName(styles, "circle", Theme)}
             style={{ top: `${y}px`, left: `${x}px` }}
           ></div>
         )}
@@ -58,6 +58,6 @@ const RippleButton = memo(({ children, onclick, classname }) => {
       {React.Children.map(children, (child) => React.cloneElement(child))}
     </button>
   );
-});
+};
 
-export default RippleButton;
+export default memo(RippleButton);

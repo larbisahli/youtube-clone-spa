@@ -3,7 +3,7 @@ import "./sass/svg_style_scvi.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const SubBellSvg = memo(() => {
+const SubBellSvg = () => {
   return (
     <div className="ytb_svg_x">
       <svg className="ytb_svg_x__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -17,6 +17,6 @@ const SubBellSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default SubBellSvg;
+export default memo(SubBellSvg);

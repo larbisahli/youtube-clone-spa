@@ -3,7 +3,7 @@ import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const FilterSvg = memo(({ Theme }) => {
+const FilterSvg = ({ Theme }) => {
   return (
     <div className="ytb_svg_y">
       <svg className="ytb_svg_y__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -17,6 +17,6 @@ const FilterSvg = memo(({ Theme }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default FilterSvg;
+export default memo(FilterSvg);

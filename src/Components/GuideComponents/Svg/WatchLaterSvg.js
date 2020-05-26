@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const WatchLaterSvg = memo(({ changeColor }) => {
+const WatchLaterSvg = ({ changeColor }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -28,6 +28,6 @@ const WatchLaterSvg = memo(({ changeColor }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default WatchLaterSvg;
+export default memo(WatchLaterSvg);

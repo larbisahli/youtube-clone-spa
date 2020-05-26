@@ -3,7 +3,7 @@ import "../../Navbar/NavComponents/Svg/sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const ExpandSvg = memo(() => {
+const ExpandSvg = () => {
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -17,6 +17,6 @@ const ExpandSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default ExpandSvg;
+export default memo(ExpandSvg);

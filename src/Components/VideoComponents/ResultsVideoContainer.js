@@ -1,5 +1,5 @@
 import React, { useState, useCallback, memo } from "react";
-import style from "./sass/rv.module.scss";
+import styles from "./sass/rv.module.scss";
 import { Link, useHistory } from "react-router-dom";
 import { DotsSvg } from "../Navbar/NavComponents/Svg";
 import {
@@ -26,8 +26,11 @@ import {
   SetUrlLocationAction,
 } from "../../redux";
 import { useFetch } from "../hooks/useFetch";
+import classNames from "classnames/bind";
 
-const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
+let cx = classNames.bind(styles);
+
+const ResultVideoContainer = ({ item, index, HandleShowMessageBox }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -286,26 +289,26 @@ const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
   };
 
   return (
-    <div className={style.item_section}>
-      <div className={style.item_wrap}>
-        <div className={style.thumbnail}>
-          <div onClick={HandleLink} className={style.video}>
+    <div className={styles.item_section}>
+      <div className={styles.item_wrap}>
+        <div className={styles.thumbnail}>
+          <div onClick={HandleLink} className={styles.video}>
             <div
               id={`hresultCha-${index}`}
-              className={GetClassName(style, "vid_thumb", Theme)}
+              className={GetClassName(styles, "vid_thumb", Theme)}
             >
               <img
                 onLoad={() => HandleRImg("hresultCha", index)}
                 src={item.thumbnail}
                 alt=""
-                className={style.vid_thumb__img}
+                className={styles.vid_thumb__img}
               />
             </div>
           </div>
           {/* -------------head svg-------------- */}
           <div
             id={`${item.videoId}-${index}-duration`}
-            className={`${style.inner_btn} ${style["inner_btn--duration"]}`}
+            className={cx("inner_btn", "inner_btn--duration")}
           >
             {Fetch_Data(item.videoId, index)}
           </div>
@@ -322,26 +325,26 @@ const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
                 IswatchLater
               )
             }
-            className={`${style.inner_btn} ${style["inner_btn--clock"]}`}
+            className={cx("inner_btn", "inner_btn--clock")}
           >
             <div
               onMouseEnter={() => HandleHoverIn("wl")}
               onMouseLeave={() => HandleHoverOut("wl")}
-              className={style.icon_btn}
+              className={styles.icon_btn}
             >
               {IswatchLater ? (
-                <div className={style.icon_btn__check}>
+                <div className={styles.icon_btn__check}>
                   <CheckedSvg />
                 </div>
               ) : (
                 <TimeSvg />
               )}
             </div>
-            <div id={`slider-wl-${index}`} className={style.slider}>
+            <div id={`slider-wl-${index}`} className={styles.slider}>
               {IswatchLater ? (
-                <div className={style.slider__check}>added</div>
+                <div className={styles.slider__check}>added</div>
               ) : (
-                <div className={style.slider__normal}>watch later</div>
+                <div className={styles.slider__normal}>watch later</div>
               )}
             </div>
           </button>
@@ -358,33 +361,33 @@ const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
                 IsQueue
               )
             }
-            className={`${style.inner_btn} ${style["inner_btn--queue"]}`}
+            className={cx("inner_btn", "inner_btn--queue")}
           >
             <div
               onMouseEnter={() => HandleHoverIn("q")}
               onMouseLeave={() => HandleHoverOut("q")}
-              className={style.icon_btn}
+              className={styles.icon_btn}
             >
               {IsQueue ? <CheckedSvg /> : <QueueSvg />}
             </div>
-            <div id={`slider-q-${index}`} className={style.slider}>
+            <div id={`slider-q-${index}`} className={styles.slider}>
               {IsQueue ? (
-                <div className={style.slider__check}>added</div>
+                <div className={styles.slider__check}>added</div>
               ) : (
-                <div className={style.slider__text}>add to queue</div>
+                <div className={styles.slider__text}>add to queue</div>
               )}
             </div>
           </button>
           {/* -------------body-------------- */}
         </div>
-        <div className={style.body}>
-          <div className={style.body__container}>
-            <div className={style.body__text_wrap}>
-              <div className={style.results_header}>
+        <div className={styles.body}>
+          <div className={styles.body__container}>
+            <div className={styles.body__text_wrap}>
+              <div className={styles.results_header}>
                 <div
                   onClick={HandleLink}
                   className={GetClassName(
-                    style,
+                    styles,
                     "results_header__title",
                     Theme
                   )}
@@ -392,18 +395,18 @@ const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
                   {TextReducer(item.title, 56)}
                 </div>
               </div>
-              <div className={GetClassName(style, "details", Theme)}>
+              <div className={GetClassName(styles, "details", Theme)}>
                 <Link
                   data-scontent={item.channelTitle}
-                  className={GetClassName(style, "details__ch_title", Theme)}
+                  className={GetClassName(styles, "details__ch_title", Theme)}
                   to={`/channel/${item.channelId}`}
                 >
                   {item.channelTitle}
                 </Link>
-                <div className={style.details__ch_dot}>•</div>
-                <div className={style.details__sv_tt}>
+                <div className={styles.details__ch_dot}>•</div>
+                <div className={styles.details__sv_tt}>
                   <span id={`${item.videoId}-${index}-viewcount`}></span>
-                  <div className={style.details__ch_dot}>•</div>
+                  <div className={styles.details__ch_dot}>•</div>
                   <span>
                     <Moment fromNow>{item.publishedAt}</Moment>
                   </span>
@@ -411,18 +414,18 @@ const ResultVideoContainer = memo(({ item, index, HandleShowMessageBox }) => {
               </div>
             </div>
             <div
-              className={GetClassName(style, "body__container__menu", Theme)}
+              className={GetClassName(styles, "body__container__menu", Theme)}
             >
               <DotsSvg />
             </div>
           </div>
-          <div className={GetClassName(style, "item_wrap__details", Theme)}>
+          <div className={GetClassName(styles, "item_wrap__details", Theme)}>
             {TextReducer(item.description, 121)}
           </div>
         </div>
       </div>
     </div>
   );
-});
+};
 
-export default ResultVideoContainer;
+export default memo(ResultVideoContainer);

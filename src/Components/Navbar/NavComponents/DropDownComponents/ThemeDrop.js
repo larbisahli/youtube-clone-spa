@@ -1,15 +1,18 @@
 import React, { useState, memo } from "react";
-import style from "./sass/semidrop.module.scss";
+import styles from "./sass/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { useSelector, useDispatch } from "react-redux";
 import { darken, lighten } from "../../../../redux";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent unnecessary re-renders
 
-const ThemeDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
-  const [fade, setFade] = useState(false);
+const ThemeDrop = ({ handleGoBackDrop, isCurrent, show }) => {
+  const [effect, setEffect] = useState(false);
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -19,9 +22,9 @@ const ThemeDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
   // ================
 
   const HundleClick = () => {
-    setFade(true);
+    setEffect(true);
     setTimeout(() => {
-      setFade(false);
+      setEffect(false);
     }, 300);
   };
 
@@ -43,42 +46,38 @@ const ThemeDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
     <div
       id="theme_drop"
       style={{ display: show ? "" : "none" }}
-      className={GetClassName(style, "container", Theme)}
+      className={GetClassName(styles, "container", Theme)}
     >
       <LazyLoad render={show}>
-        <div className={style.header}>
-          <button onClick={handleGoBackDrop} className={style.header__arrow}>
+        <div className={styles.header}>
+          <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
           </button>
-          <div className={style.header__text}>Dark theme</div>
+          <div className={styles.header__text}>Dark theme</div>
         </div>
         <div className={`line line--${ReturnTheme(Theme)}`}></div>
-        <div className={style.mainbody}>
-          <div className={style.textarea}>
+        <div className={styles.mainbody}>
+          <div className={styles.textarea}>
             Dark theme turns the light surfaces of the page dark, creating an
             experience ideal for night.
           </div>
-          <div className={style.textarea}>It's Working try it out!</div>
-          <div className={GetClassName(style, "tr_container", Theme)}>
+          <div className={styles.textarea}>It's Working try it out!</div>
+          <div className={GetClassName(styles, "tr_container", Theme)}>
             <span>DARK THEME</span>
 
-            <label className={GetClassName(style, "switch", Theme)}>
+            <label className={GetClassName(styles, "switch", Theme)}>
               <input
                 type="checkbox"
-                className={style.switch__toggle}
+                className={styles.switch__toggle}
                 checked={Theme}
                 onChange={handleCheckboxChange}
               />
-              <span className={style.switch__btn} onClick={HundleClick}>
+              <span className={styles.switch__btn} onClick={HundleClick}>
                 <div
-                  className={
-                    style.circle +
-                    (fade
-                      ? Theme
-                        ? ` ${style["circle--on"]}`
-                        : ` ${style["circle--off"]}`
-                      : "")
-                  }
+                  className={cx("circle", {
+                    "circle--on": effect && Theme,
+                    "circle--off": effect && !Theme,
+                  })}
                 ></div>
               </span>
             </label>
@@ -87,6 +86,6 @@ const ThemeDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
       </LazyLoad>
     </div>
   );
-});
+};
 
-export default ThemeDrop;
+export default memo(ThemeDrop);

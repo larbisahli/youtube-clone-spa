@@ -5,7 +5,7 @@ import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 
-const CamSvg = memo(() => {
+const CamSvg = () => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -21,6 +21,6 @@ const CamSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default CamSvg;
+export default memo(CamSvg);

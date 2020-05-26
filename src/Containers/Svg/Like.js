@@ -3,7 +3,7 @@ import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const Like = memo(({ color = "#909090" }) => {
+const Like = ({ color = "#909090" }) => {
   return (
     <div className="ytb_svg_y">
       <svg className="ytb_svg_y__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -16,6 +16,6 @@ const Like = memo(({ color = "#909090" }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default Like;
+export default memo(Like);

@@ -4,7 +4,7 @@ import { Navbar, Guide, MiniGuide, Queue, MessageBox } from "../Components";
 import { useDispatch } from "react-redux";
 import { fetchItems } from "../redux";
 import Home from "./Home";
-import style from "./Sass/app.module.scss";
+import "./Sass/app.scss";
 
 // dynamic import: means executed when the code runs
 const Results = lazy(() => import("./Results"));
@@ -28,11 +28,11 @@ function App() {
   }, []);
 
   return (
-    <div className={style.root_container}>
+    <div className="root_container">
       {/* NAVBAR */}
       <Navbar />
       {/* PAGES */}
-      <div className={style.page_container}>
+      <div className="page_container">
         <Switch>
           {/* HOME PAGE ROUTE */}
           <Route path="/" exact component={Home} />

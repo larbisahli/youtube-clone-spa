@@ -3,7 +3,7 @@ import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const AddAccSvg = memo(() => {
+const AddAccSvg = () => {
   return (
     <div className="ytb_svg">
       <svg
@@ -22,6 +22,6 @@ const AddAccSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default AddAccSvg;
+export default memo(AddAccSvg);

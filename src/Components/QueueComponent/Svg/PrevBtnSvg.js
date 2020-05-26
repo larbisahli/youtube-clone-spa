@@ -3,7 +3,7 @@ import "../../Navbar/NavComponents/Svg/sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const PrevBtnSvg = memo(() => {
+const PrevBtnSvg = () => {
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 36 36" focusable={false}>
@@ -16,6 +16,6 @@ const PrevBtnSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default PrevBtnSvg;
+export default memo(PrevBtnSvg);

@@ -3,7 +3,7 @@ import "./sass/svg_style_scvi.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const TimeSvg = memo(() => {
+const TimeSvg = () => {
   return (
     <div className="ytb_svg_x">
       <svg className="ytb_svg_x__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -16,6 +16,6 @@ const TimeSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default TimeSvg;
+export default memo(TimeSvg);

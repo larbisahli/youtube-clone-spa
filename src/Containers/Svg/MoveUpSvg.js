@@ -3,7 +3,7 @@ import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const MoveUpSvg = memo(({ color = "#909090" }) => {
+const MoveUpSvg = ({ color = "#909090" }) => {
   return (
     <div className="ytb_svg_y">
       <svg className="ytb_svg_y__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -17,6 +17,6 @@ const MoveUpSvg = memo(({ color = "#909090" }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default MoveUpSvg;
+export default memo(MoveUpSvg);

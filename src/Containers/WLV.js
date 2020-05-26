@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, memo } from "react";
-import style from "./Sass/wlv.module.scss";
+import styles from "./Sass/wlv.module.scss";
 import { PlaySvg, QueueSvg } from "../Components/VideoComponents/Svg";
 import {
   ShuffleSvg,
@@ -43,22 +43,22 @@ import { useLocation } from "react-router";
 import { useFetch } from "../Components/hooks/useFetch";
 
 const DropMenu = memo(
-  (
+  ({
     index,
     Theme,
     HandleQueueClick,
     wl,
     HandleRemoveOne,
     HandleMoveUp,
-    HandleMoveDown
-  ) => {
-    const txt_area = GetClassName(style, "drop_text_con__text", Theme);
-    const drop_text_con = GetClassName(style, "drop_text_con", Theme);
+    HandleMoveDown,
+  }) => {
+    const txt_area = GetClassName(styles, "drop_text_con__text", Theme);
+    const drop_text_con = GetClassName(styles, "drop_text_con", Theme);
 
     return (
       <div
         style={{ display: "none" }}
-        className={GetClassName(style, "menu_drop", Theme)}
+        className={GetClassName(styles, "menu_drop", Theme)}
         id={`wl-mn-${index}`}
       >
         <div
@@ -74,13 +74,13 @@ const DropMenu = memo(
           }
           className={drop_text_con}
         >
-          <div className={style.drop_text_con__icon}>
+          <div className={styles.drop_text_con__icon}>
             <QueueSvg default_color={false} />
           </div>
           <div className={txt_area}>Add to queue</div>
         </div>
         <div className={drop_text_con}>
-          <div className={style.drop_text_con__icon}>
+          <div className={styles.drop_text_con__icon}>
             <AddPlayListSvg />
           </div>
           <div className={txt_area}>Save to playlist</div>
@@ -93,19 +93,19 @@ const DropMenu = memo(
           onClick={() => HandleRemoveOne(wl.videoId)}
           className={drop_text_con}
         >
-          <div className={style.drop_text_con__icon}>
+          <div className={styles.drop_text_con__icon}>
             <TrashSvg />
           </div>
           <div className={txt_area}>Remove from Watch later</div>
         </div>
         <div onClick={() => HandleMoveUp(index)} className={drop_text_con}>
-          <div className={style.drop_text_con__icon}>
+          <div className={styles.drop_text_con__icon}>
             <MoveUpSvg />
           </div>
           <div className={txt_area}>Move to top</div>
         </div>
         <div onClick={() => HandleMoveDown(index)} className={drop_text_con}>
-          <div className={style.drop_text_con__icon}>
+          <div className={styles.drop_text_con__icon}>
             <MoveDownSvg />
           </div>
           <div className={txt_area}>Move to bottom</div>
@@ -115,7 +115,7 @@ const DropMenu = memo(
   }
 );
 
-const WLV = memo(() => {
+const WLV = () => {
   // WLV : Watch Later and Liked Videos
   const WatchLater = useSelector((state) => state.WLV.WL);
   const LikedVideos = useSelector((state) => state.WLV.LV);
@@ -166,14 +166,6 @@ const WLV = memo(() => {
   let SearchValue = query.get("list");
 
   // ==========
-
-  useEffect(() => {
-    const pageManager = document.getElementById("page-manager");
-    if (pageManager) {
-      pageManager.style.marginLeft = Guide.showGuide ? "240px" : "72px";
-    }
-    // Do not put showGuide in the dependency array
-  }, []);
 
   useEffect(() => {
     const UrlLoc = PageLocation();
@@ -250,22 +242,21 @@ const WLV = memo(() => {
   // ===================
   const HandleShowMenudrop = useCallback(
     (e) => {
+      let index = CurrentMenuIndex;
       // responsive dropdown
       // 213px is the menu height + 68px img height + 16 padding
 
       if (e.clientY > window.innerHeight - 297) {
-        document.getElementById(`wl-mn-${CurrentMenuIndex}`).style.top = "-95%";
-        document.getElementById(`wl-mn-${CurrentMenuIndex}`).style.right =
-          "10%";
+        document.getElementById(`wl-mn-${index}`).style.top = "-95%";
+        document.getElementById(`wl-mn-${index}`).style.right = "10%";
       }
 
       if (!showMenudrop) {
         document.addEventListener("click", HandleCloseMenudrop);
-        document.getElementById(`wl-mn-${CurrentMenuIndex}`).style.display = "";
+        document.getElementById(`wl-mn-${index}`).style.display = "";
       } else {
         document.removeEventListener("click", HandleCloseMenudrop);
-        document.getElementById(`wl-mn-${CurrentMenuIndex}`).style.display =
-          "none";
+        document.getElementById(`wl-mn-${index}`).style.display = "none";
       }
       setShowMenudrop(() => !showMenudrop);
     },
@@ -486,7 +477,13 @@ const WLV = memo(() => {
   );
 
   return (
-    <div id="page-manager" className={GetClassName(style, "container", Theme)}>
+    <div
+      id="page-manager"
+      style={{
+        marginLeft: Guide.showGuide && Guide.guideMode === 1 ? "240px" : "72px",
+      }}
+      className={GetClassName(styles, "container", Theme)}
+    >
       {/* Helmet */}
       {SearchValue === "WL" ? (
         <Head>
@@ -505,52 +502,52 @@ const WLV = memo(() => {
         </Head>
       )}
       {/* Right Side */}
-      <div className={GetClassName(style, "right_container", Theme)}>
-        <div className={style.main_thumb}>
-          <div className={style.thumbnail}>
-            <div id="wl-sklt" className={style.imgwrapper}>
+      <div className={GetClassName(styles, "right_container", Theme)}>
+        <div className={styles.main_thumb}>
+          <div className={styles.thumbnail}>
+            <div id="wl-sklt" className={styles.imgwrapper}>
               <img
                 width="357"
-                className={style.imgwrapper__img}
+                className={styles.imgwrapper__img}
                 id="wlv-thumbnail"
                 alt=""
               />
             </div>
-            <div className={style.inner_bg}>
+            <div className={styles.inner_bg}>
               <PlaySvg />
-              <span className={style.inner_bg__txt}>Play all</span>
+              <span className={styles.inner_bg__txt}>Play all</span>
             </div>
           </div>
 
-          <div className={style.details}>
-            <div className={style.details__title}>
+          <div className={styles.details}>
+            <div className={styles.details__title}>
               {SearchValue === "WL" ? (
                 <span>Watch later</span>
               ) : (
                 <span>Liked videos</span>
               )}
             </div>
-            <div className={GetClassName(style, "stat", Theme)}>
+            <div className={GetClassName(styles, "stat", Theme)}>
               <span>{`${PageData().length} ${
                 PageData().length > 1 ? "videos" : "video"
               }`}</span>
-              <div className={style.stat__dot}>•</div>
+              <div className={styles.stat__dot}>•</div>
               <span>Updated today</span>
             </div>
-            <div className={style.stat}>
-              <div className={GetClassName(style, "stat__svg", Theme)}>
+            <div className={styles.stat}>
+              <div className={GetClassName(styles, "stat__svg", Theme)}>
                 <ShuffleSvg />
               </div>
               <div
                 onClick={HandleshowMiniDrop}
-                className={GetClassName(style, "stat__svg", Theme)}
+                className={GetClassName(styles, "stat__svg", Theme)}
               >
                 <DotsSvg />
               </div>
               {showRemoveAllDrop && (
                 <div
                   onClick={HandleRemoveAll}
-                  className={GetClassName(style, "stat__drop", Theme)}
+                  className={GetClassName(styles, "stat__drop", Theme)}
                 >
                   <TrashSvg />
                   <span>
@@ -563,28 +560,28 @@ const WLV = memo(() => {
               style={{ margin: "5px 0" }}
               className={`line line--${ReturnTheme(Theme)}`}
             ></div>
-            <div className={style.user_details}>
-              <div className={style.userwrap}>
+            <div className={styles.user_details}>
+              <div className={styles.userwrap}>
                 <img
                   width="48"
                   id="_channel_"
-                  className={style.userwrap__img}
+                  className={styles.userwrap__img}
                   src=""
                   alt=""
                 />
               </div>
-              <div id="_name_" className={style.user_details__name}></div>
+              <div id="_name_" className={styles.user_details__name}></div>
             </div>
           </div>
         </div>
       </div>
       {/* Left Side */}
-      <div className={GetClassName(style, "left_container", Theme)}>
-        <div className={style.items_container}>
-          <div className={style.bsort}>
+      <div className={GetClassName(styles, "left_container", Theme)}>
+        <div className={styles.items_container}>
+          <div className={styles.bsort}>
             <RippleButton
               onclick={() => {}}
-              classname={GetClassName(style, "bsort__btn", Theme)}
+              classname={GetClassName(styles, "bsort__btn", Theme)}
             >
               <SortBySvg />
               <span>Sort by</span>
@@ -594,25 +591,25 @@ const WLV = memo(() => {
           {PageData().map((wl, index) => {
             return (
               <div key={index}>
-                <div className={GetClassName(style, "item_container", Theme)}>
-                  <div className={style.drag_area}>
+                <div className={GetClassName(styles, "item_container", Theme)}>
+                  <div className={styles.drag_area}>
                     <DRSvg />
                   </div>
-                  <div className={GetClassName(style, "item_wrap", Theme)}>
+                  <div className={GetClassName(styles, "item_wrap", Theme)}>
                     <div
-                      className={style.item_wrap__thumb}
+                      className={styles.item_wrap__thumb}
                       onClick={() => HandleLink(wl)}
                     >
                       <img
                         width="120"
-                        className={style.item_wrap__img}
+                        className={styles.item_wrap__img}
                         src={wl.thumbnail}
                         alt=""
                       />
 
                       <div
                         id={`wl-${wl.videoId}-${index}-duration`}
-                        className={style.inner}
+                        className={styles.inner}
                       >
                         {SearchValue !== "WL" && SearchValue !== "LW"
                           ? FetchStat(wl.videoId, index)
@@ -620,10 +617,10 @@ const WLV = memo(() => {
                       </div>
                     </div>
 
-                    <div className={style.item_wrap__textarea}>
-                      <div className={style.item_details}>
+                    <div className={styles.item_wrap__textarea}>
+                      <div className={styles.item_details}>
                         <div
-                          className={style.item_details__title}
+                          className={styles.item_details__title}
                           onClick={() => HandleLink(wl)}
                         >
                           <span>{TextReducer(wl.title, 56)}</span>
@@ -632,7 +629,7 @@ const WLV = memo(() => {
                         <Link to={`/channel/${wl.channelId}`}>
                           <div
                             className={GetClassName(
-                              style,
+                              styles,
                               "item_details__channel_title",
                               Theme
                             )}
@@ -642,10 +639,10 @@ const WLV = memo(() => {
                         </Link>
                       </div>
                       <div
-                        id={`${index}`}
+                        // id={`${index}`}
                         onMouseEnter={() => setCurrentMenuIndex(() => index)}
                         onClick={HandleShowMenudrop}
-                        className={GetClassName(style, "dot_svg", Theme)}
+                        className={GetClassName(styles, "dot_svg", Theme)}
                       >
                         <DotsSvg />
                       </div>
@@ -670,6 +667,6 @@ const WLV = memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default WLV;
+export default memo(WLV);

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, Fragment, memo } from "react";
-import style from "./sass/guide.module.scss";
+import styles from "./sass/guide.module.scss";
 import {
   HomeSvg,
   TrendingSvg,
@@ -36,7 +36,7 @@ Subscriptions.sort((x, y) => {
   return a > b ? 1 : a < b ? -1 : 0;
 });
 
-const Guide = memo(() => {
+const Guide = () => {
   // Show more State
   const [IsShowMore, setIsShowMore] = useState(false);
 
@@ -97,80 +97,88 @@ const Guide = memo(() => {
     const pageManager = document.getElementById("page-manager");
     const GUIDENODE = document.getElementById("GuideG");
 
-    if (pageManager && guideMode === 1) {
-      pageManager.style.marginLeft = showGuide ? "240px" : "72px";
-    }
-
-    // in case we want to showGuide when the page width is less than 1340
-    if (pageManager) {
-      if (
-        parseInt(pageManager.style.marginLeft, 10) >= 240 &&
-        guideMode === 2
-      ) {
-        pageManager.style.marginLeft = showGuide ? "240px" : "72px";
-      }
-    }
-
-    if (guideMode === 2) {
-      GUIDENODE.style.width = "100%";
-    }
-
     if (GUIDENODE) {
-      // (window.innerWidth <= 810 || isWatchPage)
-      if (!showGuide && guideMode === 2) {
+      if (guideMode === 2) {
         //
+        GUIDENODE.style.width = "100%";
 
-        GUIDENODE.style.transform = `translateX(-100%)`;
-        GUIDENODE.style.display = "block";
-        GUIDENODE.addEventListener("click", HandleCloseGuide);
+        // in case we want to showGuide when the page width is less than 1340
+        if (pageManager) {
+          if (parseInt(pageManager.style.marginLeft, 10) >= 240) {
+            pageManager.style.marginLeft = showGuide ? "240px" : "72px";
+          }
+        }
 
-        //(window.innerWidth <= 810 || isWatchPage)
-      } else if (showGuide && guideMode === 2) {
-        //
+        if (showGuide) {
+          //
+          GUIDENODE.style.transform = `translateX(0%)`;
+          GUIDENODE.style.display = "block";
+          GUIDENODE.addEventListener("click", HandleCloseGuide);
+        } else {
+          //
+          GUIDENODE.style.transform = `translateX(-100%)`;
+          GUIDENODE.style.display = "block";
+          GUIDENODE.addEventListener("click", HandleCloseGuide);
+        }
+      } else {
+        // guideMode === 1
 
-        GUIDENODE.style.transform = `translateX(0%)`;
-        GUIDENODE.style.display = "block";
-        GUIDENODE.addEventListener("click", HandleCloseGuide);
+        if (pageManager) {
+          pageManager.style.marginLeft = showGuide ? "240px" : "72px";
+        }
 
-        //window.innerWidth >= 810 && !isWatchPage
-      } else if (!showGuide && guideMode === 1) {
-        GUIDENODE.style.display = "none";
-
-        // window.innerWidth >= 810 && !isWatchPage
-      } else if (showGuide && guideMode === 1) {
-        GUIDENODE.style.display = "block";
+        if (showGuide) {
+          GUIDENODE.style.display = "block";
+        } else {
+          GUIDENODE.style.display = "none";
+        }
       }
     }
 
     return () => {
       // clean up
-      GUIDENODE.style.width = "";
+      if (GUIDENODE) {
+        GUIDENODE.style.width = "";
+      }
     };
   }, [showGuide, HandleCloseGuide, CheckUrlLocation, guideMode]);
 
   //
-  const ReturnbgBlack = () => {
-    if (window.innerWidth > 1340 && guideMode === 1) {
-      return "none";
-    } else if (showGuide && window.innerWidth < 1340 && guideMode === 1) {
+  const ReturnGuideDisplay = () => {
+    if (showGuide) {
       return "block";
-    } else if (!showGuide && window.innerWidth < 1340 && guideMode === 1) {
-      return "none";
-    } else if (showGuide && guideMode === 2) {
-      return "block";
-    } else if (!showGuide && guideMode === 2) {
-      return "none";
     } else {
       return "none";
     }
   };
 
   //
-  const ReturnGuideDisplay = () => {
-    if (showGuide) {
-      return "block";
-    } else if (!showGuide) {
-      return "none";
+  const ReturnbgBlack = () => {
+    //
+    // if (window.innerWidth > 1340 && guideMode === 1) {
+    //   return "none";
+    // } else if (showGuide && window.innerWidth < 1340 && guideMode === 1) {
+    //   return "block";
+    // } else if (!showGuide && window.innerWidth < 1340 && guideMode === 1) {
+    //   return "none";
+    // } else if (showGuide && guideMode === 2) {
+    //   return "block";
+    // } else if (!showGuide && guideMode === 2) {
+    //   return "none";
+    // } else {
+    //   return "none";
+    // }
+
+    // ============== A better approach :
+
+    if (guideMode === 1) {
+      if (window.innerWidth > 1340) {
+        return "none";
+      } else {
+        return ReturnGuideDisplay();
+      }
+    } else {
+      return ReturnGuideDisplay();
     }
   };
 
@@ -181,8 +189,8 @@ const Guide = memo(() => {
   };
 
   const content_wrapper = (value = "") => {
-    return `${style.content_wrapper} ${
-      style[
+    return `${styles.content_wrapper} ${
+      styles[
         `content_wrapper--${ReturnTheme(Theme)}${
           UrlLocation === value ? "--active" : ""
         }`
@@ -190,23 +198,23 @@ const Guide = memo(() => {
     }`;
   };
 
-  const line = GetClassName(style, "line", Theme);
+  const line = GetClassName(styles, "line", Theme);
 
   return (
     <Fragment>
       <div
-        className={style.bg}
+        className={styles.bg}
         style={{
           display: ReturnbgBlack(),
         }}
       ></div>
       <div
         id="GuideG"
-        className={style.container}
+        className={styles.container}
         style={{ display: ReturnGuideDisplay() }}
       >
-        <div className={GetClassName(style, "wrapper", Theme)}>
-          <div className={style.content_container}>
+        <div className={GetClassName(styles, "wrapper", Theme)}>
+          <div className={styles.content_container}>
             {/*--------------------*/}
             <Link
               to="/"
@@ -214,20 +222,20 @@ const Guide = memo(() => {
               onClick={HideGuideOnClick}
               className={content_wrapper("home")}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <HomeSvg changeColor={UrlLocation === "home"} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Home</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Home</div>
               </div>
             </Link>
             {/*--*/}
             <div title="Trending" className={content_wrapper("trending")}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <TrendingSvg changeColor={UrlLocation === "trending"} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Trending</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Trending</div>
               </div>
             </div>
             {/*--*/}
@@ -235,41 +243,41 @@ const Guide = memo(() => {
               title="Subscriptions"
               className={content_wrapper("subscriptions")}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <SubscriptionSvg
                   changeColor={UrlLocation === "subscriptions"}
                 />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Subscriptions</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Subscriptions</div>
               </div>
             </div>
             <div className={line}></div>
             {/*--------------------*/}
             <div title="Library" className={content_wrapper("library")}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <LibrarySvg changeColor={UrlLocation === "library"} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Library</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Library</div>
               </div>
             </div>
             {/*--*/}
             <div title="History" className={content_wrapper("history")}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <HistorySvg changeColor={CheckUrlLocation("history")} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>History</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>History</div>
               </div>
             </div>
             {/*--*/}
             <div title="Your videos" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <VideoSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Your videos</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Your videos</div>
               </div>
             </div>
             {/*--*/}
@@ -279,11 +287,11 @@ const Guide = memo(() => {
               onClick={HideGuideOnClick}
               className={content_wrapper("WL")}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <WatchLaterSvg changeColor={CheckUrlLocation("WL")} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Watch later</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Watch later</div>
               </div>
             </Link>
             {/*--*/}
@@ -293,11 +301,11 @@ const Guide = memo(() => {
               title="Liked videos"
               className={content_wrapper("LV")}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <LikeSvg changeColor={CheckUrlLocation("LV")} />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Liked videos</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Liked videos</div>
               </div>
             </Link>
             {/* <== START SHOW MORE AREA ==> */}
@@ -305,11 +313,11 @@ const Guide = memo(() => {
               PlayList.map((play, index) => {
                 return (
                   <div title={play} key={index} className={content_wrapper()}>
-                    <div className={style.content_icon}>
+                    <div className={styles.content_icon}>
                       <PlayListSvg />
                     </div>
-                    <div className={style.text_container}>
-                      <div className={style.text_wrap}>{play}</div>
+                    <div className={styles.text_container}>
+                      <div className={styles.text_wrap}>{play}</div>
                     </div>
                   </div>
                 );
@@ -320,11 +328,11 @@ const Guide = memo(() => {
               onClick={HandleShowMoreOrLess}
               className={content_wrapper()}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 {IsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>
                   {`Show ${IsShowMore ? "less" : "more"}`}
                 </div>
               </div>
@@ -332,7 +340,7 @@ const Guide = memo(() => {
             {/* <== END SHOW MORE AREA ==> */}
             <div className={line}></div>
             {/* <== START SUBSCRIPTIONS AREA ==> */}
-            <div className={GetClassName(style, "subtitle", Theme)}>
+            <div className={GetClassName(styles, "subtitle", Theme)}>
               SUBSCRIPTIONS
             </div>
             {/* --- FrontSubscriptions --- */}
@@ -343,20 +351,20 @@ const Guide = memo(() => {
                   title={FrontSub.name}
                   className={content_wrapper()}
                 >
-                  <div className={style.content_icon}>
+                  <div className={styles.content_icon}>
                     <img
-                      className={GetClassName(style, "pronail", Theme)}
+                      className={GetClassName(styles, "pronail", Theme)}
                       height="24"
                       width="24"
                       src={FrontSub.img}
                       alt=""
                     />
                   </div>
-                  <div className={style.text_container}>
-                    <div className={style.text_wrap}>{FrontSub.name}</div>
+                  <div className={styles.text_container}>
+                    <div className={styles.text_wrap}>{FrontSub.name}</div>
                   </div>
-                  <div className={style.notisvg}>
-                    <div className={style.svg_con}>
+                  <div className={styles.notisvg}>
+                    <div className={styles.svg_con}>
                       <LiveSvg
                         isLive={FrontSub.isLive}
                         notiExist={FrontSub.notiExist}
@@ -377,19 +385,19 @@ const Guide = memo(() => {
                     title={FrontSub.name}
                     className={content_wrapper()}
                   >
-                    <div className={style.content_icon}>
+                    <div className={styles.content_icon}>
                       <img
-                        className={GetClassName(style, "thumbnail", Theme)}
+                        className={GetClassName(styles, "pronail", Theme)}
                         height="24"
                         width="24"
                         src={FrontSub.img}
                         alt=""
                       />
                     </div>
-                    <div className={style.text_container}>
-                      <div className={style.text_wrap}>{FrontSub.name}</div>
+                    <div className={styles.text_container}>
+                      <div className={styles.text_wrap}>{FrontSub.name}</div>
                     </div>
-                    <div className={style.notisvg}>
+                    <div className={styles.notisvg}>
                       <LiveSvg
                         isLive={FrontSub.isLive}
                         notiExist={FrontSub.notiExist}
@@ -405,11 +413,11 @@ const Guide = memo(() => {
               onClick={HandleSubscriptionShowMoreOrLess}
               className={content_wrapper()}
             >
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 {SubIsShowMore ? <UpArrowSvg /> : <DownArrowSvg />}
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>
                   {`Show ${
                     SubIsShowMore ? "less" : `${Subscriptions.length} more`
                   }`}
@@ -420,75 +428,75 @@ const Guide = memo(() => {
             {/* <== END SUBSCRIPTIONS AREA ==> */}
             <div className={line}></div>
             {/* <== START MORE FROM YOUTUBE AREA ==> */}
-            <div className={GetClassName(style, "subtitle", Theme)}>
+            <div className={GetClassName(styles, "subtitle", Theme)}>
               MORE FROM YOUTUBE
             </div>
             <div title="Gaming" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <GamingSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Gaming</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Gaming</div>
               </div>
             </div>
             <div title="Live" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <LiveDefaultSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Live</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Live</div>
               </div>
             </div>
             {/* <== END MORE FROM YOUTUBE AREA ==> */}
             <div className={line}></div>
             <div title="Settings" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <SettingsSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Settings</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Settings</div>
               </div>
             </div>
             <div title="Report history" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <FlagSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Report history</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Report history</div>
               </div>
             </div>
             <div title="Help" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <HelpSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Help</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Help</div>
               </div>
             </div>
             <div title="Send feedback" className={content_wrapper()}>
-              <div className={style.content_icon}>
+              <div className={styles.content_icon}>
                 <FeedSvg />
               </div>
-              <div className={style.text_container}>
-                <div className={style.text_wrap}>Send feedback</div>
+              <div className={styles.text_container}>
+                <div className={styles.text_wrap}>Send feedback</div>
               </div>
             </div>
             {/* <== ABOUT AREA ==> */}
             <div className={line}></div>
-            <div className={GetClassName(style, "about", Theme)}>
-              <div className={style.txt}>
+            <div className={GetClassName(styles, "about", Theme)}>
+              <div className={styles.txt}>
                 Cloning YouTube with pure sass, Javascript and React Framework
                 2020.
               </div>
-              <div className={style.txt}>
-                Author: <span className={style["txt--name"]}>Larbi Sahli</span>
+              <div className={styles.txt}>
+                Author: <span className={styles["txt--name"]}>Larbi Sahli</span>
               </div>
-              <div className={style.txt}>
+              <div className={styles.txt}>
                 Source code:{" "}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={GetClassName(style, "tt", Theme)}
+                  className={GetClassName(styles, "tt", Theme)}
                   href="https://github.com/larbisahli/youtube-clone"
                 >
                   YouTube-Clone
@@ -497,11 +505,11 @@ const Guide = memo(() => {
               <div
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${style.txt} ${style["txt--x"]}`}
+                className={`${styles.txt} ${styles["txt--x"]}`}
               >
                 GitHub:{" "}
                 <a
-                  className={GetClassName(style, "tt", Theme)}
+                  className={GetClassName(styles, "tt", Theme)}
                   href="https://github.com/larbisahli"
                 >
                   larbisahli
@@ -513,6 +521,6 @@ const Guide = memo(() => {
       </div>
     </Fragment>
   );
-});
+};
 
-export default Guide;
+export default memo(Guide);

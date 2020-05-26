@@ -1,31 +1,35 @@
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import style from "./sass/btndrop.module.scss";
+import styles from "./sass/btndrop.module.scss";
 import {
   YouTubeTvSvg,
   YouTubeMusicSvg,
   YouTubeKidsSvg,
   YouTubeNormalSvg,
 } from "../Svg";
-import { GetClassName } from "../../../../utils";
+import { GetClassName, ReturnTheme } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent unnecessary re-renders
 
-const AppDrop = memo(({ show }) => {
+const AppDrop = ({ show }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
-  const app_text = GetClassName(style, "textcon", Theme);
+  const app_text = GetClassName(styles, "textcon", Theme);
 
-  const line_ = GetClassName(style, "line", Theme);
+  const line_ = GetClassName(styles, "line", Theme);
 
   return (
     <div
       style={{ display: show ? "" : "none" }}
-      className={`${GetClassName(style, "container", Theme)} ${
-        style["position--app_drop"]
-      }`}
+      className={cx("container", {
+        [`container--${ReturnTheme(Theme)}`]: true,
+        "position--app_drop": true,
+      })}
     >
       <LazyLoad render={show}>
         <a
@@ -34,10 +38,10 @@ const AppDrop = memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className={style.icon_wrap}>
+          <div className={styles.icon_wrap}>
             <YouTubeTvSvg />
           </div>
-          <div className={style.text_wrap}>YouTube TV</div>
+          <div className={styles.text_wrap}>YouTube TV</div>
         </a>
         <div className={line_}></div>
         <a
@@ -46,10 +50,10 @@ const AppDrop = memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className={style.icon_wrap}>
+          <div className={styles.icon_wrap}>
             <YouTubeMusicSvg />
           </div>
-          <div className={style.text_wrap}>YouTube Music</div>
+          <div className={styles.text_wrap}>YouTube Music</div>
         </a>
         <a
           href="https://www.youtube.com/kids/"
@@ -57,10 +61,10 @@ const AppDrop = memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className={style.icon_wrap}>
+          <div className={styles.icon_wrap}>
             <YouTubeKidsSvg />
           </div>
-          <div className={style.text_wrap}>YouTube Kids</div>
+          <div className={styles.text_wrap}>YouTube Kids</div>
         </a>
         <div className={line_}></div>
         <a
@@ -69,10 +73,10 @@ const AppDrop = memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className={style.icon_wrap}>
+          <div className={styles.icon_wrap}>
             <YouTubeNormalSvg />
           </div>
-          <div className={style.text_wrap}>Creator Academy</div>
+          <div className={styles.text_wrap}>Creator Academy</div>
         </a>
         <a
           href="https://artists.youtube.com/"
@@ -80,14 +84,14 @@ const AppDrop = memo(({ show }) => {
           rel="noopener noreferrer"
           className={app_text}
         >
-          <div className={style.icon_wrap}>
+          <div className={styles.icon_wrap}>
             <YouTubeNormalSvg />
           </div>
-          <div className={style.text_wrap}>YouTube for Artists</div>
+          <div className={styles.text_wrap}>YouTube for Artists</div>
         </a>
       </LazyLoad>
     </div>
   );
-});
+};
 
-export default AppDrop;
+export default memo(AppDrop);

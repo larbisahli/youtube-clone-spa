@@ -3,7 +3,7 @@ import "./sass/svg_style_scnni.scss";
 
 // SVG paths COPIED FROM YOUTUBE
 
-const YouTubeTvSvg = memo(() => {
+const YouTubeTvSvg = () => {
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -21,6 +21,6 @@ const YouTubeTvSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default YouTubeTvSvg;
+export default memo(YouTubeTvSvg);

@@ -1,14 +1,17 @@
 import React, { memo } from "react";
-import style from "./sass/semidrop.module.scss";
+import styles from "./sass/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { SwitchLocationAction } from "../../../../redux";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
 
 // Using Memo to prevent unnecessary re-renders
 
-const LocaDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
+const LocaDrop = ({ handleGoBackDrop, isCurrent, show }) => {
   // location
   const loca = useSelector((state) => state.Navbar.location);
 
@@ -26,27 +29,28 @@ const LocaDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
     <div
       id="loca_drop"
       style={{ display: show ? "" : "none" }}
-      className={`${GetClassName(style, "container", Theme)} ${
-        style[`scroll--${ReturnTheme(Theme)}`]
-      }`}
+      className={cx("container", {
+        [`container--${ReturnTheme(Theme)}`]: true,
+        [`scroll--${ReturnTheme(Theme)}`]: true,
+      })}
     >
       <LazyLoad render={show}>
-        <div className={style.header}>
-          <button onClick={handleGoBackDrop} className={style.header__arrow}>
+        <div className={styles.header}>
+          <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
           </button>
-          <div className={style.header__text}>Choose your language</div>
+          <div className={styles.header__text}>Choose your language</div>
         </div>
         <div className={`line line--${ReturnTheme(Theme)}`}></div>
-        <div className={`${style.mainbody} ${style.overflow}`}>
+        <div className={cx("mainbody", "overflow")}>
           {loca.map((loca, index) => {
             return (
               <div
                 key={index}
                 onClick={() => HandleClick(loca.id)}
-                className={GetClassName(style, "lang", Theme)}
+                className={GetClassName(styles, "lang", Theme)}
               >
-                <div className={style.lang__check}>
+                <div className={styles.lang__check}>
                   <CheckedSvg
                     color={
                       loca.checked ? (Theme ? "#fff" : "#333") : "transparent"
@@ -61,6 +65,6 @@ const LocaDrop = memo(({ handleGoBackDrop, isCurrent, show }) => {
       </LazyLoad>
     </div>
   );
-});
+};
 
-export default LocaDrop;
+export default memo(LocaDrop);

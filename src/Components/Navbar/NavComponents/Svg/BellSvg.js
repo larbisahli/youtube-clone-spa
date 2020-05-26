@@ -5,7 +5,7 @@ import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 
-const BellSvg = memo(() => {
+const BellSvg = () => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -21,6 +21,6 @@ const BellSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default BellSvg;
+export default memo(BellSvg);

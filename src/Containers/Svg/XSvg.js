@@ -3,7 +3,7 @@ import "./sass/svg_style_sci.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const XSvg = memo(({ Theme }) => {
+const XSvg = ({ Theme }) => {
   return (
     <div className="ytb_svg_y">
       <svg className="ytb_svg_y__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -16,6 +16,6 @@ const XSvg = memo(({ Theme }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default XSvg;
+export default memo(XSvg);

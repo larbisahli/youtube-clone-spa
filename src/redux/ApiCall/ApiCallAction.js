@@ -44,6 +44,7 @@ export const fetchItems = () => (dispatch) => {
               "maxres" in res.snippet.thumbnails
                 ? res.snippet.thumbnails.maxres.url
                 : res.snippet.thumbnails.medium.url,
+            placeholder: res.snippet.thumbnails.medium.url,
             channelTitle: res.snippet.channelTitle,
             channelId: res.snippet.channelId,
             videoId: res.id,

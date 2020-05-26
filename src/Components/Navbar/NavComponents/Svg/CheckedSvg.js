@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const CheckedSvg = memo(({ color = false }) => {
+const CheckedSvg = ({ color = false }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -26,6 +26,6 @@ const CheckedSvg = memo(({ color = false }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default CheckedSvg;
+export default memo(CheckedSvg);

@@ -1,11 +1,16 @@
 import React, { memo, useState, useEffect } from "react";
-import style from "./sass/wc.module.scss";
-import { GetClassName, TextReducer } from "../../utils";
+import styles from "./sass/wc.module.scss";
+import {
+  GetClassName,
+  TextReducer,
+  ViewsNumFormatter,
+  HandleDuration,
+} from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import { TimeSvg, QueueSvg, CheckedSvg } from "../VideoComponents/Svg";
 import Moment from "react-moment";
 
-const WatchContents = memo(({ item, index, HandleLink }) => {
+const WatchContents = ({ item, index, HandleLink, PopularVideo }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -57,24 +62,24 @@ const WatchContents = memo(({ item, index, HandleLink }) => {
   };
 
   return (
-    <div className={style.item}>
-      <div className={style.wrapper}>
-        <div className={style.thumbnail_con}>
-          <div className={style.thumb_wrapper}>
+    <div className={styles.item}>
+      <div className={styles.wrapper}>
+        <div className={styles.thumbnail_con}>
+          <div className={styles.thumb_wrapper}>
             <img
-              className={style.img}
+              className={styles.img}
               width="168"
-              src="https://i.ytimg.com/vi/navpQnqhwvg/hqdefault.jpg?sqp=-oaymwEZCNACELwBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBqxTyCNPmYRuHHfkuh4BDxEw8gIw"
+              // placeholder because it has a small image
+              src={PopularVideo && PopularVideo.placeholder}
               alt=""
             />
           </div>
           {/* -------------head svg-------------- */}
           <div
             //id={`${item.videoId}-${index}-duration`}
-            className={`${style.inner_btn} ${style["inner_btn--duration"]}`}
+            className={`${styles.inner_btn} ${styles["inner_btn--duration"]}`}
           >
-            {/* {Fetch_Data(item.videoId, index)} */}
-            15:34
+            {HandleDuration(PopularVideo ? PopularVideo.duration : "")}
           </div>
           <button
             // onClick={() =>
@@ -89,26 +94,26 @@ const WatchContents = memo(({ item, index, HandleLink }) => {
             //     IswatchLater
             //   )
             // }
-            className={`${style.inner_btn} ${style["inner_btn--clock"]}`}
+            className={`${styles.inner_btn} ${styles["inner_btn--clock"]}`}
           >
             <div
               onMouseEnter={() => HandleHoverIn("wl")}
               onMouseLeave={() => HandleHoverOut("wl")}
-              className={style.icon_btn}
+              className={styles.icon_btn}
             >
               {IswatchLater ? (
-                <div className={style.icon_btn__check}>
+                <div className={styles.icon_btn__check}>
                   <CheckedSvg />
                 </div>
               ) : (
                 <TimeSvg />
               )}
             </div>
-            <div id={`slider-wl-${index}`} className={style.slider}>
+            <div id={`slider-wl-${index}`} className={styles.slider}>
               {IswatchLater ? (
-                <div className={style.slider__check}>added</div>
+                <div className={styles.slider__check}>added</div>
               ) : (
-                <div className={style.slider__normal}>watch later</div>
+                <div className={styles.slider__normal}>watch later</div>
               )}
             </div>
           </button>
@@ -125,53 +130,61 @@ const WatchContents = memo(({ item, index, HandleLink }) => {
             //     IsQueue
             //   )
             // }
-            className={`${style.inner_btn} ${style["inner_btn--queue"]}`}
+            className={`${styles.inner_btn} ${styles["inner_btn--queue"]}`}
           >
             <div
               onMouseEnter={() => HandleHoverIn("q")}
               onMouseLeave={() => HandleHoverOut("q")}
-              className={style.icon_btn}
+              className={styles.icon_btn}
             >
               {IsQueue ? <CheckedSvg /> : <QueueSvg />}
             </div>
-            <div id={`slider-q-${index}`} className={style.slider}>
+            <div id={`slider-q-${index}`} className={styles.slider}>
               {IsQueue ? (
-                <div className={style.slider__check}>added</div>
+                <div className={styles.slider__check}>added</div>
               ) : (
-                <div className={style.slider__text}>add to queue</div>
+                <div className={styles.slider__text}>add to queue</div>
               )}
             </div>
           </button>
           {/* -------------body-------------- */}
         </div>
-        <div className={style.body}>
-          <div className={style.wrap}>
-            <div className={style.title}>
-              {TextReducer(
-                "The MacBook Pro's Biggest Rival - DELL XPS 15 9500 & 17 9700 Laptops",
-                56
-              )}
-            </div>
-            <div className={style.details}>
-              <span className={style.details__cha_title}>ShortCircuit</span>
-              <div className={style.details__stat}>
-                <span
-                //id={`${item.videoId}-${index}-viewcount`}
-                >
-                  534k views
-                </span>
-                <div className={style.details__dot}>•</div>
-                <span>
-                  3 days ago
-                  {/* <Moment fromNow>{item.publishedAt}</Moment> */}
-                </span>
+        {PopularVideo ? (
+          <div className={styles.body}>
+            <div className={styles.wrap}>
+              <div className={styles.title}>
+                {TextReducer(PopularVideo ? PopularVideo.title : "", 56)}
+              </div>
+              <div className={styles.details}>
+                <div className={styles.details__cha_title}>
+                  {PopularVideo && PopularVideo.channelTitle}
+                </div>
+
+                <div className={styles.details__stat}>
+                  <div>
+                    {`${ViewsNumFormatter(
+                      PopularVideo && PopularVideo.viewCount
+                    )} views`}
+                  </div>
+                  <div className={styles.details__dot}>•</div>
+                  <div>
+                    <Moment fromNow>
+                      {PopularVideo && PopularVideo.publishedAt}
+                    </Moment>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.sklt_con}>
+            <div className={styles.sklt_con__txt1}></div>
+            <div className={styles.sklt_con__txt2}></div>
+          </div>
+        )}
       </div>
     </div>
   );
-});
+};
 
-export default WatchContents;
+export default memo(WatchContents);

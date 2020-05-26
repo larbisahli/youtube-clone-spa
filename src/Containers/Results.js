@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, memo } from "react";
 import { SearchRequest } from "../Components/api/YoutubeApi";
-import style from "./Sass/results.module.scss";
+import styles from "./Sass/results.module.scss";
 import { FilterSvg } from "./Svg";
 import {
   ResultVideoContainer,
@@ -21,7 +21,7 @@ import {
 
 let SearchArray = [];
 
-const Results = memo(() => {
+const Results = () => {
   // API Collector State
   const [SearchResult, setSearchResult] = useState([]);
 
@@ -37,16 +37,10 @@ const Results = memo(() => {
 
   // Guide
   const showGuide = useSelector((state) => state.Guide.showGuide);
+  const guideMode = useSelector((state) => state.Guide.guideMode);
 
   // dispatch
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const pageManager = document.getElementById("page-manager");
-    if (pageManager) {
-      pageManager.style.marginLeft = showGuide ? "240px" : "72px";
-    }
-  }, []);
 
   // A custom hook that builds on useLocation to parse
   // the query string for you.
@@ -65,22 +59,6 @@ const Results = memo(() => {
       dispatch(SetUrlLocationAction(UrlLoc));
     }
   }, []);
-
-  useEffect(() => {
-    if (FilterState !== undefined) {
-      if (!("defaultType" in FilterState)) {
-        Search(
-          SearchValue,
-          Object.keys(FilterState)[0],
-          FilterState[Object.keys(FilterState)[0]]
-        );
-      } else {
-        Search(SearchValue);
-      }
-    } else {
-      Search(SearchValue);
-    }
-  }, [SearchValue, FilterState]);
 
   // ===========================
   //           SEARCH
@@ -126,6 +104,23 @@ const Results = memo(() => {
         );
       });
   };
+
+  useEffect(() => {
+    if (FilterState !== undefined) {
+      if (!("defaultType" in FilterState)) {
+        Search(
+          SearchValue,
+          Object.keys(FilterState)[0],
+          FilterState[Object.keys(FilterState)[0]]
+        );
+      } else {
+        Search(SearchValue);
+      }
+    } else {
+      Search(SearchValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [SearchValue, FilterState]);
 
   const handleFilterClick = useCallback(() => {
     setShowFilterDrop(!ShowFilterDrop);
@@ -178,7 +173,11 @@ const Results = memo(() => {
   );
 
   return (
-    <div id="page-manager" className={style.container}>
+    <div
+      id="page-manager"
+      style={{ marginLeft: showGuide && guideMode === 1 ? "240px" : "72px" }}
+      className={styles.container}
+    >
       {/* Helmet */}
       <Head>
         <title>{`${SearchValue} - youtube`}</title>
@@ -187,16 +186,16 @@ const Results = memo(() => {
           content="Helmet application"
         />
       </Head>
-      <div className={style.content}>
+      <div className={styles.content}>
         {/* FILTER AREA */}
         <RippleButton
           onclick={handleFilterClick}
-          classname={style.header_container}
+          classname={styles.header_container}
         >
-          <div className={style.header_wrapper}>
+          <div className={styles.header_wrapper}>
             <FilterSvg Theme={Theme} />
 
-            <span className={GetClassName(style, "btntext", Theme)}>
+            <span className={GetClassName(styles, "btntext", Theme)}>
               filter
             </span>
           </div>
@@ -210,7 +209,7 @@ const Results = memo(() => {
 
         {/* END FILTER AREA */}
         <div className={`line line--${ReturnTheme(Theme)}`}></div>
-        <div className={style.section_list}>
+        <div className={styles.section_list}>
           {SearchResult.map((item, index) => {
             return item.videoId ? (
               <ResultVideoContainer
@@ -235,6 +234,6 @@ const Results = memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default Results;
+export default memo(Results);

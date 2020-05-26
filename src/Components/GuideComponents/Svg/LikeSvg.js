@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const LikeSvg = memo(({ changeColor }) => {
+const LikeSvg = ({ changeColor }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -28,6 +28,6 @@ const LikeSvg = memo(({ changeColor }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default LikeSvg;
+export default memo(LikeSvg);

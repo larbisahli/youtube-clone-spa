@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const TrendingSvg = memo(({ changeColor }) => {
+const TrendingSvg = ({ changeColor }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -28,6 +28,6 @@ const TrendingSvg = memo(({ changeColor }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default TrendingSvg;
+export default memo(TrendingSvg);

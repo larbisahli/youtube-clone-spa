@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import "../../Navbar/NavComponents/Svg/sass/svg_style_scnni.scss";
 // SVG path COPIED FROM YOUTUBE
 
-const LiveSvg = memo(({ isLive, notiExist, Theme }) => {
+const LiveSvg = ({ isLive, notiExist, Theme }) => {
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 34 34" focusable={false}>
@@ -29,6 +29,6 @@ const LiveSvg = memo(({ isLive, notiExist, Theme }) => {
       </svg>
     </div>
   );
-});
+};
 
-export default LiveSvg;
+export default memo(LiveSvg);

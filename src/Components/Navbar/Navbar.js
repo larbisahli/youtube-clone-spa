@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, Fragment, memo } from "react";
-import style from "./navbar.module.scss";
+import styles from "./navbar.module.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
 import { Link, useHistory } from "react-router-dom";
 import { Head, RippleButton } from "../ComponentsUtils";
@@ -33,8 +33,12 @@ import {
   HideGuideAction,
   ToggleGuideAction,
 } from "../../redux";
+import { useMeasure } from "../hooks/useMeasure";
+import classNames from "classnames/bind";
 
-const From = memo(
+let cx = classNames.bind(styles);
+
+const YTForm = memo(
   ({
     ShowSearchDrop,
     suggestions,
@@ -65,16 +69,17 @@ const From = memo(
     };
 
     return (
-      <div className={style.search_container}>
-        <form className={style.form_container} onSubmit={HandleSubmit}>
-          <div className={style.form_wrapper}>
+      <div className={styles.search_container}>
+        <form className={styles.form_container} onSubmit={HandleSubmit}>
+          <div className={styles.form_wrapper}>
             <div
-              className={`${GetClassName(style, "input_wrapper", Theme)} ${
-                inputFocus ? "focus" : ""
-              }`}
+              className={cx("input_wrapper", {
+                [`input_wrapper--${ReturnTheme(Theme)}`]: true,
+                focus: inputFocus,
+              })}
             >
               <input
-                className={style.search_input}
+                className={styles.search_input}
                 type="text"
                 name="search"
                 value={searchValue}
@@ -95,9 +100,10 @@ const From = memo(
               />
             </div>
             <button
-              className={`${style.btn_container} titleS titleS--${ReturnTheme(
-                Theme
-              )} ${GetClassName(style, "btn_container", Theme)}`}
+              className={cx("btn_container", "titleS", {
+                [`titleS--${ReturnTheme(true)}`]: true,
+                [`btn_container--${ReturnTheme(true)}`]: true,
+              })}
             >
               <SearchSvg Theme={Theme} />
             </button>
@@ -111,7 +117,7 @@ const From = memo(
 // Global variable for semiDrops
 let isInSemiDrop = false;
 
-const Navbar = memo(() => {
+const Navbar = () => {
   //  Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -120,7 +126,6 @@ const Navbar = memo(() => {
   const accounts = useSelector((state) => state.Navbar.accounts);
 
   // Guide
-  const showGuide = useSelector((state) => state.Guide.showGuide);
   const guideMode = useSelector((state) => state.Guide.guideMode);
 
   //  dispatch
@@ -219,65 +224,43 @@ const Navbar = memo(() => {
     [history]
   );
 
-  // ================================================
-  //  Custom Hook to handle the window current width
-  // ================================================
-
-  const useMeasure = () => {
-    const [{ innerWidth }, setInnerWidth] = useState({ innerWidth: 0 });
-
-    const updateWindowDimensions = () => {
-      setInnerWidth({ innerWidth: window.innerWidth });
-
-      // Hide search drop when the window width is less than 890
-      if (window.innerWidth < 890) {
-        setSDstate({
-          searchIsActive,
-          ShowSearchDrop: false,
-        });
-      }
-
-      if (window.innerWidth > 750 && isResponsive) {
-        setIsResponsive({
-          isResponsive: false,
-        });
-      }
-
-      // for Guide
-
-      if (window.innerWidth < 1340 && guideMode === 1) {
-        console.log("showGuide :>> ", showGuide, window.innerWidth);
-        //HundleShowGuide(true, false);
-        dispatch(HideGuideAction());
-        dispatch(SetGuideModeAction(2));
-      }
-
-      if (window.innerWidth > 1340) {
-        if (PageLocation() !== "watch") {
-          dispatch(ShowGuideAction());
-          dispatch(SetGuideModeAction(1));
-        }
-      }
-    };
-
-    useEffect(() => {
-      updateWindowDimensions();
-      window.addEventListener("resize", updateWindowDimensions);
-      return () => {
-        window.removeEventListener("resize", updateWindowDimensions);
-      };
-    }, [innerWidth]);
-
-    return [innerWidth];
-  };
-
-  /* 
-      window.innerWidth update rate is slower than useState in some cases
-      if you try to resize the window fast enough react will not re-render 
-      because of the slow update.
-  */
-
   const innerWidth = useMeasure();
+
+  // =======================<><><>
+
+  useEffect(() => {
+    // innerWidth here as a dependency is a trigger for the updates.
+
+    // Hide search drop when the window width is less than 890
+
+    if (innerWidth < 890) {
+      setSDstate({
+        searchIsActive,
+        ShowSearchDrop: false,
+      });
+    }
+
+    if (innerWidth > 750 && isResponsive) {
+      setIsResponsive({
+        isResponsive: false,
+      });
+    }
+
+    // for Guide
+
+    if (innerWidth < 1340 && guideMode === 1) {
+      dispatch(HideGuideAction());
+      dispatch(SetGuideModeAction(2));
+    }
+
+    if (innerWidth > 1340) {
+      if (PageLocation() !== "watch") {
+        dispatch(ShowGuideAction());
+        dispatch(SetGuideModeAction(1));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [innerWidth]);
 
   useEffect(() => {
     setComponentMounted({ componentMounted: true });
@@ -315,20 +298,20 @@ const Navbar = memo(() => {
     setInputFocus({
       inputFocus: true,
     });
-    if (window.innerWidth > 900) {
+    if (innerWidth > 900) {
       // Preventing search dropdown from showing up
       // if the window innerWidth is less than 950px (to look responsive)
       setSDstate({
         searchIsActive,
         ShowSearchDrop: true,
       });
-    } else if (isResponsive && window.innerWidth < 750) {
+    } else if (isResponsive && innerWidth < 750) {
       setSDstate({
         searchIsActive,
         ShowSearchDrop: true,
       });
     }
-  }, [isResponsive, searchIsActive]);
+  }, [isResponsive, searchIsActive, innerWidth]);
 
   // ==========================
   // Handle closing search drop
@@ -397,7 +380,7 @@ const Navbar = memo(() => {
   //  Handle responsive From on
   // ============================
 
-  const HandleRespOn = (e) => {
+  const HandleRespOn = () => {
     setIsResponsive({
       isResponsive: true,
     });
@@ -407,7 +390,7 @@ const Navbar = memo(() => {
   //  Handle responsive Form off
   // ============================
 
-  const HandleRespOff = (e) => {
+  const HandleRespOff = () => {
     setIsResponsive({
       isResponsive: false,
     });
@@ -662,7 +645,7 @@ const Navbar = memo(() => {
   };
 
   return (
-    <nav className={GetClassName(style, "container", Theme)}>
+    <nav className={GetClassName(styles, "container", Theme)}>
       {/* Helmet */}
       <Head>
         <title>
@@ -678,37 +661,37 @@ const Navbar = memo(() => {
       {/* NavBar */}
       {!isResponsive ? (
         <Fragment>
-          <div className={style.left_container}>
+          <div className={styles.left_container}>
             <div
               onClick={() => {
                 dispatch(ToggleGuideAction());
               }}
-              className={style.menu_wrap}
+              className={styles.menu_wrap}
             >
-              <RippleButton onclick={() => {}} classname={style.btnpad}>
+              <RippleButton onclick={() => {}} classname={styles.btnpad}>
                 <MenuSvg />
               </RippleButton>
             </div>
-            <div title="YouTube Home" className={style.logo_container}>
+            <div title="YouTube Home" className={styles.logo_container}>
               <Link to="/">
                 <img
                   src={YoutubeLogo}
                   alt="Youtube-Clone"
-                  className={style.ytp_logo}
+                  className={styles.ytp_logo}
                 />
               </Link>
               <Link to="/">
-                <div className={GetClassName(style, "logo_text", Theme)}>
+                <div className={GetClassName(styles, "logo_text", Theme)}>
                   YouTube
                 </div>
               </Link>
-              <div className={GetClassName(style, "logo_pointer", Theme)}>
+              <div className={GetClassName(styles, "logo_pointer", Theme)}>
                 CLONE
               </div>
             </div>
           </div>
           {innerWidth > 700 ? (
-            <From
+            <YTForm
               setSDstate={setSDstate}
               ShowSearchDrop={ShowSearchDrop}
               HandleChange={HandleChange}
@@ -726,19 +709,19 @@ const Navbar = memo(() => {
             />
           ) : (
             componentMounted && (
-              <button onClick={HandleRespOn} className={style.responsive_form}>
+              <button onClick={HandleRespOn} className={styles.responsive_form}>
                 <ReSearchSvg />
               </button>
             )
           )}
 
-          <div className={style.right_container}>
+          <div className={styles.right_container}>
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleCamDrop}
-              className={style.icons_container}
+              className={styles.icons_container}
             >
-              <RippleButton onclick={() => {}} classname={style.btnpad}>
+              <RippleButton onclick={() => {}} classname={styles.btnpad}>
                 <CamSvg />
               </RippleButton>
 
@@ -748,9 +731,9 @@ const Navbar = memo(() => {
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleAppDrop}
-              className={style.icons_container}
+              className={styles.icons_container}
             >
-              <RippleButton onclick={() => {}} classname={style.btnpad}>
+              <RippleButton onclick={() => {}} classname={styles.btnpad}>
                 <AppSvg />
               </RippleButton>
               <AppDrop show={dropHandler.ShowAppDrop} />
@@ -759,29 +742,29 @@ const Navbar = memo(() => {
             <div
               onKeyPress={HandlekeyPress}
               onClick={HandleBellDrop}
-              className={style.icons_container}
+              className={styles.icons_container}
             >
               <div
                 style={{ display: NotiCount.seen ? "" : "none" }}
-                className={GetClassName(style, "noti_count", Theme)}
+                className={GetClassName(styles, "noti_count", Theme)}
               >
                 {NotiCount.count}
               </div>
-              <RippleButton onclick={() => {}} classname={style.btnpad}>
+              <RippleButton onclick={() => {}} classname={styles.btnpad}>
                 <BellSvg />
               </RippleButton>
 
               <Notification show={dropHandler.ShowBellDrop} />
             </div>
-            <div className={style.profile_container}>
+            <div className={styles.profile_container}>
               <button
                 onKeyPress={HandlekeyPress}
                 onClick={HandleProfDrop}
-                className={style.profile_btn}
+                className={styles.profile_btn}
               >
                 <img
                   id="prx"
-                  className={style.pronail}
+                  className={styles.pronail}
                   src={IsCurrentAccount.img}
                   height="32"
                   width="32"
@@ -823,7 +806,7 @@ const Navbar = memo(() => {
           <button onClick={HandleRespOff}>
             <BackArrowSvg />
           </button>
-          <From
+          <YTForm
             setSDstate={setSDstate}
             ShowSearchDrop={ShowSearchDrop}
             HandleChange={HandleChange}
@@ -843,6 +826,6 @@ const Navbar = memo(() => {
       )}
     </nav>
   );
-});
+};
 
-export default Navbar;
+export default memo(Navbar);

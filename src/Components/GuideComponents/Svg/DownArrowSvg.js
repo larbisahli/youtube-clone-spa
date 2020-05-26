@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE
 
-const DownArrowSvg = memo(() => {
+const DownArrowSvg = () => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -20,6 +20,6 @@ const DownArrowSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default DownArrowSvg;
+export default memo(DownArrowSvg);

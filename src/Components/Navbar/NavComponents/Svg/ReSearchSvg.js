@@ -5,7 +5,7 @@ import { ReturnTheme } from "../../../../utils";
 
 // SVG path COPIED FROM YOUTUBE
 
-const ReSearchSvg = memo(() => {
+const ReSearchSvg = () => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -21,6 +21,6 @@ const ReSearchSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default ReSearchSvg;
+export default memo(ReSearchSvg);

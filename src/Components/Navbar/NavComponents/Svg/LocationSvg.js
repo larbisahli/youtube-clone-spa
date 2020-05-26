@@ -3,7 +3,7 @@ import "./sass/svg_style_scnni.scss";
 
 // SVG path COPIED FROM YOUTUBE
 
-const LocaSvg = memo(() => {
+const LocaSvg = () => {
   return (
     <div className="ytb_svg">
       <svg className="ytb_svg__wrapper" viewBox="0 0 24 24" focusable={false}>
@@ -16,6 +16,6 @@ const LocaSvg = memo(() => {
       </svg>
     </div>
   );
-});
+};
 
-export default LocaSvg;
+export default memo(LocaSvg);

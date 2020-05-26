@@ -9,3 +9,5 @@ export { default as MoveUpSvg } from "./MoveUpSvg";
 export { default as MoveDownSvg } from "./MoveDownSvg";
 export { default as Like } from "./Like";
 export { default as DisLike } from "./DisLike";
+export { default as Share } from "./Share";
+export { default as Save } from "./Save";
