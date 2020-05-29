@@ -7,6 +7,8 @@ import queueListReducer from "./Queue/queueListReducer";
 import DisplayQueueReducer from "./Queue/queueDisplayReducer";
 import ApiCallReducer from "./ApiCall/ApiCallReducer";
 import WLVReducer from "./WLV/WLVReducer";
+import ApiKeyReducer from "./ApiKey/ApiKeyReducer";
+import ApiMessageReducer from "./ApiMessage/ApiMessageReducer";
 
 const rootReducer = combineReducers({
   Theme: themeReducer,
@@ -15,8 +17,10 @@ const rootReducer = combineReducers({
   Guide: GuideReducer,
   QueueList: queueListReducer,
   DisplayQueue: DisplayQueueReducer,
+  DisplayApiMessage: ApiMessageReducer,
   VideosRequest: ApiCallReducer,
   WLV: WLVReducer,
+  ApiKey: ApiKeyReducer,
 });
 
 export default rootReducer;

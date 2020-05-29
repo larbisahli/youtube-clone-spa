@@ -2,16 +2,18 @@ import { DARK_THEME, LIGHT_THEME } from "../actionTypes";
 
 const prevTheme = JSON.parse(localStorage.getItem("isDarkTheme"));
 
-const initialState = { isDarkTheme: prevTheme !== null ? prevTheme : false };
+const initialState = { isDarkTheme: prevTheme !== null ? prevTheme : true };
 
-if (prevTheme) {
-  // app update this slow so we have to put it on top.
-  const generalBackgroundDark = "#1f1f1f";
-  const generalBackgroundLight = "#f9f9f9";
+// app update this slow so we have to put it on top.
+const generalBackgroundDark = "#1f1f1f";
+const generalBackgroundLight = "#f9f9f9";
 
+if (prevTheme !== null) {
   document.body.style.backgroundColor = initialState.isDarkTheme
     ? generalBackgroundDark
     : generalBackgroundLight;
+} else {
+  document.body.style.backgroundColor = generalBackgroundDark; // generalBackgroundLight;
 }
 
 const themeReducer = (state = initialState, action) => {

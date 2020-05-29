@@ -9,13 +9,13 @@ export const YouTubeAPI = axios.create({
 //  FETCH MOST POPULAR VIDEOS
 // ===========================
 
-export const getMostPopularVideos = async () => {
-  const result = await YouTubeAPI.get("videoss", {
+export const getMostPopularVideos = async (isKey, key) => {
+  const result = await YouTubeAPI.get("videos", {
     params: {
       part: "snippet,statistics,contentDetails",
       maxResults: 8,
       chart: "mostPopular",
-      key: process.env.REACT_APP_YOUTUBE_API_KEY,
+      key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
     },
   }).then(({ data }) => data);
 
@@ -26,7 +26,7 @@ export const getMostPopularVideos = async () => {
 //           SEARCH
 // ===========================
 
-export const SearchRequest = async (id, parameter, option) => {
+export const SearchRequest = async (id, parameter, option, isKey, key) => {
   const result = await YouTubeAPI.get("search", {
     params:
       parameter && option
@@ -34,14 +34,14 @@ export const SearchRequest = async (id, parameter, option) => {
             part: "snippet",
             maxResults: 3,
             q: id,
-            key: process.env.REACT_APP_YOUTUBE_API_KEY,
+            key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
             [parameter]: option,
           }
         : {
             part: "snippet",
             maxResults: 3,
             q: id,
-            key: process.env.REACT_APP_YOUTUBE_API_KEY,
+            key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
           },
   }).then(({ data }) => data);
   return result;

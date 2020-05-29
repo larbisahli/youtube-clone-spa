@@ -1,31 +1,33 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Navbar, Guide, MiniGuide, Queue, MessageBox } from "../Components";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchItems } from "../redux";
-import Home from "./Home";
-import "./Sass/app.scss";
+import Home from "./HomePage/Home";
+import "./app.scss";
 
 // dynamic import: means executed when the code runs
-const Results = lazy(() => import("./Results"));
-const WLV = lazy(() => import("./WLV"));
-const Watch = lazy(() => import("./Watch"));
-const Channel = lazy(() => import("./Channel"));
-const NotFound = lazy(() => import("./NotFound"));
+const Results = lazy(() => import("./ResultsPage/Results"));
+const WLV = lazy(() => import("./WLVPage/WLV"));
+const Watch = lazy(() => import("./WatchPage/Watch"));
+const Channel = lazy(() => import("./ChannelPage/Channel"));
+const NotFound = lazy(() => import("./NotFoundPage/NotFound"));
 
 // react lazy :
 // every route in rendered in advance do we use react lazy to load them on need.
 
 function App() {
+  // api key
+  const ApiKey = useSelector((state) => state.ApiKey);
+
   // dispatch
   const dispatch = useDispatch();
 
   useEffect(() => {
     // fetch items
     // because of youtube's api request restrictions i only want to make a call once.
-
-    dispatch(fetchItems());
-  }, []);
+    dispatch(fetchItems(ApiKey));
+  }, [ApiKey, dispatch]);
 
   return (
     <div className="root_container">

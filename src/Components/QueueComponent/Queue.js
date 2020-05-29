@@ -389,9 +389,10 @@ const Queue = () => {
                   <PlayItemsList
                     plv={plv}
                     key={index}
-                    CurrentPlayingVidIndex={GetCurrentPlayingVidIndex}
+                    HandlePlayingVideo={HandlePlayingVideo}
                     HandleDelClick={HandleDelClick}
                     isQueue={true}
+                    index={index}
                   />
                 );
               })}

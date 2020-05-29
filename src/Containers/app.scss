@@ -1,0 +1,32 @@
+@import '../sass/config.scss';
+
+.root_container {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    &--dark {
+        // Dark Theme
+        background-color: colors(general-background-Dark) !important;
+    }
+
+    &--light {
+        // Light Theme
+        background-color: colors(general-background-Light) !important;
+    }
+
+    .page_container {
+        margin-top: 56px;
+    }
+}
+
+#page-manager {
+    //smooth load transition
+
+    margin-left: 240px;
+
+    @media screen and (max-width: 1340px) {
+        margin-left: 72px;
+    }
+}

@@ -1,0 +1,187 @@
+@import "../../../../sass/config.scss";
+
+
+.item_container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    &--dark {
+
+        // Dark Theme
+        &:hover {
+            background-color: #202020;
+        }
+    }
+
+    &--light {
+
+        // Light Theme
+        &:hover {
+            background-color: #dbdbdb;
+        }
+    }
+
+    .drag_area {
+        padding: 0 6px;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        cursor: grab;
+
+        &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
+            cursor: grab;
+        }
+    }
+
+
+    // -----
+
+
+    .item_wrap {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 16px 0;
+        flex: 1;
+        box-sizing: border-box;
+
+        &--dark {
+            // Dark Theme
+            border-bottom: 1px solid #202020;
+
+            &:hover>.item_wrap__textarea>.dot_svg> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+                fill: #fff;
+            }
+        }
+
+        &--light {
+            // Light Theme
+            border-bottom: 1px solid #dbdbdb;
+
+            &:hover>.item_wrap__textarea>.dot_svg> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+                fill: #333;
+            }
+        }
+
+
+
+        &__thumb {
+            position: relative;
+            margin-right: 8px;
+            height: 68px;
+            width: 120px;
+
+            &__img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: none;
+                max-width: 100%;
+                border-radius: none;
+            }
+
+            .inner {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin: 4px;
+                color: #fff;
+                border-radius: 2px;
+                letter-spacing: 0.5px;
+                font-size: 0.8rem;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 2px 4px;
+                line-height: 0.9rem;
+            }
+        }
+
+        &__textarea {
+            display: flex;
+            flex: 1;
+            align-self: flex-start;
+            justify-content: space-between;
+
+            .item_details {
+                display: block;
+                width: 100%;
+
+                // ---
+
+                &__title {
+                    display: flex;
+                    padding-bottom: 10px;
+                    overflow: hidden;
+
+                    span {
+                        font-family: Roboto-Medium;
+                        font-size: 1.5em;
+                        overflow: hidden;
+
+                        @media screen and (max-width: 1150px) {
+                            font-size: 1.2em !important;
+                            height: 15px;
+                        }
+                    }
+                }
+
+                // ---
+
+                &__channel_title {
+                    font-size: 1.25em;
+
+                    &--dark {
+                        // Dark Theme
+                        color: colors(ChTitle_Dark_Color);
+
+                        &:hover {
+                            color: #fff;
+                        }
+                    }
+
+                    &--light {
+                        // Light Theme
+                        color: colors(ChTitle_Light_Color);
+
+                        &:hover {
+                            color: #333;
+                        }
+                    }
+                }
+            }
+
+            // ---
+
+            .dot_svg {
+                display: flex;
+                align-self: flex-start;
+                padding: 2px;
+
+                &--dark {
+                    // Dark Theme
+
+                    &:active {
+                        background-color: #3f3f3f;
+                        padding: 2px;
+                        border-radius: 50%;
+                    }
+                }
+
+                &--light {
+                    // Light Theme
+
+                    &:active {
+                        background-color: #b9b9b9;
+                        padding: 2px;
+                        border-radius: 50%;
+                    }
+                }
+
+                &> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+                    fill: transparent;
+                }
+            }
+        }
+    }
+}

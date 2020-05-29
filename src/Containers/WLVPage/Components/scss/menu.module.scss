@@ -1,0 +1,76 @@
+@import "../../../../sass/config.scss";
+
+
+.menu_drop {
+    position: absolute;
+    width: 240px;
+    box-sizing: border-box;
+    max-width: 249px;
+    max-height: 213px;
+    right: 0;
+    top: 50%;
+    border-radius: 4px;
+    z-index: 10;
+    padding: 8px 0;
+
+    &--dark {
+        // Dark Theme
+        background-color: colors(Nav-background-Dark);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    &--light {
+        // Light Theme
+        background-color: colors(Nav-background-Light);
+
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
+            0 1px 5px 0 rgba(0, 0, 0, 0.1),
+            0 3px 1px -2px rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (max-width: 1150px) {
+        top: -50% !important;
+    }
+
+    .drop_text_con {
+        display: flex;
+        padding: 5px 36px 5px 16px;
+        align-items: center;
+
+        &--dark {
+            &:hover {
+                background-color: colors(Theme-hover-Dark);
+            }
+        }
+
+        &--light {
+            &:hover {
+                background-color: colors(Theme-hover-Light);
+            }
+        }
+
+        &__icon {
+            margin-right: 16px;
+
+            &> :global(.ytb_svg_x)> :global(.ytb_svg_x__wrapper) {
+                transform: scale(1.25);
+            }
+        }
+
+        &__text {
+            font-size: 1.3em;
+
+            &--dark {
+                // Dark Theme
+                color: #fff;
+            }
+
+            &--light {
+                // Light Theme
+                color: #212121;
+            }
+        }
+    }
+}

@@ -96,8 +96,15 @@ const ProfileDrop = ({ handleShowSemiDrop, show }) => {
             <div className={styles.block_wrapper__logo}>
               <YSSvg />
             </div>
-            <div className={styles.txtwrap}>
-              <div className={styles.txtwrap__txt}>YouTube Studio</div>
+
+            <div
+              onClick={() => handleShowSemiDrop("APIKey")}
+              className={styles.txtwrap}
+            >
+              <div className={styles.txtwrap__txt}>Enter your API key</div>
+              <div className={styles.block_wrapper__logo}>
+                <ArrowSvg />
+              </div>
             </div>
           </div>
           <div className={block_wrapper}>

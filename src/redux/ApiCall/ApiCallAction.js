@@ -25,16 +25,15 @@ export const fetchDataFailure = (error) => {
   };
 };
 
-// Creating a global variable to hold all maped api items
-// and then store it in a state.
+// Creating a global variable to hold all maped items and then store it in the state.
 let PopularVideosArray = [];
 
-export const fetchItems = () => (dispatch) => {
+export const fetchItems = (ApiKey) => (dispatch) => {
   // loading: true
   dispatch(fetchDataRequest());
 
   //
-  getMostPopularVideos()
+  getMostPopularVideos(ApiKey.isKey, ApiKey.key)
     .then((data) => {
       data.items.map((res) => {
         return (PopularVideosArray = [
@@ -61,6 +60,8 @@ export const fetchItems = () => (dispatch) => {
     })
     .catch((err) => {
       // Error Setup
-      dispatch(fetchDataFailure(err));
+      if (err.response) {
+        dispatch(fetchDataFailure(err.response));
+      }
     });
 };

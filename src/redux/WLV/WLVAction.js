@@ -105,7 +105,7 @@ export const fetchPlayListFailure = (error) => {
 let PlayListArray = [];
 let itemCount = 0;
 
-export const fetchPlayList = (id) => (dispatch) => {
+export const fetchPlayList = (id, ApiKey) => (dispatch) => {
   // loading: true
   dispatch(fetchPlayListRequest());
 
@@ -114,15 +114,19 @@ export const fetchPlayList = (id) => (dispatch) => {
       YouTubeAPI.get("playlistItems", {
         params: {
           part: "snippet",
-          maxResults: 2,
-          key: process.env.REACT_APP_YOUTUBE_API_KEY,
+          maxResults: 6,
+          key: ApiKey.isKey
+            ? ApiKey.key
+            : process.env.REACT_APP_YOUTUBE_API_KEY,
           playlistId: id,
         },
       }),
       YouTubeAPI.get("playlists", {
         params: {
           part: "contentDetails",
-          key: process.env.REACT_APP_YOUTUBE_API_KEY,
+          key: ApiKey.isKey
+            ? ApiKey.key
+            : process.env.REACT_APP_YOUTUBE_API_KEY,
           id: id,
         },
       }),

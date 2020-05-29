@@ -14,8 +14,8 @@ const loadVideo = (YT, PlayerId, onPlayerStateChange, onPlayerError) => {
       controls: 1,
       enablejsapi: 1,
       showinfo: 0,
-      modestbranding: 1,
       rel: 0,
+      modestbranding: 1,
     },
     events: {
       onReady: onPlayerReady,

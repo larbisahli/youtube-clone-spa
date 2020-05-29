@@ -7,7 +7,7 @@ import {
 const initialState = {
   loading: true,
   items: [],
-  error: "",
+  error: { status: 0, message: "" },
 };
 
 export const ApiCallReducer = (state = initialState, action) => {
@@ -21,13 +21,28 @@ export const ApiCallReducer = (state = initialState, action) => {
       return {
         loading: false,
         items: [...action.payload],
-        error: "",
+        error: { status: 200, message: "" },
       };
     case FETCH_DATA_FAILURE:
+      let message;
+      if (
+        typeof action.payload.data === "string" ||
+        action.payload.data instanceof String
+      ) {
+        // it's a string
+        message = action.payload.data;
+      } // it's an object
+      else {
+        message = action.payload.data.error.message;
+      }
+
       return {
         loading: true,
         items: [],
-        error: action.payload,
+        error: {
+          status: action.payload.status,
+          message: message,
+        },
       };
 
     default:

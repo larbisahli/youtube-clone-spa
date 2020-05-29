@@ -40,3 +40,6 @@ export const WL_MOVEUP = "WL_MOVEUP";
 export const LV_MOVEUP = "LV_MOVEUP";
 export const WL_MOVEDOWN = "WL_MOVEDOWN";
 export const LV_MOVEDOWN = "LV_MOVEDOWN";
+export const API_KEY_INSERT = "API_KEY_INSERT";
+export const SHOW_API_MESSAGE = "SHOW_API_MESSAGE";
+export const HIDE_API_MESSAGE = "HIDE_API_MESSAGE";

@@ -1,0 +1,290 @@
+@import '../../../../sass/config.scss';
+
+.container {
+    padding-bottom: 8px;
+
+
+    &:hover>.wrapper>.thumbnail>.inner_btn {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: stretch;
+
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: row;
+    }
+
+    // --------------------------
+
+    .skeleton {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        &__txt1 {
+            margin: 0 5px;
+            width: 50%;
+            height: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+
+            &--dark {
+                background-color: colors(Skeleton_Dark_color);
+            }
+
+            &--light {
+                background-color: colors(Skeleton_Light_color);
+            }
+        }
+
+
+
+        &__txt2 {
+            margin: 0 5px;
+            border-radius: 4px;
+            height: 10px;
+            width: 25%;
+
+            &--dark {
+                background-color: colors(Skeleton_Dark_color);
+            }
+
+            &--light {
+                background-color: colors(Skeleton_Light_color);
+            }
+        }
+
+
+    }
+
+
+    // --------------------------------------
+
+
+    .thumbnail {
+
+        position: relative;
+        cursor: pointer;
+        margin-right: 8px;
+        height: 94px;
+        width: 168px;
+
+        &__wrapper {
+
+            margin-right: 8px;
+            height: 94px;
+            width: 168px;
+
+            &--dark {
+                background-color: colors(Skeleton_Dark_color);
+            }
+
+            &--light {
+                background-color: colors(Skeleton_Light_color);
+            }
+
+            .img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-height: none;
+                max-width: 100%;
+                border-radius: none;
+            }
+        }
+
+        // ========================
+        //     inner btn Style
+        // ========================
+
+        .inner_btn {
+
+            position: absolute;
+            right: 0;
+            margin: 2px;
+            color: #fff;
+            border-radius: 2px;
+            letter-spacing: 0.5px;
+            font-size: .8rem;
+            overflow: hidden;
+
+
+            .slider {
+                @include display-flex();
+                @include justifyContent-center();
+                @include alignItems-center;
+                position: relative;
+                text-transform: uppercase;
+                transform: translateX(135px);
+                background-color: #000;
+                transition: transform 0.35s ease-in-out;
+                z-index: 0;
+                padding: 3px 6px;
+                border-radius: 2px 0 0 2px;
+
+
+                &__check {
+                    color: #3ea6ff;
+                }
+
+                &__normal {
+                    align-self: center;
+                }
+            }
+
+            .icon_btn {
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 2;
+                padding: 1px;
+                border-radius: 2px;
+
+
+                &__check {
+
+                    &>:global(.ytb_svg_x)>:global(.ytb_svg_x__wrapper) {
+
+                        height: 20px;
+                    }
+                }
+
+                &:hover {
+                    background-color: rgb(0, 0, 0);
+                    border-radius: 0 2px 2px 0;
+                }
+            }
+
+            &--duration {
+                bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 2px 4px;
+                line-height: 0.9rem;
+
+            }
+
+            &--queue {
+                display: none;
+                top: 33px;
+
+            }
+
+            &--clock {
+                display: none;
+                top: 0;
+            }
+        }
+    }
+
+    .body {
+        width: 100%;
+        min-width: 0;
+
+        .wrap {
+            min-width: 0;
+            width: 100%;
+            padding-right: 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .title {
+            font-size: .87rem;
+            font-family: Roboto-Medium;
+            cursor: pointer;
+            margin: 0 0 4px 0;
+            max-height: 3.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+
+            &--dark {
+                color: #fff;
+
+            }
+
+            &--light {
+                color: #212121;
+            }
+        }
+
+        .details {
+            display: block;
+            max-width: 100%;
+            max-height: 1.8rem;
+            padding-top: 1px;
+            font-size: .8rem;
+
+            &--dark {
+                // Dark Theme
+                color: colors(Duration_Dark_Color);
+            }
+
+            &--light {
+                // Light Theme
+                color: colors(Duration_Light_Color);
+            }
+
+            // ---
+
+            &__dot {
+
+                margin: 0 4px;
+
+                &--dark {
+                    // Dark Theme 
+                    color: #c2c2c2;
+                }
+
+                &--light {
+                    // Light Theme
+                    color: #4d4d4d;
+                }
+            }
+
+            // ---
+
+            &__stat {
+
+                display: flex;
+                flex-direction: row;
+
+
+                &--dark {
+                    // Dark Theme 
+                    color: #c2c2c2;
+                }
+
+                &--light {
+                    // Light Theme
+                    color: #4d4d4d;
+                }
+            }
+
+            &__cha_title {
+                cursor: pointer;
+                padding-bottom: 3px;
+
+                &--dark {
+                    // Dark Theme
+                    color: colors(ChTitle_Dark_Color);
+
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+
+                &--light {
+                    // Light Theme
+                    color: colors(ChTitle_Light_Color);
+
+                    &:hover {
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}

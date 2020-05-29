@@ -23,6 +23,8 @@ import {
   ThemeDrop,
   LocaDrop,
   RestrictDrop,
+  APIKeyDrop,
+  APiMessageBox,
 } from "./NavComponents/DropDownComponents";
 import { ReturnTheme, PageLocation, GetClassName } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
@@ -101,8 +103,8 @@ const YTForm = memo(
             </div>
             <button
               className={cx("btn_container", "titleS", {
-                [`titleS--${ReturnTheme(true)}`]: true,
-                [`btn_container--${ReturnTheme(true)}`]: true,
+                [`titleS--${ReturnTheme(Theme)}`]: true,
+                [`btn_container--${ReturnTheme(Theme)}`]: true,
               })}
             >
               <SearchSvg Theme={Theme} />
@@ -182,6 +184,7 @@ const Navbar = () => {
     ThemeDrop: false,
     LocaDrop: false,
     RestrictDrop: false,
+    APIKey: false,
   });
 
   // ==> Check if th nav component is mounted
@@ -492,10 +495,12 @@ const Navbar = () => {
       ThemeDrop: false,
       LocaDrop: false,
       RestrictDrop: false,
+      APIKey: false,
     });
 
     // you should not put dropHandler in the useCallback dependencies array
     // because it will re-render semi-dropdowns
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const HandleShowSemiDrop = useCallback((value) => {
@@ -510,6 +515,7 @@ const Navbar = () => {
     // you should not put dropHandler or semiDrop in the useCallback dependencies array
     // because it will re-render profile-drop if you click on another drop.
     // it is unnecessary
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // =============================
@@ -565,6 +571,7 @@ const Navbar = () => {
               ThemeDrop: false,
               LocaDrop: false,
               RestrictDrop: false,
+              APIKey: false,
             };
           });
           isInSemiDrop = false;
@@ -777,6 +784,8 @@ const Navbar = () => {
                 show={dropHandler.ShowProfDrop}
               />
 
+              <APiMessageBox />
+
               <SADrop handleGoBackDrop={HandleGoBack} show={semiDrop.SADrop} />
 
               <LangDrop
@@ -787,6 +796,11 @@ const Navbar = () => {
               <ThemeDrop
                 handleGoBackDrop={HandleGoBack}
                 show={semiDrop.ThemeDrop}
+              />
+
+              <APIKeyDrop
+                handleGoBackDrop={HandleGoBack}
+                show={semiDrop.APIKey}
               />
 
               <RestrictDrop

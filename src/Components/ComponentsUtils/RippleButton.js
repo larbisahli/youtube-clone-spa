@@ -1,5 +1,5 @@
 import React, { useCallback, useState, memo } from "react";
-import styles from "./sass/ripplebutton.module.scss";
+import styles from "./scss/ripplebutton.module.scss";
 import { GetClassName } from "../../utils";
 import { useSelector } from "react-redux";
 

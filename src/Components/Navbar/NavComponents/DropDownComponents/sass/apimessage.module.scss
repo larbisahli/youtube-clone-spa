@@ -1,0 +1,57 @@
+@import '../../../../../sass/config.scss';
+
+
+.container {
+    position: absolute;
+    bottom: -55px; //15px*3+10
+    right: 25px;
+    border-radius: 2px;
+    padding: 15px 25px;
+    z-index: 100;
+    transition: all .6s ease-in-out;
+    opacity: 1;
+
+
+    &--dark {
+        background-color: colors(Theme-hover-Dark);
+        border: 1px solid colors(border-color-Dark);
+        color: #fff;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid colors(Theme-hover-Dark);
+        }
+
+    }
+
+    &--light {
+        background-color: colors(Theme-hover-Light);
+        border: 1px solid colors(border-color-Light);
+        color: #000;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #e7e7e7f2;
+        }
+    }
+
+
+    span {
+        font-family: Roboto-Medium;
+        text-align: center;
+        font-size: .75rem;
+    }
+
+}

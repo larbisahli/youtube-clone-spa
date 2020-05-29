@@ -214,6 +214,35 @@
                 color: #606060;
             }
 
+            // ====== api_input ===
+
+            .api_input {
+
+                cursor: text;
+                padding-bottom: 4px;
+                flex: 1;
+                background-color: transparent;
+                border: none;
+                outline: none;
+
+                &:focus {
+                    border-bottom: 2px solid rgb(0, 0, 0)
+                }
+
+                &--dark {
+                    // Dark Theme
+                    color: #fff;
+                    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+                }
+
+                &--light {
+                    // Light Theme
+                    color: #000;
+                    border-bottom: 2px solid rgba(83, 83, 83, 0.1);
+                }
+
+            }
+
 
             // ===== Toggle ====
 
@@ -292,6 +321,33 @@
                         }
                     }
                 }
+            }
+        }
+
+        .btn_con {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 10px;
+            padding-right: 20px; // tr_container
+            box-sizing: border-box;
+
+            .api_submit_btn {
+                border-radius: 2px;
+                padding: 5px 12px;
+                font-family: Roboto-Medium;
+                font-size: .75rem;
+                cursor: pointer;
+
+
+                &--dark {
+                    color: #000;
+                }
+
+                &--light {
+                    color: #fff;
+                }
+
             }
         }
     }
