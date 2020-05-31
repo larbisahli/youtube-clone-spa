@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, Fragment, memo } from "react";
 import styles from "./navbar.module.scss";
 import YoutubeLogo from "../../Images/Youtube_icon.svg";
 import { Link, useHistory } from "react-router-dom";
-import { Head, RippleButton } from "../ComponentsUtils";
+import { Head, RippleButton, ProfileImg } from "../ComponentsUtils";
 import {
   CamSvg,
   MenuSvg,
@@ -769,13 +769,13 @@ const Navbar = () => {
                 onClick={HandleProfDrop}
                 className={styles.profile_btn}
               >
-                <img
-                  id="prx"
-                  className={styles.pronail}
+                <ProfileImg
+                  width={"32"}
+                  height={"32"}
                   src={IsCurrentAccount.img}
-                  height="32"
-                  width="32"
-                  alt="Avatar"
+                  id={"prx"}
+                  alt={""}
+                  classname={styles.pronail}
                 />
               </button>
 

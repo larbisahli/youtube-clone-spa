@@ -1,0 +1,36 @@
+@import '../../../sass/config.scss';
+
+
+.thumbnail {
+
+    cursor: pointer;
+
+    &__wrapper {
+
+        border-radius: 50%;
+        overflow: hidden;
+
+        &--dark {
+            // Dark Theme
+            background-color: colors(Skeleton_Dark_color);
+
+        }
+
+        &--light {
+            // Dark Theme
+            background-color: colors(Skeleton_Light_color);
+
+        }
+
+        .img {
+
+            border-radius: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-height: none;
+            max-width: 100%;
+            border-radius: none;
+        }
+    }
+}

@@ -11,6 +11,8 @@
     &--dark {
 
         // Dark Theme
+        color: colors(VidTitle_Dark_Color);
+
         &:hover {
             background-color: #292929;
             box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
@@ -20,6 +22,8 @@
     &--light {
 
         // Light Theme
+        color: colors(VidTitle_Light_Color);
+
         &:hover {
             background-color: #ebebeb;
             box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
@@ -40,6 +44,8 @@
         display: flex;
         align-items: center;
         cursor: grab;
+
+
 
         &__playing {
             display: flex;
@@ -111,10 +117,13 @@
                 padding: 0 8px;
 
 
+
                 &__title {
                     font-size: 1.3em;
                     font-family: Roboto-Medium;
                     padding-bottom: 5px;
+
+
                 }
 
                 &__chtitle {

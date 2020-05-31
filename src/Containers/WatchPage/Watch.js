@@ -9,10 +9,15 @@ import {
 } from "../../utils";
 import { useLocation } from "react-router";
 import { VideoPlayer } from "../../Components";
-import { Seek, DestroyIframe, Spinner } from "../../Components/ComponentsUtils";
+import {
+  Seek,
+  DestroyIframe,
+  Spinner,
+  ProfileImg,
+} from "../../Components/ComponentsUtils";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  RemoveAllQueueAction,
   SetGuideModeAction,
   HideGuideAction,
   ShowGuideAction,
@@ -26,7 +31,6 @@ import { Like, DisLike, Share, Save, SortBySvg } from "../Svg";
 import { SubBellSvg } from "../ResultsPage/Components/Svg";
 import { DotsSvg } from "../../Components/Navbar/NavComponents/Svg";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import { Parent, Child, CommentsContents } from "./Components";
 
@@ -47,9 +51,11 @@ const Watch = () => {
   // fetch data
   const PopularVideos = useSelector((state) => state.VideosRequest.items);
 
-  // Queue
-  //const ShowQueue = useSelector((state) => state.DisplayQueue);
+  // WLV :
+  const WatchLater = useSelector((state) => state.WLV.WL);
+  const LikedVideos = useSelector((state) => state.WLV.LV);
   const QueueList = useSelector((state) => state.QueueList);
+  const PlayList = useSelector((state) => state.WLV.PlayList);
 
   // dispatch
   const dispatch = useDispatch();
@@ -65,6 +71,10 @@ const Watch = () => {
   //
 
   const [visible, setVisible] = useState(window.innerWidth <= 1016);
+
+  // Show More btn
+
+  const [ShowMore, setShowMore] = useState(false);
 
   // A custom hook that builds on useLocation to parse
   // the query string for you.
@@ -120,18 +130,123 @@ const Watch = () => {
     setAutoPlay(event.target.checked);
   };
 
+  // ========================
+  //   Play the Next Video
+  // ========================
+
+  const [Trigger, setTrigger] = useState({ start: false, trig: false });
+
+  let history = useHistory();
+
+  useEffect(() => {
+    if (Trigger.start) {
+      PlayNextVideo();
+    } else {
+      setTrigger({ start: true, trig: Trigger.trig });
+    }
+
+    // Trigger.trig is the trigger to run useEffect because we need the redux state update
+    // we can't get the redux updated state inside onPlayerStateChange function
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Trigger.trig]);
+
+  //
+  const GetNextVidId = useCallback(
+    (VidList) => {
+      let index;
+      let videoId_ = false;
+
+      if (VidList.length !== 0) {
+        VidList.filter((item, i) => {
+          if (item.videoId === videoId) return (index = i);
+          return 0;
+        });
+
+        // -------
+        const i = VidList.length > index + 1 ? index + 1 : 0;
+        videoId_ = VidList[i].videoId;
+      }
+
+      return videoId_;
+    },
+    [videoId]
+  );
+
+  //
+  const PlayNextVideo = useCallback(() => {
+    let videoId_;
+
+    switch (HandleQueryParams("list")) {
+      //
+      case "wl":
+        videoId_ = GetNextVidId(WatchLater);
+        if (videoId_) {
+          history.push(`/watch?v=${videoId_}&list=wl`);
+        }
+
+        break;
+
+      case "lv":
+        videoId_ = GetNextVidId(LikedVideos);
+        if (videoId_) {
+          history.push(`/watch?v=${videoId_}&list=lv`);
+        }
+
+        break;
+
+      case "q":
+        videoId_ = GetNextVidId(QueueList);
+        if (videoId_) {
+          history.push(`/watch?v=${videoId_}&list=q`);
+        }
+
+        break;
+
+      default:
+        // PLAYLIST
+        if (!PlayList.loading && HandleQueryParams("list") !== 0) {
+          videoId_ = GetNextVidId(PlayList);
+          if (videoId_) {
+            history.push(
+              `/watch?v=${videoId_}&list=${HandleQueryParams("list")}`
+            );
+
+            break;
+          } else {
+            if (autoPlay) {
+              videoId_ = GetNextVidId(PopularVideos);
+              if (videoId_) {
+                history.push(`/watch?v=${videoId_}`);
+              }
+              break;
+            }
+          }
+        }
+    }
+  }, [
+    HandleQueryParams,
+    GetNextVidId,
+    PopularVideos,
+    QueueList,
+    autoPlay,
+    WatchLater,
+    history,
+    LikedVideos,
+    PlayList,
+  ]);
+
   const onPlayerStateChange = useCallback(
     (event) => {
-      console.log("event.data :----->> ", event.data);
       switch (event.data) {
         case 3:
           setVideoLoaded(true);
           break;
         case 0:
-          if (autoPlay) {
-            // play next video when the current video has finished
-            //dispatch(PlayNextQueueAction());
-          }
+          // play next video when the current video has finished
+          setTrigger((prev) => {
+            return { start: prev.start, trig: !prev.trig };
+          });
           break;
         case 1:
           // 1 means the player is ready to play
@@ -146,11 +261,11 @@ const Watch = () => {
           break;
       }
     },
-    [HandleQueryParams, autoPlay]
+    [HandleQueryParams]
   );
 
   // ====================================
-  //           Message box Handling
+  //        Message box Handling
   // ====================================
 
   // Closing Message box
@@ -244,7 +359,6 @@ const Watch = () => {
     return () => {
       // Clean Up
       DestroyIframe();
-
       // restore the global var to default for the next video seek
       SeekSeen = false;
     };
@@ -284,11 +398,11 @@ const Watch = () => {
         </div>
         {/* ====== VIDEO DETAILS AREA ====== */}
         <div className={styles.info}>
-          <div className={styles.info_contents}>
-            <div className={styles.main_title}>
+          <div className={GetClassName(styles, "info_contents", Theme)}>
+            <div className={GetClassName(styles, "main_title", Theme)}>
               {videodata.length !== 0 ? videodata.snippet.title : ""}
             </div>
-            <div className={styles.stat_info}>
+            <div className={GetClassName(styles, "stat_info", Theme)}>
               <div className={styles.info_text}>
                 <div className={styles.count}>
                   {numberWithCommas(
@@ -334,7 +448,7 @@ const Watch = () => {
                         )}
                       </span>
                     </div>
-                    <div className={styles.progress}>
+                    <div className={GetClassName(styles, "progress", Theme)}>
                       {ProgressBar(
                         videodata.length !== 0
                           ? videodata.statistics.likeCount
@@ -375,29 +489,18 @@ const Watch = () => {
         </div>
         {/* ====== VIDEO INFO AREA ====== */}
         <div className={styles.meta}>
-          <div className={styles.vid_info}>
+          <div className={GetClassName(styles, "vid_info", Theme)}>
             <div className={styles.vid_info__container}>
               <div className={styles.top_row}>
                 <div className={styles.channel_info_con}>
-                  <div className={styles.cha_thumbnail}>
-                    <Link
-                      to={`/channel/${
-                        videodata.length !== 0
-                          ? videodata.snippet.channelId
-                          : ""
-                      }`}
-                    >
-                      <div className={styles.cha_thumbnail__wrap}>
-                        <img
-                          id="cha-img"
-                          width="48"
-                          className={styles.cha_img}
-                          src=""
-                          alt=""
-                        />
-                      </div>
-                    </Link>
-                  </div>
+                  <ProfileImg
+                    width={"48"}
+                    height={"48"}
+                    src={""}
+                    id={"cha-img"}
+                    alt={""}
+                    classname={styles.cha_margin}
+                  />
                   <div className={styles.cha_info}>
                     <div
                       id="cha-title"
@@ -408,7 +511,7 @@ const Watch = () => {
                         ? videodata.snippet.channelId
                         : null
                     )}
-                    <div id="cha-sub" className={styles.cha_info__txt}></div>
+                    <div id="cha-sub" className={styles.cha_info__sub}></div>
                   </div>
                 </div>
                 <div className={styles.subbtn_con}>
@@ -441,15 +544,21 @@ const Watch = () => {
                   </div>
                 </div>
               </div>
-              <div className={styles.bottom_row}>
+              <div className={GetClassName(styles, "bottom_row", Theme)}>
                 <div className={styles.description}>
                   <div className={styles.text_area}>
                     {videodata.length !== 0
-                      ? TextReducer(videodata.snippet.description, 200)
+                      ? ShowMore
+                        ? videodata.snippet.description
+                        : TextReducer(videodata.snippet.description, 200)
                       : null}
                   </div>
-                  <div className={styles.details_area}>Details</div>
-                  <div className={styles.show_more_btn}>Show more</div>
+                  <div
+                    onClick={() => setShowMore((prev) => !prev)}
+                    className={GetClassName(styles, "show_more_btn", Theme)}
+                  >
+                    {ShowMore ? "Show less" : "Show more"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -476,7 +585,7 @@ const Watch = () => {
           <div className={styles.comments__header}>
             <div className={styles.comheader}>
               <div className={styles.comheader__title}>
-                <div className={styles.com_count}>
+                <div className={GetClassName(styles, "com_count", Theme)}>
                   {videodata.length !== 0
                     ? numberWithCommas(videodata.statistics.commentCount)
                     : 0}{" "}
@@ -486,23 +595,32 @@ const Watch = () => {
                   <div>
                     <SortBySvg />
                   </div>
-                  <div className={styles.com_sort_menu__txt}>Sort by</div>
+                  <div
+                    className={GetClassName(
+                      styles,
+                      "com_sort_menu__txt",
+                      Theme
+                    )}
+                  >
+                    Sort by
+                  </div>
                 </div>
               </div>
             </div>
             <div className={styles.userinput}>
-              <div className={styles.userinput__thumbnail}>
-                <img
-                  className={styles.prothumb_img}
-                  width="40"
-                  height="40"
-                  src="https://yt3.ggpht.com/a-/AAuE7mCD0A834-oe9m44YrvgjigbMXwRc254LoMuOkqDJw=s88-c-k-c0xffffffff-no-rj-mo"
-                  alt=""
-                />
-              </div>
+              <ProfileImg
+                width={"40"}
+                height={"40"}
+                src={
+                  "https://yt3.ggpht.com/a-/AAuE7mCD0A834-oe9m44YrvgjigbMXwRc254LoMuOkqDJw=s88-c-k-c0xffffffff-no-rj-mo"
+                }
+                id={""}
+                alt={""}
+                classname={styles.prothumb}
+              />
               <input
                 placeholder="Add a public comment..."
-                className={styles.userinput__inputcon}
+                className={GetClassName(styles, "userinput__inputcon", Theme)}
               />
             </div>
           </div>

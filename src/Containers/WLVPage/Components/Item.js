@@ -65,8 +65,10 @@ const Item = ({
 
   const [VidId, setVidId] = useState(false);
 
+  console.log("VidId :>> ", VidId);
+
   useEffect(() => {
-    if (SearchValue !== "WL" && SearchValue !== "LW") {
+    if (SearchValue !== "WL" && SearchValue !== "LV") {
       setVidId(wl.videoId);
     }
   }, [SearchValue, wl.videoId]);

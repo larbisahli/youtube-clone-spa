@@ -110,12 +110,11 @@
             font-size: .8rem;
             overflow: hidden;
 
-
             .slider {
                 @include display-flex();
                 @include justifyContent-center();
                 @include alignItems-center;
-                position: relative;
+                position: absolute;
                 text-transform: uppercase;
                 transform: translateX(135px);
                 background-color: #000;
@@ -123,7 +122,6 @@
                 z-index: 0;
                 padding: 3px 6px;
                 border-radius: 2px 0 0 2px;
-
 
                 &__check {
                     color: #3ea6ff;
@@ -139,7 +137,6 @@
                 z-index: 2;
                 padding: 1px;
                 border-radius: 2px;
-
 
                 &__check {
 

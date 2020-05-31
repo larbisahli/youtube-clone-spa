@@ -81,24 +81,40 @@
 
         // ------------
 
-
         .info {
 
             .info_contents {
+
                 display: block;
                 padding: 20px 0 8px 0;
 
-                // Theme
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                &--dark {
+                    // Dark Theme
+                    border-bottom: 1px solid colors(border-color-Dark);
 
+                }
 
+                &--light {
+                    // Light Theme
+                    border-bottom: 1px solid colors(border-color-Light);
+
+                }
 
                 .main_title {
+
                     font-size: 1.12rem;
 
-                    // Theme
-                    color: #fff;
+                    &--dark {
+                        // Dark Theme
+                        color: colors(VidTitle_Dark_Color);
 
+                    }
+
+                    &--light {
+                        // Light Theme
+                        color: colors(VidTitle_Light_Color);
+
+                    }
                 }
 
                 .stat_info {
@@ -109,8 +125,18 @@
                     align-items: center;
                     justify-content: space-between;
 
-                    // Theme
-                    color: rgb(170, 170, 170);
+                    &--dark {
+                        // Dark Theme
+                        color: colors(ChTitle_Dark_Color);
+
+
+                    }
+
+                    &--light {
+                        // Dark Theme
+                        color: colors(ChTitle_Light_Color);
+
+                    }
 
                     .info_text {
                         display: flex;
@@ -157,17 +183,21 @@
                                     z-index: 2;
                                     height: 2.5px;
 
-                                    // Theme
-                                    background-color: rgb(96, 96, 96);
+                                    &--dark {
+                                        // Dark Theme
+                                        background-color: #646464;
+                                    }
+
+                                    &--light {
+                                        // Light Theme
+                                        background-color: #ccc;
+                                    }
 
                                     &__bar {
                                         position: absolute;
                                         height: 2.5px;
                                         bottom: 0;
-
-                                        // Theme
-                                        background-color: rgb(170, 170, 170);
-
+                                        background-color: #909090;
                                     }
                                 }
                             }
@@ -178,7 +208,6 @@
                                 justify-content: center;
                                 align-items: center;
                                 margin-left: 8px;
-
 
                                 .icon {
                                     padding: 8px;
@@ -209,14 +238,22 @@
         .meta {
 
             .vid_info {
-                display: block;
 
+                display: block;
                 margin-bottom: 24px;
                 padding-bottom: 16px;
 
-                // Theme
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                &--dark {
+                    // Dark Theme
+                    border-bottom: 1px solid colors(border-color-Dark);
 
+                }
+
+                &--light {
+                    // Light Theme
+                    border-bottom: 1px solid colors(border-color-Light);
+
+                }
 
                 &__container {
 
@@ -232,32 +269,8 @@
                             display: flex;
                             flex-direction: row;
 
-                            .cha_thumbnail {
-
-                                cursor: pointer;
-
-                                &__wrap {
-                                    margin-right: 16px;
-                                    width: 48px;
-                                    height: 48px;
-                                    border-radius: 50%;
-                                    background-color: transparent;
-                                    overflow: hidden;
-
-                                    // Theme
-                                    background-color: rgb(73, 73, 73) !important;
-
-                                    .cha_img {
-
-                                        border-radius: 50%;
-                                        display: block;
-                                        margin-left: auto;
-                                        margin-right: auto;
-                                        max-height: none;
-                                        max-width: 100%;
-                                        border-radius: none;
-                                    }
-                                }
+                            .cha_margin {
+                                margin-right: 16px;
                             }
 
                             .cha_info {
@@ -267,19 +280,35 @@
 
 
                                 &__title {
+
                                     font-family: Roboto-Medium;
                                     font-size: .95rem;
                                     padding-bottom: 2px;
 
-                                    // Theme
-                                    color: #fff;
+                                    &--dark {
+                                        // Dark Theme
+                                        color: colors(VidTitle_Dark_Color);
+                                    }
+
+                                    &--light {
+                                        // Light Theme
+                                        color: colors(VidTitle_Light_Color);
+                                    }
                                 }
 
-                                &__txt {
+                                &__sub {
+
                                     font-size: .79rem;
 
-                                    // Theme
-                                    color: #aaa;
+                                    &--dark {
+                                        // Dark Theme
+                                        color: colors(ChTitle_Dark_Color);
+                                    }
+
+                                    &--light {
+                                        // Light Theme
+                                        color: colors(ChTitle_Light_Color);
+                                    }
                                 }
                             }
                         }
@@ -360,47 +389,53 @@
                     .bottom_row {
                         margin-left: 64px;
 
-                        // Theme
-                        color: #fff;
+                        &--dark {
+                            // Dark Theme
+                            color: colors(VidTitle_Dark_Color);
+                        }
 
+                        &--light {
+                            // Light Theme
+                            color: colors(VidTitle_Light_Color);
+                        }
 
                         .description {
                             display: block;
                             max-width: 615px;
                             overflow: hidden;
 
-
                             .text_area {
+
                                 font-size: .85rem;
                                 padding-bottom: 20px;
                             }
 
-
-                            .details_area {
-                                display: none;
-                            }
-
                             .show_more_btn {
+
                                 display: inline-block;
                                 font-size: .9rem;
                                 margin-top: 8px;
                                 text-transform: uppercase;
                                 cursor: pointer;
 
-                                // Theme
-                                color: #aaa;
+                                &--dark {
+                                    // Dark Theme
+                                    color: colors(ChTitle_Dark_Color);
+                                }
+
+                                &--light {
+                                    // Light Theme
+                                    color: colors(ChTitle_Light_Color);
+                                }
                             }
                         }
-
                     }
                 }
-
             }
         }
 
         // ------------
         .comments {
-
 
             &__header {
                 margin-bottom: 32px;
@@ -419,8 +454,16 @@
 
                         .com_count {
                             margin: 0 32px 0 0;
-                            color: #fff;
 
+                            &--dark {
+                                // Dark Theme
+                                color: colors(VidTitle_Dark_Color);
+                            }
+
+                            &--light {
+                                // Light Theme
+                                color: colors(VidTitle_Light_Color);
+                            }
                         }
 
                         .com_sort_menu {
@@ -430,10 +473,19 @@
 
                             &__txt {
                                 padding-left: 8px;
-                                color: #aaa;
                                 text-transform: uppercase;
                                 font-size: .9em;
                                 cursor: pointer;
+
+                                &--dark {
+                                    // Dark Theme
+                                    color: colors(ChTitle_Dark_Color);
+                                }
+
+                                &--light {
+                                    // Light Theme
+                                    color: colors(ChTitle_Light_Color);
+                                }
                             }
                         }
                     }
@@ -446,23 +498,9 @@
                     flex-wrap: wrap;
                     align-items: flex-start;
 
-                    &__thumbnail {
-                        width: 40px;
-                        height: 40px;
+                    .prothumb {
                         margin-right: 16px;
                         flex: none;
-                        border-radius: 50%;
-                        background-color: transparent;
-                        overflow: hidden;
-
-                        .prothumb_img {
-                            border-radius: 50%;
-                            display: block;
-                            margin-left: auto;
-                            margin-right: auto;
-                            max-height: none;
-                            max-width: 100%;
-                        }
                     }
 
                     &__inputcon {
@@ -472,15 +510,29 @@
                         background-color: transparent;
                         border: none;
                         outline: none;
-                        color: #fff;
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
+                        &--dark {
+                            // Dark Theme
+                            color: colors(VidTitle_Dark_Color);
+                            border-bottom: 1px solid colors(border-color-Dark);
+                        }
+
+                        &--light {
+                            // Light Theme
+                            color: colors(VidTitle_Light_Color);
+                            border-bottom: 1px solid colors(border-color-Light);
+                        }
+
+                        &:focus {
+                            border-bottom: 1px solid #000;
+                        }
                     }
                 }
 
             }
 
             &__contents {
+
                 display: flex;
                 margin-bottom: 16px;
 
@@ -490,34 +542,12 @@
                     }
                 }
 
+                .com_prothumb {
+                    margin-right: 16px;
+                    flex: none;
+                }
 
                 .comment_container {
-
-                    &__thumbnail {
-                        flex: none;
-
-
-                        .author_thumb {
-
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            margin-right: 16px;
-                            background-color: transparent;
-                            overflow: hidden;
-
-
-                            &__img {
-                                border-radius: 50%;
-                                display: block;
-                                margin-left: auto;
-                                margin-right: auto;
-                                max-height: none;
-                                max-width: 100%;
-
-                            }
-                        }
-                    }
 
                     &__main {
                         min-width: 0;
@@ -539,47 +569,76 @@
                                 .author_title {
                                     font-family: Roboto-Medium;
                                     margin-right: 4px;
-                                    color: #fff;
-
                                     margin-bottom: 2px;
 
+                                    &--dark {
+                                        // Dark Theme
+                                        color: colors(VidTitle_Dark_Color);
+                                    }
+
+                                    &--light {
+                                        // Light Theme
+                                        color: colors(VidTitle_Light_Color);
+                                    }
                                 }
 
                                 .published_time_text {
-                                    color: #aaa;
-                                    font-size: .98em;
-                                }
 
+                                    font-size: .98em;
+
+                                    &--dark {
+                                        // Dark Theme
+                                        color: colors(ChTitle_Dark_Color);
+                                    }
+
+                                    &--light {
+                                        // Light Theme
+                                        color: colors(ChTitle_Light_Color);
+                                    }
+                                }
                             }
                         }
 
                         .comain_body {
 
                             &__wrapper {
-                                color: #fff;
+
                                 overflow: hidden;
                                 max-height: none;
-                                max-height: 4.8rem;
                                 // 4.8rem is 4*a.2 which is 4 lines height line-height: 1.2rem;
+                                max-height: 4.8rem;
 
-                                // &:hover {
-                                //     max-height: none;
-                                // }
+                                &--dark {
+                                    // Dark Theme
+                                    color: colors(VidTitle_Dark_Color);
+                                }
 
-                                span {
+                                &--light {
+                                    // Light Theme
+                                    color: colors(VidTitle_Light_Color);
+                                }
+
+                                .spantxt {
 
                                     font-size: .88rem;
                                     line-height: 1.2rem;
 
-                                    a {
-                                        // Dark Theme
-                                        color: #3ea6ff;
 
-                                        // L Theme
-                                        //color: #065fd4;
+                                    &--dark {
+                                        // Dark Theme
+
+                                        a {
+                                            color: #3ea6ff;
+                                        }
                                     }
 
+                                    &--light {
+                                        // Light Theme
 
+                                        a {
+                                            color: #065fd4;
+                                        }
+                                    }
                                 }
                             }
 
@@ -592,8 +651,8 @@
                                     flex-direction: row;
 
                                     &__x {
+
                                         text-transform: uppercase;
-                                        color: #aaa;
                                         margin-right: 8px;
                                         font-size: .8rem;
 
@@ -602,8 +661,16 @@
                                             height: 16px;
                                         }
 
-                                    }
+                                        &--dark {
+                                            // Dark Theme
+                                            color: colors(ChTitle_Dark_Color);
+                                        }
 
+                                        &--light {
+                                            // Light Theme
+                                            color: colors(ChTitle_Light_Color);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -615,8 +682,16 @@
                             fill: transparent;
                         }
 
-                        &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                            fill: #fff;
+                        &--dark {
+                            &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
+                                fill: #fff;
+                            }
+                        }
+
+                        &--light {
+                            &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
+                                fill: #000;
+                            }
                         }
                     }
                 }
@@ -653,14 +728,22 @@
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 12px;
-                //Theme
-                color: #fff;
 
                 @media screen and (max-width: 1016px) {
 
                     padding-right: 10px;
                 }
 
+
+                &--dark {
+                    // Dark Theme
+                    color: colors(VidTitle_Dark_Color);
+                }
+
+                &--light {
+                    // Light Theme
+                    color: colors(VidTitle_Light_Color);
+                }
 
 
                 .upne_text {
@@ -675,8 +758,15 @@
                         font-size: .8rem;
                         margin-right: 8px;
 
-                        //Theme
-                        color: #aaa;
+                        &--dark {
+                            // Dark Theme
+                            color: colors(ChTitle_Dark_Color);
+                        }
+
+                        &--light {
+                            // Light Theme
+                            color: colors(ChTitle_Light_Color);
+                        }
                     }
                 }
 
@@ -714,7 +804,6 @@
                             }
                         }
                     }
-
 
                     &__btn {
                         height: 100%;
@@ -761,11 +850,22 @@
             }
 
             .line {
+
                 height: 1px;
-                background-color: rgba(255, 255, 255, 0.1);
                 margin-top: 8px;
                 margin-bottom: 16px;
 
+                &--dark {
+                    // Dark Theme
+
+                    background-color: colors(border-color-Dark);
+                }
+
+                &--light {
+                    // Dark Theme
+
+                    background-color: colors(border-color-Light);
+                }
             }
         }
     }

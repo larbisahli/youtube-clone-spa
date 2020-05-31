@@ -398,11 +398,13 @@ const Guide = () => {
                       <div className={styles.text_wrap}>{FrontSub.name}</div>
                     </div>
                     <div className={styles.notisvg}>
-                      <LiveSvg
-                        isLive={FrontSub.isLive}
-                        notiExist={FrontSub.notiExist}
-                        Theme={Theme}
-                      />
+                      <div className={styles.svg_con}>
+                        <LiveSvg
+                          isLive={FrontSub.isLive}
+                          notiExist={FrontSub.notiExist}
+                          Theme={Theme}
+                        />
+                      </div>
                     </div>
                   </div>
                 );

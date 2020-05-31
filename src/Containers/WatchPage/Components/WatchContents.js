@@ -21,13 +21,9 @@ import {
   CloseMessageAction,
   SetMessageAction,
 } from "../../../redux";
+import { useHistory } from "react-router-dom";
 
-const WatchContents = ({
-  index,
-  HandleLink,
-  PopularVideo,
-  HandleShowMessageBox,
-}) => {
+const WatchContents = ({ index, PopularVideo, HandleShowMessageBox }) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 
@@ -35,7 +31,6 @@ const WatchContents = ({
   const WatchLater = useSelector((state) => state.WLV.WL);
 
   // Queue list
-
   const QueueList = useSelector((state) => state.QueueList);
 
   // dispatch
@@ -176,11 +171,24 @@ const WatchContents = ({
     [IsQueue, QueueList, dispatch]
   );
 
+  // ==============
+
+  let history = useHistory();
+
+  const HandleLink = () => {
+    if (PopularVideo) {
+      history.push(`/watch?v=${PopularVideo.videoId}`);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.thumbnail}>
-          <div className={GetClassName(styles, "thumbnail__wrapper", Theme)}>
+          <div
+            onClick={HandleLink}
+            className={GetClassName(styles, "thumbnail__wrapper", Theme)}
+          >
             <img
               className={styles.img}
               width="168"
@@ -268,7 +276,10 @@ const WatchContents = ({
         {PopularVideo ? (
           <div className={styles.body}>
             <div className={styles.wrap}>
-              <div className={GetClassName(styles, "title", Theme)}>
+              <div
+                onClick={HandleLink}
+                className={GetClassName(styles, "title", Theme)}
+              >
                 {TextReducer(PopularVideo ? PopularVideo.title : "", 56)}
               </div>
               <div className={GetClassName(styles, "details", Theme)}>

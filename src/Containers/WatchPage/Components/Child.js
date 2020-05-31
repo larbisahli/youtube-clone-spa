@@ -29,10 +29,12 @@ const VideoHead = memo(
 
     return (
       <Fragment>
-        <div className={styles.head}>
+        <div className={GetClassName(styles, "head", Theme)}>
           <div className={styles.upne_text}>Up next</div>
           <div className={styles.toggle}>
-            <div className={styles.toggle__txt}>AUTOPLAY</div>
+            <div className={GetClassName(styles, "toggle__txt", Theme)}>
+              AUTOPLAY
+            </div>
             <label className={GetClassName(styles, "switch", Theme)}>
               <input
                 type="checkbox"
@@ -89,11 +91,11 @@ const Child = ({
         )}
         {/* ====== BODY ====== */}
         {PopularVideos.length !== 0
-          ? PopularVideos.slice(1).map((PopularVideo, i) => {
+          ? PopularVideos.slice(1).map((PopularVideo, index) => {
               return (
                 <WatchContents
-                  key={i}
-                  index={i}
+                  key={index + 1}
+                  index={index + 1}
                   PopularVideo={PopularVideo}
                   HandleShowMessageBox={HandleShowMessageBox}
                 />
@@ -102,18 +104,6 @@ const Child = ({
           : [...Array(8)].map((e, i) => {
               return <WatchContents key={i} index={i} PopularVideo={null} />;
             })}
-        {/* JUST REPEATING THE ARRAY */}
-        {PopularVideos.length !== 0 &&
-          PopularVideos.map((PopularVideo, i) => {
-            return (
-              <WatchContents
-                key={i}
-                index={i}
-                PopularVideo={PopularVideo}
-                HandleShowMessageBox={HandleShowMessageBox}
-              />
-            );
-          })}
       </div>
     </Fragment>
   );
