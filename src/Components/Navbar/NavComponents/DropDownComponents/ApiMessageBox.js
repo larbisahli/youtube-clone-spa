@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import styles from "./sass/apimessage.module.scss";
+import styles from "./scss/apimessage.module.scss";
 import { GetClassName } from "../../../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import { HodeApiMessageAction } from "../../../../redux";

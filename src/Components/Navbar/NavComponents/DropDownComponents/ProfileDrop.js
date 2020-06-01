@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import styles from "./sass/profiledrop.module.scss";
+import styles from "./scss/profiledrop.module.scss";
 import {
   AvatarSvg,
   ArrowSvg,

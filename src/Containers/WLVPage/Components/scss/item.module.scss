@@ -1,7 +1,7 @@
-@import "../../../../sass/config.scss";
+@import "../../../../scss/config.scss";
 
 
-.item_container {
+.container {
     display: flex;
     align-items: center;
     position: relative;
@@ -39,7 +39,7 @@
     // -----
 
 
-    .item_wrap {
+    .wrap {
         display: flex;
         align-items: center;
         position: relative;
@@ -51,7 +51,7 @@
             // Dark Theme
             border-bottom: 1px solid #202020;
 
-            &:hover>.item_wrap__textarea>.dot_svg> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+            &:hover>.wrap__textarea>.dots> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #fff;
             }
         }
@@ -60,7 +60,7 @@
             // Light Theme
             border-bottom: 1px solid #dbdbdb;
 
-            &:hover>.item_wrap__textarea>.dot_svg> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+            &:hover>.wrap__textarea>.dots> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #333;
             }
         }
@@ -83,6 +83,7 @@
             }
 
             .inner {
+
                 position: absolute;
                 bottom: 0;
                 right: 0;
@@ -103,7 +104,7 @@
             align-self: flex-start;
             justify-content: space-between;
 
-            .item_details {
+            .details {
                 display: block;
                 width: 100%;
 
@@ -153,7 +154,7 @@
 
             // ---
 
-            .dot_svg {
+            .dots {
                 display: flex;
                 align-self: flex-start;
                 padding: 2px;

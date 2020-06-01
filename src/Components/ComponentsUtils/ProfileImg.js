@@ -3,7 +3,14 @@ import styles from "./scss/profileimg.module.scss";
 import { useSelector } from "react-redux";
 import { GetClassName } from "../../utils";
 
-const ProfileImg = ({ classname, width, height, src, id, alt }) => {
+const ProfileImg = ({
+  classname = "",
+  width,
+  height,
+  src,
+  id = "",
+  alt = "",
+}) => {
   // Theme
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
 

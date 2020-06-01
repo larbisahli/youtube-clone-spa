@@ -1,6 +1,7 @@
-@import '../../../../../sass/config.scss';
+@import '../../../scss/config.scss';
 
-.ytb_svg_x {
+.ytb_svg_y {
+
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();
@@ -12,5 +13,8 @@
         width: 24px;
         z-index: 1;
         cursor: pointer;
+
+        // fill: #3ea6ff;//dark
+        // fill: #065fd4;;// light
     }
 }

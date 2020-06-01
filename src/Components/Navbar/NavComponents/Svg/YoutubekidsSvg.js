@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import "./sass/svg_style_scnni.scss";
+import "./scss/svg_style_scnni.scss";
 
 // SVG paths COPIED FROM YOUTUBE
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, memo } from "react";
-import styles from "./sass/notification.module.scss";
+import styles from "./scss/notification.module.scss";
 import { SettingsSvg, DotsSvg } from "../Svg";
 import { useSelector } from "react-redux";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { fake_notifications } from "./dummyData";
-import { LazyLoad, Spinner } from "../../../ComponentsUtils";
+import { LazyLoad, Spinner, ProfileImg } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -79,13 +79,15 @@ const Notification = ({ show }) => {
                       })}
                     ></div>
                   </div>
-                  <div className={GetClassName(styles, "pronail", Theme)}>
-                    <img
-                      className={styles.pronail__img}
+
+                  <div className={styles.pronail}>
+                    <ProfileImg
+                      width={"48"}
+                      height={"48"}
                       src={noti.proImage}
-                      alt=""
                     />
                   </div>
+
                   <div className={styles.textcon}>
                     <div className={styles.textcon__title}>{noti.text}</div>
                     <div className={styles.textcon__date}>{noti.time}</div>

@@ -48,9 +48,8 @@ export const useFetch = (id, path, part, id_param = "id") => {
           }
         })
         .catch((err) => {
-          console.log("useFetch", err);
           const errorMessage = err.response;
-          console.log("errorMessage :>> ", errorMessage);
+
           let message;
           let errMessage;
 

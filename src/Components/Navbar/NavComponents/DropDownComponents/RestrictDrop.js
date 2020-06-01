@@ -1,5 +1,5 @@
 import React, { useState, memo } from "react";
-import styles from "./sass/semidrop.module.scss";
+import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad } from "../../../ComponentsUtils";

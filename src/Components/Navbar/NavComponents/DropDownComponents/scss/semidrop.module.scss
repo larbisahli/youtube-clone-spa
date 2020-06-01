@@ -1,4 +1,4 @@
-@import "../../../../../sass/config.scss";
+@import "../../../../../scss/config.scss";
 
 .scroll {
 
@@ -110,17 +110,16 @@
 
             .pronail {
                 margin: 5px 10px;
-
-                &__img {
-                    border-radius: 50%;
-                }
+                flex: none;
             }
 
             .sa_body {
+
                 @include display-flex();
                 @include alignItems-center();
                 width: 100%;
                 margin-right: 15px;
+                flex: 1;
                 justify-content: space-between;
 
                 .check_area {

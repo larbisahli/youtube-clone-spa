@@ -1,5 +1,5 @@
 import React, { useState, memo } from "react";
-import styles from "./sass/semidrop.module.scss";
+import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { LazyLoad, RippleButton } from "../../../ComponentsUtils";
@@ -37,7 +37,7 @@ const APIKeyDrop = ({ handleGoBackDrop, isCurrent, show }) => {
 
   return (
     <div
-      id="restrictmode_drop"
+      id="apikey_drop"
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >

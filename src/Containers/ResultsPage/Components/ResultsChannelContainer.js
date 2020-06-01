@@ -11,6 +11,7 @@ import {
 import { SubBellSvg } from "./Svg";
 import { useSelector } from "react-redux";
 import { useFetch } from "../../../Components/hooks/useFetch";
+import { ProfileImg } from "../../../Components/ComponentsUtils";
 
 const ResultsChannelContainer = ({
   item,
@@ -71,14 +72,8 @@ const ResultsChannelContainer = ({
       <div className={styles.item_section}>
         <div className={styles.item_wrap}>
           <div className={styles.thumbnail}>
-            <Link to={`/watch/${item.videoId}`} className={styles.channel}>
-              <div className={GetClassName(styles, "ch_thumb", Theme)}>
-                <img
-                  src={item.thumbnail}
-                  alt=""
-                  className={styles.ch_thumb__img}
-                />
-              </div>
+            <Link to={`/channel/${item.channelId}`} className={styles.channel}>
+              <ProfileImg width={"136"} height={"136"} src={item.thumbnail} />
             </Link>
           </div>
           {/* -------------body------------- */}
@@ -87,7 +82,7 @@ const ResultsChannelContainer = ({
               <div className={styles.body__text_wrap}>
                 <div className={styles.results_header}>
                   <Link
-                    to={`watch/${item.videoId}`}
+                    to={`/channel/${item.channelId}`}
                     className={GetClassName(
                       styles,
                       "results_header__title",

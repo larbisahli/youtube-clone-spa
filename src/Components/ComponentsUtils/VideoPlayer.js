@@ -122,15 +122,19 @@ const VideoPlayer = ({
 
     // <--- IF NOT --->
 
-    myIframe.onload = function () {
-      try {
-        currentVideoId = HandlePlayingVideo();
-        player.loadVideoById(HandlePlayingVideo());
-        clearInterval(intervalId);
-      } catch (error) {
-        console.log("waitForIframe error :", error);
-      }
-    };
+    try {
+      myIframe.onload = function () {
+        try {
+          currentVideoId = HandlePlayingVideo();
+          player.loadVideoById(HandlePlayingVideo());
+          clearInterval(intervalId);
+        } catch (error) {
+          console.log("waitForIframe error :", error);
+        }
+      };
+    } catch (error) {
+      console.log("myIframe.onload Error :>> ", error);
+    }
 
     // <--- DO --->
 

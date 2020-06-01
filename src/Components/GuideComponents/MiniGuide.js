@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
-import styles from "./sass/miniguide.module.scss";
+import styles from "./scss/miniguide.module.scss";
 import { Link } from "react-router-dom";
 import { ReturnTheme, GetClassName } from "../../utils";
 import { useSelector } from "react-redux";

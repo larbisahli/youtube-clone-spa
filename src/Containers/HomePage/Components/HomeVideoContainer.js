@@ -32,6 +32,7 @@ import {
 } from "../../../redux";
 import { useFetch } from "../../../Components/hooks/useFetch";
 import classNames from "classnames/bind";
+import { ProfileImg } from "../../../Components/ComponentsUtils";
 
 let cx = classNames.bind(styles);
 
@@ -372,23 +373,20 @@ const HomeVideoContainer = ({ PopularVideo, index, HandleShowMessageBox }) => {
           </button>
         </div>
         <div className={styles.body_container}>
-          <div className={styles.pronail}>
-            <Link
-              to={`/channel/${PopularVideo.channelId}`}
-              className={styles.pronail__wrap}
-            >
-              <div className={GetClassName(styles, "skltn", Theme)}>
-                <img
-                  // making sure the id is unique
-                  className={styles.skltn__img}
-                  id={`${PopularVideo.channelId}_${index}`}
-                  src=""
-                  alt=""
-                />
-                {Fetch_Data(PopularVideo.channelId, index)}
-              </div>
-            </Link>
-          </div>
+          <Link
+            to={`/channel/${PopularVideo.channelId}`}
+            className={styles.pronail__wrap}
+          >
+            <ProfileImg
+              width={"36"}
+              height={"36"}
+              id={`${PopularVideo.channelId}_${index}`}
+              src=""
+              classname={styles.pronail}
+            />
+            {Fetch_Data(PopularVideo.channelId, index)}
+          </Link>
+
           <div className={styles.text_area}>
             <div
               onClick={HandleLink}

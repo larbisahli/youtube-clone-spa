@@ -1,4 +1,4 @@
-@import '../../../../sass/config.scss';
+@import '../../../../scss/config.scss';
 
 
 .hvcontainer {
@@ -192,33 +192,7 @@
 
                 margin-top: 12px;
                 margin-right: 12px;
-
-                &__wrap {
-                    cursor: pointer;
-
-                    .skltn {
-                        height: 36px;
-                        width: 36px;
-                        border-radius: 50%;
-                        border: 0;
-
-                        &--dark {
-                            background-color: colors(Skeleton_Dark_color);
-                        }
-
-                        &--light {
-                            background-color: colors(Skeleton_Light_color);
-                        }
-
-                        &__img {
-                            position: relative;
-                            height: 36px;
-                            width: 36px;
-                            border-radius: 50%;
-                            border: 0;
-                        }
-                    }
-                }
+                flex: none;
             }
 
             .dots {
@@ -249,6 +223,7 @@
                 display: block;
                 padding-right: 24px;
                 font-size: 1rem;
+                flex: 1;
 
 
                 .titlewrap {

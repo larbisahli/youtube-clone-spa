@@ -543,6 +543,7 @@ const Navbar = () => {
       const LocDrop = document.getElementById("loca_drop");
       const NotiDrop = document.getElementById("noti_drop");
       const RestrictModeDrop = document.getElementById("restrictmode_drop");
+      const ApiKeyDrop = document.getElementById("apikey_drop");
       const ThemeDrop = document.getElementById("theme_drop");
 
       let target = e.target;
@@ -553,6 +554,7 @@ const Navbar = () => {
       NotiDrop.addEventListener("click", ChangeIsInSemiDrop);
       ThemeDrop.addEventListener("click", ChangeIsInSemiDrop);
       RestrictModeDrop.addEventListener("click", ChangeIsInSemiDrop);
+      ApiKeyDrop.addEventListener("click", ChangeIsInSemiDrop);
 
       if (
         !ProfileDrop.contains(target) &&
@@ -561,7 +563,8 @@ const Navbar = () => {
         !LocDrop.contains(target) &&
         !NotiDrop.contains(target) &&
         !RestrictModeDrop.contains(target) &&
-        !ThemeDrop.contains(target)
+        !ThemeDrop.contains(target) &&
+        !ApiKeyDrop.contains(target)
       ) {
         if (isInSemiDrop) {
           setSemiDrop(() => {

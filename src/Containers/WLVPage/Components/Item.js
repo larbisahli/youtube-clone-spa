@@ -65,8 +65,6 @@ const Item = ({
 
   const [VidId, setVidId] = useState(false);
 
-  console.log("VidId :>> ", VidId);
-
   useEffect(() => {
     if (SearchValue !== "WL" && SearchValue !== "LV") {
       setVidId(wl.videoId);
@@ -93,15 +91,15 @@ const Item = ({
   };
 
   return (
-    <div className={GetClassName(styles, "item_container", Theme)}>
+    <div className={GetClassName(styles, "container", Theme)}>
       <div className={styles.drag_area}>
         <DRSvg />
       </div>
-      <div className={GetClassName(styles, "item_wrap", Theme)}>
-        <div className={styles.item_wrap__thumb} onClick={() => HandleLink(wl)}>
+      <div className={GetClassName(styles, "wrap", Theme)}>
+        <div className={styles.wrap__thumb} onClick={() => HandleLink(wl)}>
           <img
             width="120"
-            className={styles.item_wrap__img}
+            className={styles.wrap__img}
             src={wl.thumbnail}
             alt=""
           />
@@ -114,10 +112,10 @@ const Item = ({
           </div>
         </div>
 
-        <div className={styles.item_wrap__textarea}>
-          <div className={styles.item_details}>
+        <div className={styles.wrap__textarea}>
+          <div className={styles.details}>
             <div
-              className={styles.item_details__title}
+              className={styles.details__title}
               onClick={() => HandleLink(wl)}
             >
               <span>{TextReducer(wl.title, 56)}</span>
@@ -127,7 +125,7 @@ const Item = ({
               <div
                 className={GetClassName(
                   styles,
-                  "item_details__channel_title",
+                  "details__channel_title",
                   Theme
                 )}
               >
@@ -139,7 +137,7 @@ const Item = ({
             // id={`${index}`}
             onMouseEnter={() => setCurrentMenuIndex(() => index)}
             onClick={HandleShowMenudrop}
-            className={GetClassName(styles, "dot_svg", Theme)}
+            className={GetClassName(styles, "dots", Theme)}
           >
             <DotsSvg />
           </div>

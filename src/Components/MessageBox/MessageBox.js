@@ -1,22 +1,17 @@
 import React, { useCallback, memo } from "react";
 import styles from "./messagebox.module.scss";
 import { RippleButton } from "../ComponentsUtils";
-import { GetClassName, ReturnTheme } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
   SetMessageAction,
   CloseMessageAction,
   Wl_RemoveOneAtion,
-  Lv_RemoveOneAtion,
 } from "../../redux";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
 
 const MessageBox = () => {
-  // Theme
-  const Theme = useSelector((state) => state.Theme.isDarkTheme);
-
   // Message Box
   const MessageBox = useSelector((state) => state.MessageBox);
 
@@ -48,7 +43,6 @@ const MessageBox = () => {
   return (
     <div
       className={cx("container", {
-        [`container--${ReturnTheme(Theme)}`]: true,
         [`container--show`]: MessageBox.show,
         [`container--hide`]: !MessageBox.show,
       })}
@@ -58,7 +52,7 @@ const MessageBox = () => {
         {MessageBox.btnText && (
           <RippleButton
             onclick={MessageBox.btnText !== "✔" ? HandleBtn : () => {}}
-            classname={GetClassName(styles, "btn", Theme)}
+            classname={styles.btn}
           >
             <span>{MessageBox.btnText}</span>
           </RippleButton>

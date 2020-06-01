@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import styles from "./sass/btndrop.module.scss";
+import styles from "./scss/btndrop.module.scss";
 import { UploadSvg, GoLiveSvg } from "../Svg";
 import { useSelector } from "react-redux";
 import { GetClassName, ReturnTheme } from "../../../../utils";

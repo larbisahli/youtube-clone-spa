@@ -1,7 +1,6 @@
-@import '../../../sass/config.scss';
+@import '../../../../../scss/config.scss';
 
-.ytb_svg_y {
-
+.ytb_svg_x {
     @include display-flex();
     @include alignItems-center();
     @include justifyContent-center();

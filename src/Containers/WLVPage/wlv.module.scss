@@ -1,4 +1,4 @@
-@import "../../sass/config.scss";
+@import "../../scss/config.scss";
 
 .container {
     display: flex;
@@ -233,16 +233,6 @@
 
             .userwrap {
                 padding-right: 15px;
-
-                &__img {
-                    border-radius: 50%;
-                    display: block;
-                    margin-left: auto;
-                    margin-right: auto;
-                    max-height: none;
-                    max-width: 100%;
-                    border-radius: none;
-                }
             }
 
             &__name {

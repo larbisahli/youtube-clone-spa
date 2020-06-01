@@ -13,7 +13,7 @@ export const getMostPopularVideos = async (isKey, key) => {
   const result = await YouTubeAPI.get("videos", {
     params: {
       part: "snippet,statistics,contentDetails",
-      maxResults: 12,
+      maxResults: 16,
       chart: "mostPopular",
       key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
     },
@@ -32,14 +32,14 @@ export const SearchRequest = async (id, parameter, option, isKey, key) => {
       parameter && option
         ? {
             part: "snippet",
-            maxResults: 3,
+            maxResults: 10,
             q: id,
             key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
             [parameter]: option,
           }
         : {
             part: "snippet",
-            maxResults: 3,
+            maxResults: 10,
             q: id,
             key: isKey ? key : process.env.REACT_APP_YOUTUBE_API_KEY,
           },

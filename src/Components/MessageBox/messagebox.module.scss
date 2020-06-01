@@ -1,28 +1,16 @@
-@import '../../sass/config.scss';
+@import '../../scss/config.scss';
 
 .container {
 
     position: fixed;
     bottom: 10px;
     border-radius: 2px;
-    left: 50px;
+    left: 20px;
     font-size: 1.5em;
     z-index: 100;
     transition: all .6s ease-in-out;
-
-    &--dark {
-        // Dark Theme
-        background-color: colors(Theme-hover-Dark);
-        color: #fff;
-    }
-
-    &--light {
-        // Light Theme
-        background-color: colors(Theme-hover-Light);
-        border: 1px solid rgba(85, 85, 85, 0.247);
-        color: #0e0e0e;
-    }
-
+    background-color: #323232;
+    color: #fff;
 
     &--show {
         transform: translateY(0px);
@@ -58,24 +46,12 @@
         padding: 15px 12px;
         font-weight: 600;
 
-        &--dark {
-            // Dark Theme
-            color: #2793e6;
+        // Dark Theme
+        color: #2793e6;
 
-            &:active {
-                background-color: #616161c0;
-                color: #1f98f5;
-            }
-        }
-
-        &--light {
-            // Ligh Theme
-            color: #1f79be;
-
-            &:active {
-                background-color: #cacaca;
-                color: #0265b1;
-            }
+        &:active {
+            background-color: rgb(70, 70, 70);
+            color: #1f98f5;
         }
     }
 }

@@ -58,7 +58,7 @@ const VideoHead = memo(
           PopularVideo={PopularVideos[0]}
           HandleShowMessageBox={HandleShowMessageBox}
         />
-        <div className={styles.line}></div>
+        <div className={GetClassName(styles, "line", Theme)}></div>
       </Fragment>
     );
   }

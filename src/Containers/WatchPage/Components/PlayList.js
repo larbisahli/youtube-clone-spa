@@ -25,10 +25,7 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
   // dispatch
   const dispatch = useDispatch();
 
-  // -------
-  const HandlePlayingVideo = useCallback(() => {
-    return HandleQueryParams("v");
-  }, [HandleQueryParams]);
+  //
 
   const ListParam = useCallback(
     (value) => {
@@ -47,20 +44,40 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
     [HandleQueryParams]
   );
 
-  //
+  // ===========================================
+  // Get the index of the current playing video
+  // ===========================================
+
+  const GetVidIndex = (VidList) => {
+    let index;
+    const videoId = HandleQueryParams("v");
+
+    if (VidList) {
+      // in case VidList is undefined
+      if (VidList.length !== 0) {
+        VidList.filter((item, i) => {
+          if (item.videoId === videoId) return (index = i);
+          return 0;
+        });
+
+        return `${index + 1}/${VidList.length}`;
+      }
+    }
+
+    return "0/0";
+  };
+
+  // ----------
 
   const ReturnTitle = () => {
     if (ListParam("wl")) {
-      return ["Watch later", "0/0"];
+      return ["Watch later", GetVidIndex(WatchLater)];
     } else if (ListParam("lv")) {
-      return ["Liked videos", "0/0"];
+      return ["Liked videos", GetVidIndex(LikedVideos)];
     } else if (ListParam("q")) {
-      const x = `${
-        QueueList.length === 0 ? 0 : GetCurrentPlayingVidIndex() + 1
-      } / ${QueueList.length}`;
-      return ["Queue", x];
+      return ["Queue", GetVidIndex(QueueList)];
     } else {
-      return ["playlist", "0/0"];
+      return ["playlist", GetVidIndex(PlayList_.items)];
     }
   };
 
@@ -96,21 +113,11 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
     }
   }, [WatchLater, LikedVideos, QueueList, HandleQueryParams, PlayList_]);
 
-  // ===========================================
-  // Get the index of the current playing video
-  // ===========================================
+  //
 
-  const GetCurrentPlayingVidIndex = useCallback(() => {
-    const plv = QueueList.filter((plv) => {
-      return plv.videoId === HandlePlayingVideo();
-    });
-
-    if (plv.length !== 0) {
-      return plv[0].index;
-    } else {
-      return 0;
-    }
-  }, [HandlePlayingVideo, QueueList]);
+  const HandlePlayingVideo = useCallback(() => {
+    return HandleQueryParams("v");
+  }, [HandleQueryParams]);
 
   return (
     <div

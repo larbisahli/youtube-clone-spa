@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, Fragment, memo } from "react";
-import styles from "./sass/guide.module.scss";
+import styles from "./scss/guide.module.scss";
 import {
   HomeSvg,
   TrendingSvg,
@@ -23,6 +23,7 @@ import { GetClassName, ReturnTheme } from "../../utils";
 import { PlayList, FrontSubscriptions, Subscriptions } from "./dummyData";
 import { useSelector, useDispatch } from "react-redux";
 import { HideGuideAction } from "../../redux";
+import { ProfileImg } from "../ComponentsUtils";
 
 // sort by {isLive: true} to show live channels first in the list
 FrontSubscriptions.sort((x, y) => {
@@ -352,13 +353,7 @@ const Guide = () => {
                   className={content_wrapper()}
                 >
                   <div className={styles.content_icon}>
-                    <img
-                      className={GetClassName(styles, "pronail", Theme)}
-                      height="24"
-                      width="24"
-                      src={FrontSub.img}
-                      alt=""
-                    />
+                    <ProfileImg width={"24"} height={"24"} src={FrontSub.img} />
                   </div>
                   <div className={styles.text_container}>
                     <div className={styles.text_wrap}>{FrontSub.name}</div>
@@ -386,12 +381,10 @@ const Guide = () => {
                     className={content_wrapper()}
                   >
                     <div className={styles.content_icon}>
-                      <img
-                        className={GetClassName(styles, "pronail", Theme)}
-                        height="24"
-                        width="24"
+                      <ProfileImg
+                        width={"24"}
+                        height={"24"}
                         src={FrontSub.img}
-                        alt=""
                       />
                     </div>
                     <div className={styles.text_container}>

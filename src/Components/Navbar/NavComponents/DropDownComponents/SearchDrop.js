@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import styles from "./sass/searchdrop.module.scss";
+import styles from "./scss/searchdrop.module.scss";
 import { LazyLoad } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 

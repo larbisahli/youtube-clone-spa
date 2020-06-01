@@ -92,8 +92,8 @@ const WLVReducer = (state = initialState, action) => {
       return {
         ...state,
         LV: [
-          ...state.WL.filter((wl) => {
-            return wl.videoId !== action.payload;
+          ...state.LV.filter((lv) => {
+            return lv.videoId !== action.payload;
           }),
         ],
       };

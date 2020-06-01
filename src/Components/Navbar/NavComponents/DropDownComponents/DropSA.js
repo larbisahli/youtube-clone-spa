@@ -1,8 +1,8 @@
 import React, { memo } from "react";
-import styles from "./sass/semidrop.module.scss";
+import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg, AddAccSvg, SOSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyLoad, ProfileImg } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { SwitchAccAction } from "../../../../redux";
 import classNames from "classnames/bind";
@@ -54,15 +54,13 @@ const SADrop = ({ handleGoBackDrop, show }) => {
                 key={index}
                 className={acc_wrap}
               >
-                <div className={styles.pronail}>
-                  <img
-                    className={styles.pronail__img}
-                    height="40"
-                    width="40"
-                    src={acc.img}
-                    alt="_avatar_"
-                  />
-                </div>
+                <ProfileImg
+                  width={"40"}
+                  height={"40"}
+                  src={acc.img}
+                  classname={styles.pronail}
+                />
+
                 <div className={styles.sa_body}>
                   <div className={styles.sa_wrap}>
                     <div className={styles.sa_wrap__name}>{acc.name}</div>

@@ -55,13 +55,13 @@ const DropMenu = ({ index, Theme, HandleQueueClick, wl, SearchValue }) => {
     [SearchValue, dispatch]
   );
 
-  const txt_area = GetClassName(styles, "drop_text_con__text", Theme);
-  const drop_text_con = GetClassName(styles, "drop_text_con", Theme);
+  const txt_area = GetClassName(styles, "text_container__text", Theme);
+  const text_container = GetClassName(styles, "text_container", Theme);
 
   return (
     <div
       style={{ display: "none" }}
-      className={GetClassName(styles, "menu_drop", Theme)}
+      className={GetClassName(styles, "container", Theme)}
       id={`wl-mn-${index}`}
     >
       <div
@@ -75,15 +75,15 @@ const DropMenu = ({ index, Theme, HandleQueueClick, wl, SearchValue }) => {
             wl.thumbnail
           )
         }
-        className={drop_text_con}
+        className={text_container}
       >
-        <div className={styles.drop_text_con__icon}>
+        <div className={styles.text_container__icon}>
           <QueueSvg default_color={false} />
         </div>
         <div className={txt_area}>Add to queue</div>
       </div>
-      <div className={drop_text_con}>
-        <div className={styles.drop_text_con__icon}>
+      <div className={text_container}>
+        <div className={styles.text_container__icon}>
           <AddPlayListSvg />
         </div>
         <div className={txt_area}>Save to playlist</div>
@@ -94,21 +94,21 @@ const DropMenu = ({ index, Theme, HandleQueueClick, wl, SearchValue }) => {
       ></div>
       <div
         onClick={() => HandleRemoveOne(wl.videoId)}
-        className={drop_text_con}
+        className={text_container}
       >
-        <div className={styles.drop_text_con__icon}>
+        <div className={styles.text_container__icon}>
           <TrashSvg />
         </div>
         <div className={txt_area}>Remove from Watch later</div>
       </div>
-      <div onClick={() => HandleMoveUp(index)} className={drop_text_con}>
-        <div className={styles.drop_text_con__icon}>
+      <div onClick={() => HandleMoveUp(index)} className={text_container}>
+        <div className={styles.text_container__icon}>
           <MoveUpSvg />
         </div>
         <div className={txt_area}>Move to top</div>
       </div>
-      <div onClick={() => HandleMoveDown(index)} className={drop_text_con}>
-        <div className={styles.drop_text_con__icon}>
+      <div onClick={() => HandleMoveDown(index)} className={text_container}>
+        <div className={styles.text_container__icon}>
           <MoveDownSvg />
         </div>
         <div className={txt_area}>Move to bottom</div>

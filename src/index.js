@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./sass/index.scss";
+import "./scss/index.scss";
 import App from "./Containers/App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";

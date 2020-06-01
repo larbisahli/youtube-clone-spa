@@ -1,4 +1,4 @@
-@import '../../sass/config.scss';
+@import '../../scss/config.scss';
 
 
 .container {
@@ -183,6 +183,7 @@
                                     z-index: 2;
                                     height: 2.5px;
 
+
                                     &--dark {
                                         // Dark Theme
                                         background-color: #646464;
@@ -208,10 +209,28 @@
                                 justify-content: center;
                                 align-items: center;
                                 margin-left: 8px;
+                                //box-sizing: border-box;
 
                                 .icon {
                                     padding: 8px;
                                     cursor: pointer;
+                                    border-radius: 50%;
+
+                                    &--dark {
+
+                                        // Dark Theme
+                                        &:active {
+                                            background-color: #57575727;
+                                        }
+                                    }
+
+                                    &--light {
+
+                                        // Light Theme
+                                        &:active {
+                                            background-color: #c9c9c92d;
+                                        }
+                                    }
 
                                     &>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper) {
                                         width: 20px;
@@ -225,6 +244,7 @@
 
                                 span {
                                     text-transform: uppercase;
+                                    cursor: pointer;
                                 }
                             }
                         }
@@ -510,17 +530,26 @@
                         background-color: transparent;
                         border: none;
                         outline: none;
+                        font-size: .9rem;
 
                         &--dark {
                             // Dark Theme
                             color: colors(VidTitle_Dark_Color);
                             border-bottom: 1px solid colors(border-color-Dark);
+
+                            &::placeholder {
+                                color: colors(ChTitle_Dark_Color);
+                            }
                         }
 
                         &--light {
                             // Light Theme
                             color: colors(VidTitle_Light_Color);
                             border-bottom: 1px solid colors(border-color-Light);
+
+                            &::placeholder {
+                                color: colors(ChTitle_Light_Color);
+                            }
                         }
 
                         &:focus {
@@ -626,6 +655,7 @@
 
                                     &--dark {
                                         // Dark Theme
+                                        color: colors(VidTitle_Dark_Color);
 
                                         a {
                                             color: #3ea6ff;
@@ -634,6 +664,7 @@
 
                                     &--light {
                                         // Light Theme
+                                        color: colors(VidTitle_Light_Color);
 
                                         a {
                                             color: #065fd4;

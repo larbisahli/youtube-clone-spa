@@ -1,4 +1,4 @@
-@import "../../../../../sass/config.scss";
+@import "../../../../../scss/config.scss";
 
 
 .container {
@@ -142,32 +142,10 @@
             }
 
             .pronail {
-                height: 48px;
-                width: 48px;
+
                 margin-right: 16px;
                 flex: none;
-                border-radius: 50%;
-                overflow: hidden;
                 align-self: center;
-
-
-                &--dark {
-                    background-color: colors(Skeleton_Dark_color);
-                }
-
-                &--light {
-                    background-color: colors(Skeleton_Light_color);
-                }
-
-
-                &__img {
-                    display: block;
-                    margin-left: auto;
-                    margin-right: auto;
-                    max-height: none;
-                    max-width: 100%;
-                    border-radius: none;
-                }
             }
 
             .textcon {

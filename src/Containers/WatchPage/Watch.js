@@ -24,6 +24,8 @@ import {
   SetUrlLocationAction,
   CloseMessageAction,
   SetMessageAction,
+  Lv_AddAction,
+  Lv_RemoveOneAtion,
 } from "../../redux";
 import { useFetch } from "../../Components/hooks/useFetch";
 import { useMeasure } from "../../Components/hooks/useMeasure";
@@ -69,12 +71,13 @@ const Watch = () => {
   const [autoPlay, setAutoPlay] = useState(true);
 
   //
-
   const [visible, setVisible] = useState(window.innerWidth <= 1016);
 
   // Show More btn
-
   const [ShowMore, setShowMore] = useState(false);
+
+  //
+  const [LDVote, setLDVote] = useState({ isLike: false, isDislike: false });
 
   // A custom hook that builds on useLocation to parse
   // the query string for you.
@@ -204,25 +207,25 @@ const Watch = () => {
         break;
 
       default:
-        // PLAYLIST
         if (!PlayList.loading && HandleQueryParams("list") !== 0) {
-          videoId_ = GetNextVidId(PlayList);
+          // PLAYLIST
+          videoId_ = GetNextVidId(PlayList.items);
           if (videoId_) {
             history.push(
               `/watch?v=${videoId_}&list=${HandleQueryParams("list")}`
             );
-
-            break;
-          } else {
-            if (autoPlay) {
-              videoId_ = GetNextVidId(PopularVideos);
-              if (videoId_) {
-                history.push(`/watch?v=${videoId_}`);
-              }
-              break;
+          }
+        } else {
+          if (autoPlay) {
+            // AUTOPLAY
+            videoId_ = GetNextVidId(PopularVideos);
+            if (videoId_) {
+              history.push(`/watch?v=${videoId_}`);
             }
           }
         }
+
+        break;
     }
   }, [
     HandleQueryParams,
@@ -282,6 +285,13 @@ const Watch = () => {
         if (MassageFrom === "wl") {
           msg = !state ? "Saved to Watch later" : "Removed from Watch later";
           btnMsg = !state ? "UNDO" : "";
+        } else if (MassageFrom === "lv-like") {
+          console.log("state :>> ", state);
+          msg = !state ? "Added to Liked videos" : "Removed from Liked videos";
+          btnMsg = "";
+        } else if (MassageFrom === "lv-dislike") {
+          msg = !state ? "You dislike this video" : "Dislike removed";
+          btnMsg = "";
         }
 
         dispatch(
@@ -312,7 +322,12 @@ const Watch = () => {
 
   const data = useFetch(videoId, "commentThreads", "snippet", "videoId");
 
-  const videodata = useFetch(videoId, "videos", "statistics,snippet");
+  console.log("data :>> ", data);
+  const videodata = useFetch(
+    videoId,
+    "videos",
+    "statistics,snippet,contentDetails"
+  );
 
   const GetChannelData = (channelId) => {
     const cha_data = useFetch(channelId, "channels", "statistics,snippet");
@@ -373,6 +388,45 @@ const Watch = () => {
 
   //----------------------
 
+  const HandleLike = (isLike_) => {
+    if (videodata.length !== 0) {
+      setLDVote((prev) => {
+        return { isLike: !prev.isLike, isDislike: false };
+      });
+      HandleShowMessageBox("lv-like", isLike_, "", false);
+
+      if (isLike_) {
+        dispatch(Lv_RemoveOneAtion(videoId));
+      } else {
+        dispatch(
+          Lv_AddAction({
+            title: videodata.snippet.title,
+            duration: videodata.contentDetails.duration,
+            videoId,
+            channelTitle: videodata.snippet.channelTitle,
+            channelId: videodata.snippet.channelId,
+            thumbnail: videodata.snippet.thumbnails.medium.url,
+          })
+        );
+      }
+    }
+  };
+
+  // --------
+
+  const HandleDisLike = (isDislike_) => {
+    if (videodata.length !== 0) {
+      setLDVote((prev) => {
+        return {
+          isLike: false,
+          isDislike: !prev.isDislike,
+        };
+      });
+
+      HandleShowMessageBox("lv-dislike", isDislike_, "", false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       {/* ============== PRIMARY ============== */}
@@ -424,11 +478,22 @@ const Watch = () => {
               <div className={styles.menu_container}>
                 <div className={styles.menu}>
                   <div className={styles.likearea}>
-                    <div className={styles.iconcon}>
-                      <div className={styles.icon}>
-                        <Like />
+                    <div
+                      onClick={() => HandleLike(LDVote.isLike)}
+                      className={styles.iconcon}
+                    >
+                      <div className={GetClassName(styles, "icon", Theme)}>
+                        <Like ChangeColor={LDVote.isLike} />
                       </div>
-                      <span>
+                      <span
+                        style={{
+                          color: LDVote.isLike
+                            ? Theme
+                              ? "#3ea6ff"
+                              : "#065fd4"
+                            : "inherit",
+                        }}
+                      >
                         {ViewsNumFormatter(
                           videodata.length !== 0
                             ? videodata.statistics.likeCount
@@ -436,11 +501,22 @@ const Watch = () => {
                         )}
                       </span>
                     </div>
-                    <div className={styles.iconcon}>
-                      <div className={styles.icon}>
-                        <DisLike />
+                    <div
+                      onClick={() => HandleDisLike(LDVote.isDislike)}
+                      className={styles.iconcon}
+                    >
+                      <div className={GetClassName(styles, "icon", Theme)}>
+                        <DisLike ChangeColor={LDVote.isDislike} />
                       </div>
-                      <span>
+                      <span
+                        style={{
+                          color: LDVote.isDislike
+                            ? Theme
+                              ? "#3ea6ff"
+                              : "#065fd4"
+                            : "inherit",
+                        }}
+                      >
                         {ViewsNumFormatter(
                           videodata.length !== 0
                             ? videodata.statistics.dislikeCount
@@ -458,6 +534,13 @@ const Watch = () => {
                           : 0
                       )}
                       <span
+                        style={{
+                          backgroundColor: LDVote.isLike
+                            ? Theme
+                              ? "#3ea6ff"
+                              : "#065fd4"
+                            : "#909090",
+                        }}
                         id="progress-bar"
                         className={styles.progress__bar}
                       ></span>
@@ -504,14 +587,17 @@ const Watch = () => {
                   <div className={styles.cha_info}>
                     <div
                       id="cha-title"
-                      className={styles.cha_info__title}
+                      className={GetClassName(styles, "cha_info__title", Theme)}
                     ></div>
                     {GetChannelData(
                       videodata.length !== 0
                         ? videodata.snippet.channelId
                         : null
                     )}
-                    <div id="cha-sub" className={styles.cha_info__sub}></div>
+                    <div
+                      id="cha-sub"
+                      className={GetClassName(styles, "cha_info__sub", Theme)}
+                    ></div>
                   </div>
                 </div>
                 <div className={styles.subbtn_con}>
@@ -642,7 +728,10 @@ const Watch = () => {
                     item.snippet.topLevelComment.snippet.authorDisplayName
                   }
                   authorchaId={
-                    item.snippet.topLevelComment.snippet.authorChannelId.value
+                    item.snippet.topLevelComment.snippet.authorChannelId
+                      ? item.snippet.topLevelComment.snippet.authorChannelId
+                          .value
+                      : ""
                   }
                 />
               );

@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import "../../Navbar/NavComponents/Svg/sass/svg_style_scnni.scss";
+import "../../Navbar/NavComponents/Svg/scss/svg_style_scnni.scss";
 import { useSelector } from "react-redux";
 
 // SVG path COPIED FROM YOUTUBE

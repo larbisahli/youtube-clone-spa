@@ -4,7 +4,7 @@ import { PlaySvg } from "../ResultsPage/Components/Svg";
 import { ShuffleSvg, SortBySvg, TrashSvg } from "../Svg";
 import Head from "../../Components/ComponentsUtils/Head";
 import { DotsSvg } from "../../Components/Navbar/NavComponents/Svg";
-import { RippleButton } from "../../Components/ComponentsUtils";
+import { RippleButton, ProfileImg } from "../../Components/ComponentsUtils";
 import { ReturnTheme, PageLocation, GetClassName } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -362,13 +362,7 @@ const WLV = () => {
             ></div>
             <div className={styles.user_details}>
               <div className={styles.userwrap}>
-                <img
-                  width="48"
-                  id="_channel_"
-                  className={styles.userwrap__img}
-                  src=""
-                  alt=""
-                />
+                <ProfileImg width={"48"} height={"48"} src="" id="_channel_" />
               </div>
               <div id="_name_" className={styles.user_details__name}></div>
             </div>

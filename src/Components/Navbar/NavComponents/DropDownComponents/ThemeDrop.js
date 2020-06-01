@@ -1,5 +1,5 @@
 import React, { useState, memo } from "react";
-import styles from "./sass/semidrop.module.scss";
+import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { useSelector, useDispatch } from "react-redux";
 import { darken, lighten } from "../../../../redux";

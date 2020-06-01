@@ -1,4 +1,4 @@
-@import "../../../sass/config.scss";
+@import "../../../scss/config.scss";
 
 .bg {
   position: absolute;
@@ -187,21 +187,6 @@
 
   .content_icon {
     padding: 8px 20px 8px 21px;
-  }
-
-
-  // ---
-  .pronail {
-
-    border-radius: 50%;
-
-    &--dark {
-      background-color: lighten(colors(Nav-background-Dark), 5%);
-    }
-
-    &--light {
-      background-color: lighten(colors(Nav-background-Light), 5%);
-    }
   }
 
   // ---
