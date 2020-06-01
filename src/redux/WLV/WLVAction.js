@@ -114,7 +114,7 @@ export const fetchPlayList = (id, ApiKey) => (dispatch) => {
       YouTubeAPI.get("playlistItems", {
         params: {
           part: "snippet",
-          maxResults: 6,
+          maxResults: 10,
           key: ApiKey.isKey
             ? ApiKey.key
             : process.env.REACT_APP_YOUTUBE_API_KEY,
