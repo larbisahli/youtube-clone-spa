@@ -86,6 +86,7 @@
         }
 
         .main_title {
+          max-width: 800px;
           font-size: 1.12rem;
 
           &--dark {
@@ -190,6 +191,7 @@
                   border-radius: 50%;
 
                   &--dark {
+
                     // Dark Theme
                     &:active {
                       background-color: #57575727;
@@ -197,13 +199,14 @@
                   }
 
                   &--light {
+
                     // Light Theme
                     &:active {
                       background-color: #c9c9c92d;
                     }
                   }
 
-                  & > :global(.ytb_svg_y) > :global(.ytb_svg_y__wrapper) {
+                  &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
                     width: 20px;
                     height: auto;
                   }
@@ -338,7 +341,7 @@
                   .subbell {
                     padding: 0 0 0 10px;
 
-                    & > :global(.ytb_svg_x) {
+                    &> :global(.ytb_svg_x) {
                       width: 24px;
                       height: 24px;
                     }
@@ -516,8 +519,8 @@
         display: flex;
         margin-bottom: 16px;
 
-        &:hover > .comment_container__menu {
-          :global(.ytb_svg) > :global(.ytb_svg__wrapper) > g > path {
+        &:hover>.comment_container__menu {
+          :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
             fill: #909090;
           }
         }
@@ -530,6 +533,7 @@
         .comment_container {
           &__main {
             min-width: 0;
+            max-width: 800px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -545,7 +549,12 @@
                 font-size: 0.85rem;
 
                 .author_title {
+
+
                   font-family: Roboto-Medium;
+                  // 
+                  max-width: 400px;
+                  overflow: hidden;
                   margin-right: 4px;
                   margin-bottom: 2px;
 
@@ -581,7 +590,7 @@
                 overflow: hidden;
                 // 4.8rem is 4*a.2 which is 4 lines height line-height: 1.2rem;
                 max-height: 4.8rem;
-                max-width: 800px;
+
 
                 &--dark {
                   // Dark Theme
@@ -630,7 +639,7 @@
                     margin-right: 8px;
                     font-size: 0.8rem;
 
-                    & > :global(.ytb_svg_y) > :global(.ytb_svg_y__wrapper) {
+                    &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
                       width: 16px;
                       height: 16px;
                     }
@@ -651,26 +660,18 @@
           }
 
           &__menu {
-            :global(.ytb_svg) > :global(.ytb_svg__wrapper) > g > path {
+            :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
               fill: transparent;
             }
 
             &--dark {
-              &:hover
-                > :global(.ytb_svg)
-                > :global(.ytb_svg__wrapper)
-                > g
-                > path {
+              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #fff;
               }
             }
 
             &--light {
-              &:hover
-                > :global(.ytb_svg)
-                > :global(.ytb_svg__wrapper)
-                > g
-                > path {
+              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #000;
               }
             }
@@ -767,7 +768,7 @@
             height: 0px;
 
             &:checked {
-              + .switch__btn {
+              +.switch__btn {
                 grid-template-columns: 1fr 1fr 0fr;
 
                 &::after {
