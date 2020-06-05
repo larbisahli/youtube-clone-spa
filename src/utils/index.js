@@ -17,13 +17,6 @@ export const ViewsNumFormatter = (num, from = false) => {
     FormatNum = num;
   }
 
-  console.log(
-    "num === 0 && from",
-    num,
-    from,
-    num === undefined,
-    from || num === undefined
-  );
   if ((num === 0 || num === undefined) && from) {
     if (from === "like") {
       return "LIKE";

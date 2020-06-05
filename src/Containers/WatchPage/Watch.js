@@ -494,14 +494,12 @@ const Watch = () => {
                             : "inherit",
                         }}
                       >
-                        {
-                          (ViewsNumFormatter(
-                            videodata.length !== 0
-                              ? videodata.statistics.likeCount
-                              : 0
-                          ),
-                          "like")
-                        }
+                        {ViewsNumFormatter(
+                          videodata.length !== 0
+                            ? videodata.statistics.likeCount
+                            : 0,
+                          "like"
+                        )}
                       </span>
                     </div>
                     <div
