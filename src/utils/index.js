@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 
-export const ViewsNumFormatter = (num) => {
+export const ViewsNumFormatter = (num, from = false) => {
   let FormatNum = 0;
 
   const Num = (num) => {
@@ -14,10 +14,25 @@ export const ViewsNumFormatter = (num) => {
   } else if (Math.abs(num) > 999999999) {
     FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000000000) + "B";
   } else {
-    return num;
+    FormatNum = num;
   }
 
-  return FormatNum;
+  console.log(
+    "num === 0 && from",
+    num,
+    from,
+    num === undefined,
+    from || num === undefined
+  );
+  if ((num === 0 || num === undefined) && from) {
+    if (from === "like") {
+      return "LIKE";
+    } else if (from === "dislike") {
+      return "DISLIKE";
+    }
+  } else {
+    return FormatNum;
+  }
 };
 
 export const HandleDuration = (duration) => {
@@ -54,7 +69,11 @@ export const TextReducer = (text, num) => {
 };
 
 export const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  try {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  } catch (error) {
+    return "";
+  }
 };
 
 export const PageLocation = (home = false) => {
