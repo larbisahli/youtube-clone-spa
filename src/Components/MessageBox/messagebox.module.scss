@@ -1,5 +1,3 @@
-@import '../../scss/config.scss';
-
 .container {
 
     position: fixed;
@@ -24,9 +22,8 @@
 
     .wrapper {
 
-        @include display-flex();
-        @include alignItems-center;
-
+        display: flex;
+        align-items: center;
     }
 
     // ---

@@ -39,9 +39,9 @@
 
     .btn_wrapper {
 
-        @include display-flex();
-        @include justifyContent-center();
-        @include alignItems-center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-flow: column nowrap;
         margin-top: 4px;
         width: 72px;
@@ -109,7 +109,7 @@
     // ---
 
     .icon_wrap {
-        @include display-flex();
+        display: flex;
     }
 
     // ---

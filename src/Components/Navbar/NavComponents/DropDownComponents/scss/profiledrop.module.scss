@@ -2,7 +2,7 @@
 
 .container {
 
-    @include display-flex();
+    display: flex;
     position: absolute;
     flex-flow: column nowrap;
     padding: 8px 0;
@@ -11,10 +11,9 @@
     z-index: 2;
     outline: none;
     box-sizing: border-box;
-    // max-width: 300px;
-    // max-height: 600px;
-    height: 600px;
+    height: auto;
     width: 300px;
+    max-height: 95vh;
 
 
     &--dark {
@@ -44,11 +43,10 @@
 
     .header {
 
-        @include display-flex();
+        display: flex;
         align-items: stretch;
         justify-content: stretch;
-        margin: 15px 0px 5px 15px;
-        height: 75px;
+        padding: 15px 0px 5px 15px;
 
         .pronail {
 
@@ -97,20 +95,19 @@
 
     .body {
 
-        @include display-flex();
-        @include justifyContent-center();
+        display: flex;
+        justify-content: flex-start;
         flex-flow: column nowrap;
         font-size: 1.4em;
-        padding-top: 160px;
         overflow-y: scroll;
         overflow-x: hidden;
 
 
         .block_wrapper {
 
-            @include display-flex();
-            @include justifyContent-center();
-            @include alignItems-center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
 
             &--dark {
@@ -129,20 +126,20 @@
 
 
             &__logo {
-                margin: 10px 10px 10px 15px;
+                margin: 8px 10px 8px 15px;
             }
 
             .txtwrap {
 
-                @include display-flex();
-                @include alignItems-center();
+                display: flex;
+                align-items: center;
                 justify-content: space-between;
                 flex: 1;
 
                 &__txt {
-                    @include display-flex();
-                    @include justifyContent-center();
-                    @include alignItems-center;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
 
                     &--lang {
                         padding-left: 5px;
@@ -154,11 +151,11 @@
         .bottom_wrapper {
 
             display: block;
-            padding: 5px 0;
 
             .text_wrap {
-                @include display-flex();
-                @include alignItems-center();
+
+                display: flex;
+                align-items: center;
                 justify-content: space-between;
                 padding: 10px 15px;
                 cursor: pointer;
@@ -178,10 +175,10 @@
                 }
 
                 &--res {
-                    @include display-flex();
-                    @include justifyContent-center();
-                    @include alignItems-center;
-                    color: #929292;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #fff;
                 }
             }
         }

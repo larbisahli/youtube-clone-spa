@@ -3,7 +3,7 @@
 .container {
     color: #000;
     position: absolute;
-    @include transform(translateY(40px));
+    transform: translateY(40px);
     background-color: #fff;
     width: 100%;
     box-sizing: border-box;
@@ -24,9 +24,9 @@
     }
 
     .block {
-        @include display-flex();
-        @include alignItems-center();
-        @include justifyContent-center();
+        display: flex;
+        justify-content: center;
+        align-items: center;
         list-style: none;
         padding: 0 24px 0 10px;
         margin-bottom: 1px;
@@ -38,8 +38,8 @@
 
         .wrapper {
 
-            @include display-flex();
-            @include alignItems-center();
+            display: flex;
+            align-items: center;
             flex: 1;
             line-height: 100%;
 

@@ -304,13 +304,15 @@
               justify-content: center;
 
               .subbtn {
-                @include display-flex();
-                @include alignItems-center;
+
+                display: flex;
+                align-items: center;
                 padding-right: 8px;
 
                 &__subed {
-                  @include display-flex();
-                  @include alignItems-center;
+
+                  display: flex;
+                  align-items: center;
 
                   .span_subed {
                     top: 25%;
@@ -799,9 +801,9 @@
 
             .circle {
               position: absolute;
-              @include display-flex();
-              @include alignItems-center();
-              @include justifyContent-center();
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: 40px;
               height: 40px;
               border-radius: 50%;

@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import styles from "./scss/apimessage.module.scss";
 import { GetClassName } from "../../../../utils";
 import { useSelector, useDispatch } from "react-redux";
-import { HodeApiMessageAction } from "../../../../redux";
+import { HideApiMessageAction } from "../../../../redux";
 
 const ApiMessageBox = () => {
   // api key
@@ -41,8 +41,15 @@ const ApiMessageBox = () => {
       }, 3000);
     }
 
-    dispatch(HodeApiMessageAction());
+    dispatch(HideApiMessageAction());
   }, [DisplayApiMessage, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      // Clean Up
+      setShowMessageBox(false);
+    };
+  }, []);
 
   return (
     <div

@@ -62,7 +62,7 @@ const Results = () => {
     if (UrlLoc !== UrlLocation) {
       dispatch(SetUrlLocationAction(UrlLoc));
     }
-  }, []);
+  }, [dispatch, UrlLocation]);
 
   // ===========================
   //           SEARCH

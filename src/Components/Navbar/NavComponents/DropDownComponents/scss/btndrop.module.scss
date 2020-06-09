@@ -2,7 +2,7 @@
 
 .container {
 
-    @include display-flex();
+    display: flex;
     position: absolute;
     flex-flow: column nowrap;
     padding: 8px 0;
@@ -27,8 +27,8 @@
 
 
     .textcon {
-        @include display-flex();
-        @include alignItems-center();
+        display: flex;
+        align-items: center;
         justify-content: flex-start;
         padding: 5px 25px 10px 13px;
         cursor: pointer;

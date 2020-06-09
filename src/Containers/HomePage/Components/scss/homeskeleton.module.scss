@@ -86,7 +86,7 @@
 
 
     .body {
-        @include display-flex();
+        display: flex;
         margin-top: 12px;
         margin-right: 12px;
         align-items: flex-start;
@@ -106,7 +106,7 @@
         }
 
         &__txt {
-            @include display-flex();
+            display: flex;
             flex-direction: column;
             margin: 0 5px;
             // 50 from __img 36px + some space

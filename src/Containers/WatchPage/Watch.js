@@ -11,6 +11,7 @@ import { useLocation } from "react-router";
 import { VideoPlayer } from "../../Components";
 import {
   Seek,
+  Head,
   DestroyIframe,
   Spinner,
   ProfileImg,
@@ -115,7 +116,7 @@ const Watch = () => {
         dispatch(SetGuideModeAction(1));
       }
     };
-  }, []);
+  }, [dispatch, Guide.guideMode]);
 
   // ---->
 
@@ -429,6 +430,18 @@ const Watch = () => {
 
   return (
     <div className={styles.container}>
+      {/* ============= Head ============= */}
+      <Head>
+        <title>
+          {videodata.length !== 0 ? videodata.snippet.title : "youtube-clone"}
+        </title>
+        <meta
+          name={`youtube clone watch page video title ${
+            videodata.length !== 0 ? videodata.snippet.title : ""
+          }`}
+        />
+      </Head>
+      {/* ================================ */}
       {/* ============== PRIMARY ============== */}
       <div className={styles.primary}>
         {/* ====== PLAYER ====== */}

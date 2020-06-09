@@ -1,10 +1,8 @@
-@import '../../../scss/config.scss';
-
 .ytb_svg_y {
 
-    @include display-flex();
-    @include alignItems-center();
-    @include justifyContent-center();
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 24px;
     height: 24px;
 
@@ -13,8 +11,5 @@
         width: 24px;
         z-index: 1;
         cursor: pointer;
-
-        // fill: #3ea6ff;//dark
-        // fill: #065fd4;;// light
     }
 }

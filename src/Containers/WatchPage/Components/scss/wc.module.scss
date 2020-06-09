@@ -1,8 +1,8 @@
 @import '../../../../scss/config.scss';
 
 .container {
-    padding-bottom: 8px;
 
+    padding-bottom: 8px;
 
     &:hover>.wrapper>.thumbnail>.inner_btn {
         display: flex;
@@ -111,9 +111,9 @@
             overflow: hidden;
 
             .slider {
-                @include display-flex();
-                @include justifyContent-center();
-                @include alignItems-center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 position: absolute;
                 text-transform: uppercase;
                 transform: translateX(135px);

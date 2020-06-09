@@ -3,15 +3,16 @@
 
 
 .container {
+
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  @include display-flex();
-  @include alignItems-center();
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  justify-content: space-between;
   z-index: 10;
 
   &--dark {
@@ -29,8 +30,8 @@
   // ==========================
 
   .left_container {
-    @include display-flex();
-    @include alignItems-center();
+    display: flex;
+    align-items: center;
     width: 200px;
   }
 
@@ -44,8 +45,9 @@
   // ---
 
   .logo_container {
-    @include display-flex();
-    @include alignItems-center();
+
+    display: flex;
+    align-items: center;
     margin: 0;
     padding: 16px;
     width: auto;
@@ -53,7 +55,7 @@
     cursor: auto;
 
     a {
-      @include display-flex();
+      display: flex;
       text-decoration: none;
     }
 
@@ -63,9 +65,10 @@
     }
 
     .logo_text {
-      @include display-flex();
-      @include alignItems-center();
-      @include justifyContent-center();
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-family: Oswald-SemiBold;
       font-size: 1.1rem;
       margin-bottom: 1px;
@@ -84,11 +87,13 @@
     }
 
     .logo_pointer {
-      @include display-flex();
+
+      display: flex;
       justify-content: flex-start;
       align-items: flex-start;
       font-size: 0.85em;
       font-family: Roboto-Medium;
+      text-transform: uppercase;
       height: 100%;
 
       &--dark {
@@ -106,9 +111,10 @@
   // ==========================
 
   .search_container {
-    @include display-flex();
-    @include alignItems-center();
-    @include justifyContent-center();
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     margin: 0 40px;
 
@@ -118,13 +124,15 @@
       margin: 0 auto;
 
       .form_wrapper {
-        @include display-flex();
-        @include justifyContent-center();
+        display: flex;
+        justify-content: center;
+
         align-items: stretch;
 
         .input_wrapper {
-          @include display-flex();
-          @include alignItems-center();
+          display: flex;
+
+          align-items: center;
           flex-direction: column;
           position: relative;
           border-radius: 2px 0 0 2px;
@@ -171,9 +179,10 @@
         }
 
         .btn_container {
-          @include display-flex();
-          @include alignItems-center();
-          @include justifyContent-center();
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
           cursor: pointer;
           width: 65px;
           border-radius: 0 2px 2px 0;
@@ -211,7 +220,8 @@
   }
 
   .responsive_form {
-    @include display-flex();
+
+    display: flex;
     justify-content: flex-end;
     width: 100%;
     margin-right: 8px;
@@ -222,18 +232,20 @@
   // =================
 
   .right_container {
-    @include display-flex();
-    @include alignItems-center();
-    @include justifyContent-center();
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 200px;
   }
 
   // ---
 
   .icons_container {
-    @include display-flex();
-    @include alignItems-center();
-    @include justifyContent-center();
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40px;
     height: 40px;
     margin-right: 8px;
@@ -264,8 +276,6 @@
       background-color: #e93838;
       box-shadow: 0px 0px 0px 1px colors(Nav-background-Light);
     }
-
-
   }
 
   // ---
@@ -277,9 +287,10 @@
 
   .profile_container {
     .profile_btn {
-      @include display-flex();
-      @include alignItems-center();
-      @include justifyContent-center();
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 60px;
       height: 40px;
 

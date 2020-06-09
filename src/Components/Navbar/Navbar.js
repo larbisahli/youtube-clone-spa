@@ -165,8 +165,8 @@ const Navbar = () => {
   });
 
   // ==> Navbar responsive state
-  const [{ isResponsive }, setIsResponsive] = useState({
-    isResponsive: false,
+  const [{ ShowForm }, setShowForm] = useState({
+    ShowForm: false,
   });
 
   // ==> Drops state
@@ -243,9 +243,9 @@ const Navbar = () => {
       });
     }
 
-    if (innerWidth > 750 && isResponsive) {
-      setIsResponsive({
-        isResponsive: false,
+    if (innerWidth > 750 && ShowForm) {
+      setShowForm({
+        ShowForm: false,
       });
     }
 
@@ -308,13 +308,13 @@ const Navbar = () => {
         searchIsActive,
         ShowSearchDrop: true,
       });
-    } else if (isResponsive && innerWidth < 750) {
+    } else if (ShowForm && innerWidth < 750) {
       setSDstate({
         searchIsActive,
         ShowSearchDrop: true,
       });
     }
-  }, [isResponsive, searchIsActive, innerWidth]);
+  }, [ShowForm, searchIsActive, innerWidth]);
 
   // ==========================
   // Handle closing search drop
@@ -380,22 +380,12 @@ const Navbar = () => {
   );
 
   // ============================
-  //  Handle responsive From on
+  //   Handle responsive From
   // ============================
 
-  const HandleRespOn = () => {
-    setIsResponsive({
-      isResponsive: true,
-    });
-  };
-
-  // ============================
-  //  Handle responsive Form off
-  // ============================
-
-  const HandleRespOff = () => {
-    setIsResponsive({
-      isResponsive: false,
+  const HandleRespForm = (show) => {
+    setShowForm({
+      ShowForm: show,
     });
   };
 
@@ -403,44 +393,7 @@ const Navbar = () => {
   //  Handle show nav dropdowns
   // ============================
 
-  // ==> Cam Svg
-  const HandleCamDrop = () => {
-    if (
-      !dropHandler.ShowCamDrop &&
-      !dropHandler.ShowAppDrop &&
-      !dropHandler.ShowBellDrop &&
-      !dropHandler.ShowProfDrop
-    ) {
-      setDropHandler(
-        {
-          ...dropHandler,
-          ShowCamDrop: !dropHandler.ShowCamDrop,
-        },
-        document.addEventListener("click", DropHandlerClose)
-      );
-    }
-  };
-
-  // ==> App Svg
-  const HandleAppDrop = () => {
-    if (
-      !dropHandler.ShowCamDrop &&
-      !dropHandler.ShowAppDrop &&
-      !dropHandler.ShowBellDrop &&
-      !dropHandler.ShowProfDrop
-    ) {
-      setDropHandler(
-        {
-          ...dropHandler,
-          ShowAppDrop: !dropHandler.ShowAppDrop,
-        },
-        document.addEventListener("click", DropHandlerClose)
-      );
-    }
-  };
-
-  // ==> Bell Svg
-  const HandleBellDrop = () => {
+  const HandleSemiDrop = (value) => {
     if (
       !dropHandler.ShowCamDrop &&
       !dropHandler.ShowAppDrop &&
@@ -448,34 +401,16 @@ const Navbar = () => {
       !dropHandler.ShowProfDrop
     ) {
       // Notification count remover
-      if (NotiCount.seen) {
+      if (NotiCount.seen && value === "ShowBellDrop") {
         dispatch(NotiCountAction());
       }
 
       setDropHandler(
         {
           ...dropHandler,
-          ShowBellDrop: !dropHandler.ShowBellDrop,
+          [value]: !dropHandler[value],
         },
-        document.addEventListener("click", DropHandlerClose)
-      );
-    }
-  };
-
-  // ==> Nav profile drop
-  const HandleProfDrop = () => {
-    if (
-      !dropHandler.ShowCamDrop &&
-      !dropHandler.ShowAppDrop &&
-      !dropHandler.ShowBellDrop &&
-      !dropHandler.ShowProfDrop
-    ) {
-      setDropHandler(
-        {
-          ...dropHandler,
-          ShowProfDrop: !dropHandler.ShowProfDrop,
-        },
-        document.addEventListener("click", DropHandlerClose)
+        document.addEventListener("click", HandleCloseDrop)
       );
     }
   };
@@ -528,7 +463,7 @@ const Navbar = () => {
     }
   };
 
-  const DropHandlerClose = useCallback(
+  const HandleCloseDrop = useCallback(
     (e) => {
       isInSemiDrop = true;
       // --> Nav Drops
@@ -548,24 +483,57 @@ const Navbar = () => {
 
       let target = e.target;
 
-      SwitchAccDrop.addEventListener("click", ChangeIsInSemiDrop);
-      LangDrop.addEventListener("click", ChangeIsInSemiDrop);
-      LocDrop.addEventListener("click", ChangeIsInSemiDrop);
-      NotiDrop.addEventListener("click", ChangeIsInSemiDrop);
-      ThemeDrop.addEventListener("click", ChangeIsInSemiDrop);
-      RestrictModeDrop.addEventListener("click", ChangeIsInSemiDrop);
-      ApiKeyDrop.addEventListener("click", ChangeIsInSemiDrop);
+      // In case of undefined
+      if (SwitchAccDrop) {
+        SwitchAccDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (LangDrop) {
+        LangDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (LocDrop) {
+        LocDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (NotiDrop) {
+        NotiDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (ThemeDrop) {
+        ThemeDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (RestrictModeDrop) {
+        RestrictModeDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
+      if (ApiKeyDrop) {
+        ApiKeyDrop.addEventListener("click", ChangeIsInSemiDrop);
+      }
 
-      if (
-        !ProfileDrop.contains(target) &&
-        !SwitchAccDrop.contains(target) &&
-        !LangDrop.contains(target) &&
-        !LocDrop.contains(target) &&
-        !NotiDrop.contains(target) &&
-        !RestrictModeDrop.contains(target) &&
-        !ThemeDrop.contains(target) &&
-        !ApiKeyDrop.contains(target)
-      ) {
+      const PassIdTest =
+        ProfileDrop &&
+        SwitchAccDrop &&
+        LangDrop &&
+        LocDrop &&
+        NotiDrop &&
+        RestrictModeDrop &&
+        ThemeDrop &&
+        ApiKeyDrop;
+
+      let PassContainsTest;
+
+      if (PassIdTest) {
+        PassContainsTest =
+          !ProfileDrop.contains(target) &&
+          !SwitchAccDrop.contains(target) &&
+          !LangDrop.contains(target) &&
+          !LocDrop.contains(target) &&
+          !NotiDrop.contains(target) &&
+          !RestrictModeDrop.contains(target) &&
+          !ThemeDrop.contains(target) &&
+          !ApiKeyDrop.contains(target);
+      } else {
+        PassContainsTest = null;
+      }
+
+      if (PassContainsTest) {
+        // ---------------------------
         if (isInSemiDrop) {
           setSemiDrop(() => {
             return {
@@ -583,7 +551,7 @@ const Navbar = () => {
         if (CamDrop.contains(target)) {
           setDropHandler((currentState) => {
             if (currentState.ShowCamDrop) {
-              document.removeEventListener("click", DropHandlerClose);
+              document.removeEventListener("click", HandleCloseDrop);
             }
             return {
               ShowCamDrop: !currentState.ShowCamDrop,
@@ -595,7 +563,7 @@ const Navbar = () => {
         } else if (AppDrop.contains(target)) {
           setDropHandler((currentState) => {
             if (currentState.ShowAppDrop) {
-              document.removeEventListener("click", DropHandlerClose);
+              document.removeEventListener("click", HandleCloseDrop);
             }
             return {
               ShowCamDrop: false,
@@ -607,7 +575,7 @@ const Navbar = () => {
         } else if (BellDrop.contains(target)) {
           setDropHandler((currentState) => {
             if (currentState.ShowBellDrop) {
-              document.removeEventListener("click", DropHandlerClose);
+              document.removeEventListener("click", HandleCloseDrop);
             }
             return {
               ShowCamDrop: false,
@@ -619,7 +587,7 @@ const Navbar = () => {
         } else if (ProfDrop.contains(target)) {
           setDropHandler((currentState) => {
             if (currentState.ShowProfDrop) {
-              document.removeEventListener("click", DropHandlerClose);
+              document.removeEventListener("click", HandleCloseDrop);
             }
             return {
               ShowCamDrop: false,
@@ -636,7 +604,7 @@ const Navbar = () => {
               ShowBellDrop: false,
               ShowProfDrop: false,
             },
-            document.removeEventListener("click", DropHandlerClose)
+            document.removeEventListener("click", HandleCloseDrop)
           );
         }
       }
@@ -663,14 +631,11 @@ const Navbar = () => {
             ? `(${NotiCount.count}) YouTube-Clone`
             : "YouTube-Clone"}
         </title>
-        <meta
-          name="youtube clone home page most popular videos"
-          content="Helmet application"
-        />
       </Head>
       {/* NavBar */}
-      {!isResponsive ? (
+      {!ShowForm ? (
         <Fragment>
+          {/* --- Logo Area --- */}
           <div className={styles.left_container}>
             <div
               onClick={() => {
@@ -687,6 +652,7 @@ const Navbar = () => {
                 <img
                   src={YoutubeLogo}
                   alt="Youtube-Clone"
+                  width="26px"
                   className={styles.ytp_logo}
                 />
               </Link>
@@ -696,10 +662,11 @@ const Navbar = () => {
                 </div>
               </Link>
               <div className={GetClassName(styles, "logo_pointer", Theme)}>
-                CLONE
+                clone
               </div>
             </div>
           </div>
+          {/* --- Form Area --- */}
           {innerWidth > 700 ? (
             <YTForm
               setSDstate={setSDstate}
@@ -719,16 +686,19 @@ const Navbar = () => {
             />
           ) : (
             componentMounted && (
-              <button onClick={HandleRespOn} className={styles.responsive_form}>
+              <button
+                onClick={() => HandleRespForm(true)}
+                className={styles.responsive_form}
+              >
                 <ReSearchSvg />
               </button>
             )
           )}
-
+          {/* --- Dropdowns Area --- */}
           <div className={styles.right_container}>
             <div
               onKeyPress={HandlekeyPress}
-              onClick={HandleCamDrop}
+              onClick={() => HandleSemiDrop("ShowCamDrop")}
               className={styles.icons_container}
             >
               <RippleButton onclick={() => {}} classname={styles.btnpad}>
@@ -740,18 +710,19 @@ const Navbar = () => {
 
             <div
               onKeyPress={HandlekeyPress}
-              onClick={HandleAppDrop}
+              onClick={() => HandleSemiDrop("ShowAppDrop")}
               className={styles.icons_container}
             >
               <RippleButton onclick={() => {}} classname={styles.btnpad}>
                 <AppSvg />
               </RippleButton>
+
               <AppDrop show={dropHandler.ShowAppDrop} />
             </div>
 
             <div
               onKeyPress={HandlekeyPress}
-              onClick={HandleBellDrop}
+              onClick={() => HandleSemiDrop("ShowBellDrop")}
               className={styles.icons_container}
             >
               <div
@@ -769,7 +740,7 @@ const Navbar = () => {
             <div className={styles.profile_container}>
               <button
                 onKeyPress={HandlekeyPress}
-                onClick={HandleProfDrop}
+                onClick={() => HandleSemiDrop("ShowProfDrop")}
                 className={styles.profile_btn}
               >
                 <ProfileImg
@@ -820,7 +791,7 @@ const Navbar = () => {
         </Fragment>
       ) : (
         <Fragment>
-          <button onClick={HandleRespOff}>
+          <button onClick={() => HandleRespForm(false)}>
             <BackArrowSvg />
           </button>
           <YTForm

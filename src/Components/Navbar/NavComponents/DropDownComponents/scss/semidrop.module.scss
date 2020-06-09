@@ -14,7 +14,7 @@
 }
 
 .container {
-    @include display-flex();
+    display: flex;
     position: absolute;
     flex-flow: column nowrap;
     top: 50px;
@@ -48,8 +48,8 @@
     // ---
 
     .header {
-        @include display-flex();
-        @include alignItems-center();
+        display: flex;
+        align-items: center;
         justify-content: flex-start;
         padding: 2px 0;
         text-decoration: none;
@@ -89,8 +89,8 @@
         }
 
         .acc_wrap {
-            @include display-flex();
-            @include alignItems-center();
+            display: flex;
+            align-items: center;
             cursor: pointer;
 
             &--dark {
@@ -115,8 +115,8 @@
 
             .sa_body {
 
-                @include display-flex();
-                @include alignItems-center();
+                display: flex;
+                align-items: center;
                 width: 100%;
                 margin-right: 15px;
                 flex: 1;
@@ -162,8 +162,8 @@
         // ---
 
         .lang {
-            @include display-flex();
-            @include alignItems-center();
+            display: flex;
+            align-items: center;
             cursor: pointer;
             padding: 10px 15px;
             font-size: 1.4em;
@@ -195,8 +195,9 @@
         }
 
         .tr_container {
-            @include display-flex();
-            @include alignItems-center();
+
+            display: flex;
+            align-items: center;
             justify-content: space-between;
             font-size: 1.4em;
             padding: 10px 20px 15px 10px;
@@ -300,9 +301,9 @@
 
                     .circle {
                         position: absolute;
-                        @include display-flex();
-                        @include alignItems-center();
-                        @include justifyContent-center();
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
@@ -328,7 +329,7 @@
             justify-content: flex-end;
             align-items: center;
             padding-bottom: 10px;
-            padding-right: 20px; // tr_container
+            padding-right: 20px;
             box-sizing: border-box;
 
             .api_submit_btn {

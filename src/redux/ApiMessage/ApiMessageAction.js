@@ -6,7 +6,7 @@ export const ShowApiMessageAction = () => {
   };
 };
 
-export const HodeApiMessageAction = () => {
+export const HideApiMessageAction = () => {
   return {
     type: HIDE_API_MESSAGE,
   };

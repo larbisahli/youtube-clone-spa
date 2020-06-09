@@ -1,6 +1,8 @@
 {
   "name": "youtube-clone",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Cloning YouTube a front-end challenge",
+  "author": "Larbi Sahli",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
