@@ -114,7 +114,7 @@ const ResultsPlaylistContainer = ({ item, index }) => {
   return (
     <div className={styles.item_section}>
       <div className={styles.item_wrap}>
-        <div className={styles.thumbnail}>
+        <div onClick={HandleLink} className={styles.thumbnail}>
           <div onClick={HandleLink} className={styles.video}>
             <div
               id={`hplaylistCha-${index}`}
