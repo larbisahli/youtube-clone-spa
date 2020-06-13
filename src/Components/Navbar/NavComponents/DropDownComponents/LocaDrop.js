@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { SwitchLocationAction } from "../../../../redux";
 import classNames from "classnames/bind";
@@ -34,7 +34,7 @@ const LocaDrop = ({ handleGoBackDrop, isCurrent, show }) => {
         [`scroll--${ReturnTheme(Theme)}`]: true,
       })}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
@@ -62,7 +62,7 @@ const LocaDrop = ({ handleGoBackDrop, isCurrent, show }) => {
             );
           })}
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

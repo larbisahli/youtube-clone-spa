@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import styles from "./scss/searchdrop.module.scss";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -22,7 +22,7 @@ const SearchDropSuggestion = ({
       className={styles.container}
       style={{ display: ShowSearchDrop ? "" : "none" }}
     >
-      <LazyLoad render={ShowSearchDrop}>
+      <LazyRender render={ShowSearchDrop}>
         {suggestions.map((s, index) => (
           <div key={index} className={styles.block}>
             <li
@@ -54,7 +54,7 @@ const SearchDropSuggestion = ({
             )}
           </div>
         ))}
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

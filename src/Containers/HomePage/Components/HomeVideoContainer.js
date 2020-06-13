@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, memo } from "react";
+import React, { useCallback, useState, useEffect, memo, useMemo } from "react";
 import styles from "./scss/hv.module.scss";
 import Moment from "react-moment";
 import { DotsSvg } from "../../../Components/Navbar/NavComponents/Svg";
@@ -59,16 +59,20 @@ const HomeVideoContainer = ({ PopularVideo, index, HandleShowMessageBox }) => {
   // ======================================
   // Check if a video is already in wl list
   // ======================================
-  const [IswatchLater, setIsWatchLater] = useState(
-    WatchLater.some((wl) => wl.videoId === PopularVideo.videoId)
+  const memoizedWLValue = useMemo(
+    () => WatchLater.some((wl) => wl.videoId === PopularVideo.videoId),
+    [WatchLater, PopularVideo.videoId]
   );
+  const [IswatchLater, setIsWatchLater] = useState(memoizedWLValue);
 
   // =========================================
   // Check if a video is already in queue list
   // =========================================
-  const [IsQueue, setIsQueue] = useState(
-    QueueList.some((que) => que.videoId === PopularVideo.videoId)
+  const memoizedQValue = useMemo(
+    () => QueueList.some((que) => que.videoId === PopularVideo.videoId),
+    [QueueList, PopularVideo.videoId]
   );
+  const [IsQueue, setIsQueue] = useState(memoizedQValue);
 
   // =================================
   //     FETCH CHANNELS SNIPPET

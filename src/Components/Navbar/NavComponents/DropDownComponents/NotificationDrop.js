@@ -4,7 +4,7 @@ import { SettingsSvg, DotsSvg } from "../Svg";
 import { useSelector } from "react-redux";
 import { ReturnTheme, GetClassName } from "../../../../utils";
 import { fake_notifications } from "./dummyData";
-import { LazyLoad, Spinner, ProfileImg } from "../../../ComponentsUtils";
+import { LazyRender, Spinner, ProfileImg } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -43,7 +43,7 @@ const Notification = ({ show }) => {
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <div className={styles.header__text}>Notifications</div>
           <a
@@ -122,7 +122,7 @@ const Notification = ({ show }) => {
             })
           )}
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

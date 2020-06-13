@@ -17,7 +17,7 @@ import {
   LocaSvg,
 } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 
@@ -74,7 +74,7 @@ const ProfileDrop = ({ handleShowSemiDrop, show }) => {
         </div>
       </div>
       <div className={`line line--${ReturnTheme(Theme)}`}></div>
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.body}>
           <div className={block_wrapper}>
             <div className={styles.block_wrapper__logo}>
@@ -239,7 +239,7 @@ const ProfileDrop = ({ handleShowSemiDrop, show }) => {
             </div>
           </div>
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

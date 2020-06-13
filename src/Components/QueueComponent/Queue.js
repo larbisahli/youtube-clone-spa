@@ -18,7 +18,7 @@ import {
   getCurrentTime,
   StopVideo,
   DestroyIframe,
-  LazyLoad,
+  LazyRender,
 } from "../ComponentsUtils";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -271,7 +271,7 @@ const Queue = () => {
   );
 
   return (
-    <LazyLoad render={ShowQueue}>
+    <LazyRender render={ShowQueue}>
       <div
         style={{
           // 225px + 285px + 65px = 575px
@@ -400,7 +400,7 @@ const Queue = () => {
           </div>
         </div>
       </div>
-    </LazyLoad>
+    </LazyRender>
   );
 };
 

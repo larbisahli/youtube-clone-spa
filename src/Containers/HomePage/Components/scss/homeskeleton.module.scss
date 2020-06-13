@@ -122,14 +122,14 @@
                 animation: shine 1s infinite;
 
                 &--dark {
-                    background-color: colors(Skeleton_Dark_color);
+                    background-color: colors(Skeleton-Dark-Mode);
                     background-image:
                         linear-gradient(#414141a8 10px, transparent 0);
                 }
 
                 &--light {
 
-                    background-color: colors(Skeleton_Light_color);
+                    background-color: colors(Skeleton-Dark-Mode);
                     background-image:
                         linear-gradient(#f1f1f1 10px, transparent 0);
                 }

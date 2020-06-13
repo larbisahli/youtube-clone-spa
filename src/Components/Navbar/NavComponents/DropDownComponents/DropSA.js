@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg, CheckedSvg, AddAccSvg, SOSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad, ProfileImg } from "../../../ComponentsUtils";
+import { LazyRender, ProfileImg } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { SwitchAccAction } from "../../../../redux";
 import classNames from "classnames/bind";
@@ -37,7 +37,7 @@ const SADrop = ({ handleGoBackDrop, show }) => {
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg />
@@ -99,7 +99,7 @@ const SADrop = ({ handleGoBackDrop, show }) => {
             <div className={styles.btmpad_text}>Sign out</div>
           </div>
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

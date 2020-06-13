@@ -3,7 +3,7 @@ import styles from "./scss/btndrop.module.scss";
 import { UploadSvg, GoLiveSvg } from "../Svg";
 import { useSelector } from "react-redux";
 import { GetClassName, ReturnTheme } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -24,7 +24,7 @@ const CamDrop = ({ show }) => {
         "position--cam_drop": true,
       })}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <a
           href="https://studio.youtube.com/channel/"
           target="_blank"
@@ -47,7 +47,7 @@ const CamDrop = ({ show }) => {
           </div>
           <div className={styles.text_wrap}>Go live</div>
         </a>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

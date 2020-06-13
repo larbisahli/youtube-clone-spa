@@ -4,7 +4,7 @@ import { BackArrowSvg } from "../Svg";
 import { useSelector, useDispatch } from "react-redux";
 import { darken, lighten } from "../../../../redux";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -48,7 +48,7 @@ const ThemeDrop = ({ handleGoBackDrop, isCurrent, show }) => {
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
@@ -83,7 +83,7 @@ const ThemeDrop = ({ handleGoBackDrop, isCurrent, show }) => {
             </label>
           </div>
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

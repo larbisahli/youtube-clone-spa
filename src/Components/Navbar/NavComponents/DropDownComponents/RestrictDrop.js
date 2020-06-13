@@ -2,7 +2,7 @@ import React, { useState, memo } from "react";
 import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { RestrictModeAction } from "../../../../redux";
 import classNames from "classnames/bind";
@@ -42,7 +42,7 @@ const RestrictDrop = ({ handleGoBackDrop, isCurrent, show }) => {
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
@@ -79,7 +79,7 @@ const RestrictDrop = ({ handleGoBackDrop, isCurrent, show }) => {
             </label>
           </div>
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

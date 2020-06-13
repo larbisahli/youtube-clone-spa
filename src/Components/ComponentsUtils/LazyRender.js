@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 
-const LazyLoad = ({ children, render }) => {
+const LazyRender = ({ children, render }) => {
   // ==================================
   // Seen, render only on demand once.
   // ==================================
@@ -18,4 +18,4 @@ const LazyLoad = ({ children, render }) => {
   );
 };
 
-export default memo(LazyLoad);
+export default memo(LazyRender);

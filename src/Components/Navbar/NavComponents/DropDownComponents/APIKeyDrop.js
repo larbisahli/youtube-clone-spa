@@ -2,7 +2,7 @@ import React, { useState, memo } from "react";
 import styles from "./scss/semidrop.module.scss";
 import { BackArrowSvg } from "../Svg";
 import { ReturnTheme, GetClassName } from "../../../../utils";
-import { LazyLoad, RippleButton } from "../../../ComponentsUtils";
+import { LazyRender, RippleButton } from "../../../ComponentsUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { ApiKeyInsert } from "../../../../redux";
 
@@ -41,7 +41,7 @@ const APIKeyDrop = ({ handleGoBackDrop, isCurrent, show }) => {
       style={{ display: show ? "" : "none" }}
       className={GetClassName(styles, "container", Theme)}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <div className={styles.header}>
           <button onClick={handleGoBackDrop} className={styles.header__arrow}>
             <BackArrowSvg isCurrent={isCurrent} />
@@ -85,7 +85,7 @@ const APIKeyDrop = ({ handleGoBackDrop, isCurrent, show }) => {
             </RippleButton>
           </div>
         </div>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };

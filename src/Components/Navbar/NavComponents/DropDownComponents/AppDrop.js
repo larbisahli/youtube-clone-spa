@@ -8,7 +8,7 @@ import {
   YouTubeNormalSvg,
 } from "../Svg";
 import { GetClassName, ReturnTheme } from "../../../../utils";
-import { LazyLoad } from "../../../ComponentsUtils";
+import { LazyRender } from "../../../ComponentsUtils";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);
@@ -31,7 +31,7 @@ const AppDrop = ({ show }) => {
         "position--app_drop": true,
       })}
     >
-      <LazyLoad render={show}>
+      <LazyRender render={show}>
         <a
           href="https://tv.youtube.com/welcome/"
           target="_blank"
@@ -89,7 +89,7 @@ const AppDrop = ({ show }) => {
           </div>
           <div className={styles.text_wrap}>YouTube for Artists</div>
         </a>
-      </LazyLoad>
+      </LazyRender>
     </div>
   );
 };
