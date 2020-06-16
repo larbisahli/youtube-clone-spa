@@ -43,6 +43,44 @@ Working Prototype: https://youtube-klonos.netlify.app
 7. Handling YouTuve v3 API requests with React axios and Redux thunk.
 8. Using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML5 and SCSS.
 
+## Screenshots:
+
+#### Homepage - Light Mode:
+
+![](screenshots/Light-mode-homepage.png)
+
+#### Homepage - Dark Mode:
+
+![](screenshots/dark-mode-homepage.png)
+
+#### Responsive:
+
+![](screenshots/responsive.png)
+
+#### Watch Later Page:
+
+![](screenshots/watch-later-page.png)
+
+#### Queue:
+
+![](screenshots/queue-down.png)
+
+![](screenshots/queue-up.png)
+
+#### Search Page:
+
+![](screenshots/search-page.png)
+
+![](screenshots/results-page-filter-playlist.png)
+
+#### Watch Page:
+
+![](screenshots/watch-page.png)
+
+![](screenshots/watch-page-details.png)
+
+![](screenshots/playing-playlist.png)
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
