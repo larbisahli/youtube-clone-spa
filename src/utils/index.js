@@ -63,7 +63,7 @@ export const TextReducer = (text, num) => {
 
 export const numberWithCommas = (x) => {
   try {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } catch (error) {
     return "";
   }
@@ -128,6 +128,4 @@ export const GetClassName = (styles, classname, theme) => {
   let cx = classNames.bind(styles);
 
   return cx(classname, { [`${classname}--${ReturnTheme(theme)}`]: true });
-
-  //return `${style[classname]} ${style[`${classname}--${ReturnTheme(theme)}`]}`;
 };
