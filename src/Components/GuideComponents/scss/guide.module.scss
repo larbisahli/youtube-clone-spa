@@ -36,8 +36,20 @@
   }
 
   // move svg to the right on hover
-  &:hover>.wrapper>.content_container>.content_wrapper>.notisvg>.svg_con {
-    padding-right: 0 !important;
+  &:hover>.wrapper>.content_container>.content_wrapper {
+
+    // A simple trick to check is the user is using mozilla firefox.
+
+    // if true
+    @supports (-moz-transform-style: preserve-3d) {
+      padding-right: 3px !important;
+    }
+
+    // else false
+    @supports not (-moz-transform-style: preserve-3d) {
+      // 20px is padding-right / 0.65em is ::-webkit-scrollbar {width: 0.65em;}
+      padding-right: calc(20px - 0.65em) !important;
+    }
   }
 
   // Show Scroll Bar On Hover
@@ -69,7 +81,6 @@
       border-bottom: 1px solid colors(border-color-Dark);
       border-left: 1px solid colors(border-color-Dark);
       background-color: lighten(colors(Nav-background-Dark), .8%);
-
       @extend %scroll-Dark;
     }
 
@@ -98,10 +109,10 @@
   // ---
 
   .content_wrapper {
+
     display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
+    padding: 8px 20px;
 
     &--dark {
       &:hover {
@@ -144,10 +155,11 @@
 
         font-family: Roboto-Medium;
         color: #030303;
-        background-color: #0000001a;
+        background-color: colors(Theme-hover-Light);
 
         &:hover {
           background-color: hsla(0, 0%, 0%, 0.192);
+
         }
 
         // current
@@ -162,31 +174,25 @@
 
   .text_container {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
     flex: 1;
 
     .text_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      align-self: center;
     }
   }
 
   // ---
 
   .notisvg {
-
-    &>.svg_con {
-      padding-top: 5px;
-      padding-right: 0.65em; // from :webkit-scrollbar width: 0.65em;
-    }
+    flex: 0;
   }
 
   // ---
 
   .content_icon {
-    padding: 8px 20px 8px 21px;
+    display: flex;
+    align-items: center;
+    padding-right: 24px;
   }
 
   // ---
@@ -212,7 +218,7 @@
 
   .about {
 
-    padding: 8px 20px 8px 20px;
+    padding: 8px 20px;
 
     &--dark {
       color: #cacaca;
@@ -257,7 +263,7 @@
   .subtitle {
 
     font-family: Roboto-Medium;
-    padding: 8px 20px 8px 21px;
+    padding: 8px 20px;
 
 
     &--dark {

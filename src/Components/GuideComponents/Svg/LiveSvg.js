@@ -5,7 +5,7 @@ import "../../Navbar/NavComponents/Svg/scss/svg_style_scnni.scss";
 const LiveSvg = ({ isLive, notiExist, Theme }) => {
   return (
     <div className="ytb_svg">
-      <svg className="ytb_svg__wrapper" viewBox="0 0 34 34" focusable={false}>
+      <svg className="ytb_svg__wrapper" viewBox="-5 -5 35 35" focusable={false}>
         <g>
           <path
             fill={isLive ? "#f00" : "transparent"}
