@@ -411,9 +411,11 @@ const HomeVideoContainer = ({ PopularVideo, index, HandleShowMessageBox }) => {
               {PopularVideo.channelTitle}
             </Link>
             <div className={GetClassName(styles, "duration", Theme)}>
-              <span className={styles.views}>{`${ViewsNumFormatter(
-                PopularVideo.viewCount
-              )} views`}</span>
+              {PopularVideo.viewCount && (
+                <span className={styles.views}>{`${ViewsNumFormatter(
+                  PopularVideo.viewCount
+                )} views`}</span>
+              )}
               <span>
                 <Moment fromNow>{PopularVideo.publishedAt}</Moment>
               </span>

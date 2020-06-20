@@ -24,7 +24,7 @@ export const ViewsNumFormatter = (num, from = false) => {
       return "DISLIKE";
     }
   } else {
-    return FormatNum;
+    return FormatNum || 0;
   }
 };
 
