@@ -109,8 +109,6 @@ const VideoPlayer = ({
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }, []);
 
-  console.log("<<=== count ===>>", CallCount);
-
   // waitForIframe function --->
 
   const waitForIframe = useCallback(() => {
@@ -212,7 +210,6 @@ const VideoPlayer = ({
 
   if (CallCount > 30) {
     // Clear and wait in case slow connection
-    console.log("<><----- END API CALL -----><>");
     clearInterval(intervalId);
     setCallCount(() => {
       return 0;
