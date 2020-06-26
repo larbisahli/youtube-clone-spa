@@ -18,6 +18,14 @@
     }
   }
 
+  @media screen and (min-width: 550px) {
+    padding: 0 !important;
+
+    .primary {
+      margin: 0 25px !important;
+    }
+  }
+
   // =============== primary ===============
 
   .primary {
@@ -107,6 +115,10 @@
           align-items: center;
           justify-content: space-between;
 
+          @media screen and (max-width: 700px) {
+            flex-direction: column;
+          }
+
           &--dark {
             // Dark Theme
             color: colors(ChTitle_Dark_Color);
@@ -191,6 +203,7 @@
                   border-radius: 50%;
 
                   &--dark {
+
                     // Dark Theme
                     &:active {
                       background-color: #57575727;
@@ -198,13 +211,14 @@
                   }
 
                   &--light {
+
                     // Light Theme
                     &:active {
                       background-color: #c9c9c92d;
                     }
                   }
 
-                  & > :global(.ytb_svg_y) > :global(.ytb_svg_y__wrapper) {
+                  &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
                     width: 20px;
                     height: auto;
                   }
@@ -339,7 +353,7 @@
                   .subbell {
                     padding: 0 0 0 10px;
 
-                    & > :global(.ytb_svg_x) {
+                    &> :global(.ytb_svg_x) {
                       width: 24px;
                       height: 24px;
                     }
@@ -517,8 +531,8 @@
         display: flex;
         margin-bottom: 16px;
 
-        &:hover > .comment_container__menu {
-          :global(.ytb_svg) > :global(.ytb_svg__wrapper) > g > path {
+        &:hover>.comment_container__menu {
+          :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
             fill: #909090;
           }
         }
@@ -634,7 +648,7 @@
                     margin-right: 8px;
                     font-size: 0.8rem;
 
-                    & > :global(.ytb_svg_y) > :global(.ytb_svg_y__wrapper) {
+                    &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
                       width: 16px;
                       height: 16px;
                     }
@@ -655,26 +669,18 @@
           }
 
           &__menu {
-            :global(.ytb_svg) > :global(.ytb_svg__wrapper) > g > path {
+            :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
               fill: transparent;
             }
 
             &--dark {
-              &:hover
-                > :global(.ytb_svg)
-                > :global(.ytb_svg__wrapper)
-                > g
-                > path {
+              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #fff;
               }
             }
 
             &--light {
-              &:hover
-                > :global(.ytb_svg)
-                > :global(.ytb_svg__wrapper)
-                > g
-                > path {
+              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
                 fill: #000;
               }
             }
@@ -771,7 +777,7 @@
             height: 0px;
 
             &:checked {
-              + .switch__btn {
+              +.switch__btn {
                 grid-template-columns: 1fr 1fr 0fr;
 
                 &::after {

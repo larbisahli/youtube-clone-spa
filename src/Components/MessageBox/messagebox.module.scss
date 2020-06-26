@@ -9,6 +9,7 @@
     transition: all .6s ease-in-out;
     background-color: #323232;
     color: #fff;
+    max-height: 60px !important;
 
     &--show {
         transform: translateY(0px);
@@ -31,6 +32,7 @@
     .textcon {
         margin: 0 10px;
         padding: 15px 10px;
+        white-space: nowrap;
     }
 
     // ---
