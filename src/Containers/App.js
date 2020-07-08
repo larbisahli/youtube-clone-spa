@@ -79,6 +79,7 @@ function App() {
           />
           {/* 404 */}
           <Route
+            path="*"
             render={() => (
               <Suspense fallback={<div></div>}>
                 <NotFound />
