@@ -1,5 +1,3 @@
-@import '../../../../../scss/config';
-
 .ytb_svg {
 
     display: flex;
@@ -23,42 +21,59 @@
 
     &__action {
 
-        &--dark {
-            background-color: #484848;
+        background-color: #484848; // --svg-action-bgc-from:#ccc;
 
-            transform: scale(.6);
-            animation: color_effect-dark 0.2s linear;
+        transform: scale(.6);
+        animation: color_effect-dark 0.2s linear;
 
-            @keyframes color_effect-dark {
-                from {
-                    background-color: #484848;
-                    transform: scale(.6);
-                }
+        @keyframes color_effect-dark {
+            from {
+                background-color: #484848;
+                transform: scale(.6);
+            }
 
-                to {
-                    background-color: #7e7e7e;
-                    transform: scale(.9);
-                }
+            to {
+                background-color: #7e7e7e; // --svg-action-bgc-to
+                transform: scale(.9);
             }
         }
 
-        &--light {
-            background-color: #ccc;
-            transform: scale(.6);
-            animation: color_effect-light 0.2s linear;
+        // &--dark {
+        //     background-color: #484848;
 
-            @keyframes color_effect-light {
-                from {
-                    background-color: #e9e9e9;
-                    transform: scale(.6);
-                }
+        //     transform: scale(.6);
+        //     animation: color_effect-dark 0.2s linear;
 
-                to {
-                    background-color: #ccc;
-                    transform: scale(.9);
-                }
-            }
-        }
+        //     @keyframes color_effect-dark {
+        //         from {
+        //             background-color: #484848;
+        //             transform: scale(.6);
+        //         }
+
+        //         to {
+        //             background-color: #7e7e7e;
+        //             transform: scale(.9);
+        //         }
+        //     }
+        // }
+
+        // &--light {
+        //     background-color: #ccc;
+        //     transform: scale(.6);
+        //     animation: color_effect-light 0.2s linear;
+
+        //     @keyframes color_effect-light {
+        //         from {
+        //             background-color: #e9e9e9;
+        //             transform: scale(.6);
+        //         }
+
+        //         to {
+        //             background-color: #ccc;
+        //             transform: scale(.9);
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -76,42 +91,22 @@
     opacity: 0.9;
 }
 
-%theme_dark {
+%TT {
+    // color: var(--ChTitle-Color);
 
-
-    // Dark Theme
-    color: colors(ChTitle_Dark_Color);
-
-    &:hover {
-        color: #fff;
-    }
+    // &:hover {
+    //     color: var(--VidTitle-Color);
+    // }
 
     &::before {
-        color: #e0e0e0;
-        background-color: colors(Theme-hover-Dark);
-
+        color: var(--VidTitle-Color);
+        background-color: var(--miniplayer-hover-bgc);
     }
-}
-
-%theme_light {
-
-    // Light Theme
-    color: colors(ChTitle_Light_Color);
-
-    &:hover {
-        color: #000;
-    }
-
-    &::before {
-        background-color: colors(Theme-hover-Light);
-        color: #555;
-        border: 1px solid rgba(85, 85, 85, 0.247);
-    }
-
 }
 
 .titleA {
     position: relative;
+    @extend %TT;
 
     &::before {
         @extend %before;
@@ -122,20 +117,13 @@
     &:hover::before {
         display: inline-block;
     }
-
-    &--dark {
-        @extend %theme_dark;
-    }
-
-    &--light {
-        @extend %theme_light;
-    }
 }
 
 
 .titleB {
 
     position: relative;
+    @extend %TT;
 
     &::before {
         @extend %before;
@@ -146,20 +134,13 @@
     &:hover::before {
         display: inline-block;
     }
-
-    &--dark {
-        @extend %theme_dark;
-    }
-
-    &--light {
-        @extend %theme_light;
-    }
 }
 
 
 .titleC {
 
     position: relative;
+    @extend %TT;
 
     &::before {
         @extend %before;
@@ -170,19 +151,12 @@
     &:hover::before {
         display: inline-block;
     }
-
-    &--dark {
-        @extend %theme_dark;
-    }
-
-    &--light {
-        @extend %theme_light;
-    }
 }
 
 .titleS {
 
     position: relative;
+    @extend %TT;
 
     &::before {
         @extend %before;
@@ -191,13 +165,5 @@
 
     &:hover::before {
         display: inline-block;
-    }
-
-    &--dark {
-        @extend %theme_dark;
-    }
-
-    &--light {
-        @extend %theme_light;
     }
 }

@@ -1,26 +1,11 @@
-@import "../../../../scss/config";
-
-
 .container {
     display: flex;
     align-items: center;
     position: relative;
     cursor: pointer;
 
-    &--dark {
-
-        // Dark Theme
-        &:hover {
-            background-color: #202020;
-        }
-    }
-
-    &--light {
-
-        // Light Theme
-        &:hover {
-            background-color: #dbdbdb;
-        }
+    &:hover {
+        background-color: var(--wlv-item-hover-bgc);
     }
 
     .drag_area {
@@ -35,10 +20,6 @@
         }
     }
 
-
-    // -----
-
-
     .wrap {
         display: flex;
         align-items: center;
@@ -46,26 +27,11 @@
         padding: 16px 0;
         flex: 1;
         box-sizing: border-box;
+        border-bottom: 1px solid var(--wlv-item-hover-bgc);
 
-        &--dark {
-            // Dark Theme
-            border-bottom: 1px solid #202020;
-
-            &:hover>.wrap__textarea>.dots> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
-                fill: #fff;
-            }
+        &:hover>.wrap__textarea>.dots> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+            fill: var(--black-in-dl);
         }
-
-        &--light {
-            // Light Theme
-            border-bottom: 1px solid #dbdbdb;
-
-            &:hover>.wrap__textarea>.dots> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
-                fill: #333;
-            }
-        }
-
-
 
         &__thumb {
             position: relative;
@@ -108,8 +74,6 @@
                 display: block;
                 width: 100%;
 
-                // ---
-
                 &__title {
                     display: flex;
                     padding-bottom: 10px;
@@ -127,56 +91,26 @@
                     }
                 }
 
-                // ---
-
                 &__channel_title {
                     font-size: 1.25em;
+                    color: var(--ChTitle-Color);
 
-                    &--dark {
-                        // Dark Theme
-                        color: colors(ChTitle_Dark_Color);
+                    &:hover {
+                        color: var(--black-in-dl);
 
-                        &:hover {
-                            color: #fff;
-                        }
-                    }
-
-                    &--light {
-                        // Light Theme
-                        color: colors(ChTitle_Light_Color);
-
-                        &:hover {
-                            color: #333;
-                        }
                     }
                 }
             }
-
-            // ---
 
             .dots {
                 display: flex;
                 align-self: flex-start;
                 padding: 2px;
 
-                &--dark {
-                    // Dark Theme
-
-                    &:active {
-                        background-color: #3f3f3f;
-                        padding: 2px;
-                        border-radius: 50%;
-                    }
-                }
-
-                &--light {
-                    // Light Theme
-
-                    &:active {
-                        background-color: #b9b9b9;
-                        padding: 2px;
-                        border-radius: 50%;
-                    }
+                &:active {
+                    background-color: var(--miniplayer-hover-bgc);
+                    padding: 2px;
+                    border-radius: 50%;
                 }
 
                 &> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {

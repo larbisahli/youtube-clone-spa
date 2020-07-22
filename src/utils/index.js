@@ -1,5 +1,3 @@
-import classNames from "classnames/bind";
-
 export const ViewsNumFormatter = (num, from = false) => {
   let FormatNum = 0;
 
@@ -17,7 +15,7 @@ export const ViewsNumFormatter = (num, from = false) => {
     FormatNum = num;
   }
 
-  if ((num === 0 || num === undefined) && from) {
+  if ((num === 0 || num === undefined || num === null) && from) {
     if (from === "like") {
       return "LIKE";
     } else if (from === "dislike") {
@@ -47,7 +45,7 @@ export const HandleDuration = (duration) => {
 
       return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
         HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
-      }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
+        }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
     } else {
       return duration;
     }
@@ -55,9 +53,7 @@ export const HandleDuration = (duration) => {
 };
 
 export const TextReducer = (text, num) => {
-  //
   if (text.length > num) return text.substring(0, num) + "...";
-
   return text;
 };
 
@@ -118,14 +114,4 @@ export const moveUp = (array, index) => {
   let p2 = [pp[1], pp[0]];
   let p3 = array.slice(index + 1, array.length);
   return p1.concat(p2, p3);
-};
-
-export const ReturnTheme = (Theme) => {
-  return Theme ? "dark" : "light";
-};
-
-export const GetClassName = (styles, classname, theme) => {
-  let cx = classNames.bind(styles);
-
-  return cx(classname, { [`${classname}--${ReturnTheme(theme)}`]: true });
 };

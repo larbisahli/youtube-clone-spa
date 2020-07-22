@@ -1,3 +1,131 @@
+:root {
+    --isDark-env: 0;
+    --miniplayer-width: 400px;
+    --miniplayer-height: 225px;
+    --miniplayer-playlist-height: 285px;
+    --miniplayer-header-width: 64px;
+    --bgc-hover: #0000001a;
+    --Nav-bgc: #fffffffa;
+    --general-bgc: #f9f9f9;
+    --border-color: #0000001a;
+    --VidTitle-Color: #212121;
+    --ChTitle-Color: #616161;
+    --Duration-Color: #5f5f5f;
+    --Skeleton-color: #e2e2e298;
+    --subedBtn-bg: #cfcfcf;
+    --subBtn-bg: #c00;
+    --scroll-thumb-bgc: #d6d6d6;
+    --scroll-thumb-hover-bgc: #d4d4d4;
+    --txt-guide-color: #1f1f1f;
+    --guide-bgc: #fefefefa;
+    --guide-active-hover: #0d0d0d1a;
+    --abt-txt-color: #3a3a3a;
+    --subtitle-txt-color: #333;
+    --miniguide-txt-color: #3a3a3a;
+    --guide-active-txt-color: #1b1b1b;
+    --logo-txt-color: #000;
+    --input-btn-logo: #ffffffcc;
+    --logo-pointer-txt-color: #606060ee;
+    --input-bgc: transparent;
+    --input-border-color: #ccc;
+    --input-btn-bgc: #f8f8f8;
+    --noti-pop-bgc: #e93838;
+    --noti-dot-blue: #065fd4;
+    --semidrop-txt-color: #606060;
+    --switch-btn-bgc: #e2e2e2;
+    --miniplayer-hover-bgc: #ebebeb;
+    --miniplayer-delbtn-bgc: #333;
+    --miniplayer-playbtn-bgc: #e2e2e2;
+    --miniplayer-bgc: #fff;
+    --miniplayer-border-color: #ccccccbd;
+    --miniplayer-item-bgc: #f8f8f8;
+    --miniplayer-itemhover-bgc: #ebebeb;
+    --skeleton-gradient-colot: #f1f1f1;
+    --svg-dots-bgc: #2c2c2c;
+    --results-txt-color: #818181;
+    --results-btntxt-color: #606060;
+    --white-in-ld: #fff;
+    --black-in-dl: #000;
+    --keyinput-border-bgc: #1414144d;
+    --apimessage-hover: #d4d4d4;
+    --noti-cover-bgc: #e4e4e4;
+    --ripple-btn-bgc: #97979780;
+    --ld-progress-bgc: #ccc;
+    --watch-icons-active-bgc: #c9c9c93b;
+    --watch-playlist-header-bgc: #f7f7f7;
+    --watch-dot-s: #4d4d4d;
+    --wlv-bgc-lc: #eeeeee;
+    --wlv-item-hover-bgc: #dbdbdb;
+    --svg-action-bgc-from: #ccc;
+
+}
+
+.dark {
+    --isDark-env: 1;
+    --bgc-hover: #ffffff1a;
+    --Nav-bgc: #262626fa;
+    --general-bgc: #1f1f1f;
+    --border-color: #363636;
+    --VidTitle-Color: #fafafa;
+    --ChTitle-Color: #b3b3b3;
+    --Duration-Color: #b1b1b1;
+    --Skeleton-color: #38383898;
+    --subedBtn-bg: #2e2e2e;
+    --subBtn-bg: #c00;
+    --scroll-thumb-bgc: #535353;
+    --scroll-thumb-hover-bgc: #5e5e5e;
+    --txt-guide-color: #fff;
+    --guide-bgc: #282828fa;
+    --guide-active-hover: #ffffff1a;
+    --abt-txt-color: #cacaca;
+    --subtitle-txt-color: #f1f1f1;
+    --miniguide-txt-color: #aaa;
+    --guide-active-txt-color: #fff;
+    --logo-txt-color: #fff;
+    --logo-pointer-txt-color: #b6b6b6;
+    --input-bgc: #121212;
+    --input-border-color: #363636;
+    --input-btn-bgc: #99898914;
+    --input-btn-logo: #000;
+    --noti-pop-bgc: #c00;
+    --noti-dot-blue: #3ea6ff;
+    --semidrop-txt-color: #979797;
+    --switch-btn-bgc: #444;
+    --miniplayer-hover-bgc: #292929;
+    --miniplayer-delbtn-bgc: #dbdbdb;
+    --miniplayer-playbtn-bgc: #303030;
+    --miniplayer-bgc: #212121fa;
+    --miniplayer-border-color: #3b3b3bbd;
+    --miniplayer-item-bgc: #181818;
+    --miniplayer-itemhover-bgc: #292929;
+    --skeleton-gradient-colot: #414141a8;
+    --svg-dots-bgc: #fff;
+    --results-txt-color: #b9b8b8;
+    --results-btntxt-color: #c0c0c0;
+    --white-in-ld: #000;
+    --black-in-dl: #fff;
+    --keyinput-border-bgc: #a5a5a54d;
+    --apimessage-hover: #5c5c5c;
+    --noti-cover-bgc: #3b3b3b;
+    --ripple-btn-bgc: #b5b5b580;
+    --ld-progress-bgc: #646464;
+    --watch-icons-active-bgc: #57575748;
+    --watch-playlist-header-bgc: #252525fa;
+    --watch-dot-s: #c2c2c2;
+    --wlv-bgc-lc: #111111;
+    --wlv-item-hover-bgc: #202020;
+    --svg-action-bgc-from: #484848;
+
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --isDark-env: 1;
+    }
+}
+
+
 body {
     margin: 0;
     font-size: 10px;
@@ -58,4 +186,13 @@ button {
     border: 0;
     cursor: pointer;
     outline: none;
+}
+
+.line {
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+pre {
+    font-family: Roboto-Regular, Arial, sans-serif !important;
 }

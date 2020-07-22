@@ -1,10 +1,13 @@
 import { DARK_THEME, LIGHT_THEME } from "../actionTypes";
 
-const prevTheme = JSON.parse(localStorage.getItem("isDarkTheme"));
+const prevTheme = JSON.parse(localStorage.getItem("isDarkMode"));
 
-const initialState = { isDarkTheme: prevTheme ? prevTheme : false };
+let isDark_env = Number(getComputedStyle(document.documentElement).getPropertyValue(
+  "--isDark-env"
+)) === 1; // 0 false / 1 true
 
-// app update this slow so we have to put it on top.
+const initialState = { isDarkTheme: prevTheme ? prevTheme : prevTheme === null ? isDark_env : false };
+
 const generalBackgroundDark = "#1f1f1f";
 const generalBackgroundLight = "#f9f9f9";
 
@@ -16,11 +19,21 @@ if (prevTheme) {
   document.body.style.backgroundColor = generalBackgroundLight;
 }
 
+const Root = document.getElementById("root");
+
+if (Root) {
+  if (initialState.isDarkTheme) {
+    Root.classList.add("dark");
+  } else {
+    Root.classList.remove("dark");
+  }
+}
+
 const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case DARK_THEME:
       try {
-        localStorage.setItem("isDarkTheme", JSON.stringify(true));
+        localStorage.setItem("isDarkMode", JSON.stringify(true));
       } catch {
         console.log("localStorage error");
       }
@@ -28,7 +41,7 @@ const themeReducer = (state = initialState, action) => {
 
     case LIGHT_THEME:
       try {
-        localStorage.setItem("isDarkTheme", JSON.stringify(false));
+        localStorage.setItem("isDarkMode", JSON.stringify(false));
       } catch {
         console.log("localStorage error");
       }

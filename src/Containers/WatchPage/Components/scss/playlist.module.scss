@@ -1,43 +1,15 @@
 @import '../../../../scss/config';
 
-
-// ---
-
-$miniplayer-playlist-height: 400px;
-
 .container {
 
     width: 100%;
-    height: $miniplayer-playlist-height;
+    height: var(--miniplayer-playlist-height);
     box-sizing: border-box;
     position: relative;
     border: 1px solid #3b3b3bbd;
     margin-bottom: 24px;
-
-    @extend %scroll-Dark;
-
-    &--dark {
-        // Dark Theme
-        @extend %scroll-Dark;
-    }
-
-    &--light {
-        // Light Theme
-        @extend %scroll-Light;
-    }
-
-
-
-    &--dark {
-        // Dark Theme 
-        border: 1px solid #3b3b3bbd;
-    }
-
-    &--light {
-        // Light Theme 
-        border: 1px solid #ccccccbd;
-    }
-
+    border: 1px solid var(--miniplayer-border-color);
+    @extend %scroll;
 
     .panel {
 
@@ -47,18 +19,9 @@ $miniplayer-playlist-height: 400px;
         top: 0;
         right: 0;
         left: 0;
+        color: var(--VidTitle-Color);
+        background-color: var(--watch-playlist-header-bgc);
 
-        &--dark {
-            // Dark Theme
-            background-color: #252525fa;
-            color: colors(VidTitle_Dark_Color);
-        }
-
-        &--light {
-            // Ligth Theme
-            background-color: #f7f7f7;
-            color: colors(VidTitle_Light_Color);
-        }
 
         &__txtwrap {
             padding: 8px 16px;
@@ -82,18 +45,7 @@ $miniplayer-playlist-height: 400px;
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
-
-        background-color: #181818;
-
-        &--dark {
-            // Dark Theme
-            background-color: #181818;
-        }
-
-        &--light {
-            // Light Theme
-            background-color: #fff;
-        }
+        background-color: var(--miniplayer-item-bgc);
     }
 
     .arrow_btn {
@@ -109,37 +61,13 @@ $miniplayer-playlist-height: 400px;
             padding: 2px;
             border-radius: 50%;
 
-            &--dark {
-
-                // Dark Theme
-                &:active {
-
-                    background-color: #575757;
-                }
-
-                &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-
-                    fill: #fff;
-                }
+            &:active {
+                background-color: var(--miniplayer-hover-bgc);
             }
 
-            &--light {
+            &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
 
-                // Light Theme
-                &:active {
-                    // Theme
-                    background-color: #c9c9c9;
-
-                    &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                        // Theme
-                        fill: #000;
-                    }
-                }
-
-                &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                    // Theme
-                    fill: #333;
-                }
+                fill: #fff;
             }
         }
     }

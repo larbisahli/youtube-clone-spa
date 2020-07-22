@@ -25,15 +25,8 @@
             animation: ripple 0.75s 1;
             top: 50%;
             left: 50%;
+            background: var(--ripple-btn-bgc);
 
-            &--dark {
-                background: rgba(#b4b4b4, 0.5);
-
-            }
-
-            &--light {
-                background: rgba(#979797, 0.5);
-            }
         }
 
         @keyframes ripple {

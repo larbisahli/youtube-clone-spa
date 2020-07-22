@@ -1,6 +1,3 @@
-@import "../../../../scss/config";
-
-
 .container {
     position: absolute;
     width: 240px;
@@ -13,22 +10,11 @@
     z-index: 10;
     padding: 8px 0;
 
-    &--dark {
-        // Dark Theme
-        background-color: colors(Nav-background-Dark);
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-            0 1px 5px 0 rgba(0, 0, 0, 0.12),
-            0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    }
+    background-color: var(--Nav-bgc);
 
-    &--light {
-        // Light Theme
-        background-color: colors(Nav-background-Light);
-
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
-            0 1px 5px 0 rgba(0, 0, 0, 0.1),
-            0 3px 1px -2px rgba(0, 0, 0, 0.1);
-    }
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),
+        0 1px 5px 0 rgba(0, 0, 0, 0.1),
+        0 3px 1px -2px rgba(0, 0, 0, 0.1);
 
     @media screen and (max-width: 1150px) {
         top: -50% !important;
@@ -39,16 +25,8 @@
         padding: 5px 36px 5px 16px;
         align-items: center;
 
-        &--dark {
-            &:hover {
-                background-color: colors(Theme-hover-Dark);
-            }
-        }
-
-        &--light {
-            &:hover {
-                background-color: colors(Theme-hover-Light);
-            }
+        &:hover {
+            background-color: var(--bgc-hover);
         }
 
         &__icon {
@@ -61,16 +39,7 @@
 
         &__text {
             font-size: 1.3em;
-
-            &--dark {
-                // Dark Theme
-                color: #fff;
-            }
-
-            &--light {
-                // Light Theme
-                color: #212121;
-            }
+            color: var(--VidTitle-Color);
         }
     }
 }

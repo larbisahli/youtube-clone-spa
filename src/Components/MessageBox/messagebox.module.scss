@@ -10,6 +10,7 @@
     background-color: #323232;
     color: #fff;
     max-height: 60px !important;
+    max-width: 450px;
 
     &--show {
         transform: translateY(0px);
@@ -19,23 +20,19 @@
         transform: translateY(60px);
     }
 
-    // ---
-
     .wrapper {
 
         display: flex;
         align-items: center;
     }
 
-    // ---
-
     .textcon {
         margin: 0 10px;
         padding: 15px 10px;
+        overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
     }
-
-    // ---
 
     .btn {
 
@@ -44,8 +41,6 @@
         cursor: pointer;
         padding: 15px 12px;
         font-weight: 600;
-
-        // Dark Theme
         color: #2793e6;
 
         &:active {

@@ -22,15 +22,7 @@
         display: flex;
         flex-flow: column nowrap;
         text-align: center;
-
-        &--dark {
-            color: #fff;
-        }
-
-        &--light {
-            color: #000;
-        }
-
+        color: var(--VidTitle-Color);
     }
 
 }

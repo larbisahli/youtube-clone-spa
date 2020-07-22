@@ -1,33 +1,14 @@
-@import '../../../scss/config';
-
-
 .block {
     display: flex;
     align-items: center;
     cursor: pointer;
     min-width: 0;
     padding: 4px 8px 4px 0;
+    color: var(--VidTitle-Color);
 
-    &--dark {
-
-        // Dark Theme
-        color: colors(VidTitle_Dark_Color);
-
-        &:hover {
-            background-color: #292929;
-            box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
-        }
-    }
-
-    &--light {
-
-        // Light Theme
-        color: colors(VidTitle_Light_Color);
-
-        &:hover {
-            background-color: #ebebeb;
-            box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.418);
-        }
+    &:hover {
+        background-color: var(--miniplayer-itemhover-bgc);
+        box-shadow: 0px 1px 6px #0000006b;
     }
 
     &:hover>.itemwrap>.body_container>.btncon>.btncon__del {
@@ -129,25 +110,10 @@
                 &__chtitle {
 
                     font-size: 1.25em;
+                    color: var(--ChTitle-Color);
 
-                    &--dark {
-                        // Dark Theme
-                        color: colors(ChTitle_Dark_Color);
-
-                        &:hover {
-                            //Theme
-                            color: #fff;
-                        }
-                    }
-
-                    &--light {
-                        // Ligth Theme
-                        color: colors(ChTitle_Light_Color);
-
-                        &:hover {
-                            //Theme
-                            color: #212121;
-                        }
+                    &:hover {
+                        color: var(--VidTitle-Color);
                     }
                 }
             }
@@ -168,22 +134,8 @@
                     right: 0;
                     display: none;
 
-                    &--dark {
-
-                        // Dark Theme
-                        &:hover>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
-                            // Theme
-                            fill: #dbdbdb;
-                        }
-                    }
-
-                    &--light {
-
-                        // Light Theme
-                        &:hover>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
-                            // Theme
-                            fill: #333;
-                        }
+                    &:hover>:global(.ytb_svg_y)>:global(.ytb_svg_y__wrapper)>g>path {
+                        fill: var(--miniplayer-delbtn-bgc);
                     }
                 }
             }
@@ -194,13 +146,5 @@
 
 .isplaying {
 
-    &--dark {
-        // Dark Theme
-        background-color: #303030;
-    }
-
-    &--light {
-        // Ligth Theme
-        background-color: #e2e2e2;
-    }
+    background-color: var(--miniplayer-playbtn-bgc);
 }

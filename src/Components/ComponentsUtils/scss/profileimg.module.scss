@@ -1,6 +1,3 @@
-@import '../../../scss/config';
-
-
 .thumbnail {
 
     cursor: pointer;
@@ -9,18 +6,7 @@
 
         border-radius: 50%;
         overflow: hidden;
-
-        &--dark {
-            // Dark Theme
-            background-color: colors(Skeleton_Dark_color);
-
-        }
-
-        &--light {
-            // Dark Theme
-            background-color: colors(Skeleton_Light_color);
-
-        }
+        background-color: var(--Skeleton-color);
 
         .img {
 

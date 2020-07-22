@@ -1,0 +1,60 @@
+import React, { memo } from "react";
+import { HomeSvg, TrendingSvg, SubscriptionSvg, LibrarySvg } from "./Svg";
+import styles from "./scss/miniguide.module.scss";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+
+let cx = classNames.bind(styles);
+
+const MiniGuide = () => {
+  const UrlLocation = useSelector((state) => state.Guide.urlLocation);
+
+  //  check is the current page
+  const CheckUrlLocation = (value) => {
+    return UrlLocation === value;
+  };
+
+  const btn_wrapper = (value) => {
+    return cx("btn_wrapper", { "btn_wrapper--active": UrlLocation === value });
+  };
+
+  const ReturnDisplay = () => {
+    if (UrlLocation) {
+      return CheckUrlLocation("watch") ? "none" : "block";
+    } else {
+      return "none";
+    }
+  };
+
+  return (
+    <div style={{ display: ReturnDisplay() }} className={styles.container}>
+      <Link to="/" className={btn_wrapper("home")}>
+        <div className={styles.icon_wrap}>
+          <HomeSvg changeColor={CheckUrlLocation("home")} />
+        </div>
+        <div className={styles.text_wrap}>Home</div>
+      </Link>
+      <Link to="/trending/" className={btn_wrapper("trending")}>
+        <div className={styles.icon_wrap}>
+          <TrendingSvg changeColor={CheckUrlLocation("trending")} />
+        </div>
+        <div className={styles.text_wrap}>Trending</div>
+      </Link>
+      <Link to="/subscriptions/" className={btn_wrapper("subscriptions")}>
+        <div className={styles.icon_wrap}>
+          <SubscriptionSvg changeColor={CheckUrlLocation("subscriptions")} />
+        </div>
+        <div className={styles.text_wrap}>Subscriptions</div>
+      </Link>
+      <Link to="/library/" className={btn_wrapper("library")}>
+        <div className={styles.icon_wrap}>
+          <LibrarySvg changeColor={CheckUrlLocation("library")} />
+        </div>
+        <div className={styles.text_wrap}>Library</div>
+      </Link>
+    </div>
+  );
+};
+
+export default memo(MiniGuide);

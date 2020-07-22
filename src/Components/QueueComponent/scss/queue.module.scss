@@ -1,15 +1,10 @@
 @import '../../../scss/config';
 
-$miniplayer-width: 400px;
-$miniplayer-height: 225px;
-$miniplayer-playlist-height: 285px;
-$miniplayer-header-width:64px;
-
 
 .container {
     position: fixed;
     bottom: 0;
-    width: $miniplayer-width;
+    width: var(--miniplayer-width);
     right: 12px;
     z-index: 5;
     pointer-events: auto;
@@ -22,44 +17,26 @@ $miniplayer-header-width:64px;
     user-select: none;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 
-    &--dark {
-        // Dark Theme
-        @extend %scroll-Dark;
-    }
+    @extend %scroll;
 
-    &--light {
-        // Light Theme
-        @extend %scroll-Light;
-    }
 
     .wrapper {
         position: relative;
         left: 0px;
         top: 0px;
-        width: $miniplayer-width;
+        width: var(--miniplayer-width);
         display: flex;
         flex-direction: column;
+        color: var(--VidTitle-Color);
+        background-color: var(--miniplayer-bgc);
 
-        &--dark {
-            // Dark Theme
-            color: colors(VidTitle_Dark_Color);
-            background-color: #212121fa;
-        }
-
-        &--light {
-            // Ligth Theme
-            color: colors(VidTitle_Light_Color);
-            background-color: #fff;
-        }
     }
-
-    // --- 
 
 
     .video_container {
 
-        width: $miniplayer-width;
-        height: $miniplayer-height;
+        width: var(--miniplayer-width);
+        height: var(--miniplayer-height);
         background-color: #000;
         position: relative;
         flex: none;
@@ -150,24 +127,13 @@ $miniplayer-header-width:64px;
         }
     }
 
-    // ---
-
     .header {
-        height: $miniplayer-header-width;
+        height: var(--miniplayer-header-width);
         flex: none;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-
-        &--dark {
-            // Dark Theme
-            color: colors(VidTitle_Dark_Color);
-        }
-
-        &--light {
-            // Light Theme
-            color: colors(VidTitle_Light_Color);
-        }
+        color: var(--VidTitle-Color);
 
         .header_wrap {
             padding: 14px 16px 16px;
@@ -176,7 +142,6 @@ $miniplayer-header-width:64px;
             font-size: 1.4em;
 
             &__title {
-                // hide text overflow
                 overflow: hidden;
                 height: 50%;
             }
@@ -187,16 +152,7 @@ $miniplayer-header-width:64px;
                 margin-top: 4px;
                 font-size: .85em;
                 line-height: 1.5em;
-
-                &--dark {
-                    // Dark Theme
-                    color: colors(ChTitle_Dark_Color);
-                }
-
-                &--light {
-                    // Light Theme
-                    color: colors(ChTitle_Light_Color);
-                }
+                color: var(--ChTitle-Color);
 
                 span {
                     padding: 0 3px;
@@ -217,114 +173,61 @@ $miniplayer-header-width:64px;
                 padding: 2px;
                 border-radius: 50%;
 
-                &--dark {
-
-                    // Dark Theme
-                    &:active {
-
-                        background-color: #575757;
-                    }
-
-                    &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-
-                        fill: #fff;
-                    }
+                &:active {
+                    background-color: var(--miniplayer-hover-bgc);
                 }
 
-                &--light {
+                &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
 
-                    // Light Theme
-                    &:active {
-                        // Theme
-                        background-color: #c9c9c9;
-
-                        &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                            // Theme
-                            fill: #000;
-                        }
-                    }
-
-                    &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                        // Theme
-                        fill: #333;
-                    }
+                    fill: var(--miniplayer-delbtn-bgc);
                 }
             }
         }
     }
+}
 
-    // ---
+.playlist_container {
 
-    .playlist_container {
+    width: var(--miniplayer-width);
+    height: var(--miniplayer-playlist-height);
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid var(--miniplayer-border-color);
 
-        width: $miniplayer-width;
-        height: $miniplayer-playlist-height;
-        box-sizing: border-box;
-        position: relative;
+    .panel {
 
-        &--dark {
-            // Dark Theme 
-            border: 1px solid #3b3b3bbd;
-        }
+        position: absolute;
+        z-index: 5;
+        height: 40px;
+        top: 0;
+        right: 0;
+        left: 0;
+        background-color: var(--miniplayer-bgc);
 
-        &--light {
-            // Light Theme 
-            border: 1px solid #ccccccbd;
-        }
-
-
-        .panel {
-
-            position: absolute;
+        &__txtwrap {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
             z-index: 5;
-            height: 40px;
-            top: 0;
-            right: 0;
-            left: 0;
 
-            &--dark {
-                // Dark Theme
-                background-color: #212121fa;
-            }
-
-            &--light {
-                // Ligth Theme
-                background-color: #fff;
-            }
-
-            &__txtwrap {
-                padding: 8px 16px;
-                display: flex;
-                align-items: center;
-                z-index: 5;
-
-                span {
-                    cursor: pointer;
-                    font-size: 1.2em;
-                    padding-left: 5px;
-                    text-transform: uppercase;
-                }
+            span {
+                cursor: pointer;
+                font-size: 1.2em;
+                padding-left: 5px;
+                text-transform: uppercase;
             }
         }
+    }
 
-        .items {
+    .items {
 
-            padding-top: 45px !important;
-            box-sizing: border-box;
-            height: 100%;
-            padding: 4px 0;
-            overflow-x: hidden;
-            overflow-y: scroll;
+        padding-top: 45px !important;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 4px 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background-color: var(--miniplayer-item-bgc);
 
-            &--dark {
-                // Dark Theme
-                background-color: #181818;
-            }
-
-            &--light {
-                // Light Theme
-                background-color: #fff;
-            }
-        }
     }
 }

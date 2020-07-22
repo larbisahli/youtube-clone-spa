@@ -1,16 +1,7 @@
 @import "../../../../../scss/config";
 
 .scroll {
-
-    &--dark {
-        // Dark Theme
-        @extend %scroll-Dark;
-    }
-
-    &--light {
-        // Light Theme
-        @extend %scroll-Light;
-    }
+    @extend %scroll;
 }
 
 .container {
@@ -26,26 +17,11 @@
     max-height: 500px;
     min-height: 200px;
     width: 280px;
-
-    &--dark {
-        // Dark Theme
-        color: #fff;
-        border-bottom: 1px solid colors(border-color-Dark);
-        border-left: 1px solid colors(border-color-Dark);
-        border-right: 1px solid colors(border-color-Dark);
-        background-color: colors(Nav-background-Dark);
-    }
-
-    &--light {
-        // Light Theme
-        color: #212121;
-        border-bottom: 1px solid colors(border-color-Light);
-        border-left: 1px solid colors(border-color-Light);
-        border-right: 1px solid colors(border-color-Light);
-        background-color: colors(Nav-background-Light);
-    }
-
-    // ---
+    color: var(--VidTitle-Color);
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    background-color: var(--Nav-bgc);
 
     .header {
         display: flex;
@@ -64,20 +40,14 @@
         }
     }
 
-    // ---
-
     .overflow {
         overflow-y: scroll;
         overflow-x: hidden;
     }
 
-    // ---
-
     .btmpad {
         margin-bottom: 7px;
     }
-
-    // ---
 
     .mainbody {
         display: block;
@@ -93,19 +63,8 @@
             align-items: center;
             cursor: pointer;
 
-            &--dark {
-                &:hover {
-                    // Dark Theme
-                    background-color: colors(Theme-hover-Dark);
-                }
-            }
-
-            &--light {
-
-                &:hover {
-                    // Light Theme
-                    background-color: colors(Theme-hover-Light)
-                }
+            &:hover {
+                background-color: var(--bgc-hover);
             }
 
             .pronail {
@@ -136,16 +95,7 @@
 
                     &__subs {
                         font-size: 1.25em;
-
-                        &--dark {
-                            // Dark Theme
-                            color: #979797;
-                        }
-
-                        &--light {
-                            // Light Theme
-                            color: #575757;
-                        }
+                        color: #979797;
                     }
                 }
             }
@@ -159,8 +109,6 @@
             }
         }
 
-        // ---
-
         .lang {
             display: flex;
             align-items: center;
@@ -168,18 +116,9 @@
             padding: 10px 15px;
             font-size: 1.4em;
 
-            &--dark {
-                &:hover {
-                    // Dark Theme
-                    background-color: colors(Theme-hover-Dark);
-                }
-            }
+            &:hover {
 
-            &--light {
-                &:hover {
-                    // Light Theme
-                    background-color: colors(Theme-hover-Light)
-                }
+                background-color: var(--bgc-hover);
             }
 
             &__check {
@@ -203,63 +142,56 @@
             padding: 10px 20px 15px 10px;
             font-family: Roboto-Medium;
             text-transform: uppercase;
-
-            &--dark {
-                // Dark Theme
-                color: #979797;
-            }
-
-            &--light {
-                // Light Theme
-                color: #606060;
-            }
-
-            // ====== api_input ===
+            color: var(--semidrop-txt-color);
 
             .api_input {
-
-                cursor: text;
-                padding-bottom: 4px;
                 flex: 1;
-                background-color: transparent;
-                border: none;
-                outline: none;
+                position: relative;
+                box-sizing: border-box;
+                border-bottom: 1px solid var(--keyinput-border-bgc) !important;
 
-                &:focus {
-                    border-bottom: 2px solid rgb(0, 0, 0)
+                .input_ {
+                    cursor: text;
+                    padding-bottom: 4px;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    color: var(--guide-active-txt-color);
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        padding-bottom: 2px;
+                        border-bottom: 2px solid var(--noti-dot-blue) !important;
+                    }
                 }
 
-                &--dark {
-                    // Dark Theme
-                    color: #fff;
-                    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+                &::after {
+                    background: none repeat scroll 0 0 transparent;
+                    bottom: 0;
+                    content: "";
+                    display: block;
+                    height: 1px;
+                    left: 50%;
+                    position: absolute;
+                    background: var(--noti-dot-blue);
+                    transition: width 0.25s ease 0s, left 0.25s ease 0s;
+                    width: 0%;
+
                 }
 
-                &--light {
-                    // Light Theme
-                    color: #000;
-                    border-bottom: 2px solid rgba(83, 83, 83, 0.1);
+                &:hover::after {
+                    width: 100%;
+                    left: 0;
                 }
 
             }
-
-
-            // ===== Toggle ====
 
             .switch {
                 width: 35px;
                 height: 15px;
                 border-radius: 50px;
-
-                &--dark {
-                    // Dark Theme
-                    background: #444;
-                }
-
-                &--light {
-                    // Light Theme
-                    background: #e2e2e2;
-                }
+                background: var(--switch-btn-bgc);
 
                 &__toggle {
                     position: absolute;
@@ -273,7 +205,7 @@
                             grid-template-columns: 1fr 1fr 0fr;
 
                             &::after {
-                                background-color: #3ea6ff;
+                                background-color: var(--noti-dot-blue);
                             }
                         }
                     }
@@ -338,15 +270,7 @@
                 font-family: Roboto-Medium;
                 font-size: .75rem;
                 cursor: pointer;
-
-
-                &--dark {
-                    color: #000;
-                }
-
-                &--light {
-                    color: #fff;
-                }
+                color: var(--white-in-ld);
 
             }
         }

@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 
-// ================================================
-//  Custom Hook to handle the window current width
-// ================================================
-
 export const useMeasure = () => {
   const [{ innerWidth }, setInnerWidth] = useState({
     innerWidth: window.innerWidth,

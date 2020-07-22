@@ -1,52 +1,26 @@
-@import '../../../../../scss/config';
-
-
 .container {
     position: absolute;
-    bottom: -55px; //15px*3+10
+    bottom: -45px;
     right: 25px;
     border-radius: 2px;
-    padding: 15px 25px;
+    padding: 10px 20px;
     z-index: 1000;
     transition: all .6s ease-in-out;
     opacity: 1;
+    background-color: var(--apimessage-hover);
+    border: 1px solid var(--border-color);
+    color: var(--logo-txt-color);
 
-
-    &--dark {
-        background-color: colors(Theme-hover-Dark);
-        border: 1px solid colors(border-color-Dark);
-        color: #fff;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: -8px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 8px solid colors(Theme-hover-Dark);
-        }
-
+    &:after {
+        content: '';
+        position: absolute;
+        top: -7px;
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid var(--apimessage-hover);
     }
-
-    &--light {
-        background-color: colors(Theme-hover-Light);
-        border: 1px solid colors(border-color-Light);
-        color: #000;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: -8px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 8px solid #e7e7e7f2;
-        }
-    }
-
 
     span {
         font-family: Roboto-Medium;

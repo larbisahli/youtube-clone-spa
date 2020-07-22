@@ -1,6 +1,3 @@
-@import '../../../../scss/config';
-
-
 .hvcontainer {
 
     margin-left: calc(16px / 2);
@@ -44,17 +41,12 @@
             position: relative;
             width: 100%;
             height: auto;
+            background-color: var(--Skeleton-color);
 
-            &--dark {
-                background-color: colors(Skeleton_Dark_color);
-            }
-
-            &--light {
-                background-color: colors(Skeleton_Light_color);
-            }
 
             // Aspect Ratio Box 16:9:
-            // youtube uses the international standard format of digital television HDTV Full HD and SD TV.
+            // youtube uses the international standard format 
+            // of digital television HDTV Full HD and SD TV.
             &::before {
                 display: block;
                 content: "";
@@ -180,8 +172,6 @@
             }
         }
 
-        // ---
-
         .body_container {
 
             display: flex;
@@ -201,21 +191,9 @@
                 position: absolute;
                 right: 0;
 
-                &--dark {
+                &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
+                    fill: var(--svg-dots-bgc);
 
-                    // Dark Theme
-                    &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                        fill: #fff;
-
-                    }
-                }
-
-                &--light {
-
-                    // Light Theme
-                    &:hover>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
-                        fill: #2c2c2c;
-                    }
                 }
             }
 
@@ -231,17 +209,8 @@
                     text-decoration: none;
                     font-family: Roboto-Medium;
                     font-size: .9em; // 2%
+                    color: var(--VidTitle-Color);
 
-
-                    &--dark {
-                        // Dark Theme
-                        color: colors(VidTitle_Dark_Color);
-                    }
-
-                    &--light {
-                        // Light Theme
-                        color: colors(VidTitle_Light_Color);
-                    }
 
                     &__title {
                         margin: 12px 0 4px 0;
@@ -270,34 +239,16 @@
                         content: attr(data-content);
                     }
 
-                    &--dark {
-                        // Dark Theme
-                        color: colors(ChTitle_Dark_Color);
+                    color: var(--ChTitle-Color);
 
-                        &:hover {
-                            color: #fff;
-                        }
-
-                        &::before {
-                            color: #e0e0e0;
-                            background-color: colors(Theme-hover-Dark);
-
-                        }
+                    &:hover {
+                        color: var(--logo-txt-color);
                     }
 
-                    &--light {
-                        // Light Theme
-                        color: colors(ChTitle_Light_Color);
-
-                        &:hover {
-                            color: #000;
-                        }
-
-                        &::before {
-                            background-color: colors(Theme-hover-Light);
-                            color: #000;
-                            border: 1px solid rgba(85, 85, 85, 0.247);
-                        }
+                    &::before {
+                        color: var(--logo-txt-color);
+                        background-color: var(--miniplayer-itemhover-bgc);
+                        border: 1px solid rgba(85, 85, 85, 0.247);
                     }
 
                     &:hover::before {
@@ -309,14 +260,7 @@
 
                     padding-top: 1px;
                     font-size: .9em;
-
-                    &--dark {
-                        color: colors(Duration_Dark_Color);
-                    }
-
-                    &--light {
-                        color: colors(Duration_Light_Color);
-                    }
+                    color: var(--Duration-Color);
 
                     .views {
 

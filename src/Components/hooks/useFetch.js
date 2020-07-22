@@ -5,16 +5,8 @@ import { SetMessageAction, ShowApiMessageAction } from "../../redux";
 
 export const useFetch = (id, path, part, id_param = "id") => {
   const [snippet, setSnippet] = useState([]);
-
-  // api key
   const ApiKey = useSelector((state) => state.ApiKey);
-
-  // dispatch
   const dispatch = useDispatch();
-
-  // =========================
-  //      FETCH SNIPPET
-  // =========================
 
   const GetData = async (id, path, part, id_param, ApiKey_) => {
     return await new Promise((resolve, reject) => {
@@ -67,11 +59,12 @@ export const useFetch = (id, path, part, id_param = "id") => {
           }
 
           if ((errorMessage.status !== 200) & (errorMessage.status !== 0)) {
-            if (errorMessage.status === 403) {
-              message = `Error code: 403. Try to insert your api key.`;
-            } else {
-              message = `Error: ${errMessage} with status code ${errorMessage.status}`;
-            }
+            // if (errorMessage.status === 403) {
+            //   message = `Error code: 403. Try to insert your api key.`;
+            // } else {
+            //   message = `Error: ${errMessage}`;
+            // }
+            message = `Error: ${errMessage}`;
 
             dispatch(
               SetMessageAction({

@@ -1,10 +1,9 @@
-@import "../../scss/config";
-
 .container {
   display: flex;
   flex-flow: row nowrap;
   justify-content: stretch;
   padding-top: 24px;
+
 
   @media screen and (min-width: 1440px) {
     margin-left: 35px !important;
@@ -22,15 +21,21 @@
     }
   }
 
-  // =============== primary ===============
-
   .primary {
     display: flex;
     flex-direction: column;
-    margin: 0 24px;
+    margin: 0 24px !important;
     flex: 2;
 
+    @media screen and (max-width: 805px) {
+      max-width: 90vw;
+      margin: 0 4vw !important;
+    }
+
+
     .player_container {
+
+
       @media screen and (max-width: 1016px) {
         padding: 0 45px;
       }
@@ -72,36 +77,23 @@
       }
     }
 
-    // ------------
-
     .info {
+
       .info_contents {
+
         display: block;
         padding: 20px 0 8px 0;
-
-        &--dark {
-          // Dark Theme
-          border-bottom: 1px solid colors(border-color-Dark);
-        }
-
-        &--light {
-          // Light Theme
-          border-bottom: 1px solid colors(border-color-Light);
-        }
+        border-bottom: 1px solid var(--border-color);
 
         .main_title {
           max-width: 800px;
           font-size: 1.12rem;
+          color: var(--VidTitle-Color);
 
-          &--dark {
-            // Dark Theme
-            color: colors(VidTitle_Dark_Color);
-          }
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
-          &--light {
-            // Light Theme
-            color: colors(VidTitle_Light_Color);
-          }
         }
 
         .stat_info {
@@ -110,19 +102,10 @@
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          color: var(--ChTitle-Color);
 
           @media screen and (max-width: 700px) {
             flex-direction: column;
-          }
-
-          &--dark {
-            // Dark Theme
-            color: colors(ChTitle_Dark_Color);
-          }
-
-          &--light {
-            // Dark Theme
-            color: colors(ChTitle_Light_Color);
           }
 
           .info_text {
@@ -159,6 +142,7 @@
                 position: relative;
 
                 .progress {
+
                   position: absolute;
                   bottom: -8px;
                   left: 8px;
@@ -166,16 +150,7 @@
                   width: 100%;
                   z-index: 2;
                   height: 2.5px;
-
-                  &--dark {
-                    // Dark Theme
-                    background-color: #646464;
-                  }
-
-                  &--light {
-                    // Light Theme
-                    background-color: #ccc;
-                  }
+                  background-color: var(--ld-progress-bgc);
 
                   &__bar {
                     position: absolute;
@@ -198,20 +173,8 @@
                   cursor: pointer;
                   border-radius: 50%;
 
-                  &--dark {
-
-                    // Dark Theme
-                    &:active {
-                      background-color: #57575727;
-                    }
-                  }
-
-                  &--light {
-
-                    // Light Theme
-                    &:active {
-                      background-color: #c9c9c92d;
-                    }
+                  &:active {
+                    background-color: var(--watch-icons-active-bgc);
                   }
 
                   &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
@@ -235,23 +198,15 @@
       }
     }
 
-    // ------------
 
     .meta {
+
       .vid_info {
         display: block;
         margin-bottom: 24px;
         padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
 
-        &--dark {
-          // Dark Theme
-          border-bottom: 1px solid colors(border-color-Dark);
-        }
-
-        &--light {
-          // Light Theme
-          border-bottom: 1px solid colors(border-color-Light);
-        }
 
         &__container {
           .top_row {
@@ -278,30 +233,12 @@
                   font-family: Roboto-Medium;
                   font-size: 0.95rem;
                   padding-bottom: 2px;
-
-                  &--dark {
-                    // Dark Theme
-                    color: colors(VidTitle_Dark_Color);
-                  }
-
-                  &--light {
-                    // Light Theme
-                    color: colors(VidTitle_Light_Color);
-                  }
+                  color: var(--VidTitle-Color);
                 }
 
                 &__sub {
                   font-size: 0.79rem;
-
-                  &--dark {
-                    // Dark Theme
-                    color: colors(ChTitle_Dark_Color);
-                  }
-
-                  &--light {
-                    // Light Theme
-                    color: colors(ChTitle_Light_Color);
-                  }
+                  color: var(--ChTitle-Color);
                 }
               }
             }
@@ -332,18 +269,8 @@
                     letter-spacing: 0.007px;
                     text-transform: uppercase;
                     cursor: pointer;
-
-                    &--dark {
-                      // Dark Theme
-                      background-color: colors(subedBtn_bg_Dark);
-                      color: colors(Duration_Dark_Color) !important;
-                    }
-
-                    &--light {
-                      // Light Theme
-                      background-color: colors(subedBtn_bg_Light);
-                      color: colors(Duration_Light_Color) !important;
-                    }
+                    background-color: var(--subedBtn-bg);
+                    color: var(--Duration-Color) !important;
                   }
 
                   .subbell {
@@ -368,7 +295,7 @@
                   letter-spacing: 0.007px;
                   text-transform: uppercase;
                   cursor: pointer;
-                  background-color: colors(subBtn_bg);
+                  background-color: var(--subBtn-bg);
                   color: #fff;
                 }
               }
@@ -377,16 +304,7 @@
 
           .bottom_row {
             margin-left: 64px;
-
-            &--dark {
-              // Dark Theme
-              color: colors(VidTitle_Dark_Color);
-            }
-
-            &--light {
-              // Light Theme
-              color: colors(VidTitle_Light_Color);
-            }
+            color: var(--VidTitle-Color);
 
             .description {
               display: block;
@@ -395,7 +313,14 @@
 
               .text_area {
                 font-size: 0.85rem;
-                padding-bottom: 20px;
+
+                .line_clamp {
+                  overflow: hidden;
+                  display: -webkit-box;
+                  -webkit-box-orient: vertical;
+                  -webkit-line-clamp: 5;
+                }
+
               }
 
               .show_more_btn {
@@ -404,16 +329,7 @@
                 margin-top: 8px;
                 text-transform: uppercase;
                 cursor: pointer;
-
-                &--dark {
-                  // Dark Theme
-                  color: colors(ChTitle_Dark_Color);
-                }
-
-                &--light {
-                  // Light Theme
-                  color: colors(ChTitle_Light_Color);
-                }
+                color: var(--ChTitle-Color);
               }
             }
           }
@@ -421,8 +337,8 @@
       }
     }
 
-    // ------------
     .comments {
+
       &__header {
         margin-bottom: 32px;
 
@@ -439,16 +355,7 @@
 
             .com_count {
               margin: 0 32px 0 0;
-
-              &--dark {
-                // Dark Theme
-                color: colors(VidTitle_Dark_Color);
-              }
-
-              &--light {
-                // Light Theme
-                color: colors(VidTitle_Light_Color);
-              }
+              color: var(--VidTitle-Color);
             }
 
             .com_sort_menu {
@@ -461,16 +368,7 @@
                 text-transform: uppercase;
                 font-size: 0.9em;
                 cursor: pointer;
-
-                &--dark {
-                  // Dark Theme
-                  color: colors(ChTitle_Dark_Color);
-                }
-
-                &--light {
-                  // Light Theme
-                  color: colors(ChTitle_Light_Color);
-                }
+                color: var(--ChTitle-Color);
               }
             }
           }
@@ -487,37 +385,55 @@
             flex: none;
           }
 
+
+
           &__inputcon {
-            cursor: text;
-            padding-bottom: 4px;
+
             flex: 1;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            font-size: 0.9rem;
+            position: relative;
 
-            &--dark {
-              // Dark Theme
-              color: colors(VidTitle_Dark_Color);
-              border-bottom: 1px solid colors(border-color-Dark);
 
-              &::placeholder {
-                color: colors(ChTitle_Dark_Color);
-              }
+            &::after {
+              background: none repeat scroll 0 0 transparent;
+              bottom: 0;
+              content: "";
+              display: block;
+              height: 1px;
+              left: 50%;
+              position: absolute;
+              background: var(--noti-dot-blue);
+              transition: width 0.25s ease 0s, left 0.25s ease 0s;
+              width: 0%;
+
             }
 
-            &--light {
-              // Light Theme
-              color: colors(VidTitle_Light_Color);
-              border-bottom: 1px solid colors(border-color-Light);
-
-              &::placeholder {
-                color: colors(ChTitle_Light_Color);
-              }
+            &:hover::after {
+              width: 100%;
+              left: 0;
             }
 
-            &:focus {
-              border-bottom: 1px solid #000;
+            .inputcom {
+
+              cursor: text;
+              padding-bottom: 4px;
+              width: 100%;
+              background-color: transparent;
+              border: none;
+              outline: none;
+              font-size: 0.9rem;
+              color: var(--VidTitle-Color);
+              box-sizing: border-box;
+              border-bottom: 2px solid var(--border-color);
+
+
+              &::placeholder {
+                color: var(--ChTitle-Color);
+              }
+
+              &:focus {
+                border-bottom: 2px solid var(--noti-dot-blue) !important;
+              }
+
             }
           }
         }
@@ -546,6 +462,7 @@
             display: flex;
             flex-direction: column;
 
+
             .comain_header {
               margin-bottom: 2px;
 
@@ -558,35 +475,17 @@
 
                 .author_title {
                   font-family: Roboto-Medium;
-                  //
                   max-width: 400px;
                   overflow: hidden;
                   margin-right: 4px;
                   margin-bottom: 2px;
-
-                  &--dark {
-                    // Dark Theme
-                    color: colors(VidTitle_Dark_Color);
-                  }
-
-                  &--light {
-                    // Light Theme
-                    color: colors(VidTitle_Light_Color);
-                  }
+                  color: var(--VidTitle-Color);
                 }
 
                 .published_time_text {
                   font-size: 0.98em;
+                  color: var(--ChTitle-Color);
 
-                  &--dark {
-                    // Dark Theme
-                    color: colors(ChTitle_Dark_Color);
-                  }
-
-                  &--light {
-                    // Light Theme
-                    color: colors(ChTitle_Light_Color);
-                  }
                 }
               }
             }
@@ -596,37 +495,16 @@
                 overflow: hidden;
                 // 4.8rem is 4*1.2 which is 4 lines height line-height: 1.2rem;
                 max-height: 4.8rem;
-
-                &--dark {
-                  // Dark Theme
-                  color: colors(VidTitle_Dark_Color);
-                }
-
-                &--light {
-                  // Light Theme
-                  color: colors(VidTitle_Light_Color);
-                }
+                color: var(--VidTitle-Color);
 
                 .spantxt {
                   font-size: 0.88rem;
                   line-height: 1.2rem;
 
-                  &--dark {
-                    // Dark Theme
-                    color: colors(VidTitle_Dark_Color);
+                  color: var(--VidTitle-Color);
 
-                    a {
-                      color: #3ea6ff;
-                    }
-                  }
-
-                  &--light {
-                    // Light Theme
-                    color: colors(VidTitle_Light_Color);
-
-                    a {
-                      color: #065fd4;
-                    }
+                  a {
+                    color: var(--noti-dot-blue);
                   }
                 }
               }
@@ -643,20 +521,11 @@
                     text-transform: uppercase;
                     margin-right: 8px;
                     font-size: 0.8rem;
+                    color: var(--ChTitle-Color);
 
                     &> :global(.ytb_svg_y)> :global(.ytb_svg_y__wrapper) {
                       width: 16px;
                       height: 16px;
-                    }
-
-                    &--dark {
-                      // Dark Theme
-                      color: colors(ChTitle_Dark_Color);
-                    }
-
-                    &--light {
-                      // Light Theme
-                      color: colors(ChTitle_Light_Color);
                     }
                   }
                 }
@@ -669,24 +538,14 @@
               fill: transparent;
             }
 
-            &--dark {
-              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
-                fill: #fff;
-              }
-            }
-
-            &--light {
-              &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
-                fill: #000;
-              }
+            &:hover> :global(.ytb_svg)> :global(.ytb_svg__wrapper)>g>path {
+              fill: var(--logo-txt-color);
             }
           }
         }
       }
     }
   }
-
-  // =============== secondary ===============
 
   .secondary {
     flex: 1;
@@ -710,19 +569,10 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
+        color: var(--VidTitle-Color);
 
         @media screen and (max-width: 1016px) {
           padding-right: 10px;
-        }
-
-        &--dark {
-          // Dark Theme
-          color: colors(VidTitle_Dark_Color);
-        }
-
-        &--light {
-          // Light Theme
-          color: colors(VidTitle_Light_Color);
         }
 
         .upne_text {
@@ -736,35 +586,16 @@
             font-family: Roboto-Medium;
             font-size: 0.8rem;
             margin-right: 8px;
-
-            &--dark {
-              // Dark Theme
-              color: colors(ChTitle_Dark_Color);
-            }
-
-            &--light {
-              // Light Theme
-              color: colors(ChTitle_Light_Color);
-            }
+            color: var(--ChTitle-Color);
           }
         }
 
-        // ===== Toggle ====
 
         .switch {
           width: 35px;
           height: 15px;
           border-radius: 50px;
-
-          &--dark {
-            // Dark Theme
-            background: #444;
-          }
-
-          &--light {
-            // Light Theme
-            background: #e2e2e2;
-          }
+          background: var(--switch-btn-bgc);
 
           &__toggle {
             position: absolute;
@@ -829,18 +660,7 @@
         height: 1px;
         margin-top: 8px;
         margin-bottom: 16px;
-
-        &--dark {
-          // Dark Theme
-
-          background-color: colors(border-color-Dark);
-        }
-
-        &--light {
-          // Dark Theme
-
-          background-color: colors(border-color-Light);
-        }
+        background-color: var(--border-color);
       }
     }
   }

@@ -4,7 +4,7 @@
 
 Frontend Developer Challenge: YouTube Clone SPA
 
-Working Prototype: https://youtube-klonos.netlify.app
+Working Prototype: https://youtube-spa.netlify.app
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/113616f3-5a6f-4960-884d-0aecae96b50c/deploy-status)](https://app.netlify.com/sites/youtube-klonos/deploys)
 
@@ -42,6 +42,7 @@ Working Prototype: https://youtube-klonos.netlify.app
 6. module with SCSS.
 7. Handling YouTuve v3 API requests with React axios and Redux thunk.
 8. Using BEM (Block, Element, Modifier methodology) naming convention for classes in HTML5 and SCSS.
+9. Using jest for unit testing.
 
 ## Screenshots:
 

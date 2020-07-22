@@ -1,5 +1,3 @@
-@import '../../scss/config';
-
 .container {
 
     max-width: 862px;
@@ -44,16 +42,8 @@
                     font-size: .93rem;
                     font-family: Roboto-Medium;
                     text-transform: uppercase;
+                    color: var(--results-btntxt-color);
 
-                    &--dark {
-                        // Dark Theme
-                        color: #c0c0c0;
-                    }
-
-                    &--light {
-                        // Dark Theme
-                        color: #606060;
-                    }
                 }
             }
         }
@@ -63,9 +53,6 @@
             flex-direction: column;
             margin-bottom: 30px;
         }
-
-
-        // ================ FILTER ================
 
         .filter {
             position: relative;
@@ -95,16 +82,7 @@
                 padding: 15px 0 5px 0;
                 font-size: 1.25em;
                 text-transform: uppercase;
-
-                &--dark {
-                    // Dark Theme
-                    color: colors(VidTitle_Dark_Color);
-                }
-
-                &--light {
-                    // Light Theme
-                    color: colors(VidTitle_Light_Color);
-                }
+                color: var(--VidTitle-Color);
             }
 
             &__text_area {
@@ -115,17 +93,7 @@
                 margin: 5px 0;
                 display: flex;
                 align-items: center;
-
-
-                &--dark {
-                    // Dark Theme
-                    color: #b9b8b8;
-                }
-
-                &--light {
-                    // Light Theme
-                    color: #818181;
-                }
+                color: var(--results-txt-color);
             }
 
             &__icon {
@@ -140,17 +108,8 @@
 
             .active {
 
-                &--dark {
-                    // Dark Theme
-                    font-family: Roboto-Medium;
-                    color: #fff !important;
-                }
-
-                &--light {
-                    // Light Theme
-                    font-family: Roboto-Medium;
-                    color: #000 !important;
-                }
+                font-family: Roboto-Medium;
+                color: var(--logo-txt-color) !important;
             }
         }
     }

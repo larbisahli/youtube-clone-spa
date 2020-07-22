@@ -14,32 +14,12 @@
     height: auto;
     width: 300px;
     max-height: 95vh;
-
-
-    &--dark {
-        // Dark Theme
-        color: #fff;
-        border-bottom: 1px solid colors(border-color-Dark);
-        border-left: 1px solid colors(border-color-Dark);
-        border-right: 1px solid colors(border-color-Dark);
-        background-color: colors(Nav-background-Dark);
-        @extend %scroll-Dark;
-
-    }
-
-
-    &--light {
-        // Light Theme
-        color: #212121;
-        border-bottom: 1px solid colors(border-color-Light);
-        border-left: 1px solid colors(border-color-Light);
-        border-right: 1px solid colors(border-color-Light);
-        background-color: colors(Nav-background-Light);
-        @extend %scroll-Light;
-
-    }
-
-    // ---
+    color: var(--VidTitle-Color);
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    background-color: var(--Nav-bgc);
+    @extend %scroll;
 
     .header {
 
@@ -79,19 +59,11 @@
                 font-size: 1.1em;
                 cursor: pointer;
                 font-family: Roboto-Regular;
+                color: var(--noti-dot-blue);
 
-                &--dark {
-                    color: #3ea6ff;
-                }
-
-                &--light {
-                    color: #065fd4;
-                }
             }
         }
     }
-
-    // ---
 
     .body {
 
@@ -110,20 +82,10 @@
             align-items: center;
             cursor: pointer;
 
-            &--dark {
-                &:hover {
-                    // Dark Theme
-                    background-color: colors(Theme-hover-Dark);
-                }
-            }
+            &:hover {
 
-            &--light {
-                &:hover {
-                    // Light Theme
-                    background-color: colors(Theme-hover-Light)
-                }
+                background-color: colors(--bgc-hover);
             }
-
 
             &__logo {
                 margin: 8px 10px 8px 15px;
@@ -160,18 +122,9 @@
                 padding: 10px 15px;
                 cursor: pointer;
 
-                &--dark {
-                    &:hover {
-                        // Dark Theme
-                        background-color: colors(Theme-hover-Dark);
-                    }
-                }
+                &:hover {
 
-                &--light {
-                    &:hover {
-                        // Light Theme
-                        background-color: colors(Theme-hover-Light)
-                    }
+                    background-color: colors(--bgc-hover);
                 }
 
                 &--res {

@@ -1,6 +1,3 @@
-@import '../../scss/config';
-
-
 .container {
 
     @media screen and (max-width: 810px) {
@@ -9,8 +6,6 @@
 
     .content {
         margin: 0 24px 0 24px;
-
-
 
         @media screen and (max-width: 890px) {
             margin: 0 40px;
@@ -44,14 +39,7 @@
 
                 font-size: 2em;
                 font-family: Roboto-Medium;
-
-                &--dark {
-                    color: #fff;
-                }
-
-                &--light {
-                    color: #212121;
-                }
+                color: var(--VidTitle-Color);
             }
         }
     }

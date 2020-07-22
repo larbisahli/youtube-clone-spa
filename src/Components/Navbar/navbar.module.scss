@@ -1,7 +1,3 @@
-@import "../../scss/config";
-
-
-
 .container {
 
   position: fixed;
@@ -14,20 +10,7 @@
   height: 56px;
   padding: 0 16px;
   z-index: 10;
-
-  &--dark {
-    // Dark Theme
-    background: colors(Nav-background-Dark);
-  }
-
-  &--light {
-    // Light Theme
-    background: colors(Nav-background-Light);
-  }
-
-  // ==========================
-  //       LeftContainer
-  // ==========================
+  background: var(--Nav-bgc);
 
   .left_container {
     display: flex;
@@ -35,14 +18,9 @@
     width: 200px;
   }
 
-  // ---
-
   .menu_wrap {
-    // replaced by .btnpad that has padding: 8px;
     padding: 0px;
   }
-
-  // ---
 
   .logo_container {
 
@@ -74,16 +52,7 @@
       margin-bottom: 1px;
       letter-spacing: -0.5px;
       padding: 3px;
-
-      &--dark {
-        // Dark Theme
-        color: #fff;
-      }
-
-      &--light {
-        // Light Theme
-        color: #000;
-      }
+      color: var(--logo-txt-color);
     }
 
     .logo_pointer {
@@ -95,20 +64,9 @@
       font-family: Roboto-Medium;
       text-transform: uppercase;
       height: 100%;
-
-      &--dark {
-        color: #b6b6b6;
-      }
-
-      &--light {
-        color: #606060ee;
-      }
+      color: var(--logo-pointer-txt-color);
     }
   }
-
-  // ==========================
-  //      searchContainer
-  // ==========================
 
   .search_container {
 
@@ -131,30 +89,16 @@
 
         .input_wrapper {
           display: flex;
-
           align-items: center;
           flex-direction: column;
           position: relative;
           border-radius: 2px 0 0 2px;
           padding: 2px 6px;
           flex: 1;
-
-          &--dark {
-            // Dark Theme
-            background-color: #121212;
-            border: 1px solid colors(border-color-Dark);
-
-            border-right: none;
-            color: #fff;
-          }
-
-          &--light {
-            // Light Theme
-            background-color: transparent;
-            border: 1px solid #ccc;
-            border-right: none;
-            color: #000;
-          }
+          background-color: var(--input-bgc);
+          border: 1px solid var(--input-border-color);
+          border-right: none;
+          color: var(--logo-txt-color);
 
           .search_input {
             background-color: transparent;
@@ -188,31 +132,14 @@
           border-radius: 0 2px 2px 0;
           margin: 0;
           height: inherit;
-
-          &--dark {
-            // Dark Theme
-            border: 1px solid colors(border-color-Dark);
-            background-color: #ffffff14;
-          }
-
-          &--light {
-            // Light Theme
-            border: 1px solid #ccc;
-            background-color: #f8f8f8;
-          }
+          border: 1px solid var(--input-border-color);
+          background-color: var(--input-btn-bgc);
 
           // fill is a class name in Search_icon.js
           // using :global to not change the class name fill leave it as it is.
           &:hover :global(.fill) {
-            &--dark {
-              // Dark Threme
-              fill: #ffffffcc;
-            }
 
-            &--light {
-              // Light Theme
-              fill: #000;
-            }
+            fill: var(--input-btn-logo);
           }
         }
       }
@@ -227,10 +154,6 @@
     margin-right: 8px;
   }
 
-  // =================
-  //  RightContainer
-  // =================
-
   .right_container {
 
     display: flex;
@@ -238,8 +161,6 @@
     align-items: center;
     width: 200px;
   }
-
-  // ---
 
   .icons_container {
 
@@ -250,8 +171,6 @@
     height: 40px;
     margin-right: 8px;
   }
-
-  // ---
 
   .noti_count {
     position: absolute;
@@ -266,19 +185,9 @@
     font-size: 0.7rem;
     text-align: center;
     cursor: pointer;
-
-    &--dark {
-      background-color: #c00;
-      box-shadow: 0px 0px 0px 1px colors(Nav-background-Dark);
-    }
-
-    &--light {
-      background-color: #e93838;
-      box-shadow: 0px 0px 0px 1px colors(Nav-background-Light);
-    }
+    background-color: var(--noti-pop-bgc);
+    box-shadow: 0px 0px 0px 1px var(--Nav-bgc);
   }
-
-  // ---
 
   .btnpad {
     padding: 8px;
@@ -295,7 +204,7 @@
       height: 40px;
 
       &:active .pronail {
-        border: 2px solid #3ea6ff;
+        border: 2px solid var(--noti-dot-blue);
       }
 
       .pronail {
