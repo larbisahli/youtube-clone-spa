@@ -24,8 +24,6 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
       if (param !== 0) {
         if (value === param) {
           return true;
-        } else if (value === "playlist") {
-          return true;
         }
       } else {
         return false;
@@ -38,7 +36,6 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
   // Get the index of the current playing video
   // ===========================================
 
-  //////////////////
   const GetVidIndex = (VidList) => {
     let index;
     const videoId = HandleQueryParams("v");
@@ -60,7 +57,6 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
 
   // ----------
 
-  ///////////////////////
   const ReturnTitle = () => {
     if (ListParam("wl")) {
       return ["Watch later", GetVidIndex(WatchLater)];
@@ -76,6 +72,8 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
   // Make an API call to fetch playlist
   const playListId = HandleQueryParams("list");
 
+  console.log("playListId :>> ", playListId, ApiKey.key);
+
   useEffect(() => {
     if (
       playListId !== "wl" &&
@@ -83,8 +81,11 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
       playListId !== "q" &&
       playListId !== 0
     ) {
-      dispatch(fetchPlayList(playListId, ApiKey));
+      if (PlayList_.itemCount === 0) {
+        dispatch(fetchPlayList(playListId, ApiKey));
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, playListId, ApiKey]);
 
   // -------

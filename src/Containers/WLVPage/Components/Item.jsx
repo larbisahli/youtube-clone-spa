@@ -71,8 +71,6 @@ const Item = ({
   // false means don't make an api call
   const VideoDetails = useFetch(VidId, "videos", "contentDetails,statistics");
 
-  console.log("VideoDetails :>> ", VideoDetails);
-
   const FetchStat = (id, index) => {
     if (Object.keys(VideoDetails).length !== 0) {
       const durationIdElement = document.getElementById(

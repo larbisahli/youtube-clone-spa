@@ -152,6 +152,7 @@ const WLVReducer = (state = initialState, action) => {
         ...state,
         PlayList: {
           loading: true,
+          itemCount: 0,
           items: [],
           error: action.payload,
         },

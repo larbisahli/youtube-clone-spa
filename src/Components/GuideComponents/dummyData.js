@@ -60,8 +60,8 @@ export const FrontSubscriptions = [
   },
   {
     img:
-      "https://yt3.ggpht.com/a/AATXAJxXqpUjcBXNAvNkvJrIDSgwpL04Tiui60_Y=s88-c-k-c0xffffffff-no-rj-mo",
-    name: "Corey Schafer",
+      "https://yt3.ggpht.com/-5HgJlNkZxwc/AAAAAAAAAAI/AAAAAAAAAAA/Tw9oUAH_vic/s240-c-k-no-mo-rj-c0xffffff/photo.jpg",
+    name: "Clever Programmer",
     isLive: false,
     notiExist: false,
     channelLink: "",
