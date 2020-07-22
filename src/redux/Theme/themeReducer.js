@@ -11,13 +11,9 @@ const initialState = { isDarkTheme: prevTheme ? prevTheme : prevTheme === null ?
 const generalBackgroundDark = "#1f1f1f";
 const generalBackgroundLight = "#f9f9f9";
 
-if (prevTheme) {
-  document.body.style.backgroundColor = initialState.isDarkTheme
-    ? generalBackgroundDark
-    : generalBackgroundLight;
-} else {
-  document.body.style.backgroundColor = generalBackgroundLight;
-}
+document.body.style.backgroundColor = initialState.isDarkTheme
+  ? generalBackgroundDark
+  : generalBackgroundLight;
 
 const Root = document.getElementById("root");
 

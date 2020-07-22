@@ -1,22 +1,9 @@
-//@import '../scss/config';
-
 .root_container {
     margin: 0;
     padding: 0;
     border: 0;
     background: transparent;
-
     background-color: var(--general-bgc);
-
-    // &--dark {
-    //     // Dark Theme
-    //     background-color: colors(general-background-Dark) !important;
-    // }
-
-    // &--light {
-    //     // Light Theme
-    //     background-color: colors(general-background-Light) !important;
-    // }
 
     .page_container {
         margin-top: 56px;
