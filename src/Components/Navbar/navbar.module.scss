@@ -139,7 +139,7 @@
           // using :global to not change the class name fill leave it as it is.
           &:hover :global(.fill) {
 
-            fill: var(--input-btn-logo);
+            fill: var(--search-logo-hover-bgc);
           }
         }
       }

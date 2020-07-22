@@ -8,7 +8,7 @@ import {
   UpArrowSvg,
 } from "../../../Components/GuideComponents/Svg";
 
-const PlayList = memo(({ HandleQueryParams, Theme }) => {
+const PlayList = memo(({ HandleQueryParams }) => {
   const WatchLater = useSelector((state) => state.WLV.WL);
   const LikedVideos = useSelector((state) => state.WLV.LV);
   const QueueList = useSelector((state) => state.QueueList);
@@ -71,8 +71,6 @@ const PlayList = memo(({ HandleQueryParams, Theme }) => {
 
   // Make an API call to fetch playlist
   const playListId = HandleQueryParams("list");
-
-  console.log("playListId :>> ", playListId, ApiKey.key);
 
   useEffect(() => {
     if (
