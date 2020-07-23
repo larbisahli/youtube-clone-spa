@@ -86,7 +86,8 @@ export const PageLocation = (home = false) => {
   }
 };
 
-export const moveDown = (array, index) => {
+export const moveDown = (array, index_) => {
+  let index = Number(index_)
   if (array.length === index + 1) {
     let p1 = array.slice(0, index);
     let p2 = array.slice(index);
@@ -100,8 +101,8 @@ export const moveDown = (array, index) => {
   }
 };
 
-export const moveUp = (array, index) => {
-  //
+export const moveUp = (array, index_) => {
+  let index = Number(index_)
   if (index === 0) return array;
 
   let p1 = array.slice(0, index - 1);

@@ -1,4 +1,4 @@
-import { ViewsNumFormatter, HandleDuration, numberWithCommas } from "./index";
+import { ViewsNumFormatter, HandleDuration, numberWithCommas, moveDown, moveUp, replace } from "./index";
 
 describe("Number Formatter with K/M/B/LIKE/DISLIKE", () => {
 
@@ -37,4 +37,36 @@ describe("number With Commas", () => {
     expect(numberWithCommas(value)).toEqual(expect.any(String))
   });
 });
+
+const TestArray = ["1", "2", "3", "4", "5", "6", "7"]
+
+describe("move items in array", () => {
+
+  test.each([
+    ['1', ["1", "3", "2", "4", "5", "6", "7"]],
+    ['2', ["1", "2", "4", "3", "5", "6", "7"]]
+  ])(`pass moveDown %s`, (index, expected) => {
+    expect(moveDown(TestArray, index)).toEqual(expected);
+    expect(moveDown(TestArray, index)).toEqual(expect.any(Array))
+  });
+
+  test.each([
+    ['1', ["2", "1", "3", "4", "5", "6", "7"]],
+    ['2', ["1", "3", "2", "4", "5", "6", "7"]]
+  ])(`pass moveUp %s `, (index, expected) => {
+
+    expect(moveUp(TestArray, index)).toEqual(expected);
+    expect(moveUp(TestArray, index)).toEqual(expect.any(Array))
+  });
+
+  const arrayvid = [{ videoId: "1" }, { videoId: "2" }, { videoId: "3" }, { videoId: "4" }, { videoId: "5" }, { videoId: "6" }, { videoId: "7" }]
+
+  test.each([
+    ['3', "2", [{ videoId: "1" }, { videoId: "3" }, { videoId: "2" }, { videoId: "4" }, { videoId: "5" }, { videoId: "6" }, { videoId: "7" }]],
+    ['2', "5", [{ videoId: "1" }, { videoId: "5" }, { videoId: "2" }, { videoId: "3" }, { videoId: "4" }, { videoId: "6" }, { videoId: "7" }]]]
+  )(`pass replace %s to %s `, (index, rep, expected) => {
+    expect(replace(arrayvid, index, rep)).toEqual(expected);
+    expect(replace(arrayvid, index, rep)).toEqual(expect.any(Array))
+  });
+})
 
