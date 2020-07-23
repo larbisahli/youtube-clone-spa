@@ -115,3 +115,18 @@ export const moveUp = (array, index) => {
   let p3 = array.slice(index + 1, array.length);
   return p1.concat(p2, p3);
 };
+
+
+export const replace = (array, current_draggable_item_id, replacer) => {
+  const index = array.map((e) => { return e.videoId; }).indexOf(current_draggable_item_id)
+
+  const obj = array.filter((value) => {
+    return value.videoId === replacer
+  })[0]
+
+  let arr = array.filter((value) => {
+    return value.videoId !== replacer
+  })
+
+  return [...arr.slice(0, index), obj, ...arr.slice(index)]
+}

@@ -1,4 +1,4 @@
-import { moveUp, moveDown } from "../../utils";
+import { moveUp, moveDown, replace } from "../../utils";
 import {
   WL_ADD_ITEM,
   LV_ADD_ITEM,
@@ -7,6 +7,9 @@ import {
   WL_REMOVE_ALL,
   LV_REMOVE_ALL,
   WL_MOVEUP,
+  WL_REPLACE,
+  LV_REPLACE,
+  PL_REPLACE,
   LV_MOVEUP,
   WL_MOVEDOWN,
   LV_MOVEDOWN,
@@ -21,6 +24,38 @@ const initialState = {
       title: "React Native Tutorial for Beginners - Crash Course 2020",
       duration: "PT5H45M44S",
       videoId: "qSRrxpdMpVc",
+      channelTitle: "Academind",
+      channelId: "UCSJbGtTlrDami-tDGPUV9-w",
+      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
+    },
+    {
+      title: "2",
+      duration: "PT5H45M44S",
+      videoId: "2",
+      channelTitle: "Academind",
+      channelId: "UCSJbGtTlrDami-tDGPUV9-w",
+      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
+    },
+    {
+      title: "3",
+      duration: "PT5H45M44S",
+      videoId: "3",
+      channelTitle: "Academind",
+      channelId: "UCSJbGtTlrDami-tDGPUV9-w",
+      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
+    },
+    {
+      title: "4",
+      duration: "PT5H45M44S",
+      videoId: "4",
+      channelTitle: "Academind",
+      channelId: "UCSJbGtTlrDami-tDGPUV9-w",
+      thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
+    },
+    {
+      title: "5",
+      duration: "PT5H45M44S",
+      videoId: "5",
       channelTitle: "Academind",
       channelId: "UCSJbGtTlrDami-tDGPUV9-w",
       thumbnail: "https://i.ytimg.com/vi/qSRrxpdMpVc/mqdefault.jpg",
@@ -156,6 +191,21 @@ const WLVReducer = (state = initialState, action) => {
           items: [],
           error: action.payload,
         },
+      };
+    case WL_REPLACE:
+      return {
+        ...state,
+        WL: [...replace(state.WL, action.payload.item_id, action.payload.replace_id)],
+      };
+    case LV_REPLACE:
+      return {
+        ...state,
+        LV: [...replace(state.LV, action.payload.item_id, action.payload.replace_id)],
+      };
+    case PL_REPLACE:
+      return {
+        ...state,
+        PlayList: { ...state.PlayList, items: [...replace(state.PlayList.items, action.payload.item_id, action.payload.replace_id)] },
       };
     default:
       return state;

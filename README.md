@@ -31,6 +31,7 @@ Working Prototype: https://youtube-spa.netlify.app
    - Autosuggestion Dropdown
    - Ability to remove suggestions
    - Fake Notifications
+8. You are able to drag and drop a video item in a list using your mouse.
 
 ### Tech / Stack:
 

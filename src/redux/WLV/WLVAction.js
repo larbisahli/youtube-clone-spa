@@ -12,6 +12,9 @@ import {
   FETCH_PLAYLIST_REQUEST,
   FETCH_PLAYLIST_SUCCESS,
   FETCH_PLAYLIST_FAILURE,
+  WL_REPLACE,
+  LV_REPLACE,
+  PL_REPLACE
 } from "../actionTypes";
 import axios from "axios";
 import { YouTubeAPI } from "../../Components/api/YoutubeApi";
@@ -28,6 +31,27 @@ export const Lv_AddAction = (obj) => {
     payload: obj,
   };
 };
+
+export const Wl_Replace = (item_id, replace_id) => {
+  return {
+    type: WL_REPLACE,
+    payload: { item_id, replace_id }
+  }
+}
+
+export const Lv_Replace = (item_id, replace_id) => {
+  return {
+    type: LV_REPLACE,
+    payload: { item_id, replace_id }
+  }
+}
+
+export const Pl_Replace = (item_id, replace_id) => {
+  return {
+    type: PL_REPLACE,
+    payload: { item_id, replace_id }
+  }
+}
 
 export const Wl_RemoveOneAtion = (videoId) => {
   return {

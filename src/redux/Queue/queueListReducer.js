@@ -5,7 +5,10 @@ import {
   PLAY,
   PLAY_NEXT,
   PLAY_PREV,
+  QUEUE_REPLACE_LIST
 } from "../actionTypes";
+import { replace } from "../../utils";
+
 
 const initialState = [];
 
@@ -81,6 +84,8 @@ const queueListReducer = (state = initialState, action) => {
       } else {
         return state;
       }
+    case QUEUE_REPLACE_LIST:
+      return [...replace(state, action.payload.item_id, action.payload.replace_id)]
     default:
       return state;
   }

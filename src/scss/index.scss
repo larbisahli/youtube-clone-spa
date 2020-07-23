@@ -58,6 +58,7 @@
     --wlv-item-hover-bgc: #dbdbdb;
     --svg-action-bgc-from: #ccc;
     --search-logo-hover-bgc: #000;
+    --wlv-drag-bgc: #83838385;
 
 }
 
@@ -117,6 +118,7 @@
     --wlv-item-hover-bgc: #202020;
     --svg-action-bgc-from: #484848;
     --search-logo-hover-bgc: #ffffffcc;
+    --wlv-drag-bgc: #afafaf2f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -194,4 +196,8 @@ button {
 
 pre {
     font-family: Roboto-Regular, Arial, sans-serif !important;
+}
+
+.dragging {
+    background-color: var(--wlv-drag-bgc) !important;
 }

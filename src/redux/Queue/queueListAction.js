@@ -5,6 +5,7 @@ import {
   PLAY,
   PLAY_NEXT,
   PLAY_PREV,
+  QUEUE_REPLACE_LIST
 } from "../actionTypes";
 
 export const ADDInQueueAction = (obj) => {
@@ -44,3 +45,12 @@ export const PlayPrevQueueAction = () => {
     type: PLAY_PREV,
   };
 };
+
+
+
+export const Queue_Replace = (item_id, replace_id) => {
+  return {
+    type: QUEUE_REPLACE_LIST,
+    payload: { item_id, replace_id }
+  }
+}

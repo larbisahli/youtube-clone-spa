@@ -98,12 +98,12 @@ const Queue = () => {
   // ===========================================
 
   const GetCurrentPlayingVidIndex = useCallback(() => {
-    const plv = QueueList.filter((plv) => {
-      return plv.videoId === HandlePlayingVideo();
-    });
+    const index = QueueList.map((e) => {
+      return e.videoId;
+    }).indexOf(HandlePlayingVideo());
 
-    if (plv.length !== 0) {
-      return plv[0].index;
+    if (index !== -1) {
+      return index;
     } else {
       return 0;
     }

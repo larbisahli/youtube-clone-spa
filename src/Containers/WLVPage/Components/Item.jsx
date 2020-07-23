@@ -4,8 +4,12 @@ import DropMenu from "./DropMenu";
 import { Link } from "react-router-dom";
 import { HandleDuration, TextReducer } from "../../../utils";
 import { DRSvg } from "../../Svg";
+import { Wl_Replace, Lv_Replace, Pl_Replace } from "../../../redux";
+import { useDispatch } from "react-redux";
 import { DotsSvg } from "../../../Components/Navbar/NavComponents/Svg";
 import { useFetch } from "../../../Components/hooks/useFetch";
+
+let Dcurrent = 0;
 
 const Item = ({
   index,
@@ -17,7 +21,7 @@ const Item = ({
 }) => {
   const [showMenudrop, setShowMenudrop] = useState(false);
   const [CurrentMenuIndex, setCurrentMenuIndex] = useState(0);
-
+  const dispatch = useDispatch();
   // ===================
   // Close menu dropdown
   // ===================
@@ -85,8 +89,40 @@ const Item = ({
     }
   };
 
+  //*********** Drag Area //************
+
+  useEffect(() => {
+    const draggable = document.querySelectorAll(`.${styles.container}`);
+    draggable.forEach((draggable) => {
+      draggable.addEventListener("dragstart", () => {
+        draggable.classList.add(styles.dragging);
+        Dcurrent = draggable.id;
+      });
+      draggable.addEventListener("dragend", () => {
+        draggable.classList.remove(styles.dragging);
+        Dcurrent = 0;
+      });
+    });
+  }, []);
+
+  const onDragOver = (event) => {
+    const CurrentTarget = event.currentTarget;
+    if (SearchValue === "WL") {
+      dispatch(Wl_Replace(Dcurrent, CurrentTarget.id));
+    } else if (SearchValue === "LV") {
+      dispatch(Lv_Replace(Dcurrent, CurrentTarget.id));
+    } else {
+      dispatch(Pl_Replace(Dcurrent, CurrentTarget.id));
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div
+      id={wl.videoId}
+      draggable="true"
+      onDragEnter={onDragOver}
+      className={styles.container}
+    >
       <div className={styles.drag_area}>
         <DRSvg />
       </div>
@@ -124,6 +160,7 @@ const Item = ({
           </div>
           <div
             // id={`${index}`}
+
             onMouseEnter={() => setCurrentMenuIndex(() => index)}
             onClick={HandleShowMenudrop}
             className={styles.dots}

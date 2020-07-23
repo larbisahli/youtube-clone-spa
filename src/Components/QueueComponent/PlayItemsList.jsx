@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import styles from "./scss/playitemslist.module.scss";
 import { useDispatch } from "react-redux";
 import { HandleDuration, TextReducer } from "../../utils";
@@ -6,9 +6,11 @@ import { useHistory } from "react-router-dom";
 import classNames from "classnames/bind";
 import { useFetch } from "../hooks/useFetch";
 import { DRSvg, TrashSvg } from "../../Containers/Svg";
-import { PlayQueueAction } from "../../redux";
+import { PlayQueueAction, Queue_Replace } from "../../redux";
 
 let cx = classNames.bind(styles);
+
+let QDcurrent = 0;
 
 export const PlayItemsList = memo(
   ({
@@ -66,8 +68,32 @@ export const PlayItemsList = memo(
       }
     };
 
+    //*********** Drag Area //************
+
+    useEffect(() => {
+      const draggable = document.querySelectorAll(`.${styles.block}`);
+      draggable.forEach((draggable) => {
+        draggable.addEventListener("dragstart", () => {
+          draggable.classList.add(styles.dragging);
+          QDcurrent = draggable.id;
+        });
+        draggable.addEventListener("dragend", () => {
+          draggable.classList.remove(styles.dragging);
+          QDcurrent = 0;
+        });
+      });
+    }, []);
+
+    const onDragOver = (event) => {
+      const CurrentTarget = event.currentTarget;
+      dispatch(Queue_Replace(QDcurrent, CurrentTarget.id));
+    };
+
     return (
       <div
+        id={plv.videoId}
+        draggable="true"
+        onDragEnter={onDragOver}
         onClick={() => Action()}
         className={cx("block", {
           isplaying: HandlePlayingVideo() === plv.videoId,
