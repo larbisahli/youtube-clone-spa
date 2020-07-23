@@ -39,6 +39,7 @@ const ResultsVideoContainer = ({ item, index, HandleShowMessageBox }) => {
   const [IswatchLater, setIsWatchLater] = useState(
     WatchLater.some((wl) => {
       if (wl) return wl.videoId === item.videoId;
+      return false;
     })
   );
 
@@ -48,6 +49,7 @@ const ResultsVideoContainer = ({ item, index, HandleShowMessageBox }) => {
   const [IsQueue, setIsQueue] = useState(
     QueueList.some((que) => {
       if (que) return que.videoId === item.videoId;
+      return false;
     })
   );
 
