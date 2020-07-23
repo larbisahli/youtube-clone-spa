@@ -37,14 +37,18 @@ const ResultsVideoContainer = ({ item, index, HandleShowMessageBox }) => {
   // ======================================
 
   const [IswatchLater, setIsWatchLater] = useState(
-    WatchLater.some((wl) => wl.videoId === item.videoId)
+    WatchLater.some((wl) => {
+      if (wl) return wl.videoId === item.videoId;
+    })
   );
 
   // =========================================
   // Check if a video is already in queue list
   // =========================================
   const [IsQueue, setIsQueue] = useState(
-    QueueList.some((que) => que.videoId === item.videoId)
+    QueueList.some((que) => {
+      if (que) return que.videoId === item.videoId;
+    })
   );
 
   // =================================
