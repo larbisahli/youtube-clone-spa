@@ -83,6 +83,8 @@
                         font-family: Roboto-Medium;
                         font-size: 1.5em;
                         overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
 
                         @media screen and (max-width: 1150px) {
                             font-size: 1.2em !important;

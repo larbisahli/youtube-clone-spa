@@ -2,7 +2,6 @@ import React, { useState, useCallback, memo } from "react";
 import styles from "./scss/queue.module.scss";
 import { DownArrowSvg, UpArrowSvg } from "../GuideComponents/Svg";
 import { AddPlayListSvg } from "../../Containers/Svg";
-import { TextReducer } from "../../utils";
 import {
   PlayBtnSvg,
   PauseBtnSvg,
@@ -56,9 +55,10 @@ const Queue = () => {
   const HandlePlayingVideo = useCallback(() => {
     let vidId = "";
 
-    if (QueueList.length !== 0) {
+    if (QueueList.length !== 0 && QueueList[0] !== undefined) {
       vidId = QueueList.filter((plv) => {
-        return plv.playing;
+        if (plv) return plv.playing;
+        return false;
       });
 
       if (vidId.length !== 0) {
@@ -81,13 +81,14 @@ const Queue = () => {
 
   const HandlePlayingVidTitle = useCallback(() => {
     const plv = QueueList.filter((plv) => {
-      return plv.videoId === HandlePlayingVideo();
+      if (plv) return plv.videoId === HandlePlayingVideo();
+      return false;
     });
 
     if (plv.length !== 0) {
       return plv[0].title;
     } else if (QueueList.length !== 0) {
-      return QueueList[0].title;
+      if (QueueList[0]) return QueueList[0].title;
     } else {
       return "";
     }
@@ -99,7 +100,8 @@ const Queue = () => {
 
   const GetCurrentPlayingVidIndex = useCallback(() => {
     const index = QueueList.map((e) => {
-      return e.videoId;
+      if (e) return e.videoId;
+      return null;
     }).indexOf(HandlePlayingVideo());
 
     if (index !== -1) {
@@ -341,7 +343,7 @@ const Queue = () => {
           <div className={styles.header}>
             <div className={styles.header_wrap}>
               <div className={styles.header_wrap__title}>
-                <span>{TextReducer(HandlePlayingVidTitle(), 50)}</span>
+                <span>{HandlePlayingVidTitle()}</span>
               </div>
               <div
                 onClick={() => setShowList((value) => !value)}

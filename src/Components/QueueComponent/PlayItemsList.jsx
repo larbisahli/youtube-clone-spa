@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from "react";
 import styles from "./scss/playitemslist.module.scss";
 import { useDispatch } from "react-redux";
-import { HandleDuration, TextReducer } from "../../utils";
+import { HandleDuration } from "../../utils";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames/bind";
 import { useFetch } from "../hooks/useFetch";
@@ -55,15 +55,17 @@ export const PlayItemsList = memo(
         "contentDetails,statistics"
       );
 
-      if (Object.keys(VideoDetails).length !== 0) {
-        const durationIdElement = document.getElementById(
-          `pl-${id}-${index}-duration`
-        );
-
-        if (durationIdElement) {
-          durationIdElement.textContent = HandleDuration(
-            VideoDetails.contentDetails.duration
+      if (VideoDetails) {
+        if (Object.keys(VideoDetails).length !== 0) {
+          const durationIdElement = document.getElementById(
+            `pl-${id}-${index}-duration`
           );
+
+          if (durationIdElement) {
+            durationIdElement.textContent = HandleDuration(
+              VideoDetails.contentDetails.duration
+            );
+          }
         }
       }
     };
@@ -129,9 +131,7 @@ export const PlayItemsList = memo(
           </div>
           <div className={styles.body_container}>
             <div className={styles.text_area}>
-              <div className={styles.text_area__title}>
-                {TextReducer(plv.title, 40)}
-              </div>
+              <div className={styles.text_area__title}>{plv.title}</div>
               <div className={styles.text_area__chtitle}>
                 {plv.channelTitle}
               </div>

@@ -2,7 +2,7 @@ import React, { memo, useCallback, useState, useEffect } from "react";
 import styles from "./scss/item.module.scss";
 import DropMenu from "./DropMenu";
 import { Link } from "react-router-dom";
-import { HandleDuration, TextReducer } from "../../../utils";
+import { HandleDuration } from "../../../utils";
 import { DRSvg } from "../../Svg";
 import { Wl_Replace, Lv_Replace, Pl_Replace } from "../../../redux";
 import { useDispatch } from "react-redux";
@@ -149,7 +149,7 @@ const Item = ({
               className={styles.details__title}
               onClick={() => HandleLink(wl)}
             >
-              <span>{TextReducer(wl.title, 56)}</span>
+              <span>{wl.title}</span>
             </div>
 
             <Link to={`/channel/${wl.channelId}`}>

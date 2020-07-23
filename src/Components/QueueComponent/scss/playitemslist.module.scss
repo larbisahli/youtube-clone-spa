@@ -103,8 +103,9 @@
                     font-size: 1.3em;
                     font-family: Roboto-Medium;
                     padding-bottom: 5px;
-
-
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                 }
 
                 &__chtitle {

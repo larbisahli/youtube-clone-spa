@@ -36,6 +36,7 @@
         display: flex;
         flex-flow: column nowrap;
 
+
         .thumbnail_container {
 
             position: relative;
@@ -177,7 +178,6 @@
             display: flex;
             position: relative;
 
-
             .pronail {
 
                 margin-top: 12px;
@@ -202,7 +202,7 @@
                 padding-right: 24px;
                 font-size: 1rem;
                 flex: 1;
-
+                overflow: hidden;
 
                 .titlewrap {
 
@@ -211,10 +211,13 @@
                     font-size: .9em; // 2%
                     color: var(--VidTitle-Color);
 
-
                     &__title {
                         margin: 12px 0 4px 0;
                         cursor: pointer;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+
                     }
                 }
 

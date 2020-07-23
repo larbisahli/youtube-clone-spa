@@ -52,11 +52,6 @@ export const HandleDuration = (duration) => {
   }
 };
 
-export const TextReducer = (text, num) => {
-  if (text.length > num) return text.substring(0, num) + "...";
-  return text;
-};
-
 export const numberWithCommas = (x) => {
   try {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -118,7 +113,10 @@ export const moveUp = (array, index) => {
 
 
 export const replace = (array, current_draggable_item_id, replacer) => {
-  const index = array.map((e) => { return e.videoId; }).indexOf(current_draggable_item_id)
+
+  if (array.length === 1) return array
+
+  const index = array.map((e) => { if (e) return e.videoId; return null }).indexOf(current_draggable_item_id)
 
   const obj = array.filter((value) => {
     return value.videoId === replacer

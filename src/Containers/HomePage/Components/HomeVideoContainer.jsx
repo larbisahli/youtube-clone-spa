@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, memo, useMemo } from "react";
 import styles from "./scss/hv.module.scss";
 import Moment from "react-moment";
 import { DotsSvg } from "../../../Components/Navbar/NavComponents/Svg";
-import { ViewsNumFormatter, HandleDuration, TextReducer } from "../../../utils";
+import { ViewsNumFormatter, HandleDuration } from "../../../utils";
 import { Link, useHistory } from "react-router-dom";
 import {
   TimeSvg,
@@ -380,7 +380,7 @@ const HomeVideoContainer = ({ PopularVideo, index, HandleShowMessageBox }) => {
                 title={PopularVideo.title}
                 className={styles.titlewrap__title}
               >
-                {TextReducer(PopularVideo.title, 56)}
+                {PopularVideo.title}
               </div>
             </div>
             <Link
