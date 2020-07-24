@@ -151,6 +151,7 @@ const PlayList = memo(({ HandleQueryParams }) => {
               UrlParam={() => HandleQueryParams("list")}
               isPlayList={() => ListParam("playlist")}
               index={index}
+              isWatch={true}
             />
           );
         })}

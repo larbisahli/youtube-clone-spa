@@ -20,6 +20,7 @@ export const PlayItemsList = memo(
     isQueue,
     UrlParam = false,
     isPlayList = false,
+    isWatch = false,
     index,
   }) => {
     const [VidDetailState, setVidDetailState] = useState("");
@@ -94,7 +95,7 @@ export const PlayItemsList = memo(
     return (
       <div
         id={plv.videoId}
-        draggable="true"
+        draggable={isWatch ? "false" : "true"}
         onDragEnter={onDragOver}
         onClick={() => Action()}
         className={cx("block", {
