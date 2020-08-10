@@ -15,13 +15,13 @@ document.body.style.backgroundColor = initialState.isDarkTheme
   ? generalBackgroundDark
   : generalBackgroundLight;
 
-const Root = document.getElementById("root");
+const body = document.body
 
-if (Root) {
+if (body) {
   if (initialState.isDarkTheme) {
-    Root.classList.add("dark");
+    body.classList.add("dark");
   } else {
-    Root.classList.remove("dark");
+    body.classList.remove("dark");
   }
 }
 

@@ -1,3 +1,5 @@
+@import './config';
+
 :root {
     --isDark-env: 0;
     --miniplayer-width: 400px;
@@ -18,6 +20,7 @@
     --scroll-thumb-hover-bgc: #d4d4d4;
     --txt-guide-color: #1f1f1f;
     --guide-bgc: #fefefefa;
+    --guide-bgc-Skeleton: #ececec;
     --guide-active-hover: #0d0d0d1a;
     --abt-txt-color: #3a3a3a;
     --subtitle-txt-color: #333;
@@ -78,6 +81,7 @@
     --scroll-thumb-hover-bgc: #5e5e5e;
     --txt-guide-color: #fff;
     --guide-bgc: #282828fa;
+    --guide-bgc-Skeleton: #282828;
     --guide-active-hover: #ffffff1a;
     --abt-txt-color: #cacaca;
     --subtitle-txt-color: #f1f1f1;
@@ -138,18 +142,18 @@ body {
 // https://fonts.google.com/specimen/Oswald
 @font-face {
     font-family: Oswald-SemiBold;
-    src: url("../fonts/Oswald/Oswald-SemiBold.ttf") format("truetype");
+    src: url("../assets/fonts/Oswald/Oswald-SemiBold.ttf") format("truetype");
 }
 
 // https://fonts.google.com/specimen/Roboto
 @font-face {
     font-family: Roboto-Regular;
-    src: url("../fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+    src: url("../assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family: Roboto-Medium;
-    src: url("../fonts/Roboto/Roboto-Medium.ttf") format("truetype");
+    src: url("../assets/fonts/Roboto/Roboto-Medium.ttf") format("truetype");
 }
 
 div,
@@ -200,4 +204,114 @@ pre {
 
 .dragging {
     background-color: var(--wlv-drag-bgc) !important;
+}
+
+.ytb_svg {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__wrapper {
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+        cursor: pointer;
+    }
+}
+
+.ytb_svg_x {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+
+    &__wrapper {
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+        cursor: pointer;
+    }
+}
+
+.ytb_svg_y {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+
+    &__wrapper {
+        height: 24px;
+        width: 24px;
+        z-index: 1;
+        cursor: pointer;
+    }
+}
+
+.titleA {
+    position: relative;
+    @extend %TT;
+
+    &::before {
+        @extend %before;
+        width: 95px;
+        content: "YouTube apps";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+
+.titleB {
+
+    position: relative;
+    @extend %TT;
+
+    &::before {
+        @extend %before;
+        width: 75px;
+        content: "Notifications";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+
+.titleC {
+
+    position: relative;
+    @extend %TT;
+
+    &::before {
+        @extend %before;
+        width: 140px;
+        content: "Create a video or post";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
+}
+
+.titleS {
+
+    position: relative;
+    @extend %TT;
+
+    &::before {
+        @extend %before;
+        content: "Search";
+    }
+
+    &:hover::before {
+        display: inline-block;
+    }
 }

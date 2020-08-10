@@ -1,0 +1,227 @@
+.container {
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  z-index: 10;
+  background: var(--Nav-bgc);
+
+  .left_container {
+    display: flex;
+    align-items: center;
+    width: 200px;
+  }
+
+  .menu_wrap {
+    padding: 0px;
+  }
+
+  .logo_container {
+
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 16px;
+    width: auto;
+    height: 24px;
+    cursor: auto;
+
+    a {
+      display: flex;
+      text-decoration: none;
+    }
+
+    .ytp_logo {
+      height: auto;
+      width: 26px;
+    }
+
+    .logo_text {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Oswald-SemiBold;
+      font-size: 1.1rem;
+      margin-bottom: 1px;
+      letter-spacing: -0.5px;
+      padding: 3px;
+      color: var(--logo-txt-color);
+    }
+
+    .logo_pointer {
+
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      font-size: 0.85em;
+      font-family: Roboto-Medium;
+      text-transform: uppercase;
+      height: 100%;
+      color: var(--logo-pointer-txt-color);
+    }
+  }
+
+  .search_container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 40px;
+
+    .form_container {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+
+      .form_wrapper {
+        display: flex;
+        justify-content: center;
+
+        align-items: stretch;
+
+        .input_wrapper {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          position: relative;
+          border-radius: 2px 0 0 2px;
+          padding: 2px 6px;
+          flex: 1;
+          background-color: var(--input-bgc);
+          border: 1px solid var(--input-border-color);
+          border-right: none;
+          color: var(--logo-txt-color);
+
+          .search_input {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            color: inherit;
+            font-family: "Roboto", sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 24px;
+            margin-left: 4px;
+            max-width: 100%;
+            outline: none;
+            text-align: inherit;
+            width: 100%;
+            flex: 1;
+          }
+        }
+
+        .focus {
+          border: 1px solid #2650c5 !important;
+        }
+
+        .btn_container {
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          width: 65px;
+          border-radius: 0 2px 2px 0;
+          margin: 0;
+          height: inherit;
+          border: 1px solid var(--input-border-color);
+          background-color: var(--input-btn-bgc);
+
+          // fill is a class name in Search_icon.js
+          // using :global to not change the class name fill leave it as it is.
+          &:hover :global(.fill) {
+
+            fill: var(--search-logo-hover-bgc);
+          }
+        }
+      }
+    }
+  }
+
+  .responsive_form {
+
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 8px;
+  }
+
+  .right_container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+  }
+
+  .icons_container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .noti_count {
+    position: absolute;
+    align-self: flex-start;
+    z-index: 2;
+    margin: 2px 0px 0px 12px;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    line-height: 18px;
+    font-size: 0.7rem;
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--noti-pop-bgc);
+    box-shadow: 0px 0px 0px 1px var(--Nav-bgc);
+  }
+
+  .btnpad {
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .profile_container {
+    .profile_btn {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 40px;
+
+      &:active .pronail {
+        border: 2px solid var(--noti-dot-blue);
+      }
+
+      .pronail {
+        border: 2px solid transparent;
+      }
+    }
+  }
+}
+
+.skeleton {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: var(--Skeleton-color);
+
+  &__logo {
+    width: 125px;
+    border-radius: 1px;
+  }
+}

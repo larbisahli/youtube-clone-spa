@@ -17,7 +17,7 @@ import {
   PL_REPLACE
 } from "../actionTypes";
 import axios from "axios";
-import { YouTubeAPI } from "../../Components/api/YoutubeApi";
+import { YouTubeAPI } from "../../api/YoutubeApi";
 
 export const Wl_AddAction = (obj) => {
   return {

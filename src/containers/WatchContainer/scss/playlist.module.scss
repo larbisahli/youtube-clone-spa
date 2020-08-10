@@ -1,0 +1,74 @@
+@import '../../../scss/config';
+
+.container {
+
+    width: 100%;
+    height: var(--miniplayer-playlist-height);
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid #3b3b3bbd;
+    margin-bottom: 24px;
+    border: 1px solid var(--miniplayer-border-color);
+    @extend %scroll;
+
+    .panel {
+
+        position: absolute;
+        z-index: 5;
+        height: 63px; // 65px - (1px + 1px)=> border
+        top: 0;
+        right: 0;
+        left: 0;
+        color: var(--VidTitle-Color);
+        background-color: var(--watch-playlist-header-bgc);
+
+
+        &__txtwrap {
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            z-index: 5;
+            justify-content: space-between;
+
+            span {
+                font-family: Roboto-Medium;
+                font-size: 1.4em;
+            }
+        }
+    }
+
+    .items {
+
+        padding-top: 65px !important;
+        padding-bottom: 5px;
+        box-sizing: border-box;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background-color: var(--miniplayer-item-bgc);
+    }
+
+    .arrow_btn {
+        display: flex;
+        justify-content: center;
+        padding-right: 16px;
+
+
+        &__wrap {
+
+            align-self: center;
+            box-sizing: border-box;
+            padding: 2px;
+            border-radius: 50%;
+
+            &:active {
+                background-color: var(--miniplayer-hover-bgc);
+            }
+
+            &>:global(.ytb_svg)>:global(.ytb_svg__wrapper)>g>path {
+
+                fill: #fff;
+            }
+        }
+    }
+}
