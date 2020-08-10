@@ -113,7 +113,7 @@ const YTForm = memo(
 // Global variable for semiDrops
 let isInSemiDrop = false; // useRef
 
-const Navbar = () => {
+const NavBar = () => {
   const Theme = useSelector((state) => state.Theme.isDarkTheme);
   const NotiCount = useSelector((state) => state.Navbar.notiCount);
   const accounts = useSelector((state) => state.Navbar.accounts);
@@ -764,4 +764,4 @@ const Navbar = () => {
   );
 };
 
-export default memo(Navbar);
+export default memo(NavBar);

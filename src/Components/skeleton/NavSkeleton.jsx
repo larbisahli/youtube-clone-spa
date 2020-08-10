@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../Containers/Navbar/navbar.module.scss";
+import styles from "../../Containers/NavBar/navbar.module.scss";
 
 const NavSkeleton = () => {
   return (

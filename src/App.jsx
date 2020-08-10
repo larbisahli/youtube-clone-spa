@@ -15,7 +15,7 @@ const Guide = lazy(() => import("./Components/Guide/Guide"));
 const MiniGuide = lazy(() => import("./Components/Guide/MiniGuide"));
 const Queue = lazy(() => import("./Components/Queue/Queue"));
 const MessageBox = lazy(() => import("./Components/MessageBox"));
-const Navbar = lazy(() => import("./Containers/Navbar"));
+const NavBar = lazy(() => import("./Containers/NavBar"));
 
 function App() {
   const ApiKey = useSelector((state) => state.ApiKey);
@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="root_container">
       <Suspense fallback={<NavSkeleton />}>
-        <Navbar />
+        <NavBar />
       </Suspense>
       <div className="page_container">
         <Switch>
