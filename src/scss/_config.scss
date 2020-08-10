@@ -20,3 +20,25 @@
     background: var(--scroll-thumb-hover-bgc);
   }
 }
+
+%before {
+
+  position: absolute;
+  z-index: 2;
+  display: none;
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  top: calc(100% + 25px);
+  left: 50%;
+  opacity: 0.9;
+}
+
+%TT {
+
+  &::before {
+    color: var(--VidTitle-Color);
+    background-color: var(--miniplayer-hover-bgc);
+  }
+}

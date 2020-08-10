@@ -1,0 +1,171 @@
+@import "../../../scss/config";
+
+
+.container {
+
+    display: flex;
+    position: absolute;
+    flex-flow: column nowrap;
+    padding: 8px 0;
+    top: 50px;
+    right: 80px;
+    z-index: 2;
+    outline: none;
+    box-sizing: border-box;
+    height: 550px;
+    width: 480px;
+    font-size: 1.01em;
+    font-family: Roboto-Medium;
+
+    color: var(--VidTitle-Color);
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    background-color: var(--Nav-bgc);
+    @extend %scroll;
+
+    @media (max-width: 1210px) {
+        top: 60px;
+        right: 60px;
+    }
+
+    @media (max-width: 600px) {
+        top: 60px;
+        right: 3px;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 7px 0;
+
+        &__text {
+            margin-left: 16px;
+            font-size: 1.5em;
+        }
+
+        &__icon {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .spinner {
+        height: 550px;
+        justify-content: center !important;
+    }
+
+    .body {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-flow: column nowrap;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .block {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: row nowrap;
+            padding: 20px 10px 5px 0;
+            cursor: pointer;
+
+            &:hover>.btn {
+                opacity: 1;
+            }
+
+            &:hover {
+                background-color: var(--bgc-hover) !important;
+            }
+
+
+            &:hover>.thumbnail>.wrapper>.cover--top,
+            &:hover>.thumbnail>.wrapper>.cover--bottom {
+
+                background-color: var(--noti-cover-bgc);
+
+            }
+
+            .unread {
+                display: block;
+
+                .dot {
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 2px;
+                    margin-left: 8px;
+                    margin-right: 5px;
+                    background-color: var(--noti-dot-blue);
+
+                    &--transparent {
+                        background-color: transparent !important;
+                    }
+                }
+            }
+
+            .pronail {
+
+                margin-right: 16px;
+                flex: none;
+                align-self: center;
+            }
+
+            .textcon {
+                display: block;
+                font-size: 1.3em;
+
+                &__title {
+                    margin-bottom: 10px;
+                }
+
+                &__date {
+                    color: #757575ec;
+                    text-transform: none;
+                }
+            }
+
+            .thumbnail {
+                display: block;
+                box-sizing: border-box;
+                margin: 0 16px;
+
+                .wrapper {
+                    background-color: transparent;
+                    position: relative;
+
+                    .cover {
+                        height: 10px;
+                        position: absolute;
+                        width: 90px;
+
+                        &--top {
+                            top: 0;
+                            background-color: var(--Nav-bgc);
+                        }
+
+                        &--bottom {
+                            bottom: 0;
+                            background-color: var(--Nav-bgc);
+                        }
+                    }
+
+                    .thumb_img {
+                        align-self: center;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        border-radius: none;
+                    }
+                }
+            }
+
+            .btn {
+                align-self: stretch;
+                opacity: 0;
+            }
+        }
+    }
+}

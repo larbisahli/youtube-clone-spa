@@ -6,11 +6,11 @@ export const ViewsNumFormatter = (num, from = false) => {
   };
 
   if ((Math.abs(num) > 999) & (Math.abs(num) < 999999)) {
-    FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000) + "K";
+    FormatNum = (Math.sign(num) * Num(Math.abs(num) / 1000)).toFixed() + "K";
   } else if ((Math.abs(num) > 999999) & (Math.abs(num) < 999999999)) {
-    FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000000) + "M";
+    FormatNum = (Math.sign(num) * Num(Math.abs(num) / 1000000)).toFixed() + "M";
   } else if (Math.abs(num) > 999999999) {
-    FormatNum = Math.sign(num) * Num(Math.abs(num) / 1000000000) + "B";
+    FormatNum = (Math.sign(num) * Num(Math.abs(num) / 1000000000)).toFixed() + "B";
   } else {
     FormatNum = num;
   }

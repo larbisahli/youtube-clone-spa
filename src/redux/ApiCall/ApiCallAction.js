@@ -3,7 +3,7 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
 } from "../actionTypes";
-import { getMostPopularVideos } from "../../Components/api/YoutubeApi";
+import { getMostPopularVideos } from "../../api/YoutubeApi";
 
 export const fetchDataRequest = () => {
   return {
