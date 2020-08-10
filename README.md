@@ -4,7 +4,7 @@
 
 Frontend Developer Challenge: YouTube Clone SPA
 
-Working Prototype: https://youtube-spa.vercel.app/
+Working Prototype: https://youtube-spa.netlify.app/
 
 ### Cloning Features:
 
