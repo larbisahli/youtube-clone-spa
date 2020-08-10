@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useCallback } from "react";
 import styles from "./home.module.scss";
-import HomeVideoContainer from "../../containers/HomeContainer/HomeVideoContainer";
-import { VidAspectSkeleton } from "../../components";
+import HomeVideoContainer from "../../Containers/HomeContainer/HomeVideoContainer";
+import { VidAspectSkeleton } from "../../Components";
 import { PageLocation } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {

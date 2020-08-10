@@ -5,9 +5,9 @@ import {
   SortBySvg,
   TrashSvg,
   DotsSvg,
-} from "../../components/CompSvg";
+} from "../../Components/CompSvg";
 import { ReactComponent as PlaySvg } from "../../assets/icon/Play.svg";
-import { Head, RippleButton, ProfileImg } from "../../components/CompUtils";
+import { Head, RippleButton, ProfileImg } from "../../Components/CompUtils";
 import { PageLocation } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -23,8 +23,8 @@ import {
 } from "../../redux";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router";
-import { useFetch } from "../../components/hooks/useFetch";
-import Item from "../../containers/WLVContainer/Item";
+import { useFetch } from "../../Components/Hooks/useFetch";
+import Item from "../../Containers/WLVContainer/Item";
 
 const WLV = () => {
   const WatchLater = useSelector((state) => state.WLV.WL);

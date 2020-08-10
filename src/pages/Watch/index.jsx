@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback, memo, Fragment } from "react";
 import styles from "./watch.module.scss";
 import { numberWithCommas, ViewsNumFormatter, PageLocation } from "../../utils";
 import { useLocation } from "react-router";
-import { VideoPlayer, DestroyIframe, Seek } from "../../components";
-import { Head, Spinner, ProfileImg } from "../../components/CompUtils";
+import { VideoPlayer, DestroyIframe, Seek } from "../../Components";
+import { Head, Spinner, ProfileImg } from "../../Components/CompUtils";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -16,8 +16,8 @@ import {
   Lv_AddAction,
   Lv_RemoveOneAtion,
 } from "../../redux";
-import { useFetch } from "../../components/hooks/useFetch";
-import { useMeasure } from "../../components/hooks/useMeasure";
+import { useFetch } from "../../Components/Hooks/useFetch";
+import { useMeasure } from "../../Components/Hooks/useMeasure";
 import {
   DotsSvg,
   Like,
@@ -25,7 +25,7 @@ import {
   Share,
   Save,
   SortBySvg,
-} from "../../components/CompSvg";
+} from "../../Components/CompSvg";
 import { ReactComponent as SubBellSvg } from "../../assets/icon/SubBell.svg";
 import Moment from "react-moment";
 import classNames from "classnames/bind";
@@ -33,7 +33,7 @@ import {
   Parent,
   Child,
   CommentsContents,
-} from "../../containers/WatchContainer";
+} from "../../Containers/WatchContainer";
 
 let cx = classNames.bind(styles);
 

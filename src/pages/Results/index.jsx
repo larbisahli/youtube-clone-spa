@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState, memo } from "react";
 import { SearchRequest } from "../../api/YoutubeApi";
 import styles from "./results.module.scss";
-import { FilterSvg } from "../../components/CompSvg";
+import { FilterSvg } from "../../Components/CompSvg";
 import {
   ResultsVideoContainer,
   ResultsChannelContainer,
   ResultsPlaylistContainer,
   Filter,
-} from "../../containers/ResultsContainer";
-import { RippleButton, Head } from "../../components/CompUtils";
+} from "../../Containers/ResultsContainer";
+import { RippleButton, Head } from "../../Components/CompUtils";
 import { PageLocation } from "../../utils";
 import { useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";

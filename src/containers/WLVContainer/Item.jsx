@@ -3,10 +3,10 @@ import styles from "./scss/item.module.scss";
 import DropMenu from "./DropMenu";
 import { Link } from "react-router-dom";
 import { HandleDuration } from "../../utils";
-import { DRSvg, DotsSvg } from "../../components/CompSvg";
+import { DRSvg, DotsSvg } from "../../Components/CompSvg";
 import { Wl_Replace, Lv_Replace, Pl_Replace } from "../../redux";
 import { useDispatch } from "react-redux";
-import { useFetch } from "../../components/hooks/useFetch";
+import { useFetch } from "../../Components/Hooks/useFetch";
 
 let Dcurrent = 0;
 

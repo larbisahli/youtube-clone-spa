@@ -1,11 +1,11 @@
 import React, { memo, useCallback } from "react";
-import { QueueSvg } from "../../components/CompSvg";
+import { QueueSvg } from "../../Components/CompSvg";
 import {
   AddPlayListSvg,
   TrashSvg,
   MoveDownSvg,
   MoveUpSvg,
-} from "../../components/CompSvg";
+} from "../../Components/CompSvg";
 import styles from "./scss/menu.module.scss";
 import { useDispatch } from "react-redux";
 import {

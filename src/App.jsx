@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchItems } from "./redux";
-import { HomeSkeleton, NavSkeleton, GuideSkeleton } from "./components";
+import { HomeSkeleton, NavSkeleton, GuideSkeleton } from "./Components";
 import "./scss/app.scss";
 
 const Home = lazy(() => import("./pages/Home"));
@@ -11,11 +11,11 @@ const WLV = lazy(() => import("./pages/WLV"));
 const Watch = lazy(() => import("./pages/Watch"));
 const Channel = lazy(() => import("./pages/Channel"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Guide = lazy(() => import("./components/Guide/Guide"));
-const MiniGuide = lazy(() => import("./components/Guide/MiniGuide"));
-const Queue = lazy(() => import("./components/Queue/Queue"));
-const MessageBox = lazy(() => import("./components/MessageBox"));
-const Navbar = lazy(() => import("./containers/Navbar"));
+const Guide = lazy(() => import("./Components/Guide/Guide"));
+const MiniGuide = lazy(() => import("./Components/Guide/MiniGuide"));
+const Queue = lazy(() => import("./Components/Queue/Queue"));
+const MessageBox = lazy(() => import("./Components/MessageBox"));
+const Navbar = lazy(() => import("./Containers/Navbar"));
 
 function App() {
   const ApiKey = useSelector((state) => state.ApiKey);

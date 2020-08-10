@@ -2,8 +2,8 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 import styles from "./scss/playlist.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPlayList } from "../../redux";
-import { PlayItemsList } from "../../components/Queue/PlayItemsList";
-import { DownArrowSvg, UpArrowSvg } from "../../components/CompSvg";
+import { PlayItemsList } from "../../Components/Queue/PlayItemsList";
+import { DownArrowSvg, UpArrowSvg } from "../../Components/CompSvg";
 
 const PlayList = memo(({ HandleQueryParams }) => {
   const WatchLater = useSelector((state) => state.WLV.WL);

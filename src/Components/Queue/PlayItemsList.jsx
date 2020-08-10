@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { HandleDuration } from "../../utils";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames/bind";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "../Hooks/useFetch";
 import { DRSvg, TrashSvg } from "../CompSvg";
 import { PlayQueueAction, Queue_Replace } from "../../redux";
 

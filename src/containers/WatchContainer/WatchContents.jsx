@@ -2,7 +2,7 @@ import React, { memo, useState, useCallback } from "react";
 import styles from "./scss/wc.module.scss";
 import { ViewsNumFormatter, HandleDuration } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
-import { QueueSvg } from "../../components/CompSvg";
+import { QueueSvg } from "../../Components/CompSvg";
 import { ReactComponent as TimeSvg } from "../../assets/icon/Time.svg";
 import { ReactComponent as CheckedSvg } from "../../assets/icon/Checked.svg";
 import Moment from "react-moment";

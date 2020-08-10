@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, Fragment, memo } from "react";
 import styles from "./navbar.module.scss";
 import YoutubeLogo from "../../assets/images/Youtube_icon.svg";
 import { Link, useHistory } from "react-router-dom";
-import { Head, RippleButton, ProfileImg } from "../../components/CompUtils";
+import { Head, RippleButton, ProfileImg } from "../../Components/CompUtils";
 import {
   CamSvg,
   MenuSvg,
@@ -11,7 +11,7 @@ import {
   SearchSvg,
   ReSearchSvg,
   BackArrowSvg,
-} from "../../components/CompSvg";
+} from "../../Components/CompSvg";
 import {
   SearchDropSuggestion,
   CamDrop,
@@ -25,7 +25,7 @@ import {
   RestrictDrop,
   APIKeyDrop,
   APiMessageBox,
-} from "../../components/NavComponents";
+} from "../../Components/NavComponents";
 import { PageLocation } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -35,7 +35,7 @@ import {
   HideGuideAction,
   ToggleGuideAction,
 } from "../../redux";
-import { useMeasure } from "../../components/hooks/useMeasure";
+import { useMeasure } from "../../Components/Hooks/useMeasure";
 import classNames from "classnames/bind";
 
 let cx = classNames.bind(styles);

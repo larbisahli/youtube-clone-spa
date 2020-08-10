@@ -1,5 +1,5 @@
 import React, { useState, useCallback, memo } from "react";
-import { XSvg } from "../../components/CompSvg";
+import { XSvg } from "../../Components/CompSvg";
 import { useSelector } from "react-redux";
 import styles from "../../pages/Results/results.module.scss";
 import classNames from "classnames/bind";

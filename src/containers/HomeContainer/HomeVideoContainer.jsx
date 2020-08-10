@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, memo, useMemo } from "react";
 import styles from "./scss/hv.module.scss";
 import Moment from "react-moment";
-import { DotsSvg, QueueSvg } from "../../components/CompSvg";
+import { DotsSvg, QueueSvg } from "../../Components/CompSvg";
 import { ViewsNumFormatter, HandleDuration } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as TimeSvg } from "../../assets/icon/Time.svg";
@@ -22,9 +22,9 @@ import {
   SetUrlLocationAction,
   HideQueueAction,
 } from "../../redux";
-import { useFetch } from "../../components/hooks/useFetch";
+import { useFetch } from "../../Components/Hooks/useFetch";
 import classNames from "classnames/bind";
-import { ProfileImg } from "../../components/CompUtils";
+import { ProfileImg } from "../../Components/CompUtils";
 
 let cx = classNames.bind(styles);
 

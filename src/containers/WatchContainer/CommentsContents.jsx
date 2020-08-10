@@ -2,8 +2,8 @@ import React, { memo } from "react";
 import styles from "../../pages/Watch/watch.module.scss";
 import { numberWithCommas } from "../../utils";
 import Moment from "react-moment";
-import { ProfileImg } from "../../components/CompUtils";
-import { DotsSvg, DisLike, Like } from "../../components/CompSvg";
+import { ProfileImg } from "../../Components/CompUtils";
+import { DotsSvg, DisLike, Like } from "../../Components/CompSvg";
 
 const CommentsContents = ({
   index,

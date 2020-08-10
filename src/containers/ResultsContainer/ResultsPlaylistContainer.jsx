@@ -5,7 +5,7 @@ import { numberWithCommas } from "../../utils";
 import { YouTubeAPI } from "../../api/YoutubeApi";
 import { ReactComponent as PlaySvg } from "../../assets/icon/Play.svg";
 
-import { PlayListSvg } from "../../components/CompSvg";
+import { PlayListSvg } from "../../Components/CompSvg";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames/bind";

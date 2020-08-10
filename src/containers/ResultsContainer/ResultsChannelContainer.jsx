@@ -3,8 +3,8 @@ import styles from "./scss/rv.module.scss";
 import { Link } from "react-router-dom";
 import { ViewsNumFormatter, numberWithCommas } from "../../utils";
 import { ReactComponent as SubBellSvg } from "../../assets/icon/SubBell.svg";
-import { useFetch } from "../../components/hooks/useFetch";
-import { ProfileImg } from "../../components/CompUtils";
+import { useFetch } from "../../Components/Hooks/useFetch";
+import { ProfileImg } from "../../Components/CompUtils";
 
 const ResultsChannelContainer = ({
   item,
