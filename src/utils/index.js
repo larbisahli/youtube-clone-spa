@@ -10,7 +10,8 @@ export const ViewsNumFormatter = (num, from = false) => {
   } else if ((Math.abs(num) > 999999) & (Math.abs(num) < 999999999)) {
     FormatNum = (Math.sign(num) * Num(Math.abs(num) / 1000000)).toFixed() + "M";
   } else if (Math.abs(num) > 999999999) {
-    FormatNum = (Math.sign(num) * Num(Math.abs(num) / 1000000000)).toFixed() + "B";
+    FormatNum =
+      (Math.sign(num) * Num(Math.abs(num) / 1000000000)).toFixed() + "B";
   } else {
     FormatNum = num;
   }
@@ -45,7 +46,7 @@ export const HandleDuration = (duration) => {
 
       return `${HasH ? (H > 9 ? `${H}:` : `0${H}:`) : ""}${
         HasM ? (M > 9 ? `${M}` : `0${M}`) : "00"
-        }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
+      }:${HasS ? (S > 9 ? S : `0${S}`) : "00"}`;
     } else {
       return duration;
     }
@@ -87,7 +88,7 @@ export const PageLocation = (home = false) => {
 };
 
 export const moveDown = (array, index_) => {
-  let index = Number(index_)
+  let index = Number(index_);
   if (array.length === index + 1) {
     let p1 = array.slice(0, index);
     let p2 = array.slice(index);
@@ -102,7 +103,7 @@ export const moveDown = (array, index_) => {
 };
 
 export const moveUp = (array, index_) => {
-  let index = Number(index_)
+  let index = Number(index_);
   if (index === 0) return array;
 
   let p1 = array.slice(0, index - 1);
@@ -112,20 +113,23 @@ export const moveUp = (array, index_) => {
   return p1.concat(p2, p3);
 };
 
-
 export const replace = (array, current_draggable_item_id, replacer) => {
+  if (array.length === 1) return array;
 
-  if (array.length === 1) return array
-
-  const index = array.map((e) => { if (e) return e.videoId; return null }).indexOf(current_draggable_item_id)
+  const index = array
+    .map((e) => {
+      if (e) return e.videoId;
+      return null;
+    })
+    .indexOf(current_draggable_item_id);
 
   const obj = array.filter((value) => {
-    return value.videoId === replacer
-  })[0]
+    return value.videoId === replacer;
+  })[0];
 
   let arr = array.filter((value) => {
-    return value.videoId !== replacer
-  })
+    return value.videoId !== replacer;
+  });
 
-  return [...arr.slice(0, index), obj, ...arr.slice(index)]
-}
+  return [...arr.slice(0, index), obj, ...arr.slice(index)];
+};
