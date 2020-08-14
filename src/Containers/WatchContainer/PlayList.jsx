@@ -6,6 +6,7 @@ import { PlayItemsList } from "../../Components/Queue/PlayItemsList";
 import { DownArrowSvg, UpArrowSvg } from "../../Components/CompSvg";
 
 const PlayList = memo(({ HandleQueryParams }) => {
+  const Theme = useSelector((state) => state.Theme.isDarkTheme);
   const WatchLater = useSelector((state) => state.WLV.WL);
   const LikedVideos = useSelector((state) => state.WLV.LV);
   const QueueList = useSelector((state) => state.QueueList);
@@ -125,7 +126,11 @@ const PlayList = memo(({ HandleQueryParams }) => {
               setShowList((prev) => !prev);
             }}
           >
-            {ShowList ? <UpArrowSvg /> : <DownArrowSvg />}
+            {ShowList ? (
+              <UpArrowSvg Theme={Theme} />
+            ) : (
+              <DownArrowSvg Theme={Theme} />
+            )}
           </div>
         </div>
       </div>
