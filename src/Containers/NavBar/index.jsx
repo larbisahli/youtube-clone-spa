@@ -578,6 +578,24 @@ const NavBar = () => {
     <nav className={styles.container}>
       {/* Helmet */}
       <Head>
+        <link
+          rel="preload"
+          href="/static/media/Roboto-Regular.ttf"
+          as="font"
+          crossorigin=""
+        />
+        <link
+          rel="preload"
+          href="/static/media/Roboto-Medium.ttf"
+          as="font"
+          crossorigin=""
+        />
+        <link
+          rel="preload"
+          href="/static/media/Oswald-SemiBold.ttf"
+          as="font"
+          crossorigin=""
+        />
         <title>
           {NotiCount.seen
             ? `(${NotiCount.count}) YouTube-Clone`
